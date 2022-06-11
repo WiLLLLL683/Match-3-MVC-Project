@@ -8,20 +8,28 @@ namespace Model.GameLogic
     {
         private List<IState> allStates;
 
-        private IState previousState;
-        private IState currentState;
+        public IState previousState { get; private set; }
+        public IState currentState { get; private set; }
+
 
         public void ChangeState(IState _state)
         {
-            previousState = currentState;
-            previousState.OnEnd();
+            if (currentState != null)
+            {
+                previousState = currentState;
+                previousState.OnEnd();
+            }
+
             currentState = _state;
             currentState.OnStart();
         }
 
         public void PrevoiusState()
         {
-            ChangeState(previousState);
+            if (previousState != null)
+            {
+                ChangeState(previousState);
+            }
         }
     }
 }
