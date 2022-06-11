@@ -11,7 +11,6 @@ namespace Model.GameLogic
         public IState previousState { get; private set; }
         public IState currentState { get; private set; }
 
-
         public void ChangeState(IState _state)
         {
             if (currentState != null)
