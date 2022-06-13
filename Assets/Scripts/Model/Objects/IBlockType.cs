@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public interface IBlockType
+    public interface IBlockType //TODO заменить на абстрактный класс
     {
         public void Activate();
     }

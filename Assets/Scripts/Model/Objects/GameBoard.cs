@@ -6,7 +6,7 @@ namespace Model.Objects
 {
     public class GameBoard
     {
-        public Cell[][] cells { get; private set; }
+        public Cell[,] cells { get; private set; }
 
         public GameBoard()
         {
