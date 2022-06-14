@@ -8,9 +8,18 @@ namespace Model.Objects
     {
         public Cell[,] cells { get; private set; }
 
-        public GameBoard()
+        public GameBoard(int xLength, int yLength)
         {
-            //TODO загрузка начального состояния клеток
+            cells = new Cell[xLength, yLength];
+
+            for (int i = 0; i < xLength; i++)
+            {
+                for (int j = 0; j < yLength; j++)
+                {
+                    cells[i, j] = new Cell();
+                    //TODO загрузка начального состояния клеток
+                }
+            }
         }
 
 
