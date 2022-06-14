@@ -16,7 +16,7 @@ namespace Model.Objects
             {
                 for (int j = 0; j < yLength; j++)
                 {
-                    cells[i, j] = new Cell();
+                    cells[i, j] = new Cell(true,new BasicCell());
                     //TODO загрузка начального состояния клеток
                 }
             }

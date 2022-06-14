@@ -35,7 +35,7 @@ namespace Model.Objects
 
         public void Destroy()
         {
-            destroyEvent.Invoke(this,new EventArgs());
+            destroyEvent?.Invoke(this,new EventArgs());
         }
     }
 }

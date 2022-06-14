@@ -31,7 +31,7 @@ namespace Model.Systems
         private void ChangeBlockType(ABlockType _type, Vector2Int _position)
         {
             if (level.gameBoard.cells[_position.x, _position.y].isPlayable &&
-                !level.gameBoard.cells[_position.x, _position.y].CheckEmpty())
+                !level.gameBoard.cells[_position.x, _position.y].isEmpty)
             {
                 level.gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
             }
