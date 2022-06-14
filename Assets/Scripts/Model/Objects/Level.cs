@@ -11,9 +11,9 @@ namespace Model.Objects
         public IRestriction[] restrictions { get; private set; }
         public Balance balance { get; private set; }
 
-        public Level()
+        public Level(int xLength, int yLength)
         {
-            gameBoard = new GameBoard(1,1);
+            gameBoard = new GameBoard(xLength, yLength);
             //TODO загрузка данных уровня
         }
     }
