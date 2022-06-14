@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public interface IGoal
+    public interface IGoalTarget
     {
-        public int SubtractCount();
+
     }
 }

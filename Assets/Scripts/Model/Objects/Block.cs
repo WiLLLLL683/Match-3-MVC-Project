@@ -9,7 +9,7 @@ namespace Model.Objects
     {
         public ABlockType type { get; private set; }
         public Vector2Int position { get; private set; }
-        public event DestroyBlock destroyEvent;
+        public event BlockDelegate destroyEvent;
 
         public Block(ABlockType _type, Vector2Int _position)
         {

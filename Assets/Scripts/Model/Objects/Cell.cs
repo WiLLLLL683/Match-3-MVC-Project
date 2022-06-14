@@ -12,7 +12,7 @@ namespace Model.Objects
         public ACellType type { get; private set; }
         public Block block { get; private set; }
 
-        public event EmptyCell emptyEvent;
+        public event CellDelegate emptyEvent;
 
         public Cell(bool _isPlayable, ACellType _type)
         {
