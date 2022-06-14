@@ -13,8 +13,8 @@ namespace Data
     {
         public GameBoardData gameBoard;
         [SerializeReference]
-        public List<AGoal> goalsList;
-        public AGoal[] goals;
+        public List<Goal> goalsList;
+        public Goal[] goals;
         public IRestriction[] restrictions;
         public Balance balance;
     }

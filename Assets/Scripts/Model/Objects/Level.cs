@@ -8,7 +8,7 @@ namespace Model.Objects
     public class Level
     {
         public GameBoard gameBoard { get; private set; }
-        public AGoal[] goals { get; private set; }
+        public Goal[] goals { get; private set; }
         public IRestriction[] restrictions { get; private set; }
         public Balance balance { get; private set; }
 
