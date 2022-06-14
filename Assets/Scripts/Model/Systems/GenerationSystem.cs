@@ -26,14 +26,14 @@ namespace Model.Systems
             }
         }
 
-        public bool SpawnBonusBlock(IBlockType _type, Vector2Int _position)
+        public bool SpawnBonusBlock(ABlockType _type, Vector2Int _position)
         {
             if (!level.gameBoard.cells[_position.x, _position.y].isPlayable)
             {
                 return false;
             }
 
-            if (!level.gameBoard.cells[_position.x, _position.y].CheckEmpty())
+            if (!level.gameBoard.cells[_position.x, _position.y].isEmpty)
             {
                 SpawnBlockAction spawnAction = new SpawnBlockAction(level, _type, _position);
                 spawnAction.Execute();

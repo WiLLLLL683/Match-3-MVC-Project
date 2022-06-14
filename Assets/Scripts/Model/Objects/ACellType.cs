@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public interface ICellType
+    public abstract class ACellType
     {
     }
 }

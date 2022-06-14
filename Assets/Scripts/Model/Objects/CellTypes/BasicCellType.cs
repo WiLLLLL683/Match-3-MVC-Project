@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public interface IBlockType //TODO заменить на абстрактный класс
+    public class BasicCellType : ACellType
     {
-        public void Activate();
+
     }
 }

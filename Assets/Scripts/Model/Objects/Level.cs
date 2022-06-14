@@ -13,6 +13,7 @@ namespace Model.Objects
 
         public Level()
         {
+            gameBoard = new GameBoard(1,1);
             //TODO загрузка данных уровня
         }
     }
