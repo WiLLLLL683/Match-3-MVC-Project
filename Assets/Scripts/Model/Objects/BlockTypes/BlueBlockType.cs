@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Model.Objects
 {
-    public class RedBlockType : ABlockType
+    public class BlueBlockType : ABlockType
     {
         public override void Activate()
         {

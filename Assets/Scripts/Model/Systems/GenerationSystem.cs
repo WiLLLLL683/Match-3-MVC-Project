@@ -26,7 +26,7 @@ namespace Model.Systems
             }
         }
 
-        public bool SpawnBonusBlock(IBlockType _type, Vector2Int _position)
+        public bool SpawnBonusBlock(ABlockType _type, Vector2Int _position)
         {
             if (!level.gameBoard.cells[_position.x, _position.y].isPlayable)
             {

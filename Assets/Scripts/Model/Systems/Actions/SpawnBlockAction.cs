@@ -8,10 +8,10 @@ namespace Model.Systems
     public class SpawnBlockAction : IAction
     {
         private Level level;
-        IBlockType type;
+        ABlockType type;
         Vector2Int position;
 
-        public SpawnBlockAction(Level _level, IBlockType _type, Vector2Int _position)
+        public SpawnBlockAction(Level _level, ABlockType _type, Vector2Int _position)
         {
             level = _level;
             type = _type;
@@ -28,7 +28,7 @@ namespace Model.Systems
             throw new System.NotImplementedException();
         }
 
-        private void SpawnBlock(IBlockType _type, Vector2Int _position)
+        private void SpawnBlock(ABlockType _type, Vector2Int _position)
         {
             if (level.gameBoard.cells[_position.x, _position.y].isPlayable &&
                 level.gameBoard.cells[_position.x, _position.y].CheckEmpty())

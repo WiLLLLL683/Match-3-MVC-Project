@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,22 +7,22 @@ namespace Model.Objects
 {
     public class Block
     {
-        public IBlockType type { get; private set; }
+        public ABlockType type { get; private set; }
         public Vector2Int position { get; private set; }
+        public event DestroyBlock destroyEvent;
 
-        public Block(IBlockType _type, Vector2Int _position)
+        public Block(ABlockType _type, Vector2Int _position)
         {
             type = _type;
             position = _position;
-            //TODO �������� ����������
         }
 
-        public void SetPosition(Vector2Int _position) //TODO ������������ ������ � ��������� - ����� ���� ����� ���� ������ �� ������?
+        public void SetPosition(Vector2Int _position)
         {
             position = _position;
         }
 
-        public void ChangeType(IBlockType _type)
+        public void ChangeType(ABlockType _type)
         {
             type = _type;
             //TODO event
@@ -34,7 +35,7 @@ namespace Model.Objects
 
         public void Destroy()
         {
-            //TODO destroyEvent
+            destroyEvent.Invoke(this,new EventArgs());
         }
     }
 }
