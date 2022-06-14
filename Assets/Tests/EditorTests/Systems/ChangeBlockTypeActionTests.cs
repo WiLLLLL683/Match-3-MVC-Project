@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
+using Data;
 
 namespace Model.Systems.Tests
 {
@@ -12,7 +13,8 @@ namespace Model.Systems.Tests
         [Test]
         public void ChangeType_NullToRed_Null()
         {
-            Level level = new Level(1,1);
+            LevelDataScriptable levelData = new LevelDataScriptable();
+            Level level = new Level(1,1, levelData);
             IAction action = new ChangeBlockTypeAction(level, new RedBlockType(), new Vector2Int(0,0));
 
             action.Execute();

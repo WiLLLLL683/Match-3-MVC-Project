@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    [System.Serializable]
     public class Balance
     {
 
