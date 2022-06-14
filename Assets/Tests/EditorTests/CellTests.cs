@@ -12,7 +12,7 @@ namespace Model.Objects.Tests
         [Test]
         public void SetBlock_Block_CellHasBlock()
         {
-            Cell cell = new Cell(true, new BasicCell());
+            Cell cell = new Cell(true, new BasicCellType());
             Block block = new Block(new RedBlockType(),new Vector2Int(0,0));
 
             cell.SetBlock(block);
@@ -23,7 +23,7 @@ namespace Model.Objects.Tests
         [Test]
         public void SetBlock_Null_Nothing()
         {
-            Cell cell = new Cell(true, new BasicCell());
+            Cell cell = new Cell(true, new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
 
             cell.SetBlock(block);
@@ -35,7 +35,7 @@ namespace Model.Objects.Tests
         [Test]
         public void SetBlock_NotPlayableCell_Nothing()
         {
-            Cell cell = new Cell(false, new BasicCell());
+            Cell cell = new Cell(false, new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
 
             cell.SetBlock(block);
@@ -46,7 +46,7 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_Block_CellEmpty()
         {
-            Cell cell = new Cell(true, new BasicCell());
+            Cell cell = new Cell(true, new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
 
             cell.SetBlock(block);
@@ -58,7 +58,7 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_Block_EmptyEvent()
         {
-            Cell cell = new Cell(true, new BasicCell());
+            Cell cell = new Cell(true, new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
             bool test = false;
             void TestFunc(Cell cell, System.EventArgs eventArgs)
@@ -77,7 +77,7 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_Empty_Nothing()
         {
-            Cell cell = new Cell(true, new BasicCell());
+            Cell cell = new Cell(true, new BasicCellType());
             bool test = false;
             void TestFunc(Cell cell, System.EventArgs eventArgs)
             {
@@ -94,7 +94,7 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_NotPlayableCell_Nothing()
         {
-            Cell cell = new Cell(false, new BasicCell());
+            Cell cell = new Cell(false, new BasicCellType());
             bool test = false;
             void TestFunc(Cell cell, System.EventArgs eventArgs)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public class BasicCell : ACellType
+    public class BasicCellType : ACellType
     {
 
     }
