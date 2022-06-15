@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public abstract class ABlockType : IGoalTarget
+    public abstract class ABlockType : ICounterTarget
     {
         public string testString;
         public virtual void Activate() 

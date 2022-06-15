@@ -6,12 +6,12 @@ using UnityEngine.TestTools;
 
 namespace Model.Objects.Tests
 {
-    public class GoalTests
+    public class CounterTests
     {
         [Test]
         public void UpdateGoal_CorrectTarget_CountMinusOne()
         {
-            Goal goal = new Goal(new RedBlockType(),10);
+            Counter goal = new Counter(new RedBlockType(),10);
             Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
 
             goal.UpdateGoal(target.type);
@@ -22,7 +22,7 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_BelowZero_CountZero()
         {
-            Goal goal = new Goal(new RedBlockType(),0);
+            Counter goal = new Counter(new RedBlockType(),0);
             Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
 
             goal.UpdateGoal(target.type);
@@ -33,7 +33,7 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_IncorrectTarget_CountSame()
         {
-            Goal goal = new Goal(new BasicCellType(),10);
+            Counter goal = new Counter(new BasicCellType(),10);
             Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
 
             goal.UpdateGoal(target.type);
@@ -44,15 +44,15 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_UpdateCountNotZero_UpdatedEvent()
         {
-            Goal goal = new Goal(new RedBlockType(),10);
+            Counter goal = new Counter(new RedBlockType(),10);
             Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
             bool updated = false;
             bool completed = false;
-            void TestUpdate(Goal goal,System.EventArgs eventArgs)
+            void TestUpdate(Counter goal,System.EventArgs eventArgs)
             {
                 updated = true;
             }
-            void TestComplete(Goal goal,System.EventArgs eventArgs)
+            void TestComplete(Counter goal,System.EventArgs eventArgs)
             {
                 completed = true;
             }
@@ -70,15 +70,15 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_UpdateCountToZero_CompleteEvent()
         {
-            Goal goal = new Goal(new RedBlockType(), 1);
+            Counter goal = new Counter(new RedBlockType(), 1);
             Block target = new Block(new RedBlockType(), new Vector2Int(0, 0));
             bool updated = false;
             bool completed = false;
-            void TestUpdate(Goal goal, System.EventArgs eventArgs)
+            void TestUpdate(Counter goal, System.EventArgs eventArgs)
             {
                 updated = true;
             }
-            void TestComplete(Goal goal, System.EventArgs eventArgs)
+            void TestComplete(Counter goal, System.EventArgs eventArgs)
             {
                 completed = true;
             }
@@ -96,15 +96,15 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_CountToZeroTwise_OneCompleteEvent()
         {
-            Goal goal = new Goal(new RedBlockType(), 1);
+            Counter goal = new Counter(new RedBlockType(), 1);
             Block target = new Block(new RedBlockType(), new Vector2Int(0, 0));
             bool updated = false;
             bool completed = false;
-            void TestUpdate(Goal goal, System.EventArgs eventArgs)
+            void TestUpdate(Counter goal, System.EventArgs eventArgs)
             {
                 updated = true;
             }
-            void TestComplete(Goal goal, System.EventArgs eventArgs)
+            void TestComplete(Counter goal, System.EventArgs eventArgs)
             {
                 completed = !completed;
             }

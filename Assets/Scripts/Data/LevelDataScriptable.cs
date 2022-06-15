@@ -13,9 +13,9 @@ namespace Data
     {
         public GameBoardData gameBoard;
         [SerializeReference]
-        public List<Goal> goalsList;
-        public Goal[] goals;
-        public IRestriction[] restrictions;
+        public List<Counter> goalsList;
+        public Counter[] goals;
+        public Counter[] restrictions;
         public Balance balance;
     }
 }

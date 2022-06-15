@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public interface IGoalTarget
+    public interface ICounterTarget
     {
 
     }

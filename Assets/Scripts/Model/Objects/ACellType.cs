@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
-    public abstract class ACellType : IGoalTarget
+    public abstract class ACellType : ICounterTarget
     {
     }
 }
