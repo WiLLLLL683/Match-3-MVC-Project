@@ -12,7 +12,7 @@ namespace Data
     public struct GameBoardData
     {
         public Vector2Int gameBoardSize;
-        //TODO cells configuration
-        //TODO cells types???
+        public bool[,] playbleCells; //TODO сделать неиграбельные клетки через тип клетки
+        public ACellType[,] cellTypes;
     }
 }

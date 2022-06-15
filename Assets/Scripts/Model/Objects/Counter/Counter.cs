@@ -7,14 +7,11 @@ using UnityEngine;
 
 namespace Model.Objects
 {
-    [System.Serializable]
     public class Counter
     {
         public ICounterTarget Target { get { return target; } }
-        [SerializeField]
-        protected ICounterTarget target;
+        private ICounterTarget target;
         public int Count { get { return count; } }
-        [SerializeField]
         private int count;
         private bool isCompleted;
 
