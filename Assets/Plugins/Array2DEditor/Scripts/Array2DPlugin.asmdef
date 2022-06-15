@@ -1,8 +1,8 @@
 {
-    "name": "GameAssembly",
+    "name": "Array2DPlugin",
     "rootNamespace": "",
     "references": [
-        "GUID:1214120aa4252d249bc7d1a598e2718f"
+        "GUID:4f1cf2a3fcadebb44ab6484a33d37472"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

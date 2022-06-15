@@ -7,16 +7,15 @@ namespace Model.Objects
 {
     public class Cell
     {
-        public bool isPlayable { get; private set; }
+        public bool isPlayable { get { return type is not NotPlayableCellType; } }
         public bool isEmpty { get { return CheckEmpty(); } }
         public ACellType type { get; private set; }
         public Block block { get; private set; }
 
         public event CellDelegate emptyEvent;
 
-        public Cell(bool _isPlayable, ACellType _type)
+        public Cell(ACellType _type)
         {
-            isPlayable = _isPlayable;
             type = _type;
         }
 
