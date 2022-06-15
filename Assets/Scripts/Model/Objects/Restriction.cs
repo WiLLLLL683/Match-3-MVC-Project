@@ -7,29 +7,24 @@ using UnityEngine;
 
 namespace Model.Objects
 {
-    [System.Serializable]
-    public class Goal
+    public class Restriction
     {
-        public IGoalTarget Target { get { return target; } }
-        [SerializeField]
-        protected IGoalTarget target;
         public int Count { get { return count; } }
         [SerializeField]
-        private int count;
+        protected int count;
         private bool isCompleted;
 
-        public event GoalDelegate onUpdateEvent;
-        public event GoalDelegate OnCompleteEvent;
+        public event RestrictionDelegate onUpdateEvent;
+        public event RestrictionDelegate OnCompleteEvent;
 
-        public Goal(IGoalTarget _target,int _count)
+        public Restriction(int _count)
         {
-            target = _target;
             count = _count;
         }
 
-        public void UpdateGoal(IGoalTarget goalTarget)
+        public void SubtractCount()
         {
-            if (goalTarget.GetType() == target.GetType() && !isCompleted)
+            if (!isCompleted)
             {
                 count -= 1;
                 CheckCompletion();
