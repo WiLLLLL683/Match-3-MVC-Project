@@ -13,7 +13,7 @@ namespace Model.Systems.Tests
         [Test]
         public void ChangeType_NullToRed_Null()
         {
-            LevelDataScriptable levelData = new LevelDataScriptable();
+            LevelData levelData = new LevelData();
             Level level = new Level(1,1, levelData);
             IAction action = new ChangeBlockTypeAction(level, new RedBlockType(), new Vector2Int(0,0));
 

@@ -2,7 +2,10 @@
     "name": "GameAssembly",
     "rootNamespace": "",
     "references": [
-        "GUID:1214120aa4252d249bc7d1a598e2718f"
+        "GUID:1214120aa4252d249bc7d1a598e2718f",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
+        "GUID:f88fb04354076c646a4107a491394033",
+        "GUID:df1dea26b8503004d92d621e88aa9421"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

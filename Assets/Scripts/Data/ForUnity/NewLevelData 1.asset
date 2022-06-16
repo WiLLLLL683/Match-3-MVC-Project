@@ -12,20 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8a5abbff2e38d4db3e63c59082f1f7, type: 3}
   m_Name: NewLevelData 1
   m_EditorClassIdentifier: 
-  level:
-    gameBoard:
-      gameBoardSize: {x: 0, y: 0}
-    goals: []
-    restrictions: []
   board:
-    rows:
-    - row: 
-    - row: 
-    - row: 
-    - row: 
-    - row: 
-    - row: 
-    - row: 
-  references:
-    version: 2
-    RefIds: []
+    gridSize: {x: 3, y: 3}
+    cellSize: {x: 64, y: 16}
+    cells:
+    - row: 000000000000000000000000
+    - row: 000000000000000000000000
+    - row: 000000000000000000000000

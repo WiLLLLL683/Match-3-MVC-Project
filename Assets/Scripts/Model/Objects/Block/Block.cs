@@ -9,7 +9,8 @@ namespace Model.Objects
     {
         public ABlockType type { get; private set; }
         public Vector2Int position { get; private set; }
-        public event BlockDelegate destroyEvent;
+        public event BlockDelegate OnDestroyEvent;
+        public event BlockDelegate OnTypeChangeEvent;
 
         public Block(ABlockType _type, Vector2Int _position)
         {
@@ -25,7 +26,7 @@ namespace Model.Objects
         public void ChangeType(ABlockType _type)
         {
             type = _type;
-            //TODO event
+            OnTypeChangeEvent?.Invoke(this, new EventArgs());
         }
 
         public void Activate()
@@ -35,7 +36,7 @@ namespace Model.Objects
 
         public void Destroy()
         {
-            destroyEvent?.Invoke(this,new EventArgs());
+            OnDestroyEvent?.Invoke(this,new EventArgs());
         }
     }
 }

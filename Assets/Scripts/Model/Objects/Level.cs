@@ -12,10 +12,16 @@ namespace Model.Objects
         public Counter[] restrictions { get; private set; }
         public Balance balance { get; private set; }
 
-        public Level(int xLength, int yLength, LevelDataScriptable levelData)
+        public Level(LevelData levelData)
         {
-            gameBoard = new GameBoard(xLength, yLength);
+            gameBoard = new GameBoard(levelData.gameBoard);
             //TODO загрузка данных уровня
         }
+
+        public Level(int xLength, int yLength, LevelData levelData)
+        {
+            gameBoard = new GameBoard(xLength, yLength);
+        }
+
     }
 }
