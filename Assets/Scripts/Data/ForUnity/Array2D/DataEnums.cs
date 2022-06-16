@@ -72,8 +72,6 @@ namespace Data.ForUnity
                 case CounterTargetEnum.Cell:
                     switch (counterData.cellType)
                     {
-                        case CellTypeEnum.NotPlayable:
-                            return new NotPlayableCellType();
                         case CellTypeEnum.Basic:
                             return new BasicCellType();
                         default:

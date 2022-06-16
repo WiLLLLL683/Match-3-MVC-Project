@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Array2DEditor;
+using Model.Objects;
 
 namespace Data.ForUnity
 {
@@ -13,6 +14,10 @@ namespace Data.ForUnity
         public CounterDataForUnity[] goals;
         public CounterDataForUnity[] restrictions;
         public BalanceData balance;
+
+        [SerializeReference]
+        [SR]
+        public ICounterTarget counterTarget;
 
         public LevelData GetLevelData()
         {
