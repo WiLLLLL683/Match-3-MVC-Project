@@ -41,8 +41,8 @@ public class SRDrawer : PropertyDrawer
 		{
 			_attr = attribute as SRAttribute;
 		}
-		
-		var typeName = GetTypeName(property.managedReferenceFullTypename);
+
+		var typeName = GetTypeName(property.managedReferenceValue.GetType().Name);//managedReferenceFullTypename);
 		var typeNameContent = new GUIContent(typeName + (_array != null ? ("[" + index + "]") : ""));
 
 		float buttonWidth = 10f + GUI.skin.button.CalcSize(typeNameContent).x;
@@ -97,7 +97,11 @@ public class SRDrawer : PropertyDrawer
 			context.AddSeparator("");
 			for(int i = 0; i < types.Length; ++i)
 			{
-				context.AddItem(new GUIContent(types[i].Path), false, OnMenuItemClick, new SRAction(property, types[i].Path));
+                if (!types[i].Type.IsAbstract)
+                {
+					context.AddItem(new GUIContent(types[i].Name), false, OnMenuItemClick, new SRAction(property, types[i].Path));
+
+                }
 			}
 		}
 

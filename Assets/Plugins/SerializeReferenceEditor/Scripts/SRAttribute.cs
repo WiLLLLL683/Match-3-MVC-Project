@@ -14,6 +14,7 @@ public class SRAttribute : PropertyAttribute
 	{
 		public Type Type;
 		public string Path;
+		public string Name;
 	}
 
 	public TypeInfo[] Types { get; private set; }
@@ -72,7 +73,7 @@ public class SRAttribute : PropertyAttribute
 
 		for(int i = 0; i < types.Length; ++i)
 		{
-			result[i] = new TypeInfo { Type = types[i], Path = types[i].FullName };
+			result[i] = new TypeInfo { Type = types[i], Path = types[i].FullName, Name = types[i].Name };
 		}
 
 		return result;
