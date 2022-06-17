@@ -19,5 +19,25 @@ namespace Data
             restrictions = _restrictions;
             balance = _balance;
         }
+
+        public bool ValidCheck()
+        {
+            if (gameBoard.ValidCheck() == false) 
+                return false;
+            for (int i = 0; i < goals.Length; i++)
+            {
+                if (goals[i].ValidCheck() == false) 
+                    return false;
+            }
+            for (int i = 0; i < restrictions.Length; i++)
+            {
+                if (restrictions[i].ValidCheck() == false) 
+                    return false;
+            }
+            if (balance.ValidCheck() == false) 
+                return false;
+
+            return true;
+        }
     }
 }

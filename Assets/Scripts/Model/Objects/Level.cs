@@ -14,14 +14,34 @@ namespace Model.Objects
 
         public Level(LevelData levelData)
         {
+            if (levelData.ValidCheck() is not true)
+            {
+                return;
+            }
+
             gameBoard = new GameBoard(levelData.gameBoard);
-            //TODO загрузка данных уровня
+
+            goals = new Counter[levelData.goals.Length];
+            for (int i = 0; i < goals.Length; i++)
+            {
+                goals[i] = new Counter(levelData.goals[i]);
+            }
+
+            restrictions = new Counter[levelData.restrictions.Length];
+            for (int i = 0; i < goals.Length; i++)
+            {
+                restrictions[i] = new Counter(levelData.restrictions[i]);
+            }
+
+            balance = new Balance(levelData.balance);
         }
 
-        public Level(int xLength, int yLength, LevelData levelData)
+        /// <summary>
+        /// for tests only
+        /// </summary>
+        public Level(int xLength, int yLength)
         {
             gameBoard = new GameBoard(xLength, yLength);
         }
-
     }
 }

@@ -8,6 +8,9 @@ namespace Model.Objects
 {
     public class BasicCellType : ACellType
     {
-
+        public override void DestroyCellMaterial()
+        {
+            
+        }
     }
 }

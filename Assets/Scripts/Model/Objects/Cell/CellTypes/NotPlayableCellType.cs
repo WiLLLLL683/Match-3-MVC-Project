@@ -8,6 +8,10 @@ namespace Model.Objects
 {
     public class NotPlayableCellType : ACellType
     {
-
+        public override bool canContainBlock { get { return false; } }
+        public override void DestroyCellMaterial()
+        {
+            
+        }
     }
 }

@@ -66,10 +66,10 @@ namespace Model.Objects.Tests
                 test = true;
             }
 
-            cell.emptyEvent += TestFunc;
+            cell.OnEmptyEvent += TestFunc;
             cell.SetBlock(block);
             cell.DestroyBlock();
-            cell.emptyEvent -= TestFunc;
+            cell.OnEmptyEvent -= TestFunc;
 
             Assert.AreEqual(true, test);
         }
@@ -84,9 +84,9 @@ namespace Model.Objects.Tests
                 test = true;
             }
 
-            cell.emptyEvent += TestFunc;
+            cell.OnEmptyEvent += TestFunc;
             cell.DestroyBlock();
-            cell.emptyEvent -= TestFunc;
+            cell.OnEmptyEvent -= TestFunc;
 
             Assert.AreEqual(false, test);
         }
@@ -101,12 +101,35 @@ namespace Model.Objects.Tests
                 test = true;
             }
 
-            cell.emptyEvent += TestFunc;
+            cell.OnEmptyEvent += TestFunc;
             cell.DestroyBlock();
-            cell.emptyEvent -= TestFunc;
+            cell.OnEmptyEvent -= TestFunc;
 
             Assert.AreEqual(false, test);
         }
 
+        [Test]
+        public void DestroyCell_CorrectCell_OnCellDestroyEvent()
+        {
+            Cell cell = new Cell(new BasicCellType());
+            int eventRised = 0;
+            cell.OnCellDestroyEvent += (Cell cell, System.EventArgs eventArgs) => eventRised += 1;
+
+            cell.DestroyCell();
+
+            Assert.AreEqual(1, eventRised);
+        }
+
+        [Test]
+        public void DestroyCell_NoCellType_Nothing()
+        {
+            Cell cell = new Cell(null);
+            int eventRised = 0;
+            cell.OnCellDestroyEvent += (Cell cell, System.EventArgs eventArgs) => eventRised += 1;
+
+            cell.DestroyCell();
+
+            Assert.AreEqual(0, eventRised);
+        }
     }
 }

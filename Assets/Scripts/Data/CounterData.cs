@@ -10,5 +10,16 @@ namespace Data
         [SerializeReference]
         public ICounterTarget target;
         public int count;
+
+        internal bool ValidCheck()
+        {
+            if (target == null && count < 0)
+            {
+                Debug.LogError("Something wrong with CounterData");
+                return false;
+            }
+
+            return true;
+        }
     }
 }

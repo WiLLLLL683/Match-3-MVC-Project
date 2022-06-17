@@ -7,12 +7,14 @@ namespace Model.Objects
 {
     public class Cell
     {
-        public bool isPlayable { get { return type is not NotPlayableCellType; } }
+        public bool isPlayable { get { return type.canContainBlock; } }
         public bool isEmpty { get { return CheckEmpty(); } }
         public ACellType type { get; private set; }
         public Block block { get; private set; }
 
-        public event CellDelegate emptyEvent;
+        public event CellDelegate OnEmptyEvent;
+
+        public event CellDelegate OnCellDestroyEvent;
 
         public Cell(ACellType _type)
         {
@@ -33,7 +35,16 @@ namespace Model.Objects
             {
                 block.Destroy();
                 block = null;
-                emptyEvent?.Invoke(this, new EventArgs());
+                OnEmptyEvent?.Invoke(this, new EventArgs());
+            }
+        }
+
+        public void DestroyCell()
+        {
+            if (type != null)
+            {
+                type.DestroyCellMaterial();
+                OnCellDestroyEvent?.Invoke(this, new EventArgs());
             }
         }
 
@@ -41,7 +52,7 @@ namespace Model.Objects
         {
             if (isPlayable && block == null)
             {
-                emptyEvent?.Invoke(this,new EventArgs());
+                OnEmptyEvent?.Invoke(this,new EventArgs());
                 return true;
             }
             return false;

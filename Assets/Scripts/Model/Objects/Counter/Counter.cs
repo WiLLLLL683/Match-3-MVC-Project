@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace Model.Objects
         {
             target = _target;
             count = _count;
+        }
+
+        public Counter(CounterData data)
+        {
+            target = data.target;
+            count = data.count;
         }
 
         public void UpdateGoal(ICounterTarget goalTarget)

@@ -27,7 +27,7 @@ namespace Data.ForUnity
         Turn
     }
 
-    public static class DataFromEnum //TODO может быть заменить все энумы на serialize reference?
+    public static class DataFromEnum 
     {
         public static ABlockType GetBlockType(BlockTypeEnum _enum)
         {
