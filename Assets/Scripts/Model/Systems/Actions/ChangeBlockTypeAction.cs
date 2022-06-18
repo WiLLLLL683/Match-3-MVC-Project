@@ -20,6 +20,12 @@ namespace Model.Systems
 
         public void Execute()
         {
+            if (level == null || type == null || position == null)
+            {
+                Debug.LogError("Invalid input data");
+                return;
+            }
+
             ChangeBlockType(type, position);
         }
 
@@ -30,10 +36,17 @@ namespace Model.Systems
 
         private void ChangeBlockType(ABlockType _type, Vector2Int _position)
         {
-            if (level.gameBoard.cells[_position.x, _position.y].isPlayable &&
-                !level.gameBoard.cells[_position.x, _position.y].isEmpty)
+            try
             {
-                level.gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
+                if (level.gameBoard.cells[_position.x, _position.y].isPlayable &&
+                    !level.gameBoard.cells[_position.x, _position.y].isEmpty)
+                {
+                    level.gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
+                }
+            }
+            catch (System.IndexOutOfRangeException)
+            {
+                Debug.LogError("Invalid position");
             }
         }
     }
