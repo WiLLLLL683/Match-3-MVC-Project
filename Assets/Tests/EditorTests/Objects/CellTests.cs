@@ -12,7 +12,7 @@ namespace Model.Objects.Tests
         [Test]
         public void SetBlock_Block_CellHasBlock()
         {
-            Cell cell = new Cell(true, new BasicCellType());
+            Cell cell = new Cell(new BasicCellType());
             Block block = new Block(new RedBlockType(),new Vector2Int(0,0));
 
             cell.SetBlock(block);
@@ -23,7 +23,7 @@ namespace Model.Objects.Tests
         [Test]
         public void SetBlock_Null_Nothing()
         {
-            Cell cell = new Cell(true, new BasicCellType());
+            Cell cell = new Cell(new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
 
             cell.SetBlock(block);
@@ -35,7 +35,7 @@ namespace Model.Objects.Tests
         [Test]
         public void SetBlock_NotPlayableCell_Nothing()
         {
-            Cell cell = new Cell(false, new BasicCellType());
+            Cell cell = new Cell(new NotPlayableCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
 
             cell.SetBlock(block);
@@ -46,7 +46,7 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_Block_CellEmpty()
         {
-            Cell cell = new Cell(true, new BasicCellType());
+            Cell cell = new Cell(new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
 
             cell.SetBlock(block);
@@ -58,7 +58,7 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_Block_EmptyEvent()
         {
-            Cell cell = new Cell(true, new BasicCellType());
+            Cell cell = new Cell(new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
             bool test = false;
             void TestFunc(Cell cell, System.EventArgs eventArgs)
@@ -66,10 +66,10 @@ namespace Model.Objects.Tests
                 test = true;
             }
 
-            cell.emptyEvent += TestFunc;
+            cell.OnEmptyEvent += TestFunc;
             cell.SetBlock(block);
             cell.DestroyBlock();
-            cell.emptyEvent -= TestFunc;
+            cell.OnEmptyEvent -= TestFunc;
 
             Assert.AreEqual(true, test);
         }
@@ -77,16 +77,16 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_Empty_Nothing()
         {
-            Cell cell = new Cell(true, new BasicCellType());
+            Cell cell = new Cell(new BasicCellType());
             bool test = false;
             void TestFunc(Cell cell, System.EventArgs eventArgs)
             {
                 test = true;
             }
 
-            cell.emptyEvent += TestFunc;
+            cell.OnEmptyEvent += TestFunc;
             cell.DestroyBlock();
-            cell.emptyEvent -= TestFunc;
+            cell.OnEmptyEvent -= TestFunc;
 
             Assert.AreEqual(false, test);
         }
@@ -94,19 +94,42 @@ namespace Model.Objects.Tests
         [Test]
         public void DestroyBlock_NotPlayableCell_Nothing()
         {
-            Cell cell = new Cell(false, new BasicCellType());
+            Cell cell = new Cell(new BasicCellType());
             bool test = false;
             void TestFunc(Cell cell, System.EventArgs eventArgs)
             {
                 test = true;
             }
 
-            cell.emptyEvent += TestFunc;
+            cell.OnEmptyEvent += TestFunc;
             cell.DestroyBlock();
-            cell.emptyEvent -= TestFunc;
+            cell.OnEmptyEvent -= TestFunc;
 
             Assert.AreEqual(false, test);
         }
 
+        [Test]
+        public void DestroyCell_CorrectCell_OnCellDestroyEvent()
+        {
+            Cell cell = new Cell(new BasicCellType());
+            int eventRised = 0;
+            cell.OnCellDestroyEvent += (Cell cell, System.EventArgs eventArgs) => eventRised += 1;
+
+            cell.DestroyCell();
+
+            Assert.AreEqual(1, eventRised);
+        }
+
+        [Test]
+        public void DestroyCell_NoCellType_Nothing()
+        {
+            Cell cell = new Cell(null);
+            int eventRised = 0;
+            cell.OnCellDestroyEvent += (Cell cell, System.EventArgs eventArgs) => eventRised += 1;
+
+            cell.DestroyCell();
+
+            Assert.AreEqual(0, eventRised);
+        }
     }
 }

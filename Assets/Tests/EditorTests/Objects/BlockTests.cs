@@ -76,14 +76,14 @@ namespace Model.Objects.Tests
                 test = sender;
             }
 
-            block.destroyEvent += TestFunc;
+            block.OnDestroyEvent += TestFunc;
             try
             {
                 block.Destroy();
             }
             finally
             {
-                block.destroyEvent -= TestFunc;
+                block.OnDestroyEvent -= TestFunc;
             }
 
             Assert.AreSame(block,test);

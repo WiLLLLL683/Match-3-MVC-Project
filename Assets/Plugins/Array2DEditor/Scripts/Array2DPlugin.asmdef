@@ -1,0 +1,16 @@
+{
+    "name": "Array2DPlugin",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4f1cf2a3fcadebb44ab6484a33d37472"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

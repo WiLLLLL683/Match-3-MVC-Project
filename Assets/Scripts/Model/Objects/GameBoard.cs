@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Data;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,19 @@ namespace Model.Objects
     {
         public Cell[,] cells { get; private set; }
 
+        public GameBoard(GameBoardData data)
+        {
+            cells = new Cell[data.cellTypes.GetLength(0), data.cellTypes.GetLength(1)];
+
+            for (int i = 0; i < data.cellTypes.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.cellTypes.GetLength(1); j++)
+                {
+                    cells[i, j] = new Cell(data.cellTypes[i,j]);
+                }
+            }
+        }
+
         public GameBoard(int xLength, int yLength)
         {
             cells = new Cell[xLength, yLength];
@@ -16,12 +30,9 @@ namespace Model.Objects
             {
                 for (int j = 0; j < yLength; j++)
                 {
-                    cells[i, j] = new Cell(true,new BasicCellType());
-                    //TODO загрузка начального состояния клеток
+                    cells[i, j] = new Cell(new BasicCellType());
                 }
             }
         }
-
-
     }
 }
