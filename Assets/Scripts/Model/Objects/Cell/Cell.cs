@@ -23,9 +23,16 @@ namespace Model.Objects
 
         public void SetBlock(Block _block)
         {
-            if (isPlayable && _block != null)
+            if (isPlayable)
             {
-                block = _block;
+                if (_block != null)
+                {
+                    block = _block;
+                }
+                else
+                {
+                    SetEmpty();
+                }
             }
         }
 
@@ -34,8 +41,7 @@ namespace Model.Objects
             if (isPlayable && block != null)
             {
                 block.Destroy();
-                block = null;
-                OnEmptyEvent?.Invoke(this, new EventArgs());
+                SetEmpty();
             }
         }
 
@@ -48,11 +54,19 @@ namespace Model.Objects
             }
         }
 
+
+
+        private void SetEmpty()
+        {
+            block = null;
+            OnEmptyEvent?.Invoke(this, new EventArgs());
+        }
+
         private bool CheckEmpty()
         {
             if (isPlayable && block == null)
             {
-                OnEmptyEvent?.Invoke(this,new EventArgs());
+                OnEmptyEvent?.Invoke(this,new EventArgs()); //TODO BUG ивент вызывается даже при простой проверке на пустую клетку
                 return true;
             }
             return false;

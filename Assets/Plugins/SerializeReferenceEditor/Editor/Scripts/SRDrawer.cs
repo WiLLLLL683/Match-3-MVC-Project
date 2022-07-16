@@ -65,7 +65,7 @@ public class SRDrawer : PropertyDrawer
 
 		if(EditorGUI.EndChangeCheck() && _attr != null)
 		{
-			//TODO _attr.OnChange(_element.managedReferenceValue);
+			// _attr.OnChange(_element.managedReferenceValue);
 		}
 	}
 

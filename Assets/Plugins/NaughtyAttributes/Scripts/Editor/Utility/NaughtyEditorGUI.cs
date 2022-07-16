@@ -126,7 +126,7 @@ namespace NaughtyAttributes.Editor
             {
                 Undo.RecordObject(serializedObject.targetObject, "Dropdown");
 
-                // TODO: Problem with structs, because they are value type.
+                // : Problem with structs, because they are value type.
                 // The solution is to make boxing/unboxing but unfortunately I don't know the compile time type of the target object
                 dropdownField.SetValue(target, newValue);
             }

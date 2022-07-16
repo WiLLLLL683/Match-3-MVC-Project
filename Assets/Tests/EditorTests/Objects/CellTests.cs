@@ -21,15 +21,19 @@ namespace Model.Objects.Tests
         }
 
         [Test]
-        public void SetBlock_Null_Nothing()
+        public void SetBlock_Null_EmptyCell()
         {
             Cell cell = new Cell(new BasicCellType());
             Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
+            int eventCount = 0;
+            cell.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
 
             cell.SetBlock(block);
             cell.SetBlock(null);
 
-            Assert.AreEqual(block, cell.block);
+            Assert.AreEqual(null, cell.block);
+            Assert.AreEqual(true, cell.isEmpty);
+            Assert.AreEqual(1, eventCount);
         }
 
         [Test]
