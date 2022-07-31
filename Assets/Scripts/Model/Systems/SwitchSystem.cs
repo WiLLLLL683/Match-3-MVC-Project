@@ -41,11 +41,11 @@ namespace Model.Systems
             }
 
             //проверка: начальная позиция вне поля?
-            if (Helpers.CheckValidCellByPosition(gameBoard, _startPosition))
+            if (!Helpers.CheckValidCellByPosition(gameBoard, _startPosition))
                 return false;
 
             //проверка: конечная позиция вне поля?
-            if (Helpers.CheckValidCellByPosition(gameBoard, targetPosition))
+            if (!Helpers.CheckValidCellByPosition(gameBoard, targetPosition))
                 return false;
 
             //проверка на результативность хода

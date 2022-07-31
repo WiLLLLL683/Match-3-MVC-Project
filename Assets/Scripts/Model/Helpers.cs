@@ -14,14 +14,19 @@ namespace Model
     {
         public static bool CheckValidCellByPosition(GameBoard _gameBoard, Vector2Int _position)
         {
-            //позиция вне границ игрового поля?
-            if (_gameBoard.cells.GetLength(0) < _position.x && _gameBoard.cells.GetLength(1) < _position.y)
+            //позиция в границах игрового поля?
+            if (_position.x >= 0 &&
+                _position.y >= 0 &&
+                _position.x < _gameBoard.cells.GetLength(0) &&
+                _position.y < _gameBoard.cells.GetLength(1))
+            {
+                return true;
+            }
+            else
             {
                 Debug.LogError("Cell position out of GameBoards range");
                 return false;
             }
-
-            return true;
         }
 
         public static bool CheckValidBlockByPosition(GameBoard _gameBoard, Vector2Int _position)
