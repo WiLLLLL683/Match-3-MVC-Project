@@ -19,16 +19,16 @@ namespace Model.Systems
 
         public void SpawnTopLine()
         {
-            for (int i = 0; i < level.gameBoard.cells.GetLength(0); i++)
+            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
             {
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level,new RedBlockType(), new Vector2Int(i,0)); //TODO вставить систему рандомного типа блока
+                SpawnBlockAction spawnAction = new SpawnBlockAction(level,new RedBlockType(), new Vector2Int(x,0)); //TODO вставить систему рандомного типа блока
                 spawnAction.Execute();
             }
         }
 
         public bool SpawnBonusBlock(ABlockType _type, Vector2Int _position)
         {
-            if (!level.gameBoard.cells[_position.x, _position.y].isPlayable)
+            if (!level.gameBoard.cells[_position.x, _position.y].IsPlayable)
             {
                 return false;
             }

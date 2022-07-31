@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Model.Systems
 {
+    /// <summary>
+    /// смена типа блока
+    /// </summary>
     public class ChangeBlockTypeAction : IAction
     {
         private Level level;

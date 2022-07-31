@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Model.Systems
 {
+    /// <summary>
+    /// Спавн блока заданного типа в заданной позиции
+    /// </summary>
     public class SpawnBlockAction : IAction
     {
         private Level level;
