@@ -7,8 +7,9 @@ namespace Model.Objects
 {
     public class Cell
     {
-        public bool isPlayable { get { return type.canContainBlock; } }
-        public bool isEmpty { get { return CheckEmpty(); } }
+        public bool IsPlayable { get { return type.canContainBlock; } }
+        public bool isEmpty { get { return _isEmpty; } }
+        private bool _isEmpty;
         public ACellType type { get; private set; }
         public Block block { get; private set; }
 
@@ -23,11 +24,12 @@ namespace Model.Objects
 
         public void SetBlock(Block _block)
         {
-            if (isPlayable)
+            if (IsPlayable)
             {
                 if (_block != null)
                 {
                     block = _block;
+                    _isEmpty = false;
                 }
                 else
                 {
@@ -38,7 +40,7 @@ namespace Model.Objects
 
         public void DestroyBlock()
         {
-            if (isPlayable && block != null)
+            if (IsPlayable && block != null)
             {
                 block.Destroy();
                 SetEmpty();
@@ -59,17 +61,18 @@ namespace Model.Objects
         private void SetEmpty()
         {
             block = null;
+            _isEmpty = true;
             OnEmptyEvent?.Invoke(this, new EventArgs());
         }
 
-        private bool CheckEmpty()
-        {
-            if (isPlayable && block == null)
-            {
-                OnEmptyEvent?.Invoke(this,new EventArgs()); //TODO BUG ивент вызывается даже при простой проверке на пустую клетку
-                return true;
-            }
-            return false;
-        }
+        //private bool CheckEmpty()
+        //{
+        //    if (IsPlayable && block == null)
+        //    {
+        //        OnEmptyEvent?.Invoke(this,new EventArgs()); //TODO BUG ивент вызывается даже при простой проверке на пустую клетку
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }

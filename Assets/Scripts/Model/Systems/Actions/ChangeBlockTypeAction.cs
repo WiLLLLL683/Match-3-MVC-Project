@@ -38,7 +38,7 @@ namespace Model.Systems
         {
             try
             {
-                if (level.gameBoard.cells[_position.x, _position.y].isPlayable &&
+                if (level.gameBoard.cells[_position.x, _position.y].IsPlayable &&
                     !level.gameBoard.cells[_position.x, _position.y].isEmpty)
                 {
                     level.gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);

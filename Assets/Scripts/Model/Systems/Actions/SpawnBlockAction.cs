@@ -30,7 +30,7 @@ namespace Model.Systems
 
         private void SpawnBlock(ABlockType _type, Vector2Int _position)
         {
-            if (level.gameBoard.cells[_position.x, _position.y].isPlayable &&
+            if (level.gameBoard.cells[_position.x, _position.y].IsPlayable &&
                 level.gameBoard.cells[_position.x, _position.y].isEmpty)
             {
                 Block block = new Block(_type, _position);
