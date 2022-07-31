@@ -39,18 +39,10 @@ namespace Model.Systems
 
         private void ChangeBlockType(ABlockType _type, Vector2Int _position)
         {
-            try
-            {
-                if (level.gameBoard.cells[_position.x, _position.y].IsPlayable &&
-                    !level.gameBoard.cells[_position.x, _position.y].isEmpty)
-                {
-                    level.gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
-                }
-            }
-            catch (System.IndexOutOfRangeException)
-            {
-                Debug.LogError("Invalid position");
-            }
+            if (!Helpers.CheckValidBlockByPosition(level.gameBoard, _position))
+                return;
+
+            level.gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
         }
     }
 }
