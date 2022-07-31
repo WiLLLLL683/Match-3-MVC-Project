@@ -9,7 +9,7 @@ namespace Model.Objects
     {
         public bool IsPlayable { get { return type.canContainBlock; } }
         public bool isEmpty { get { return _isEmpty; } }
-        private bool _isEmpty;
+        private bool _isEmpty = true;
         public ACellType type { get; private set; }
         public Block block { get; private set; }
 
