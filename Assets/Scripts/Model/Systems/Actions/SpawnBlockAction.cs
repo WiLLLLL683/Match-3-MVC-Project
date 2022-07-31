@@ -33,6 +33,9 @@ namespace Model.Systems
 
         private void SpawnBlock(ABlockType _type, Vector2Int _position)
         {
+            if (!Helpers.CheckValidCellByPosition(level.gameBoard, _position))
+                return;
+
             if (level.gameBoard.cells[_position.x, _position.y].IsPlayable &&
                 level.gameBoard.cells[_position.x, _position.y].isEmpty)
             {

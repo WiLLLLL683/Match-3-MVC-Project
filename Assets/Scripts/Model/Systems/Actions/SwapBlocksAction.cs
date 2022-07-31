@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Model.Systems
 {
     /// <summary>
-    /// Смена блоков местами в двух блоков
+    /// Смена блоков местами в двух клетках
     /// </summary>
     public class SwapBlocksAction : IAction
     {

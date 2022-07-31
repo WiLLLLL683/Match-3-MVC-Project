@@ -43,7 +43,7 @@ namespace Model.Systems.Tests
 
             action.Execute();
 
-            LogAssert.Expect(LogType.Error, "Invalid position");
+            LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
         }
 
         [Test]
