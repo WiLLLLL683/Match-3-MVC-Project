@@ -33,7 +33,7 @@ namespace Model.Systems
                 return false;
             }
 
-            if (!gameBoard.cells[_position.x, _position.y].isEmpty)
+            if (gameBoard.cells[_position.x, _position.y].isEmpty)
             {
                 SpawnBlockAction spawnAction = new SpawnBlockAction(gameBoard, _type, _position);
                 spawnAction.Execute();

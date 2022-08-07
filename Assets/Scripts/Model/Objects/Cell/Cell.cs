@@ -22,6 +22,11 @@ namespace Model.Objects
             type = _type;
         }
 
+        public void SetType(ACellType _type)
+        {
+            type = _type;
+        }
+
         public void SetBlock(Block _block)
         {
             if (IsPlayable)
