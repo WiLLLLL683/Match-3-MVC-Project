@@ -10,13 +10,13 @@ namespace Model.Systems
     /// </summary>
     public class SpawnBlockAction : IAction
     {
-        private Level level;
+        private GameBoard gameBoard;
         ABlockType type;
         Vector2Int position;
 
-        public SpawnBlockAction(Level _level, ABlockType _type, Vector2Int _position)
+        public SpawnBlockAction(GameBoard _gameBoard, ABlockType _type, Vector2Int _position)
         {
-            level = _level;
+            gameBoard = _gameBoard;
             type = _type;
             position = _position;
         }
@@ -33,14 +33,14 @@ namespace Model.Systems
 
         private void SpawnBlock(ABlockType _type, Vector2Int _position)
         {
-            if (!Helpers.CheckValidCellByPosition(level.gameBoard, _position))
+            if (!Helpers.CheckValidCellByPosition(gameBoard, _position))
                 return;
 
-            if (level.gameBoard.cells[_position.x, _position.y].IsPlayable &&
-                level.gameBoard.cells[_position.x, _position.y].isEmpty)
+            if (gameBoard.cells[_position.x, _position.y].IsPlayable &&
+                gameBoard.cells[_position.x, _position.y].isEmpty)
             {
                 Block block = new Block(_type, _position);
-                level.gameBoard.cells[_position.x, _position.y].SetBlock(block);
+                gameBoard.cells[_position.x, _position.y].SetBlock(block);
             }
         }
     }

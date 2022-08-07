@@ -10,37 +10,37 @@ namespace Model.Systems
     /// </summary>
     public class GenerationSystem
     {
-        private Level level;
+        private GameBoard gameBoard;
 
-        public GenerationSystem(Level _level)
+        public GenerationSystem(GameBoard _gameBoard)
         {
-            level = _level;
+            gameBoard = _gameBoard;
         }
 
         public void SpawnTopLine()
         {
-            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
+            for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
             {
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level,new RedBlockType(), new Vector2Int(x,0)); //TODO вставить систему рандомного типа блока
+                SpawnBlockAction spawnAction = new SpawnBlockAction(gameBoard,new RedBlockType(), new Vector2Int(x,0)); //TODO вставить систему рандомного типа блока
                 spawnAction.Execute();
             }
         }
 
         public bool SpawnBonusBlock(ABlockType _type, Vector2Int _position)
         {
-            if (!level.gameBoard.cells[_position.x, _position.y].IsPlayable)
+            if (!gameBoard.cells[_position.x, _position.y].IsPlayable)
             {
                 return false;
             }
 
-            if (!level.gameBoard.cells[_position.x, _position.y].isEmpty)
+            if (!gameBoard.cells[_position.x, _position.y].isEmpty)
             {
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level, _type, _position);
+                SpawnBlockAction spawnAction = new SpawnBlockAction(gameBoard, _type, _position);
                 spawnAction.Execute();
             }
             else
             {
-                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(level, _type, _position);
+                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(gameBoard, _type, _position);
                 changeTypeAction.Execute();
             }
 

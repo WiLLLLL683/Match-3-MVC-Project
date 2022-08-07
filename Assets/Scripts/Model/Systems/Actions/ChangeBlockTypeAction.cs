@@ -10,20 +10,20 @@ namespace Model.Systems
     /// </summary>
     public class ChangeBlockTypeAction : IAction
     {
-        private Level level;
+        private GameBoard gameBoard;
         ABlockType type;
         Vector2Int position;
 
-        public ChangeBlockTypeAction(Level _level, ABlockType _type, Vector2Int _position)
+        public ChangeBlockTypeAction(GameBoard _gameBoard, ABlockType _type, Vector2Int _position)
         {
-            level = _level;
+            gameBoard = _gameBoard;
             type = _type;
             position = _position;
         }
 
         public void Execute()
         {
-            if (level == null || type == null || position == null)
+            if (gameBoard == null || type == null || position == null)
             {
                 Debug.LogError("Invalid input data");
                 return;
@@ -39,10 +39,10 @@ namespace Model.Systems
 
         private void ChangeBlockType(ABlockType _type, Vector2Int _position)
         {
-            if (!Helpers.CheckValidBlockByPosition(level.gameBoard, _position))
+            if (!Helpers.CheckValidBlockByPosition(gameBoard, _position))
                 return;
 
-            level.gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
+            gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
         }
     }
 }
