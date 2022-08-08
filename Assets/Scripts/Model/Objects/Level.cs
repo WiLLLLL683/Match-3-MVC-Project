@@ -11,10 +11,11 @@ namespace Model.Objects
         public Counter[] goals { get; private set; }
         public Counter[] restrictions { get; private set; }
         public Balance balance { get; private set; }
+        public Pattern[] patterns { get; private set; }
 
         public Level(LevelData levelData)
         {
-            if (levelData.ValidCheck() is not true)
+            if (levelData.ValidCheck() != true)
             {
                 return;
             }
@@ -34,6 +35,8 @@ namespace Model.Objects
             }
 
             balance = new Balance(levelData.balance);
+
+            //TODO внедрить загрузку паттернов
         }
 
         /// <summary>
