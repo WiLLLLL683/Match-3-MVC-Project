@@ -47,5 +47,14 @@ namespace Model.Objects
         {
             gameBoard = new GameBoard(xLength, yLength);
         }
+
+        /// <summary>
+        /// for tests only
+        /// </summary>
+        public Level(int xLength, int yLength, Pattern[] _matchPatterns)
+        {
+            gameBoard = new GameBoard(xLength, yLength);
+            matchPatterns = _matchPatterns;
+        }
     }
 }
