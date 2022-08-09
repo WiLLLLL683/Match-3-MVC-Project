@@ -40,13 +40,13 @@ namespace Model.Objects
         {
             //пуст ли паттерн?
             if (totalSum == 0)
-                return null;
+                return new List<Cell>();
 
             Vector2Int originPosOnGameboard = new Vector2Int(originPosition.x + _startPosition.x, originPosition.y + _startPosition.y);
 
             //есть ли блок?
             if (!Helpers.CheckValidBlockByPosition(_gameBoard, originPosOnGameboard))
-                return null;
+                return new List<Cell>();
 
             //взять тип оригинального блока
             originType = _gameBoard.cells[originPosOnGameboard.x, originPosOnGameboard.y].block.type.GetType();
@@ -82,7 +82,7 @@ namespace Model.Objects
             if (sum == totalSum)
                 return matchedCells;
             else
-                return null;
+                return new List<Cell>();
         }
     }
 }

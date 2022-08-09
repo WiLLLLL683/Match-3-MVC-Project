@@ -78,7 +78,7 @@ namespace Model.Objects.Tests
 
             List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0));
 
-            Assert.AreEqual(null, cells);
+            Assert.AreEqual(0, cells.Count);
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Model.Objects.Tests
 
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0));
 
-            Assert.AreEqual(null, cells);
+            Assert.AreEqual(0, cells.Count);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Model.Objects.Tests
 
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(10, 10));
 
-            Assert.AreEqual(null, cells);
+            Assert.AreEqual(0, cells.Count);
             LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
         }
 
@@ -121,7 +121,7 @@ namespace Model.Objects.Tests
 
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0));
 
-            Assert.AreEqual(null, cells);
+            Assert.AreEqual(0, cells.Count);
             LogAssert.Expect(LogType.Error, "Tried to get Block but Cell was notPlayable");
         }
 
@@ -135,7 +135,7 @@ namespace Model.Objects.Tests
 
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0));
 
-            Assert.AreEqual(null, cells);
+            Assert.AreEqual(0, cells.Count);
             LogAssert.Expect(LogType.Error, "Tried to get Block but Cell was empty");
         }
     }
