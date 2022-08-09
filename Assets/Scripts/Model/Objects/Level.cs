@@ -11,7 +11,8 @@ namespace Model.Objects
         public Counter[] goals { get; private set; }
         public Counter[] restrictions { get; private set; }
         public Balance balance { get; private set; }
-        public Pattern[] patterns { get; private set; }
+        public Pattern[] matchPatterns { get; private set; }
+        public Pattern[] hintPatterns { get; private set; }
 
         public Level(LevelData levelData)
         {
