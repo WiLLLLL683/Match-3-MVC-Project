@@ -12,13 +12,15 @@ namespace Model.Systems
     public class SwitchSystem
     {
         private GameBoard gameBoard;
+        //private MatchSystem matchSystem; 
 
-        public SwitchSystem(GameBoard _gameBoard)
+        public SwitchSystem(GameBoard _gameBoard) //, MatchSystem _matchSystem)
         {
             gameBoard = _gameBoard;
+            //matchSystem = _matchSystem;
         }
 
-        public bool Switch(Vector2Int _startPosition, Directions direction)
+        public SwapBlocksAction Switch(Vector2Int _startPosition, Directions direction)
         {
             //вычислить конечную позицию
             Vector2Int targetPosition;
@@ -37,23 +39,19 @@ namespace Model.Systems
                     targetPosition = _startPosition + Vector2Int.right;
                     break;
                 default:
-                    return false;
+                    return null;
             }
 
             //проверка: начальная позиция вне поля?
             if (!Helpers.CheckValidCellByPosition(gameBoard, _startPosition))
-                return false;
+                return null;
 
             //проверка: конечная позиция вне поля?
             if (!Helpers.CheckValidCellByPosition(gameBoard, targetPosition))
-                return false;
+                return null;
 
-            //проверка на результативность хода
-            //TODO MatchSystem
-
-            //смена блоков местами
-            new SwapBlocksAction(gameBoard.cells[_startPosition.x, _startPosition.y], gameBoard.cells[targetPosition.x, targetPosition.y]).Execute();
-            return true;
+            //возврат действия по смене блоков местами
+            return new SwapBlocksAction(gameBoard.cells[_startPosition.x, _startPosition.y], gameBoard.cells[targetPosition.x, targetPosition.y]);
         }
     }
 }
