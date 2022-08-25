@@ -56,5 +56,27 @@ namespace Model.Objects
             gameBoard = new GameBoard(xLength, yLength);
             matchPatterns = _matchPatterns;
         }
+
+        public bool CheckWin()
+        {
+            for (int i = 0; i < goals.Length; i++)
+            {
+                if (!goals[i].isCompleted)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool CheckLose()
+        {
+            for (int i = 0; i < restrictions.Length; i++)
+            {
+                if (restrictions[i].isCompleted)
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

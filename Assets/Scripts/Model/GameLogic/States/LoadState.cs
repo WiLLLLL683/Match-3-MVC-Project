@@ -8,7 +8,7 @@ namespace Model.GameLogic
 {
     public class LoadState : AState
     {
-        private StateContext stateContext;
+        private StateContext context;
         private LevelData levelData;
 
         public LoadState(GameStateMachine _stateMachine, LevelData _levelData) : base(_stateMachine)
@@ -25,8 +25,8 @@ namespace Model.GameLogic
                 //загрузка уровня
                 Level level = new Level(levelData);
                 //загрузка систем
-                stateContext = new StateContext(level);
-                stateMachine.ChangeState(new WaitState(stateMachine));
+                context = new StateContext(level);
+                stateMachine.ChangeState(new WaitState(stateMachine,context));
             }
             else
             {

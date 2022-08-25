@@ -10,30 +10,29 @@ namespace Model.Objects
 {
     public class Counter
     {
-        public ICounterTarget Target { get { return target; } }
-        private ICounterTarget target;
+        public ICounterTarget Target { get; private set; }
         public int Count { get { return count; } }
         private int count;
-        private bool isCompleted;
+        public bool isCompleted { get; private set; }
 
         public event GoalDelegate onUpdateEvent;
         public event GoalDelegate OnCompleteEvent;
 
         public Counter(ICounterTarget _target,int _count)
         {
-            target = _target;
+            Target = _target;
             count = _count;
         }
 
         public Counter(CounterData data)
         {
-            target = data.target;
+            Target = data.target;
             count = data.count;
         }
 
         public void UpdateGoal(ICounterTarget goalTarget)
         {
-            if (goalTarget.GetType() == target.GetType() && !isCompleted)
+            if (goalTarget.GetType() == Target.GetType() && !isCompleted)
             {
                 count -= 1;
                 CheckCompletion();
