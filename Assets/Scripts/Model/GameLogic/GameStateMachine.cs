@@ -10,8 +10,8 @@ namespace Model.GameLogic
         //private List<IState> allStates;
         //public Dictionary<Type,IState> allStates { get; private set; }
 
-        public IState previousState { get; private set; }
-        public IState currentState { get; private set; }
+        public AState previousState { get; private set; }
+        public AState currentState { get; private set; }
 
         //public GameStateMachine(IState[] _states)
         //{
@@ -34,7 +34,7 @@ namespace Model.GameLogic
         //    currentState.OnStart();
         //}
 
-        public void ChangeState(IState _state)
+        public void ChangeState(AState _state)
         {
             if (currentState != null)
             {

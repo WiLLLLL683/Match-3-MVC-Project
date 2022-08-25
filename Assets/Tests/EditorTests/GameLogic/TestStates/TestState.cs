@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.GameLogic
+namespace Model.GameLogic.Tests
 {
-    public class ExitState : AState
+    public class TestState : AState
     {
-        public ExitState(GameStateMachine _stateMachine) : base(_stateMachine)
+        public TestState(GameStateMachine _stateMachine) : base(_stateMachine)
         {
 
         }

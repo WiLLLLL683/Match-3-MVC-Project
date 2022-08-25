@@ -4,12 +4,16 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class TurnState : IState
+    public class TurnState : AState
     {
-        public void OnStart()
+        public TurnState(GameStateMachine _stateMachine) : base(_stateMachine)
         {
-            Debug.Log(string.Join(" ", this.GetType().ToString(), "state is started"));
 
+        }
+
+        public override void OnStart()
+        {
+            base.OnStart();
             //TODO возможно стоит вынести проверку на результативность хода в игровую логику            
             //проверка на результативность хода
             //if (matchSystem.FindMatches().Count > 0)
@@ -23,9 +27,9 @@ namespace Model.GameLogic
             //}
         }
 
-        public void OnEnd()
+        public override void OnEnd()
         {
-            Debug.Log(string.Join(" ", this.GetType().ToString(), "state is ended"));
+            base.OnEnd();
         }
     }
 }

@@ -4,16 +4,21 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class SpawnState : IState
+    public class SpawnState : AState
     {
-        public void OnStart()
+        public SpawnState(GameStateMachine _stateMachine) : base(_stateMachine)
         {
-            Debug.Log(string.Join(" ", this.GetType().ToString(), "state is started"));
+
         }
 
-        public void OnEnd()
+        public override void OnStart()
         {
-            Debug.Log(string.Join(" ", this.GetType().ToString(), "state is ended"));
+            base.OnStart();
+        }
+
+        public override void OnEnd()
+        {
+            base.OnEnd();
         }
     }
 }

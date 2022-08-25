@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class ExitState : AState
+    public class MetaState : AState
     {
-        public ExitState(GameStateMachine _stateMachine) : base(_stateMachine)
+        public MetaState(GameStateMachine _stateMachine) : base(_stateMachine)
         {
 
         }
