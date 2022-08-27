@@ -12,7 +12,7 @@ namespace Model.Systems
     {
         private GameBoard gameBoard;
         ABlockType type;
-        Vector2Int position;
+        Vector2Int position; //TODO возможно стоит упростить до ссылки на клетку
 
         public SpawnBlockAction(GameBoard _gameBoard, ABlockType _type, Vector2Int _position)
         {
