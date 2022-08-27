@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Объект клетки игрового поля, которая хранит в себе блок
+    /// </summary>
     public class Cell
     {
         public bool IsPlayable { get { return type.canContainBlock; } }

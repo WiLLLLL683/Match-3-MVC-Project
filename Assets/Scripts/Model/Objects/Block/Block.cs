@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Объект игрового блока
+    /// </summary>
     public class Block
     {
         public ABlockType type { get; private set; }

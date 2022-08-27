@@ -5,6 +5,9 @@ using Data;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Объект уровня с игровой доской и правилами
+    /// </summary>
     public class Level
     {
         public GameBoard gameBoard { get; private set; }
@@ -14,6 +17,10 @@ namespace Model.Objects
         public Pattern[] matchPatterns { get; private set; }
         public Pattern[] hintPatterns { get; private set; }
 
+        /// <summary>
+        /// Создание уровня исходя из данных с пустым игровым полем
+        /// </summary>
+        /// <param name="levelData"></param>
         public Level(LevelData levelData)
         {
             if (levelData.ValidCheck() != true)

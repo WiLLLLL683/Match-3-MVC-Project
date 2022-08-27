@@ -6,11 +6,17 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Объект игрового поля, хранит сетку клеток и все блоки на поле
+    /// </summary>
     public class GameBoard
     {
         public Cell[,] cells { get; private set; }
         public List<Block> blocks { get; private set; }
 
+        /// <summary>
+        /// Создание пустого игрового поля исходя из данных
+        /// </summary>
         public GameBoard(GameBoardData data)
         {
             cells = new Cell[data.cellTypes.GetLength(0), data.cellTypes.GetLength(1)];
@@ -24,6 +30,9 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Создание пустого игрового поля с базовыми клетками по заданным размерам
+        /// </summary>
         public GameBoard(int xLength, int yLength)
         {
             cells = new Cell[xLength, yLength];
