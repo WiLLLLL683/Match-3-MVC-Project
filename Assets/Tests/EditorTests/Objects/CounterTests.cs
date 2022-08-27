@@ -57,10 +57,10 @@ namespace Model.Objects.Tests
                 completed = true;
             }
 
-            goal.onUpdateEvent += TestUpdate;
+            goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
             goal.UpdateGoal(target.type);
-            goal.onUpdateEvent -= TestUpdate;
+            goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
             Assert.AreEqual(true, updated);
@@ -83,10 +83,10 @@ namespace Model.Objects.Tests
                 completed = true;
             }
 
-            goal.onUpdateEvent += TestUpdate;
+            goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
             goal.UpdateGoal(target.type);
-            goal.onUpdateEvent -= TestUpdate;
+            goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
             Assert.AreEqual(true, updated);
@@ -109,11 +109,11 @@ namespace Model.Objects.Tests
                 completed = !completed;
             }
 
-            goal.onUpdateEvent += TestUpdate;
+            goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
             goal.UpdateGoal(target.type);
             goal.UpdateGoal(target.type);
-            goal.onUpdateEvent -= TestUpdate;
+            goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
             Assert.AreEqual(true, updated);

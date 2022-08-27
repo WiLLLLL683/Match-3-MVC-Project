@@ -15,7 +15,7 @@ namespace Model.Objects
         private int count;
         public bool isCompleted { get; private set; }
 
-        public event GoalDelegate onUpdateEvent;
+        public event GoalDelegate OnUpdateEvent;
         public event GoalDelegate OnCompleteEvent;
 
         public Counter(ICounterTarget _target,int _count)
@@ -36,7 +36,7 @@ namespace Model.Objects
             {
                 count -= 1;
                 CheckCompletion();
-                onUpdateEvent?.Invoke(this, new EventArgs());
+                OnUpdateEvent?.Invoke(this, new EventArgs());
             }
         }
 

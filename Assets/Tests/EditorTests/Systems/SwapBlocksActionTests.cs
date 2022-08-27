@@ -36,8 +36,8 @@ namespace Model.Systems.Tests
             cellA.SetBlock(blockA);
             cellB.SetBlock(blockB);
             int eventCount = 0;
-            cellA.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
-            cellB.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
+            cellA.OnEmpty += (cell, eventArgs) => eventCount += 1;
+            cellB.OnEmpty += (cell, eventArgs) => eventCount += 1;
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
@@ -57,8 +57,8 @@ namespace Model.Systems.Tests
             cellA.SetBlock(blockA);
             cellB.SetBlock(blockB);
             int eventCount = 0;
-            cellA.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
-            cellB.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
+            cellA.OnEmpty += (cell, eventArgs) => eventCount += 1;
+            cellB.OnEmpty += (cell, eventArgs) => eventCount += 1;
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();

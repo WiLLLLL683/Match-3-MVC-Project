@@ -13,9 +13,9 @@ namespace Model.Objects
         public ACellType type { get; private set; }
         public Block block { get; private set; }
 
-        public event CellDelegate OnEmptyEvent;
-
-        public event CellDelegate OnCellDestroyEvent;
+        public event CellDelegate OnEmpty;
+        public event CellDelegate OnDestroy;
+        public event CellDelegate OnTypeChange;
 
         public Cell(ACellType _type)
         {
@@ -25,6 +25,7 @@ namespace Model.Objects
         public void SetType(ACellType _type)
         {
             type = _type;
+            OnTypeChange?.Invoke(this, new EventArgs());
         }
 
         public void SetBlock(Block _block)
@@ -57,7 +58,7 @@ namespace Model.Objects
             if (type != null)
             {
                 type.DestroyCellMaterial();
-                OnCellDestroyEvent?.Invoke(this, new EventArgs());
+                OnDestroy?.Invoke(this, new EventArgs());
             }
         }
 
@@ -67,7 +68,7 @@ namespace Model.Objects
         {
             block = null;
             _isEmpty = true;
-            OnEmptyEvent?.Invoke(this, new EventArgs());
+            OnEmpty?.Invoke(this, new EventArgs());
         }
 
         //private bool CheckEmpty()

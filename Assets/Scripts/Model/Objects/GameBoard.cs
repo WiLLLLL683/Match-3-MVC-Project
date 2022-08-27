@@ -1,4 +1,5 @@
 ﻿using Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace Model.Objects
     public class GameBoard
     {
         public Cell[,] cells { get; private set; }
+        public List<Block> blocks { get; private set; }
 
         public GameBoard(GameBoardData data)
         {
@@ -33,6 +35,17 @@ namespace Model.Objects
                     cells[i, j] = new Cell(new BasicCellType());
                 }
             }
+        }
+
+        public void RegisterBlock(Block _block)
+        {
+            blocks.Add(_block);
+            _block.OnDestroy += UnRegisterBlock;
+        }
+
+        private void UnRegisterBlock(Block _block, EventArgs eventArgs)
+        {
+            blocks.Remove(_block);
         }
     }
 }
