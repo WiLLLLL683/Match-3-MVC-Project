@@ -23,8 +23,26 @@ namespace Model.GameLogic
         {
             base.OnStart();
 
+            //при нажатии на блок:
+            if (direction == Directions.Zero)
+            {
+                bool turnSucsess = context.Level.gameBoard.cells[startPos.x, startPos.y].block.Activate();
+
+                if (turnSucsess)
+                {
+                    SucsessfullTurn();
+                    return;
+                }
+                else
+                {
+                    stateMachine.PrevoiusState();
+                }
+            }
+
+            //при сдвиге блока:
             //попытка хода
             IAction swapAction = context.SwitchSystem.Switch(startPos, direction);
+            swapAction.Execute();
 
             //проверка на результативность хода
             List<Cell> matches = context.MatchSystem.FindMatches();
@@ -35,16 +53,20 @@ namespace Model.GameLogic
                     matches[i].DestroyBlock();
                     //TODO обновить счетчики
                 }
-                //TODO засчитать ход
-                stateMachine.ChangeState(new SpawnState(stateMachine));
+                SucsessfullTurn();
             }
             else
             {
                 swapAction.Undo();
                 stateMachine.PrevoiusState();
             }
+        }
 
-
+        private void SucsessfullTurn()
+        {
+            //TODO засчитать ход в логгер
+            //TODO обновить счетчики
+            stateMachine.ChangeState(new SpawnState(stateMachine));
         }
 
         public override void OnEnd()

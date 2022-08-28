@@ -34,9 +34,9 @@ namespace Model.Objects
             OnTypeChange?.Invoke(this, new EventArgs());
         }
 
-        public void Activate()
+        public bool Activate()
         {
-            type.Activate();
+            return type.Activate();
         }
 
         public void Destroy()

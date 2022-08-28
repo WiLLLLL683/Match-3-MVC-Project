@@ -10,6 +10,7 @@ namespace Model.GameLogic
         //private List<IState> allStates;
         //public Dictionary<Type,IState> allStates { get; private set; }
 
+        public EventDispatcher eventDispatcher { get; private set; }
         public AState previousState { get; private set; }
         public AState currentState { get; private set; }
 
@@ -33,6 +34,11 @@ namespace Model.GameLogic
         //    currentState = _state;
         //    currentState.OnStart();
         //}
+
+        public GameStateMachine(EventDispatcher _eventDispatcher)
+        {
+            eventDispatcher = _eventDispatcher;
+        }
 
         public void ChangeState(AState _state)
         {

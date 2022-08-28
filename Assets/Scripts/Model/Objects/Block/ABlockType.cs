@@ -10,9 +10,13 @@ namespace Model.Objects
     {
         public string testString;//TODO убрать строку в тестах
 
-        public virtual void Activate() 
+        /// <summary>
+        /// Возвращает успешен ли был ход
+        /// </summary>
+        public virtual bool Activate()
         {
             testString = GetType().ToString();
+            return false;
         }
     }
 }

@@ -5,9 +5,9 @@ namespace Model.Objects
 {
     public class BlueBlockType : ABlockType
     {
-        public override void Activate()
+        public override bool Activate()
         {
-            base.Activate();
+            return base.Activate();
         }
     }
 }

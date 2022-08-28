@@ -41,6 +41,7 @@ namespace Model.Systems
             {
                 Block block = new Block(_type, _position);
                 gameBoard.cells[_position.x, _position.y].SetBlock(block);
+                gameBoard.RegisterBlock(block);
             }
         }
     }
