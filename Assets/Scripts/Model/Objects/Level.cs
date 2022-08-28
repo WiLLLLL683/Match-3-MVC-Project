@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Data;
+using Model.GameLogic;
 
 namespace Model.Objects
 {
@@ -53,6 +54,10 @@ namespace Model.Objects
         public Level(int xLength, int yLength)
         {
             gameBoard = new GameBoard(xLength, yLength);
+            goals = new Counter[1];
+            goals[0] = new Counter(new BasicBlockType(),2);
+            restrictions = new Counter[1];
+            restrictions[0] = new Counter(new Turn(),2);
         }
 
         /// <summary>

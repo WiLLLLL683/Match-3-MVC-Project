@@ -17,6 +17,7 @@ namespace Model
         public event BlockDelegate OnAnyBlockChangedType;
         public event BlockDelegate OnAnyBlockChangedPosition;
         public event CellDelegate OnAnyCellDestroyed;
+        public event CellDelegate OnAnyCellChangedType;
         public event CellDelegate OnAnyCellEmpty;
         public event GoalDelegate OnAnyGoalUpdate;
         public event GoalDelegate OnAnyGoalComplete;
@@ -24,7 +25,14 @@ namespace Model
         public event GoalDelegate OnAnyRestrictionComplete;
         public event InputDelegate OnInput;
 
-        public void SubscribeOnAllBlocks(Level _level)
+        public void SubscribeOnLevel(Level _level)
+        {
+            SubscribeOnAllBlocks(_level);
+            SubscribeOnAllCells(_level);
+            SubscribeOnAllGoals(_level);
+            SubscribeOnAllRestrictions(_level);
+        }
+        private void SubscribeOnAllBlocks(Level _level)
         {
             //очистить предыдущие подписки
             OnAnyBlockDestroyed = delegate { };
@@ -39,9 +47,10 @@ namespace Model
                 _level.gameBoard.blocks[i].OnPositionChange += (Block sender, EventArgs eventArgs) => OnAnyBlockChangedPosition?.Invoke(sender, eventArgs);
             }
         }
-        public void SubscribeOnAllCells(Level _level)
+        private void SubscribeOnAllCells(Level _level)
         {
             OnAnyCellDestroyed = delegate { };
+            OnAnyCellChangedType = delegate { };
             OnAnyCellEmpty = delegate { };
 
             for (int x = 0; x < _level.gameBoard.cells.GetLength(0); x++)
@@ -49,11 +58,12 @@ namespace Model
                 for (int y = 0; y < _level.gameBoard.cells.GetLength(1); y++)
                 {
                     _level.gameBoard.cells[x,y].OnDestroy += (Cell sender, EventArgs eventArgs) => OnAnyCellDestroyed?.Invoke(sender, eventArgs);
+                    _level.gameBoard.cells[x,y].OnTypeChange += (Cell sender, EventArgs eventArgs) => OnAnyCellChangedType?.Invoke(sender, eventArgs);
                     _level.gameBoard.cells[x,y].OnEmpty += (Cell sender, EventArgs eventArgs) => OnAnyCellEmpty?.Invoke(sender, eventArgs);
                 }
             }
         }
-        public void SubscribeOnAllGoals(Level _level)
+        private void SubscribeOnAllGoals(Level _level)
         {
             OnAnyGoalUpdate = delegate { };
             OnAnyGoalComplete = delegate { };
@@ -64,7 +74,7 @@ namespace Model
                 _level.goals[i].OnCompleteEvent += (Counter sender, EventArgs eventArgs) => OnAnyGoalComplete?.Invoke(sender, eventArgs);
             }
         }
-        public void SubscribeOnAllRestrictions(Level _level)
+        private void SubscribeOnAllRestrictions(Level _level)
         {
             OnAnyRestrictionUpdate = delegate { };
             OnAnyRestrictionComplete = delegate { };

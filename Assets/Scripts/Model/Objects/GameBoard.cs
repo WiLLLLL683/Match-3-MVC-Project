@@ -20,6 +20,7 @@ namespace Model.Objects
         public GameBoard(GameBoardData data)
         {
             cells = new Cell[data.cellTypes.GetLength(0), data.cellTypes.GetLength(1)];
+            blocks = new List<Block>();
 
             for (int i = 0; i < data.cellTypes.GetLength(0); i++)
             {
@@ -36,6 +37,7 @@ namespace Model.Objects
         public GameBoard(int xLength, int yLength)
         {
             cells = new Cell[xLength, yLength];
+            blocks = new List<Block>();
 
             for (int i = 0; i < xLength; i++)
             {

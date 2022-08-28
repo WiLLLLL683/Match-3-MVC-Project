@@ -57,6 +57,9 @@ namespace Model.GameLogic
                     SpawnRandomBlock(level, pos);
                 }
             }
+
+            //подключение EventDispatcher
+            stateMachine.eventDispatcher.SubscribeOnLevel(context.Level);
         }
 
         private static void SpawnRandomBlock(Level level, Vector2Int pos)
