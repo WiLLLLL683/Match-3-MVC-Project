@@ -17,7 +17,7 @@ namespace Model.GameLogic
         public StateContext(Level _level)
         {
             Level = _level;
-            GenerationSystem = new GenerationSystem(Level.gameBoard);
+            GenerationSystem = new GenerationSystem(Level);
             MatchSystem = new MatchSystem(Level);
             GravitySystem = new GravitySystem(Level.gameBoard);
             SwitchSystem = new SwitchSystem(Level.gameBoard);

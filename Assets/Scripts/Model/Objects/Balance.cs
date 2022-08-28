@@ -13,6 +13,7 @@ namespace Model.Objects
         public Balance(BalanceData data)
         {
             //TODO typeProbabilities = data...
+            typesWeight = new Dictionary<ABlockType, int>();
 
             totalWeight = 0;
             foreach (var item in typesWeight)

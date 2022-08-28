@@ -21,21 +21,21 @@ namespace Model.Systems
 
         public void Execute()
         {
-            SwapTwoBlocks();
+            SwapTwoBlocks(cellA, cellB);
         }
 
         public void Undo()
         {
-            throw new System.NotImplementedException();
+            SwapTwoBlocks(cellB, cellA);
         }
-        
-        private void SwapTwoBlocks()
+
+        private void SwapTwoBlocks(Cell _A, Cell _B)
         {
-            if (cellA != null && cellB != null)
+            if (_A != null && _B != null)
             {
-                Block tempBlock = cellA.block;
-                cellA.SetBlock(cellB.block);
-                cellB.SetBlock(tempBlock);
+                Block tempBlock = _A.block;
+                _A.SetBlock(_B.block);
+                _B.SetBlock(tempBlock);
             }
         }
     }

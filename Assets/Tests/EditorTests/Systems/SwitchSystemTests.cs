@@ -13,10 +13,8 @@ namespace Model.Systems.Tests
         public void Switch_ValidTurn_BlocksSwaped()
         {
             GameBoard gameBoard = new GameBoard(2,1);
-            Block blockA = new Block(new BlueBlockType(), new Vector2Int(0, 0));
-            Block blockB = new Block(new RedBlockType(), new Vector2Int(1, 0));
-            gameBoard.cells[0, 0].SetBlock(blockA);
-            gameBoard.cells[1, 0].SetBlock(blockB);
+            Block blockA = gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
             SwitchSystem switchSystem = new SwitchSystem(gameBoard);
 
             IAction action = switchSystem.Switch(new Vector2Int(0, 0), Directions.Right);
@@ -31,10 +29,8 @@ namespace Model.Systems.Tests
         public void Switch_InValidStartPos_NoChange()
         {
             GameBoard gameBoard = new GameBoard(2,1);
-            Block blockA = new Block(new BlueBlockType(), new Vector2Int(0, 0));
-            Block blockB = new Block(new RedBlockType(), new Vector2Int(1, 0));
-            gameBoard.cells[0, 0].SetBlock(blockA);
-            gameBoard.cells[1, 0].SetBlock(blockB);
+            Block blockA = gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
             SwitchSystem switchSystem = new SwitchSystem(gameBoard);
 
             IAction action = switchSystem.Switch(new Vector2Int(100, 100), Directions.Right);
@@ -50,10 +46,8 @@ namespace Model.Systems.Tests
         public void Switch_InValidTargetPos_NoChange()
         {
             GameBoard gameBoard = new GameBoard(2,1);
-            Block blockA = new Block(new BlueBlockType(), new Vector2Int(0, 0));
-            Block blockB = new Block(new RedBlockType(), new Vector2Int(1, 0));
-            gameBoard.cells[0, 0].SetBlock(blockA);
-            gameBoard.cells[1, 0].SetBlock(blockB);
+            Block blockA = gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
             SwitchSystem switchSystem = new SwitchSystem(gameBoard);
 
             IAction action = switchSystem.Switch(new Vector2Int(0, 0), Directions.Up);

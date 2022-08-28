@@ -42,7 +42,7 @@ namespace Model.GameLogic
             {
                 for (int y = 0; y < level.gameBoard.cells.GetLength(1); y++)
                 {
-                    SpawnRandomBlock(level, new Vector2Int(x, y));
+                    SpawnRandomBlock(level, level.gameBoard.cells[x, y]);
                 }
             }
 
@@ -52,9 +52,8 @@ namespace Model.GameLogic
                 List<Cell> matches = context.MatchSystem.FindMatches();
                 for (int j = 0; j < matches.Count; j++)
                 {
-                    Vector2Int pos = matches[j].block.position;
                     matches[j].DestroyBlock();
-                    SpawnRandomBlock(level, pos);
+                    SpawnRandomBlock(level, matches[j]);
                 }
             }
 
@@ -62,10 +61,11 @@ namespace Model.GameLogic
             stateMachine.eventDispatcher.SubscribeOnLevel(context.Level);
         }
 
-        private static void SpawnRandomBlock(Level level, Vector2Int pos)
+
+        private static void SpawnRandomBlock(Level _level, Cell _cell)
         {
-            ABlockType blockType = level.balance.GetRandomBlockType();
-            new SpawnBlockAction(level.gameBoard, blockType, pos).Execute();
+            ABlockType blockType = _level.balance.GetRandomBlockType();
+            new SpawnBlockAction(_level.gameBoard, blockType, _cell).Execute();
         }
     }
 }

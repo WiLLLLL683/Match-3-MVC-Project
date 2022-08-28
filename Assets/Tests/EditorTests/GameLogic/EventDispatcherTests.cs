@@ -58,7 +58,7 @@ namespace Model.GameLogic.Tests
             int blockChangeTypeEvent = 0;
             eventDispatcher.OnAnyBlockChangedType += (Block sender, EventArgs eventArgs) => { blockChangeTypeEvent++; };
 
-            new ChangeBlockTypeAction(level.gameBoard, new RedBlockType(), new Vector2Int(0,0)).Execute();
+            new ChangeBlockTypeAction(level.gameBoard, new RedBlockType(), level.gameBoard.cells[0,0]).Execute();
 
             Assert.AreEqual(1, blockChangeTypeEvent);
         }
@@ -170,8 +170,7 @@ namespace Model.GameLogic.Tests
         private static void SetupLevel_TwoCellsOneBlock(out Level level, out EventDispatcher eventDispatcher)
         {
             level = new Level(1, 2);
-            Block block = new Block(new BasicBlockType(), new Vector2Int(0, 0));
-            level.gameBoard.cells[0, 0].SetBlock(block);
+            Block block = level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             level.gameBoard.RegisterBlock(block);
             eventDispatcher = new EventDispatcher();
             eventDispatcher.SubscribeOnLevel(level);

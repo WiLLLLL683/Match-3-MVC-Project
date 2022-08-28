@@ -13,8 +13,9 @@ namespace Model.Systems.Tests
         public void ChangeType_BlueToRed_Red()
         {
             GameBoard gameBoard = new GameBoard(1,1);
-            gameBoard.cells[0, 0].SetBlock(new Block(new BlueBlockType(),new Vector2Int(0,0)));
-            IAction action = new ChangeBlockTypeAction(gameBoard, new RedBlockType(), new Vector2Int(0,0));
+            Cell cell = gameBoard.cells[0, 0];
+            cell.SpawnBlock(new BlueBlockType());
+            IAction action = new ChangeBlockTypeAction(gameBoard, new RedBlockType(), cell);
 
             action.Execute();
 
@@ -25,8 +26,9 @@ namespace Model.Systems.Tests
         public void ChangeType_InvalidFinalType_NoChange()
         {
             GameBoard gameBoard = new GameBoard(1, 1);
-            gameBoard.cells[0, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
-            IAction action = new ChangeBlockTypeAction(gameBoard, null, new Vector2Int(0,0));
+            Cell cell = gameBoard.cells[0, 0];
+            cell.SpawnBlock(new BlueBlockType());
+            IAction action = new ChangeBlockTypeAction(gameBoard, null, cell);
 
             action.Execute();
 
@@ -38,8 +40,9 @@ namespace Model.Systems.Tests
         public void ChangeType_InvalidPosition_LogError()
         {
             GameBoard gameBoard = new GameBoard(1, 1);
-            gameBoard.cells[0, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
-            IAction action = new ChangeBlockTypeAction(gameBoard, new RedBlockType(), new Vector2Int(50,50));
+            Cell cell = new Cell(new BasicCellType(), new Vector2Int(50, 50));
+            cell.SpawnBlock(new BlueBlockType());
+            IAction action = new ChangeBlockTypeAction(gameBoard, new RedBlockType(), cell);
 
             action.Execute();
 
@@ -49,8 +52,7 @@ namespace Model.Systems.Tests
         [Test]
         public void ChangeType_InvalidLevel_LogError()
         {
-            GameBoard gameBoard = null;
-            IAction action = new ChangeBlockTypeAction(gameBoard, new RedBlockType(), new Vector2Int(50,50));
+            IAction action = new ChangeBlockTypeAction(null, new RedBlockType(), null);
 
             action.Execute();
 

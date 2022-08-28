@@ -26,7 +26,7 @@ namespace Model.Objects
             {
                 for (int j = 0; j < data.cellTypes.GetLength(1); j++)
                 {
-                    cells[i, j] = new Cell(data.cellTypes[i,j]);
+                    cells[i, j] = new Cell(data.cellTypes[i,j], new Vector2Int(i, j));
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace Model.Objects
             {
                 for (int j = 0; j < yLength; j++)
                 {
-                    cells[i, j] = new Cell(new BasicCellType());
+                    cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i,j));
                 }
             }
         }

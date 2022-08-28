@@ -11,20 +11,20 @@ namespace Model.Objects.Tests
     public class BlockTests
     {
         [Test]
-        public void SetPosition_NewPos_PositionEqNewPos()
+        public void ChangePosition_NewPos_PositionEqNewPos()
         {
-            Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
-            Vector2Int newPosition = new Vector2Int(1, 0);
+            Block block = CreateBlock();
+            Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
 
-            block.SetPosition(newPosition);
+            block.ChangePosition(cellB);
 
-            Assert.AreEqual(newPosition, block.position);
+            Assert.AreEqual(cellB, block.cell);
         }
 
         [Test]
         public void ChangeType_NewType_TypeEqNewType()
         {
-            Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
+            Block block = CreateBlock();
             ABlockType newType = new BlueBlockType();
 
             block.ChangeType(newType);
@@ -35,42 +35,32 @@ namespace Model.Objects.Tests
         [Test]
         public void Activate_CurrentType_Activated()
         {
-            Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
-            RedBlockType expectedType = new RedBlockType();
-            expectedType.Activate();
-            string expected = expectedType.testString;
+            Block block = CreateBlock();
 
-            string beforeAct = block.type.testString;
-            block.Activate();
-            string afterAct = block.type.testString;
+            bool isActivated = block.Activate();
 
-            Assert.AreNotEqual(beforeAct, afterAct);
-            Assert.AreEqual(expected, afterAct);
+            Assert.AreEqual(true, isActivated);
         }
 
         [Test]
         public void Activate_NewType_ActivatedNewType()
         {
-            Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
-            BlueBlockType expectedType = new BlueBlockType();
-            expectedType.Activate();
-            string expected = expectedType.testString;
+            Block block = CreateBlock();
 
-            block.Activate();
-            string beforeChange = block.type.testString;
-            block.ChangeType(new BlueBlockType());
-            block.Activate();
-            string afterChange = block.type.testString;
+            bool beforeChange = block.Activate();
+            block.ChangeType(new BasicBlockType());
+            bool afterChange = block.Activate();
 
             Assert.AreNotEqual(beforeChange,afterChange);
-            Assert.AreEqual(expected, afterChange);
+            Assert.AreEqual(true, beforeChange);
+            Assert.AreEqual(false, afterChange);
         }
 
         [Test]
         public void Destroy_Block_DestroyEvent()
         {
-            Block block = new Block(new RedBlockType(), new Vector2Int(0,0));
-            Block test = new Block(new BlueBlockType(), new Vector2Int(0, 0));
+            Block block = CreateBlock();
+            Block test = CreateBlock();
             void TestFunc(Block sender, EventArgs eventArgs)
             {
                 test = sender;
@@ -88,5 +78,13 @@ namespace Model.Objects.Tests
 
             Assert.AreSame(block,test);
         }
+
+        private static Block CreateBlock()
+        {
+            Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
+            Block block = new Block(new TestBlockType(), cellA);
+            return block;
+        }
+
     }
 }
