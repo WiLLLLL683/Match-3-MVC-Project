@@ -36,7 +36,7 @@ namespace Model.Systems
             }
             else
             {
-                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(level.gameBoard, _type, _cell);
+                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(_type, _cell.block);
                 changeTypeAction.Execute();
             }
         }

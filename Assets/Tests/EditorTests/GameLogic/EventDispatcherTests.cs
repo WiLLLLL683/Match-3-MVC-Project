@@ -58,7 +58,7 @@ namespace Model.GameLogic.Tests
             int blockChangeTypeEvent = 0;
             eventDispatcher.OnAnyBlockChangedType += (Block sender, EventArgs eventArgs) => { blockChangeTypeEvent++; };
 
-            new ChangeBlockTypeAction(level.gameBoard, new RedBlockType(), level.gameBoard.cells[0,0]).Execute();
+            new ChangeBlockTypeAction( new RedBlockType(), level.gameBoard.cells[0,0].block).Execute();
 
             Assert.AreEqual(1, blockChangeTypeEvent);
         }

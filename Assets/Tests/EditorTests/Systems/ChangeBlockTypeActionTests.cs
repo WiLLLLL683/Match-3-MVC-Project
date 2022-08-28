@@ -12,47 +12,31 @@ namespace Model.Systems.Tests
         [Test]
         public void ChangeType_BlueToRed_Red()
         {
-            GameBoard gameBoard = new GameBoard(1,1);
-            Cell cell = gameBoard.cells[0, 0];
-            cell.SpawnBlock(new BlueBlockType());
-            IAction action = new ChangeBlockTypeAction(gameBoard, new RedBlockType(), cell);
+            Block block = new Cell(new BasicCellType(), new Vector2Int(0,0)).SpawnBlock(new BlueBlockType());
+            IAction action = new ChangeBlockTypeAction(new RedBlockType(), block);
 
             action.Execute();
 
-            Assert.AreEqual(typeof(RedBlockType), gameBoard.cells[0, 0].block.type.GetType());
+            Assert.AreEqual(typeof(RedBlockType), block.type.GetType());
         }
 
         [Test]
         public void ChangeType_InvalidFinalType_NoChange()
         {
-            GameBoard gameBoard = new GameBoard(1, 1);
-            Cell cell = gameBoard.cells[0, 0];
-            cell.SpawnBlock(new BlueBlockType());
-            IAction action = new ChangeBlockTypeAction(gameBoard, null, cell);
+            Block block = new Cell(new BasicCellType(), new Vector2Int(0, 0)).SpawnBlock(new BlueBlockType());
+            IAction action = new ChangeBlockTypeAction(null, block);
 
             action.Execute();
 
             LogAssert.Expect(LogType.Error, "Invalid input data");
-            Assert.AreEqual(typeof(BlueBlockType), gameBoard.cells[0, 0].block.type.GetType());
+            Assert.AreEqual(typeof(BlueBlockType), block.type.GetType());
         }
 
-        [Test]
-        public void ChangeType_InvalidPosition_LogError()
-        {
-            GameBoard gameBoard = new GameBoard(1, 1);
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(50, 50));
-            cell.SpawnBlock(new BlueBlockType());
-            IAction action = new ChangeBlockTypeAction(gameBoard, new RedBlockType(), cell);
-
-            action.Execute();
-
-            LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
-        }
 
         [Test]
         public void ChangeType_InvalidLevel_LogError()
         {
-            IAction action = new ChangeBlockTypeAction(null, new RedBlockType(), null);
+            IAction action = new ChangeBlockTypeAction(new RedBlockType(), null);
 
             action.Execute();
 
