@@ -58,6 +58,11 @@ namespace Model.Objects
             goals[0] = new Counter(new BasicBlockType(),2);
             restrictions = new Counter[1];
             restrictions[0] = new Counter(new Turn(),2);
+
+            Dictionary<ABlockType, int> balanceDictionary = new Dictionary<ABlockType, int>();
+            balanceDictionary.Add(new BasicBlockType(), 50);
+            balanceDictionary.Add(new BlueBlockType(), 50);
+            balance = new Balance(balanceDictionary);
         }
 
         /// <summary>

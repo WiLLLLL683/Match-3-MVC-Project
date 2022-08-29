@@ -50,8 +50,11 @@ namespace Model.Objects
 
         public void RegisterBlock(Block _block)
         {
-            blocks.Add(_block);
-            _block.OnDestroy += UnRegisterBlock;
+            if (_block != null)
+            {
+                blocks.Add(_block);
+                _block.OnDestroy += UnRegisterBlock;
+            }
         }
 
         private void UnRegisterBlock(Block _block, EventArgs eventArgs)

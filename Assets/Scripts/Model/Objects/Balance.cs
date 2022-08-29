@@ -22,6 +22,17 @@ namespace Model.Objects
             }
         }
 
+        public Balance(Dictionary<ABlockType, int> _typesWeight)
+        {
+            typesWeight = _typesWeight;
+
+            totalWeight = 0;
+            foreach (var item in typesWeight)
+            {
+                totalWeight += item.Value;
+            }
+        }
+
         public ABlockType GetRandomBlockType()
         {
             int weightIndex = new Random().Next(0, totalWeight);
