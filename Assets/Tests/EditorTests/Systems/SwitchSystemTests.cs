@@ -15,9 +15,9 @@ namespace Model.Systems.Tests
             GameBoard gameBoard = new GameBoard(2,1);
             Block blockA = gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             Block blockB = gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
-            SwitchSystem switchSystem = new SwitchSystem(gameBoard);
+            MoveSystem switchSystem = new MoveSystem(gameBoard);
 
-            IAction action = switchSystem.Switch(new Vector2Int(0, 0), Directions.Right);
+            IAction action = switchSystem.Move(new Vector2Int(0, 0), Directions.Right);
             if (action != null) 
                 action.Execute();
 
@@ -31,9 +31,9 @@ namespace Model.Systems.Tests
             GameBoard gameBoard = new GameBoard(2,1);
             Block blockA = gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             Block blockB = gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
-            SwitchSystem switchSystem = new SwitchSystem(gameBoard);
+            MoveSystem switchSystem = new MoveSystem(gameBoard);
 
-            IAction action = switchSystem.Switch(new Vector2Int(100, 100), Directions.Right);
+            IAction action = switchSystem.Move(new Vector2Int(100, 100), Directions.Right);
             if (action != null)
                 action.Execute();
 
@@ -48,9 +48,9 @@ namespace Model.Systems.Tests
             GameBoard gameBoard = new GameBoard(2,1);
             Block blockA = gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             Block blockB = gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
-            SwitchSystem switchSystem = new SwitchSystem(gameBoard);
+            MoveSystem switchSystem = new MoveSystem(gameBoard);
 
-            IAction action = switchSystem.Switch(new Vector2Int(0, 0), Directions.Up);
+            IAction action = switchSystem.Move(new Vector2Int(0, 0), Directions.Up);
             if (action != null)
                 action.Execute();
 

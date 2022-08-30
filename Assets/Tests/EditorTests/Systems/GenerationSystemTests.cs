@@ -14,7 +14,7 @@ namespace Model.Systems.Tests
         public void SpawnTopLine_2cellsGameBoard_OnlyTopLineSpawned()
         {
             Level level = new Level(1, 2);
-            GenerationSystem generationSystem = new GenerationSystem(level);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnTopLine();
 
@@ -26,7 +26,7 @@ namespace Model.Systems.Tests
         public void SpawnTopLine_1cellGameBoard_OnlyTopLineSpawned()
         {
             Level level = new Level(1, 1);
-            GenerationSystem generationSystem = new GenerationSystem(level);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnTopLine();
 
@@ -37,7 +37,7 @@ namespace Model.Systems.Tests
         public void SpawnTopLine_9cellsGameBoard_OnlyTopLineSpawned()
         {
             Level level = new Level(3, 3);
-            GenerationSystem generationSystem = new GenerationSystem(level);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnTopLine();
 
@@ -59,7 +59,7 @@ namespace Model.Systems.Tests
         public void SpawnBonusBlock_EmptyCell_BonusBlockSpawned()
         {
             Level level = new Level(1, 1);
-            GenerationSystem generationSystem = new GenerationSystem(level);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0,0]);
 
@@ -72,7 +72,7 @@ namespace Model.Systems.Tests
         {
             Level level = new Level(1, 1);
             level.gameBoard.cells[0, 0].SpawnBlock(new RedBlockType());
-            GenerationSystem generationSystem = new GenerationSystem(level);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
 
@@ -84,7 +84,7 @@ namespace Model.Systems.Tests
         {
             Level level = new Level(1, 1);
             level.gameBoard.cells[0, 0].ChangeType(new NotPlayableCellType());
-            GenerationSystem generationSystem = new GenerationSystem(level);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
 

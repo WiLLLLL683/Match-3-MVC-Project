@@ -95,5 +95,21 @@ namespace Model.Objects
 
             return false;
         }
+
+        public void UpdateGoals(ICounterTarget _target)
+        {
+            for (int i = 0; i < goals.Length; i++)
+            {
+                goals[i].UpdateGoal(_target);
+            }
+        }
+
+        public void UpdateRestrictions(ICounterTarget _target)
+        {
+            for (int i = 0; i < restrictions.Length; i++)
+            {
+                restrictions[i].UpdateGoal(_target);
+            }
+        }
     }
 }

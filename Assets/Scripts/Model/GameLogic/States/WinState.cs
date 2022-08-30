@@ -4,12 +4,9 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class WinState : AState
+    public class WinState : ACoreGameState
     {
-        public WinState(GameStateMachine _stateMachine) : base(_stateMachine)
-        {
-
-        }
+        public WinState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine, _contex) { }
 
         public override void OnStart()
         {

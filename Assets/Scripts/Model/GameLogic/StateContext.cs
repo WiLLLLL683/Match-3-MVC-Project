@@ -9,18 +9,18 @@ namespace Model.GameLogic
     public class StateContext
     {
         public Level Level { get; private set; }
-        public GenerationSystem GenerationSystem { get; private set; }
+        public SpawnSystem SpawnSystem { get; private set; }
         public MatchSystem MatchSystem { get; private set; }
         public GravitySystem GravitySystem { get; private set; }
-        public SwitchSystem SwitchSystem { get; private set; }
+        public MoveSystem MoveSystem { get; private set; }
 
         public StateContext(Level _level)
         {
             Level = _level;
-            GenerationSystem = new GenerationSystem(Level);
+            SpawnSystem = new SpawnSystem(Level);
             MatchSystem = new MatchSystem(Level);
             GravitySystem = new GravitySystem(Level.gameBoard);
-            SwitchSystem = new SwitchSystem(Level.gameBoard);
+            MoveSystem = new MoveSystem(Level.gameBoard);
         }
     }
 }

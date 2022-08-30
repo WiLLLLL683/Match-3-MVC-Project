@@ -9,18 +9,18 @@ namespace Model.Systems
     /// <summary>
     /// Система смены соседних блоков местами
     /// </summary>
-    public class SwitchSystem
+    public class MoveSystem
     {
         private GameBoard gameBoard;
         //private MatchSystem matchSystem; 
 
-        public SwitchSystem(GameBoard _gameBoard) //, MatchSystem _matchSystem)
+        public MoveSystem(GameBoard _gameBoard) //, MatchSystem _matchSystem)
         {
             gameBoard = _gameBoard;
             //matchSystem = _matchSystem;
         }
 
-        public SwapBlocksAction Switch(Vector2Int _startPosition, Directions direction)
+        public SwapBlocksAction Move(Vector2Int _startPosition, Directions direction)
         {
             //вычислить конечную позицию
             Vector2Int targetPosition;

@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class LoseState : AState
+    public class LoseState : ACoreGameState
     {
-        public LoseState(GameStateMachine _stateMachine) : base(_stateMachine)
+
+        public LoseState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine, _contex)
         {
 
         }

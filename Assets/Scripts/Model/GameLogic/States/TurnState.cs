@@ -6,15 +6,14 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class TurnState : AState
+    public class TurnState : ACoreGameState
     {
-        private StateContext context;
         private Vector2Int startPos;
         private Directions direction;
+        //private Booster booster; //TODO booster
 
-        public TurnState(GameStateMachine _stateMachine, StateContext _context, Vector2Int _startPos, Directions _direction) : base(_stateMachine)
+        public TurnState(GameStateMachine _stateMachine, StateContext _context, Vector2Int _startPos, Directions _direction) : base(_stateMachine,_context)
         {
-            context = _context;
             startPos = _startPos;
             direction = _direction;
         }
@@ -23,25 +22,20 @@ namespace Model.GameLogic
         {
             base.OnStart();
 
-            //при нажатии на блок:
             if (direction == Directions.Zero)
             {
-                bool turnSucsess = context.Level.gameBoard.cells[startPos.x, startPos.y].block.Activate();
-
-                if (turnSucsess)
-                {
-                    SucsessfullTurn();
-                    return;
-                }
-                else
-                {
-                    stateMachine.PrevoiusState();
-                }
+                PressBlock();
             }
+            else
+            {
+                MoveBlock();
+            }
+        }
 
-            //при сдвиге блока:
+        private void MoveBlock()
+        {
             //попытка хода
-            IAction swapAction = context.SwitchSystem.Switch(startPos, direction);
+            IAction swapAction = context.MoveSystem.Move(startPos, direction);
             swapAction.Execute();
 
             //проверка на результативность хода
@@ -50,8 +44,8 @@ namespace Model.GameLogic
             {
                 for (int i = 0; i < matches.Count; i++)
                 {
+                    context.Level.UpdateGoals(matches[i].block.type);
                     matches[i].DestroyBlock();
-                    //TODO обновить счетчики
                 }
                 SucsessfullTurn();
             }
@@ -62,16 +56,25 @@ namespace Model.GameLogic
             }
         }
 
+        private void PressBlock()
+        {
+            bool turnSucsess = context.Level.gameBoard.cells[startPos.x, startPos.y].block.Activate();
+
+            if (turnSucsess)
+            {
+                SucsessfullTurn();
+            }
+            else
+            {
+                stateMachine.PrevoiusState();
+            }
+        }
+
         private void SucsessfullTurn()
         {
             //TODO засчитать ход в логгер
             //TODO обновить счетчики
-            stateMachine.ChangeState(new SpawnState(stateMachine));
-        }
-
-        public override void OnEnd()
-        {
-            base.OnEnd();
+            stateMachine.ChangeState(new SpawnState(stateMachine,context));
         }
     }
 }

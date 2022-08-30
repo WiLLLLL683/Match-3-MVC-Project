@@ -5,16 +5,11 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class WaitState : AState
+    public class WaitState : ACoreGameState
     {
         public List<Cell> hintCells;
 
-        private StateContext context;
-
-        public WaitState(GameStateMachine _stateMachine, StateContext _context) : base(_stateMachine)
-        {
-            context = _context;
-        }
+        public WaitState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine, _contex) { }
 
         public override void OnStart()
         {
@@ -22,28 +17,30 @@ namespace Model.GameLogic
 
             //проверка на проигрыш
             if (context.Level.CheckLose())
-                stateMachine.ChangeState(new LoseState(stateMachine));
+                stateMachine.ChangeState(new LoseState(stateMachine,context));
 
             //проверка на выигрыш
             if (context.Level.CheckWin())
-                stateMachine.ChangeState(new WinState(stateMachine));
+                stateMachine.ChangeState(new WinState(stateMachine,context));
 
             //подписка на ивенты инпута
-            stateMachine.eventDispatcher.OnInput += OnInput;
+            stateMachine.eventDispatcher.OnInputMove += OnInputMove;
+            stateMachine.eventDispatcher.OnInputBooster += OnInputBooster;
 
             //поиск блоков для подсказки
             hintCells = context.MatchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
-
         }
 
         public override void OnEnd()
         {
             base.OnEnd();
 
-            //TODO отписка на ивент инпута
+            //отписка от ивента инпута
+            stateMachine.eventDispatcher.OnInputMove -= OnInputMove;
+            stateMachine.eventDispatcher.OnInputBooster -= OnInputBooster;
         }
 
-        private void OnInput(Vector2Int _startPos, Directions _direction)
+        private void OnInputMove(Vector2Int _startPos, Directions _direction)
         {
             stateMachine.ChangeState(new TurnState(stateMachine, context, _startPos, _direction));
         }

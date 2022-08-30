@@ -9,7 +9,8 @@ namespace Model
     public delegate void BlockDelegate(Block sender, EventArgs eventArgs);
     public delegate void CellDelegate(Cell sender, EventArgs eventArgs);
     public delegate void GoalDelegate(Counter sender, EventArgs eventArgs);
-    public delegate void InputDelegate(Vector2Int _startPos, Directions _direction);
+    public delegate void InputMoveDelegate(Vector2Int _startPos, Directions _direction);
+    public delegate void InputBoosterDelegate(); //TODO организовать инпут бустера
 
     public class EventDispatcher
     {
@@ -23,7 +24,8 @@ namespace Model
         public event GoalDelegate OnAnyGoalComplete;
         public event GoalDelegate OnAnyRestrictionUpdate;
         public event GoalDelegate OnAnyRestrictionComplete;
-        public event InputDelegate OnInput;
+        public event InputMoveDelegate OnInputMove;
+        public event InputBoosterDelegate OnInputBooster;
 
         public void SubscribeOnLevel(Level _level)
         {

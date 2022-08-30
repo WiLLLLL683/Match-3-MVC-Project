@@ -8,11 +8,11 @@ namespace Model.Systems
     /// <summary>
     /// Система для спавна новых блоков - вверху уровня при нехватке блоков ниже, бонусных блоков по команде
     /// </summary>
-    public class GenerationSystem
+    public class SpawnSystem
     {
         private Level level;
 
-        public GenerationSystem(Level _level)
+        public SpawnSystem(Level _level)
         {
             level = _level;
         }
