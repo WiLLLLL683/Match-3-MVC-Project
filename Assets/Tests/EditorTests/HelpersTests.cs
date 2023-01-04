@@ -37,8 +37,7 @@ namespace Model.Tests
         {
             GameBoard gameboard = new GameBoard(1, 1);
             Vector2Int position = new Vector2Int(0, 0);
-            Block block = new Block(new BlueBlockType(), position);
-            gameboard.cells[position.x, position.y].SetBlock(block);
+            gameboard.cells[position.x, position.y].SpawnBlock(new BlueBlockType());
 
             bool isValid = Helpers.CheckValidBlockByPosition(gameboard, position);
 
@@ -74,7 +73,7 @@ namespace Model.Tests
         {
             GameBoard gameboard = new GameBoard(1, 1);
             Vector2Int position = new Vector2Int(0, 0);
-            gameboard.cells[0, 0] = new Cell(new NotPlayableCellType());
+            gameboard.cells[0, 0] = new Cell(new NotPlayableCellType(), position);
 
             bool isValid = Helpers.CheckValidBlockByPosition(gameboard, position);
 

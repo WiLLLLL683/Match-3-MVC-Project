@@ -5,38 +5,44 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Объект игрового блока
+    /// </summary>
     public class Block
     {
         public ABlockType type { get; private set; }
-        public Vector2Int position { get; private set; }
-        public event BlockDelegate OnDestroyEvent;
-        public event BlockDelegate OnTypeChangeEvent;
+        public Cell cell { get; private set; }
+        public Vector2Int Position { get { return cell.position; } }
+        public event BlockDelegate OnDestroy;
+        public event BlockDelegate OnTypeChange;
+        public event BlockDelegate OnPositionChange;
 
-        public Block(ABlockType _type, Vector2Int _position)
+        public Block(ABlockType _type, Cell _cell)
         {
             type = _type;
-            position = _position;
+            cell = _cell;
         }
 
-        public void SetPosition(Vector2Int _position)
+        public void ChangePosition(Cell _cell)
         {
-            position = _position;
+            cell = _cell;
+            OnPositionChange?.Invoke(this, new EventArgs());
         }
 
         public void ChangeType(ABlockType _type)
         {
             type = _type;
-            OnTypeChangeEvent?.Invoke(this, new EventArgs());
+            OnTypeChange?.Invoke(this, new EventArgs());
         }
 
-        public void Activate()
+        public bool Activate()
         {
-            type.Activate();
+            return type.Activate();
         }
 
         public void Destroy()
         {
-            OnDestroyEvent?.Invoke(this,new EventArgs());
+            OnDestroy?.Invoke(this,new EventArgs());
         }
     }
 }

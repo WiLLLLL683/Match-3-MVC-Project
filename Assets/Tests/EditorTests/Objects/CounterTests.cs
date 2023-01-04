@@ -11,8 +11,8 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_CorrectTarget_CountMinusOne()
         {
-            Counter goal = new Counter(new RedBlockType(),10);
-            Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
+            Counter goal = new Counter(new BasicBlockType(),10);
+            Block target = CreateBlock();
 
             goal.UpdateGoal(target.type);
 
@@ -22,8 +22,8 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_BelowZero_CountZero()
         {
-            Counter goal = new Counter(new RedBlockType(),0);
-            Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
+            Counter goal = new Counter(new BasicBlockType(),0);
+            Block target = CreateBlock();
 
             goal.UpdateGoal(target.type);
 
@@ -33,8 +33,8 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_IncorrectTarget_CountSame()
         {
-            Counter goal = new Counter(new BasicCellType(),10);
-            Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
+            Counter goal = new Counter(new RedBlockType(),10);
+            Block target = CreateBlock();
 
             goal.UpdateGoal(target.type);
 
@@ -44,8 +44,8 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_UpdateCountNotZero_UpdatedEvent()
         {
-            Counter goal = new Counter(new RedBlockType(),10);
-            Block target = new Block(new RedBlockType(),new Vector2Int(0,0));
+            Counter goal = new Counter(new BasicBlockType(),10);
+            Block target = CreateBlock();
             bool updated = false;
             bool completed = false;
             void TestUpdate(Counter goal,System.EventArgs eventArgs)
@@ -57,10 +57,10 @@ namespace Model.Objects.Tests
                 completed = true;
             }
 
-            goal.onUpdateEvent += TestUpdate;
+            goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
             goal.UpdateGoal(target.type);
-            goal.onUpdateEvent -= TestUpdate;
+            goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
             Assert.AreEqual(true, updated);
@@ -70,8 +70,8 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_UpdateCountToZero_CompleteEvent()
         {
-            Counter goal = new Counter(new RedBlockType(), 1);
-            Block target = new Block(new RedBlockType(), new Vector2Int(0, 0));
+            Counter goal = new Counter(new BasicBlockType(), 1);
+            Block target = CreateBlock();
             bool updated = false;
             bool completed = false;
             void TestUpdate(Counter goal, System.EventArgs eventArgs)
@@ -83,10 +83,10 @@ namespace Model.Objects.Tests
                 completed = true;
             }
 
-            goal.onUpdateEvent += TestUpdate;
+            goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
             goal.UpdateGoal(target.type);
-            goal.onUpdateEvent -= TestUpdate;
+            goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
             Assert.AreEqual(true, updated);
@@ -96,8 +96,8 @@ namespace Model.Objects.Tests
         [Test]
         public void UpdateGoal_CountToZeroTwise_OneCompleteEvent()
         {
-            Counter goal = new Counter(new RedBlockType(), 1);
-            Block target = new Block(new RedBlockType(), new Vector2Int(0, 0));
+            Counter goal = new Counter(new BasicBlockType(), 1);
+            Block target = CreateBlock();
             bool updated = false;
             bool completed = false;
             void TestUpdate(Counter goal, System.EventArgs eventArgs)
@@ -109,15 +109,23 @@ namespace Model.Objects.Tests
                 completed = !completed;
             }
 
-            goal.onUpdateEvent += TestUpdate;
+            goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
             goal.UpdateGoal(target.type);
             goal.UpdateGoal(target.type);
-            goal.onUpdateEvent -= TestUpdate;
+            goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
             Assert.AreEqual(true, updated);
             Assert.AreEqual(true, completed);
         }
+
+        private static Block CreateBlock()
+        {
+            Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
+            Block block = new Block(new BasicBlockType(), cellA);
+            return block;
+        }
+
     }
 }

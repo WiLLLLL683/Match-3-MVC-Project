@@ -12,7 +12,7 @@ namespace Model.Objects.Tests
         public void FindPattern_1MatchingBlock_ListWith1Cell()
         {
             GameBoard gameBoard = new GameBoard(1,1);
-            gameBoard.cells[0,0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0,0)));
+            gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             bool[,] grid = new bool[1,1];
             grid[0,0] = true;
             Pattern pattern = new Pattern(grid);
@@ -27,10 +27,10 @@ namespace Model.Objects.Tests
         public void FindPattern_2MatchingBlock_ListWith2Cell()
         {
             GameBoard gameBoard = new GameBoard(2, 2);
-            gameBoard.cells[0, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
-            gameBoard.cells[1, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
-            gameBoard.cells[0, 1].SetBlock(new Block(new RedBlockType(), new Vector2Int(0, 0)));
-            gameBoard.cells[1, 1].SetBlock(new Block(new RedBlockType(), new Vector2Int(0, 0)));
+            gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            gameBoard.cells[1, 0].SpawnBlock(new BlueBlockType());
+            gameBoard.cells[0, 1].SpawnBlock(new RedBlockType());
+            gameBoard.cells[1, 1].SpawnBlock(new RedBlockType());
             bool[,] grid = new bool[2, 2];
             grid[0, 0] = true;
             grid[1, 0] = true;
@@ -47,10 +47,10 @@ namespace Model.Objects.Tests
         public void FindPattern_2MatchingBlockShifted_ListWith2Cell()
         {
             GameBoard gameBoard = new GameBoard(2, 2);
-            gameBoard.cells[0, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
-            gameBoard.cells[1, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
-            gameBoard.cells[0, 1].SetBlock(new Block(new RedBlockType(), new Vector2Int(0, 0)));
-            gameBoard.cells[1, 1].SetBlock(new Block(new RedBlockType(), new Vector2Int(0, 0)));
+            gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            gameBoard.cells[1, 0].SpawnBlock(new BlueBlockType());
+            gameBoard.cells[0, 1].SpawnBlock(new RedBlockType());
+            gameBoard.cells[1, 1].SpawnBlock(new RedBlockType());
             bool[,] grid = new bool[2, 2];
             grid[0, 0] = true;
             grid[1, 0] = true;
@@ -67,10 +67,10 @@ namespace Model.Objects.Tests
         public void FindPattern_NoMatchingCell_Null()
         {
             GameBoard gameBoard = new GameBoard(2,2);
-            gameBoard.cells[0,0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0,0)));
-            gameBoard.cells[1,0].SetBlock(new Block(new RedBlockType(), new Vector2Int(0,0)));
-            gameBoard.cells[0,1].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0,0)));
-            gameBoard.cells[1,1].SetBlock(new Block(new RedBlockType(), new Vector2Int(0,0)));
+            gameBoard.cells[0,0].SpawnBlock(new BlueBlockType());
+            gameBoard.cells[1,0].SpawnBlock(new RedBlockType());
+            gameBoard.cells[0,1].SpawnBlock(new BlueBlockType());
+            gameBoard.cells[1,1].SpawnBlock(new RedBlockType());
             bool[,] grid = new bool[2,2];
             grid[0,0] = true;
             grid[1,0] = true;
@@ -85,7 +85,7 @@ namespace Model.Objects.Tests
         public void FindPattern_EmptyPattern_Null()
         {
             GameBoard gameBoard = new GameBoard(1, 1);
-            gameBoard.cells[0, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
+            gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             bool[,] grid = new bool[1, 1];
             grid[0, 0] = false;
             Pattern pattern = new Pattern(grid);
@@ -99,7 +99,7 @@ namespace Model.Objects.Tests
         public void FindPattern_NotValidCell_Null()
         {
             GameBoard gameBoard = new GameBoard(1, 1);
-            gameBoard.cells[0, 0].SetBlock(new Block(new BlueBlockType(), new Vector2Int(0, 0)));
+            gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             bool[,] grid = new bool[1, 1];
             grid[0, 0] = true;
             Pattern pattern = new Pattern(grid);
@@ -114,7 +114,7 @@ namespace Model.Objects.Tests
         public void FindPattern_NotPlayableCell_Null()
         {
             GameBoard gameBoard = new GameBoard(1, 1);
-            gameBoard.cells[0, 0].SetType(new NotPlayableCellType());
+            gameBoard.cells[0, 0].ChangeType(new NotPlayableCellType());
             bool[,] grid = new bool[1, 1];
             grid[0, 0] = true;
             Pattern pattern = new Pattern(grid);

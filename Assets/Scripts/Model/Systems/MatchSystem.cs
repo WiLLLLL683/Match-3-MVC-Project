@@ -63,7 +63,7 @@ namespace Model.Systems
                 }
             }
 
-            //вернуть пропавшие клетки
+            //вернуть совпавшие клетки
             return matchedCells;
         }
 

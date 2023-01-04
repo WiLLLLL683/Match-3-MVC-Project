@@ -4,16 +4,18 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class WinState : IState
+    public class WinState : ACoreGameState
     {
-        public void OnStart()
+        public WinState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine, _contex) { }
+
+        public override void OnStart()
         {
-            Debug.Log(string.Join(" ", this.GetType().ToString(), "state is started"));
+            base.OnStart();
         }
 
-        public void OnEnd()
+        public override void OnEnd()
         {
-            Debug.Log(string.Join(" ", this.GetType().ToString(), "state is ended"));
+            base.OnEnd();
         }
     }
 }

@@ -13,44 +13,44 @@ namespace Model.Systems.Tests
         [Test]
         public void SpawnTopLine_2cellsGameBoard_OnlyTopLineSpawned()
         {
-            GameBoard gameboard = new GameBoard(1, 2);
-            GenerationSystem generationSystem = new GenerationSystem(gameboard);
+            Level level = new Level(1, 2);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnTopLine();
 
-            Assert.IsFalse(gameboard.cells[0, 0].isEmpty);
-            Assert.IsTrue(gameboard.cells[0, 1].isEmpty);
+            Assert.IsFalse(level.gameBoard.cells[0, 0].isEmpty);
+            Assert.IsTrue(level.gameBoard.cells[0, 1].isEmpty);
         }
 
         [Test]
         public void SpawnTopLine_1cellGameBoard_OnlyTopLineSpawned()
         {
-            GameBoard gameboard = new GameBoard(1, 1);
-            GenerationSystem generationSystem = new GenerationSystem(gameboard);
+            Level level = new Level(1, 1);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnTopLine();
 
-            Assert.IsFalse(gameboard.cells[0, 0].isEmpty);
+            Assert.IsFalse(level.gameBoard.cells[0, 0].isEmpty);
         }
 
         [Test]
         public void SpawnTopLine_9cellsGameBoard_OnlyTopLineSpawned()
         {
-            GameBoard gameboard = new GameBoard(3, 3);
-            GenerationSystem generationSystem = new GenerationSystem(gameboard);
+            Level level = new Level(3, 3);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
             generationSystem.SpawnTopLine();
 
-            for (int x = 0; x < gameboard.cells.GetLength(0); x++) //первая полоса заполнена
+            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++) //первая полоса заполнена
             {
-                Assert.IsFalse(gameboard.cells[x, 0].isEmpty);
+                Assert.IsFalse(level.gameBoard.cells[x, 0].isEmpty);
             }
 
-            for (int y = 1; y < gameboard.cells.GetLength(1); y++) //остольные полосы пусты
+            for (int y = 1; y < level.gameBoard.cells.GetLength(1); y++) //остольные полосы пусты
             {
-                for (int x = 0; x < gameboard.cells.GetLength(0); x++)
+                for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
                 {
-                    Assert.IsTrue(gameboard.cells[0, 1].isEmpty);
+                    Assert.IsTrue(level.gameBoard.cells[0, 1].isEmpty);
                 }
             }
         }
@@ -58,38 +58,37 @@ namespace Model.Systems.Tests
         [Test]
         public void SpawnBonusBlock_EmptyCell_BonusBlockSpawned()
         {
-            GameBoard gameboard = new GameBoard(1, 1);
-            GenerationSystem generationSystem = new GenerationSystem(gameboard);
+            Level level = new Level(1, 1);
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
-            generationSystem.SpawnBonusBlock(new BlueBlockType(), new Vector2Int(0,0));
+            generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0,0]);
 
-            Assert.IsFalse(gameboard.cells[0,0].isEmpty);
-            Assert.That(gameboard.cells[0, 0].block.type is BlueBlockType);
+            Assert.IsFalse(level.gameBoard.cells[0,0].isEmpty);
+            Assert.That(level.gameBoard.cells[0, 0].block.type is BlueBlockType);
         }
 
         [Test]
         public void SpawnBonusBlock_FullCell_BlockTypeChanged()
         {
-            GameBoard gameboard = new GameBoard(1, 1);
-            Block block = new Block(new RedBlockType(), new Vector2Int(0, 0));
-            gameboard.cells[0, 0].SetBlock(block);
-            GenerationSystem generationSystem = new GenerationSystem(gameboard);
+            Level level = new Level(1, 1);
+            level.gameBoard.cells[0, 0].SpawnBlock(new RedBlockType());
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
-            generationSystem.SpawnBonusBlock(new BlueBlockType(), new Vector2Int(0,0));
+            generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
 
-            Assert.That(gameboard.cells[0, 0].block.type is BlueBlockType);
+            Assert.That(level.gameBoard.cells[0, 0].block.type is BlueBlockType);
         }
 
         [Test]
         public void SpawnBonusBlock_NotPlayableCell_Nothing()
         {
-            GameBoard gameboard = new GameBoard(1, 1);
-            gameboard.cells[0, 0].SetType(new NotPlayableCellType());
-            GenerationSystem generationSystem = new GenerationSystem(gameboard);
+            Level level = new Level(1, 1);
+            level.gameBoard.cells[0, 0].ChangeType(new NotPlayableCellType());
+            SpawnSystem generationSystem = new SpawnSystem(level);
 
-            generationSystem.SpawnBonusBlock(new BlueBlockType(), new Vector2Int(0, 0));
+            generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
 
-            Assert.IsTrue(gameboard.cells[0, 0].isEmpty);
+            Assert.IsTrue(level.gameBoard.cells[0, 0].isEmpty);
         }
     }
 }

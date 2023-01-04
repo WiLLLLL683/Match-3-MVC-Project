@@ -10,39 +10,34 @@ namespace Model.Systems
     /// </summary>
     public class ChangeBlockTypeAction : IAction
     {
-        private GameBoard gameBoard;
-        ABlockType type;
-        Vector2Int position;
+        private Block block;
+        private ABlockType targetType;
+        private ABlockType previousType;
 
-        public ChangeBlockTypeAction(GameBoard _gameBoard, ABlockType _type, Vector2Int _position)
+        public ChangeBlockTypeAction(ABlockType _type, Block _block)
         {
-            gameBoard = _gameBoard;
-            type = _type;
-            position = _position;
+            block = _block;
+            targetType = _type;
+            if (block != null)
+            {
+                previousType = block.type;
+            }
         }
 
         public void Execute()
         {
-            if (gameBoard == null || type == null || position == null)
+            if (targetType == null || previousType == null || block == null)
             {
                 Debug.LogError("Invalid input data");
                 return;
             }
 
-            ChangeBlockType(type, position);
+            block.ChangeType(targetType);
         }
 
         public void Undo()
         {
-            throw new System.NotImplementedException();
-        }
-
-        private void ChangeBlockType(ABlockType _type, Vector2Int _position)
-        {
-            if (!Helpers.CheckValidBlockByPosition(gameBoard, _position))
-                return;
-
-            gameBoard.cells[_position.x, _position.y].block.ChangeType(_type);
+            block.ChangeType(previousType);
         }
     }
 }

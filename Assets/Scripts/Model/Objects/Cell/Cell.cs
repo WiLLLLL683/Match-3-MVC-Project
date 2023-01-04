@@ -5,26 +5,32 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Объект клетки игрового поля, которая хранит в себе блок
+    /// </summary>
     public class Cell
     {
         public bool IsPlayable { get { return type.canContainBlock; } }
-        public bool isEmpty { get { return _isEmpty; } }
-        private bool _isEmpty = true;
+        public bool isEmpty { get; private set; }
         public ACellType type { get; private set; }
         public Block block { get; private set; }
+        public Vector2Int position { get; private set; }
 
-        public event CellDelegate OnEmptyEvent;
+        public event CellDelegate OnEmpty;
+        public event CellDelegate OnDestroy;
+        public event CellDelegate OnTypeChange;
 
-        public event CellDelegate OnCellDestroyEvent;
-
-        public Cell(ACellType _type)
+        public Cell(ACellType _type, Vector2Int _position)
         {
+            isEmpty = true;
             type = _type;
+            position = _position;
         }
 
-        public void SetType(ACellType _type)
+        public void ChangeType(ACellType _type)
         {
             type = _type;
+            OnTypeChange?.Invoke(this, new EventArgs());
         }
 
         public void SetBlock(Block _block)
@@ -34,13 +40,26 @@ namespace Model.Objects
                 if (_block != null)
                 {
                     block = _block;
-                    _isEmpty = false;
+                    block.ChangePosition(this);
+                    isEmpty = false;
                 }
                 else
                 {
                     SetEmpty();
                 }
             }
+        }
+
+        public Block SpawnBlock(ABlockType _blockType)
+        {
+            if (IsPlayable && isEmpty)
+            {
+                Block block = new Block(_blockType,this);
+                SetBlock(block);
+                return block;
+            }
+
+            return null;
         }
 
         public void DestroyBlock()
@@ -57,7 +76,7 @@ namespace Model.Objects
             if (type != null)
             {
                 type.DestroyCellMaterial();
-                OnCellDestroyEvent?.Invoke(this, new EventArgs());
+                OnDestroy?.Invoke(this, new EventArgs());
             }
         }
 
@@ -66,18 +85,8 @@ namespace Model.Objects
         private void SetEmpty()
         {
             block = null;
-            _isEmpty = true;
-            OnEmptyEvent?.Invoke(this, new EventArgs());
+            isEmpty = true;
+            OnEmpty?.Invoke(this, new EventArgs());
         }
-
-        //private bool CheckEmpty()
-        //{
-        //    if (IsPlayable && block == null)
-        //    {
-        //        OnEmptyEvent?.Invoke(this,new EventArgs()); //TODO BUG ивент вызывается даже при простой проверке на пустую клетку
-        //        return true;
-        //    }
-        //    return false;
-        //}
     }
 }

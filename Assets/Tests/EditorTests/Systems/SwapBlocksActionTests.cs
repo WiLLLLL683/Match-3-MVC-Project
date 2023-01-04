@@ -12,12 +12,10 @@ namespace Model.Systems.Tests
         [Test]
         public void SwapBlocks_ValidBlocks_ValidSwap()
         {
-            Block blockA = new Block(new BlueBlockType(),new Vector2Int(0, 0));
-            Block blockB = new Block(new RedBlockType(), new Vector2Int(0, 1));
-            Cell cellA = new Cell(new BasicCellType());
-            Cell cellB = new Cell(new BasicCellType());
-            cellA.SetBlock(blockA);
-            cellB.SetBlock(blockB);
+            Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0,0));
+            Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0,1));
+            Block blockA = cellA.SpawnBlock(new BlueBlockType());
+            Block blockB = cellB.SpawnBlock(new RedBlockType());
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
@@ -29,15 +27,12 @@ namespace Model.Systems.Tests
         [Test]
         public void SwapBlocks_EmptyBlockValidBlock_ValidSwap_OneEmptyEvent()
         {
-            Block blockA = null;
-            Block blockB = new Block(new RedBlockType(), new Vector2Int(0, 1));
-            Cell cellA = new Cell(new BasicCellType());
-            Cell cellB = new Cell(new BasicCellType());
-            cellA.SetBlock(blockA);
-            cellB.SetBlock(blockB);
+            Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
+            Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
+            Block blockB = cellB.SpawnBlock(new RedBlockType());
             int eventCount = 0;
-            cellA.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
-            cellB.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
+            cellA.OnEmpty += (cell, eventArgs) => eventCount += 1;
+            cellB.OnEmpty += (cell, eventArgs) => eventCount += 1;
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
@@ -50,15 +45,11 @@ namespace Model.Systems.Tests
         [Test]
         public void SwapBlocks_EmptyBlockEmptyBlock_ValidSwap_TwoEmptyEvents()
         {
-            Block blockA = null;
-            Block blockB = null;
-            Cell cellA = new Cell(new BasicCellType());
-            Cell cellB = new Cell(new BasicCellType());
-            cellA.SetBlock(blockA);
-            cellB.SetBlock(blockB);
+            Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
+            Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
             int eventCount = 0;
-            cellA.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
-            cellB.OnEmptyEvent += (cell, eventArgs) => eventCount += 1;
+            cellA.OnEmpty += (cell, eventArgs) => eventCount += 1;
+            cellB.OnEmpty += (cell, eventArgs) => eventCount += 1;
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
@@ -71,11 +62,9 @@ namespace Model.Systems.Tests
         [Test]
         public void SwapBlocks_NullCellValidCell_NoSwap()
         {
-            Block blockA = new Block(new BlueBlockType(), new Vector2Int(0, 0));
-            Block blockB = new Block(new RedBlockType(), new Vector2Int(0, 1));
             Cell cellA = null;
-            Cell cellB = new Cell(new BasicCellType());
-            cellB.SetBlock(blockB);
+            Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
+            Block blockB = cellB.SpawnBlock(new RedBlockType());
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();

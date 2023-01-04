@@ -7,7 +7,7 @@ namespace Model
 {
     public enum Directions
     {
-        Up, Down, Left, Right
+        Up, Down, Left, Right, Zero
     }
 
     public class Helpers 

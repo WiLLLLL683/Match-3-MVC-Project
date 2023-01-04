@@ -13,8 +13,7 @@ namespace Model.Systems.Tests
         public void Execute_OneBlockOneEmptyCellUnder_BlockMovesDown()
         {
             GameBoard gameboard = new GameBoard(1,2);
-            Block block = new Block(new BlueBlockType(),new Vector2Int(0,0));
-            gameboard.cells[0, 0].SetBlock(block);
+            Block block = gameboard.cells[0, 0].SpawnBlock(new BlueBlockType());
             gameboard.cells[0, 1].SetBlock(null);
             GravitySystem gravitySystem = new GravitySystem(gameboard);
 
@@ -28,10 +27,8 @@ namespace Model.Systems.Tests
         public void Execute_OneBlockNoEmptyCellUnder_NoChange()
         {
             GameBoard gameboard = new GameBoard(1,2);
-            Block blockA = new Block(new BlueBlockType(),new Vector2Int(0,0));
-            Block blockB = new Block(new BlueBlockType(),new Vector2Int(0,1));
-            gameboard.cells[0, 0].SetBlock(blockA);
-            gameboard.cells[0, 1].SetBlock(blockB);
+            Block blockA = gameboard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = gameboard.cells[0, 1].SpawnBlock(new BlueBlockType());
             GravitySystem gravitySystem = new GravitySystem(gameboard);
 
             gravitySystem.Execute();
@@ -44,10 +41,8 @@ namespace Model.Systems.Tests
         public void Execute_TwoBlocksEmptyCellUnder_TwoBlocksMoveDown()
         {
             GameBoard gameboard = new GameBoard(1,3);
-            Block blockA = new Block(new BlueBlockType(),new Vector2Int(0,0));
-            Block blockB = new Block(new BlueBlockType(),new Vector2Int(0,1));
-            gameboard.cells[0, 0].SetBlock(blockA);
-            gameboard.cells[0, 1].SetBlock(blockB);
+            Block blockA = gameboard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = gameboard.cells[0, 1].SpawnBlock(new BlueBlockType());
             gameboard.cells[0, 2].SetBlock(null);
             GravitySystem gravitySystem = new GravitySystem(gameboard);
 
