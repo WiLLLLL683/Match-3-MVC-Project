@@ -6,7 +6,7 @@ namespace Model.GameLogic
 {
     public class WinState : ACoreGameState
     {
-        public WinState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine, _contex) { }
+        public WinState(GameStateMachine _stateMachine, Game _contex) : base(_stateMachine, _contex) { }
 
         public override void OnStart()
         {
