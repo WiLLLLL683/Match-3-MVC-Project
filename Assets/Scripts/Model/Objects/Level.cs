@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Data;
-using Model.GameLogic;
+using Model.Systems;
 
 namespace Model.Objects
 {
