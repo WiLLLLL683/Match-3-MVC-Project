@@ -9,7 +9,7 @@ namespace Model.GameLogic
     {
         public List<Cell> hintCells;
 
-        public WaitState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine, _contex) { }
+        public WaitState(GameStateMachine _stateMachine, Game _contex) : base(_stateMachine, _contex) { }
 
         public override void OnStart()
         {

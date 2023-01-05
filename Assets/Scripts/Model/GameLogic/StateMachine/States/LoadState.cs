@@ -9,7 +9,7 @@ namespace Model.GameLogic
 {
     public class LoadState : AState
     {
-        private StateContext context;
+        private Game context;
         private LevelData levelData;
 
         private int matchCheckIterations = 3; //количество итераций проверки совпавших блоков
@@ -34,7 +34,7 @@ namespace Model.GameLogic
             Level level = new Level(levelData);
 
             //загрузка систем
-            context = new StateContext(level);
+            context = new Game(level);
             stateMachine.ChangeState(new WaitState(stateMachine,context));
 
             //спавн блоков

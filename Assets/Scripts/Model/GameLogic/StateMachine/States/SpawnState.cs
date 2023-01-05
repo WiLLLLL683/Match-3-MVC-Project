@@ -9,7 +9,7 @@ namespace Model.GameLogic
     {
         private int maxIterations = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine,_contex) { }
+        public SpawnState(GameStateMachine _stateMachine, Game _contex) : base(_stateMachine,_contex) { }
 
         public override void OnStart()
         {

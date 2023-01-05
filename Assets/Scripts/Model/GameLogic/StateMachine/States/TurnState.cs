@@ -12,7 +12,7 @@ namespace Model.GameLogic
         private Directions direction;
         //private Booster booster; //TODO booster
 
-        public TurnState(GameStateMachine _stateMachine, StateContext _context, Vector2Int _startPos, Directions _direction) : base(_stateMachine,_context)
+        public TurnState(GameStateMachine _stateMachine, Game _context, Vector2Int _startPos, Directions _direction) : base(_stateMachine,_context)
         {
             startPos = _startPos;
             direction = _direction;

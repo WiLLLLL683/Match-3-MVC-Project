@@ -7,7 +7,7 @@ namespace Model.GameLogic
     public class LoseState : ACoreGameState
     {
 
-        public LoseState(GameStateMachine _stateMachine, StateContext _contex) : base(_stateMachine, _contex)
+        public LoseState(GameStateMachine _stateMachine, Game _contex) : base(_stateMachine, _contex)
         {
 
         }
