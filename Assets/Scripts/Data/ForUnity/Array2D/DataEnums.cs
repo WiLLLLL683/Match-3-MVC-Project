@@ -1,8 +1,7 @@
 ﻿using System;
 using Array2DEditor;
-using Model.GameLogic;
 using Model.Objects;
-
+using Model.Systems;
 
 namespace Array2DEditor
 {

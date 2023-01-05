@@ -1,7 +1,7 @@
 ﻿using Model.Objects;
 using System;
 
-namespace Model.GameLogic
+namespace Model.Systems
 {
     public class Turn : ICounterTarget
     {
