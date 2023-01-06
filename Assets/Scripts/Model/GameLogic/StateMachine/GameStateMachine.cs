@@ -8,15 +8,15 @@ namespace Model.GameLogic
     public class GameStateMachine
     {
         public EventDispatcher eventDispatcher { get; private set; }
-        public AState previousState { get; private set; }
-        public AState currentState { get; private set; }
+        public IState previousState { get; private set; }
+        public IState currentState { get; private set; }
 
         public GameStateMachine(EventDispatcher _eventDispatcher)
         {
             eventDispatcher = _eventDispatcher;
         }
 
-        public void ChangeState(AState _state)
+        public void ChangeState(IState _state)
         {
             if (currentState != null)
             {

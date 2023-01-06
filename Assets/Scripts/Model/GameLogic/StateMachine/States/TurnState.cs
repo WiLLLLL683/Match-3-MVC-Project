@@ -6,22 +6,31 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class TurnState : ACoreGameState
+    public class TurnState : IState
     {
+        private Game game;
+        private GameStateMachine stateMachine;
+        private MoveSystem moveSystem;
+        private MatchSystem matchSystem;
+        private Level level;
+
         private Vector2Int startPos;
         private Directions direction;
         //private Booster booster; //TODO booster
 
-        public TurnState(GameStateMachine _stateMachine, Game _context, Vector2Int _startPos, Directions _direction) : base(_stateMachine,_context)
+        public TurnState(Game _game, Vector2Int _startPos, Directions _direction)
         {
+            game = _game;
+            stateMachine = game.StateMachine;
+            moveSystem = game.MoveSystem;
+            matchSystem = game.MatchSystem;
+            level = game.Level;
             startPos = _startPos;
             direction = _direction;
         }
 
-        public override void OnStart()
+        public void OnStart()
         {
-            base.OnStart();
-
             if (direction == Directions.Zero)
             {
                 PressBlock();
@@ -32,19 +41,24 @@ namespace Model.GameLogic
             }
         }
 
+        public void OnEnd()
+        {
+
+        }
+
         private void MoveBlock()
         {
             //попытка хода
-            IAction swapAction = context.MoveSystem.Move(startPos, direction);
+            IAction swapAction = moveSystem.Move(startPos, direction);
             swapAction.Execute();
 
             //проверка на результативность хода
-            List<Cell> matches = context.MatchSystem.FindMatches();
+            List<Cell> matches = matchSystem.FindMatches();
             if (matches.Count > 0)
             {
                 for (int i = 0; i < matches.Count; i++)
                 {
-                    context.Level.UpdateGoals(matches[i].block.type);
+                    level.UpdateGoals(matches[i].block.type);
                     matches[i].DestroyBlock();
                 }
                 SucsessfullTurn();
@@ -58,7 +72,7 @@ namespace Model.GameLogic
 
         private void PressBlock()
         {
-            bool turnSucsess = context.Level.gameBoard.cells[startPos.x, startPos.y].block.Activate();
+            bool turnSucsess = level.gameBoard.cells[startPos.x, startPos.y].block.Activate();
 
             if (turnSucsess)
             {
@@ -74,7 +88,7 @@ namespace Model.GameLogic
         {
             //TODO засчитать ход в логгер
             //TODO обновить счетчики
-            stateMachine.ChangeState(new SpawnState(stateMachine,context));
+            stateMachine.ChangeState(new SpawnState(game));
         }
     }
 }

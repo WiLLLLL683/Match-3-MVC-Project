@@ -4,21 +4,16 @@ using UnityEngine;
 
 namespace Model.GameLogic.Tests
 {
-    public class TestState : AState
+    public class TestState : IState
     {
-        public TestState(GameStateMachine _stateMachine) : base(_stateMachine)
+        public void OnStart()
         {
 
         }
 
-        public override void OnStart()
+        public void OnEnd()
         {
-            base.OnStart();
-        }
 
-        public override void OnEnd()
-        {
-            base.OnEnd();
         }
     }
 }

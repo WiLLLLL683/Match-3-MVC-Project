@@ -13,7 +13,7 @@ namespace Model.GameLogic.Tests
         {
             EventDispatcher eventDispatcher = new EventDispatcher();
             GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
-            AState newState = new TestState(stateMachine);
+            IState newState = new TestState();
 
             stateMachine.ChangeState(newState);
 
@@ -25,8 +25,8 @@ namespace Model.GameLogic.Tests
         {
             EventDispatcher eventDispatcher = new EventDispatcher();
             GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
-            AState prevState = new TestState(stateMachine);
-            AState newState = new TestState2(stateMachine);
+            IState prevState = new TestState();
+            IState newState = new TestState2();
 
             stateMachine.ChangeState(prevState);
             stateMachine.ChangeState(newState);
@@ -40,7 +40,7 @@ namespace Model.GameLogic.Tests
         {
             EventDispatcher eventDispatcher = new EventDispatcher();
             GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
-            AState newState = new TestState(stateMachine);
+            IState newState = new TestState();
 
             stateMachine.ChangeState(newState);
             stateMachine.PrevoiusState();
@@ -53,8 +53,8 @@ namespace Model.GameLogic.Tests
         {
             EventDispatcher eventDispatcher = new EventDispatcher();
             GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
-            AState prevState = new TestState(stateMachine);
-            AState newState = new TestState2(stateMachine);
+            IState prevState = new TestState();
+            IState newState = new TestState2();
 
             stateMachine.ChangeState(prevState);
             stateMachine.ChangeState(newState);

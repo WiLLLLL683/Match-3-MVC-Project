@@ -4,21 +4,16 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class ExitState : AState
+    public class ExitState : IState
     {
-        public ExitState(GameStateMachine _stateMachine) : base(_stateMachine)
+        public void OnStart()
         {
 
         }
 
-        public override void OnStart()
+        public void OnEnd()
         {
-            base.OnStart();
-        }
 
-        public override void OnEnd()
-        {
-            base.OnEnd();
         }
     }
 }
