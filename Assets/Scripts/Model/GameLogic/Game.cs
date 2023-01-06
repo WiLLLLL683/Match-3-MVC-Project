@@ -38,13 +38,13 @@ namespace Model.GameLogic
         public void StartMetaGame()
         {
             //запуск мета-игры
-            StateMachine.ChangeState(new MetaState());
+            StateMachine.ChangeState(new MetaGameState());
         }
 
         public void StartCoreGame(LevelData levelData)
         {
             //запуск кор-игры
-            StateMachine.ChangeState(new LoadCoreGameState(this, levelData));
+            StateMachine.ChangeState(new LoadLevelState(this, levelData));
         }
     }
 }

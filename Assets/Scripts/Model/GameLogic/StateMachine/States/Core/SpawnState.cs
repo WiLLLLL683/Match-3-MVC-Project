@@ -20,11 +20,11 @@ namespace Model.GameLogic
         public SpawnState(Game _game)
         {
             game = _game;
-            stateMachine = game.StateMachine;
-            gravitySystem = game.GravitySystem;
-            matchSystem = game.MatchSystem;
-            spawnSystem = game.SpawnSystem;
-            level = game.Level;
+            stateMachine = _game.StateMachine;
+            gravitySystem = _game.GravitySystem;
+            matchSystem = _game.MatchSystem;
+            spawnSystem = _game.SpawnSystem;
+            level = _game.Level;
         }
 
         public void OnStart()

@@ -1,4 +1,5 @@
-﻿using Model.GameLogic;
+﻿using Controller;
+using Model.GameLogic;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -15,5 +16,10 @@ public class Bootstrap : MonoBehaviour
     {
         game = new();
         game.StartMetaGame();
+
+        gameBoardController.Init(game);
+        boosterController.Init(game);
+        hudAdapter.Init(game);
+        levelSelectionController.Init(game);
     }
 }

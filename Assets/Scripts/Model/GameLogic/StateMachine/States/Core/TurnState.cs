@@ -21,10 +21,10 @@ namespace Model.GameLogic
         public TurnState(Game _game, Vector2Int _startPos, Directions _direction)
         {
             game = _game;
-            stateMachine = game.StateMachine;
-            moveSystem = game.MoveSystem;
-            matchSystem = game.MatchSystem;
-            level = game.Level;
+            stateMachine = _game.StateMachine;
+            moveSystem = _game.MoveSystem;
+            matchSystem = _game.MatchSystem;
+            level = _game.Level;
             startPos = _startPos;
             direction = _direction;
         }

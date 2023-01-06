@@ -17,9 +17,9 @@ namespace Model.GameLogic
         public WaitState(Game _game)
         {
             game = _game;
-            level = game.Level;
-            matchSystem = game.MatchSystem;
-            stateMachine = game.StateMachine;
+            level = _game.Level;
+            matchSystem = _game.MatchSystem;
+            stateMachine = _game.StateMachine;
         }
 
         public void OnStart()

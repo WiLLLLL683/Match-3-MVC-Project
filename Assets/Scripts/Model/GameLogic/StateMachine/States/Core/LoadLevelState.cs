@@ -7,19 +7,24 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class LoadCoreGameState : IState
+    public class LoadLevelState : IState
     {
         private Game game;
         private GameStateMachine stateMachine;
+        private EventDispatcher eventDispatcher;
+        private MatchSystem matchSystem;
+
         private LevelData levelData;
         private Level level;
 
-        private int MATCH_CHECK_ITERATIONS = 3; //количество итераций проверки совпавших блоков
+        private const int MATCH_CHECK_ITERATIONS = 3; //количество итераций проверки совпавших блоков
 
-        public LoadCoreGameState(Game _game, LevelData _levelData)
+        public LoadLevelState(Game _game, LevelData _levelData)
         {
             game = _game;
-            stateMachine = game.StateMachine;
+            stateMachine = _game.StateMachine;
+            eventDispatcher = _game.EventDispatcher;
+            matchSystem = _game.MatchSystem;
             levelData = _levelData;
         }
 
@@ -28,33 +33,29 @@ namespace Model.GameLogic
             if (!levelData.ValidCheck())
             {
                 Debug.LogError("Invalid LevelData");
-                stateMachine.ChangeState(new MetaState());
+                stateMachine.ChangeState(new MetaGameState());
                 return;
             }
 
-            level = new Level(levelData);
-
-            game.SetLevel(level);
-            stateMachine.eventDispatcher.SubscribeOnLevel(game.Level);
-
+            LoadLevel();
             SpawnBlocks();
             SwapMatchedBlocks();
 
             stateMachine.ChangeState(new WaitState(game));
         }
 
-        private void SwapMatchedBlocks()
+        public void OnEnd()
         {
-            //замена совпавших блоков
-            for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
-            {
-                List<Cell> matches = game.MatchSystem.FindMatches();
-                for (int j = 0; j < matches.Count; j++)
-                {
-                    matches[j].DestroyBlock();
-                    SpawnRandomBlock(level, matches[j]);
-                }
-            }
+
+        }
+
+
+
+        private void LoadLevel()
+        {
+            level = new Level(levelData);
+            game.SetLevel(level);
+            eventDispatcher.SubscribeOnLevel(level);
         }
 
         private void SpawnBlocks()
@@ -68,9 +69,17 @@ namespace Model.GameLogic
             }
         }
 
-        public void OnEnd()
+        private void SwapMatchedBlocks()
         {
-
+            for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
+            {
+                List<Cell> matches = matchSystem.FindMatches();
+                for (int j = 0; j < matches.Count; j++)
+                {
+                    matches[j].DestroyBlock();
+                    SpawnRandomBlock(level, matches[j]);
+                }
+            }
         }
 
         private static void SpawnRandomBlock(Level _level, Cell _cell)

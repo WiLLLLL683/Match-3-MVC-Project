@@ -1,8 +1,30 @@
-﻿using System;
+﻿using Data;
+using Model.GameLogic;
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class LevelSelectionController : MonoBehaviour
+namespace Controller
 {
+    public class LevelSelectionController : MonoBehaviour
+    {
+        private Game game;
+        private LevelData[] allLevels;
+        private LevelData selectedLevel;
 
+        public void Init(Game _game)
+        {
+            game = _game;
+        }
+
+        public void SelectPreviousLevel()
+        {
+            //TODO
+        }
+        public void SelectNextLevel()
+        {
+            //TODO
+        }
+        public void StartSelectedLevel() => game.StartCoreGame(selectedLevel);
+    }
 }
