@@ -15,13 +15,15 @@ namespace Model.GameLogic
         public MatchSystem MatchSystem { get; private set; }
         public GravitySystem GravitySystem { get; private set; }
         public MoveSystem MoveSystem { get; private set; }
-        public Inventory Inventory { get; private set; }
+        public CurrencyInventory CurrencyInventory { get; private set; }
+        public BoosterInventory BoosterInventory { get; private set; }
         public GameStateMachine StateMachine { get; private set; }
         public EventDispatcher EventDispatcher { get; private set; }
 
         public Game()
         {
-            Inventory = new Inventory();
+            CurrencyInventory = new CurrencyInventory();
+            BoosterInventory = new BoosterInventory();
             EventDispatcher = new EventDispatcher();
             StateMachine = new GameStateMachine(EventDispatcher);
         }
