@@ -4,21 +4,16 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class BonusState : AState
+    public class BonusState : IState
     {
-        public BonusState(GameStateMachine _stateMachine) : base(_stateMachine)
+        public void OnStart()
         {
 
         }
 
-        public override void OnStart()
+        public void OnEnd()
         {
-            base.OnStart();
-        }
 
-        public override void OnEnd()
-        {
-            base.OnEnd();
         }
     }
 }

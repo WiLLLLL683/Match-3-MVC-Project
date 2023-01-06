@@ -1,24 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Model.GameLogic
 {
-    public class MetaState : AState
+    public class MetaState : IState
     {
-        public MetaState(GameStateMachine _stateMachine) : base(_stateMachine)
-        {
+        private const string META_SCENE_NAME = "Meta";
 
+        public void OnStart()
+        {
+            SceneManager.LoadScene(META_SCENE_NAME);
         }
 
-        public override void OnStart()
+        public void OnEnd()
         {
-            base.OnStart();
-        }
 
-        public override void OnEnd()
-        {
-            base.OnEnd();
         }
     }
 }

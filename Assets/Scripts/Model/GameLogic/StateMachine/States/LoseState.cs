@@ -4,22 +4,16 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class LoseState : ACoreGameState
+    public class LoseState : IState
     {
-
-        public LoseState(GameStateMachine _stateMachine, Game _contex) : base(_stateMachine, _contex)
+        public void OnStart()
         {
 
         }
 
-        public override void OnStart()
+        public void OnEnd()
         {
-            base.OnStart();
-        }
 
-        public override void OnEnd()
-        {
-            base.OnEnd();
         }
     }
 }

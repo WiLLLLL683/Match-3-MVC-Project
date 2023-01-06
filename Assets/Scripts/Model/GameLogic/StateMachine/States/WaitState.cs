@@ -1,40 +1,47 @@
 ﻿using Model.Objects;
+using Model.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class WaitState : ACoreGameState
+    public class WaitState : IState
     {
-        public List<Cell> hintCells;
+        private Game game;
+        private GameStateMachine stateMachine;
+        private MatchSystem matchSystem;
+        private Level level;
+        private List<Cell> hintCells;
 
-        public WaitState(GameStateMachine _stateMachine, Game _contex) : base(_stateMachine, _contex) { }
-
-        public override void OnStart()
+        public WaitState(Game _game)
         {
-            base.OnStart();
+            game = _game;
+            level = game.Level;
+            matchSystem = game.MatchSystem;
+            stateMachine = game.StateMachine;
+        }
 
+        public void OnStart()
+        {
             //проверка на проигрыш
-            if (context.Level.CheckLose())
-                stateMachine.ChangeState(new LoseState(stateMachine,context));
+            if (level.CheckLose())
+                stateMachine.ChangeState(new LoseState());
 
             //проверка на выигрыш
-            if (context.Level.CheckWin())
-                stateMachine.ChangeState(new WinState(stateMachine,context));
+            if (level.CheckWin())
+                stateMachine.ChangeState(new WinState());
 
             //подписка на ивенты инпута
             stateMachine.eventDispatcher.OnInputMove += OnInputMove;
             stateMachine.eventDispatcher.OnInputBooster += OnInputBooster;
 
             //поиск блоков для подсказки
-            hintCells = context.MatchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
+            hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
         }
 
-        public override void OnEnd()
+        public void OnEnd()
         {
-            base.OnEnd();
-
             //отписка от ивента инпута
             stateMachine.eventDispatcher.OnInputMove -= OnInputMove;
             stateMachine.eventDispatcher.OnInputBooster -= OnInputBooster;
@@ -42,7 +49,7 @@ namespace Model.GameLogic
 
         private void OnInputMove(Vector2Int _startPos, Directions _direction)
         {
-            stateMachine.ChangeState(new TurnState(stateMachine, context, _startPos, _direction));
+            stateMachine.ChangeState(new TurnState(game, _startPos, _direction));
         }
 
         private void OnInputBooster()

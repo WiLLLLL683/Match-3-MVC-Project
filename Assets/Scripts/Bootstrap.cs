@@ -6,6 +6,10 @@ using UnityEngine;
 public class Bootstrap : MonoBehaviour
 {
     private Game game;
+    [SerializeField] private GameBoardController gameBoardController;
+    [SerializeField] private BoosterController boosterController;
+    [SerializeField] private HudAdapter hudAdapter;
+    [SerializeField] private LevelSelectionController levelSelectionController;
 
     private void Start()
     {

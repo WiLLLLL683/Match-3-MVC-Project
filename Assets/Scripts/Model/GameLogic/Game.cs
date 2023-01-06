@@ -1,6 +1,7 @@
 using Data;
 using Model.Objects;
 using Model.Systems;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,26 +21,30 @@ namespace Model.GameLogic
 
         public Game()
         {
-            //Level = _level;
-            SpawnSystem = new SpawnSystem(Level);
-            MatchSystem = new MatchSystem(Level);
-            GravitySystem = new GravitySystem(Level.gameBoard);
-            MoveSystem = new MoveSystem(Level.gameBoard);
             Inventory = new Inventory();
             EventDispatcher = new EventDispatcher();
             StateMachine = new GameStateMachine(EventDispatcher);
         }
 
+        public void SetLevel(Level _level)
+        {
+            Level = _level;
+            SpawnSystem = new SpawnSystem(Level);
+            MatchSystem = new MatchSystem(Level);
+            GravitySystem = new GravitySystem(Level.gameBoard);
+            MoveSystem = new MoveSystem(Level.gameBoard);
+        }
+
         public void StartMetaGame()
         {
             //запуск мета-игры
-            StateMachine.ChangeState(new MetaState(StateMachine));
+            StateMachine.ChangeState(new MetaState());
         }
 
         public void StartCoreGame(LevelData levelData)
         {
             //запуск кор-игры
-            StateMachine.ChangeState(new LoadState(StateMachine, levelData));
+            StateMachine.ChangeState(new LoadCoreGameState(this, levelData));
         }
     }
 }
