@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Model.GameLogic
 {
-    public class MetaState : IState
+    public class MetaGameState : IState
     {
         private const string META_SCENE_NAME = "Meta";
 
