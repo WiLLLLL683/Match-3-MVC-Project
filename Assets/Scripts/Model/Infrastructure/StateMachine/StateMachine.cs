@@ -5,16 +5,16 @@ using UnityEngine;
 
 namespace Model.GameLogic
 {
-    public class GameStateMachine
+    public class StateMachine
     {
-        public EventDispatcher eventDispatcher { get; private set; }
+        //public EventDispatcher eventDispatcher { get; private set; }
         public IState previousState { get; private set; }
         public IState currentState { get; private set; }
 
-        public GameStateMachine(EventDispatcher _eventDispatcher)
-        {
-            eventDispatcher = _eventDispatcher;
-        }
+        //public StateMachine(EventDispatcher _eventDispatcher)
+        //{
+        //    eventDispatcher = _eventDispatcher;
+        //}
 
         public void ChangeState(IState _state)
         {

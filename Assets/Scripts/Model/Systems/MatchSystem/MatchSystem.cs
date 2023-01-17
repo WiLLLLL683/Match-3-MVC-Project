@@ -8,7 +8,7 @@ namespace Model.Systems
     /// <summary>
     /// Система поиска одинаковых блоков выстроенных по паттернам
     /// </summary>
-    public class MatchSystem
+    public class MatchSystem : IMatchSystem
     {
         private Level level;
 
@@ -58,7 +58,7 @@ namespace Model.Systems
             {
                 for (int y = 0; y < level.gameBoard.cells.GetLength(1); y++)
                 {
-                    List<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x,y));
+                    List<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
                     matchedCells.AddRange(cellsAtPos);
                 }
             }

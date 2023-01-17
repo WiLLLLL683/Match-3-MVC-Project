@@ -8,7 +8,7 @@ namespace Model.Systems
     /// <summary>
     /// Система для перемещения блоков вниз, если клетка внизу пуста
     /// </summary>
-    public class GravitySystem
+    public class GravitySystem : IGravitySystem
     {
         private GameBoard gameBoard;
 
@@ -23,7 +23,7 @@ namespace Model.Systems
             {
                 for (int y = gameBoard.cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
                 {
-                    TryMoveBlockDown(x,y);
+                    TryMoveBlockDown(x, y);
                 }
             }
         }
@@ -31,7 +31,7 @@ namespace Model.Systems
         private void TryMoveBlockDown(int x, int y)
         {
             int lowestY = y;
-            for (int i = gameBoard.cells.GetLength(1)-1; i > y; i--)
+            for (int i = gameBoard.cells.GetLength(1) - 1; i > y; i--)
             {
                 if (gameBoard.cells[x, i].isEmpty)
                 {

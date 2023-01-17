@@ -8,7 +8,7 @@ namespace Model.GameLogic
     public class LoadGameState : IState
     {
         private Game game;
-        private GameStateMachine stateMachine;
+        private StateMachine stateMachine;
 
         public LoadGameState(Game _game)
         {

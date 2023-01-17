@@ -10,9 +10,9 @@ namespace Model.GameLogic
     public class LoadLevelState : IState
     {
         private Game game;
-        private GameStateMachine stateMachine;
+        private StateMachine stateMachine;
         private EventDispatcher eventDispatcher;
-        private MatchSystem matchSystem;
+        private IMatchSystem matchSystem;
 
         private LevelData levelData;
         private Level level;
@@ -24,7 +24,7 @@ namespace Model.GameLogic
             game = _game;
             stateMachine = _game.StateMachine;
             eventDispatcher = _game.EventDispatcher;
-            matchSystem = _game.MatchSystem;
+            matchSystem = _game.Systems.MatchSystem;
             levelData = _levelData;
         }
 
