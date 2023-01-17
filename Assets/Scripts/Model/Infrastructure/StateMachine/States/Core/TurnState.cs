@@ -9,10 +9,10 @@ namespace Model.GameLogic
     public class TurnState : IState
     {
         private Game game;
-        private GameStateMachine stateMachine;
-        private MoveSystem moveSystem;
-        private MatchSystem matchSystem;
         private Level level;
+        private StateMachine stateMachine;
+        private IMoveSystem moveSystem;
+        private IMatchSystem matchSystem;
 
         private Vector2Int startPos;
         private Directions direction;
@@ -22,8 +22,8 @@ namespace Model.GameLogic
         {
             game = _game;
             stateMachine = _game.StateMachine;
-            moveSystem = _game.MoveSystem;
-            matchSystem = _game.MatchSystem;
+            moveSystem = _game.Systems.MoveSystem;
+            matchSystem = _game.Systems.MatchSystem;
             level = _game.Level;
             startPos = _startPos;
             direction = _direction;

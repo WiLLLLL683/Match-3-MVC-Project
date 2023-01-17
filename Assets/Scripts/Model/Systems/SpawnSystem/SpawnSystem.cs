@@ -8,7 +8,7 @@ namespace Model.Systems
     /// <summary>
     /// Система для спавна новых блоков - вверху уровня при нехватке блоков ниже, бонусных блоков по команде
     /// </summary>
-    public class SpawnSystem
+    public class SpawnSystem : ISpawnSystem
     {
         private Level level;
 
@@ -22,7 +22,7 @@ namespace Model.Systems
             for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
             {
                 ABlockType type = level.balance.GetRandomBlockType();
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.cells[x,0]);
+                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.cells[x, 0]);
                 spawnAction.Execute();
             }
         }

@@ -11,8 +11,7 @@ namespace Model.GameLogic.Tests
         [Test]
         public void ChangeState_NullToLoadState_CurrentStateLoadState()
         {
-            EventDispatcher eventDispatcher = new EventDispatcher();
-            GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
+            StateMachine stateMachine = new StateMachine();
             IState newState = new TestState();
 
             stateMachine.ChangeState(newState);
@@ -23,8 +22,7 @@ namespace Model.GameLogic.Tests
         [Test]
         public void ChangeState_LoadStateToWaitState_PreviousStateLoadState()
         {
-            EventDispatcher eventDispatcher = new EventDispatcher();
-            GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
+            StateMachine stateMachine = new StateMachine();
             IState prevState = new TestState();
             IState newState = new TestState2();
 
@@ -38,8 +36,7 @@ namespace Model.GameLogic.Tests
         [Test]
         public void PreviousState_NullToLoadStateToNull_CurrentStateLoadState()
         {
-            EventDispatcher eventDispatcher = new EventDispatcher();
-            GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
+            StateMachine stateMachine = new StateMachine();
             IState newState = new TestState();
 
             stateMachine.ChangeState(newState);
@@ -51,8 +48,7 @@ namespace Model.GameLogic.Tests
         [Test]
         public void PreviousState_LoadStateToWaitStateToLoadState_CurrentStateLoadState()
         {
-            EventDispatcher eventDispatcher = new EventDispatcher();
-            GameStateMachine stateMachine = new GameStateMachine(eventDispatcher);
+            StateMachine stateMachine = new StateMachine();
             IState prevState = new TestState();
             IState newState = new TestState2();
 

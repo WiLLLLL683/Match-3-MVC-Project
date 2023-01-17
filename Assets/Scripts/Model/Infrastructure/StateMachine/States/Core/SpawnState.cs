@@ -9,11 +9,11 @@ namespace Model.GameLogic
     public class SpawnState : IState
     {
         private Game game;
-        private GameStateMachine stateMachine;
-        private GravitySystem gravitySystem;
-        private MatchSystem matchSystem;
-        private SpawnSystem spawnSystem;
         private Level level;
+        private StateMachine stateMachine;
+        private IGravitySystem gravitySystem;
+        private IMatchSystem matchSystem;
+        private ISpawnSystem spawnSystem;
 
         private int maxIterations = 10; //максимальное количество итераций спавна/проверки до
 
@@ -21,9 +21,9 @@ namespace Model.GameLogic
         {
             game = _game;
             stateMachine = _game.StateMachine;
-            gravitySystem = _game.GravitySystem;
-            matchSystem = _game.MatchSystem;
-            spawnSystem = _game.SpawnSystem;
+            gravitySystem = _game.Systems.GravitySystem;
+            matchSystem = _game.Systems.MatchSystem;
+            spawnSystem = _game.Systems.SpawnSystem;
             level = _game.Level;
         }
 

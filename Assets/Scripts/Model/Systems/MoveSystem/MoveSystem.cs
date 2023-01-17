@@ -9,7 +9,7 @@ namespace Model.Systems
     /// <summary>
     /// Система смены соседних блоков местами
     /// </summary>
-    public class MoveSystem
+    public class MoveSystem : IMoveSystem
     {
         private GameBoard gameBoard;
         //private MatchSystem matchSystem; 
