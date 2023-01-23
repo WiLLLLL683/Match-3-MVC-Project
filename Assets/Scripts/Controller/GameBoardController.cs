@@ -1,4 +1,4 @@
-﻿using Model.GameLogic;
+﻿using Model.Infrastructure;
 using System;
 using System.Collections;
 using UnityEngine;

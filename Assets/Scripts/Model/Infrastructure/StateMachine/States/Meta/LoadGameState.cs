@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Model.GameLogic
+namespace Model.Infrastructure
 {
     public class LoadGameState : IState
     {
@@ -19,7 +19,7 @@ namespace Model.GameLogic
         public void OnStart()
         {
             //TODO загрузка сохранения
-            stateMachine.ChangeState(new MetaGameState());
+            stateMachine.SetState<MetaGameState>();
         }
 
         public void OnEnd()

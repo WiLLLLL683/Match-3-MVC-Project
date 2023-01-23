@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.GameLogic
+namespace Model.Infrastructure
 {
     public class LoadLevelState : IState
     {
@@ -33,7 +33,7 @@ namespace Model.GameLogic
             if (!levelData.ValidCheck())
             {
                 Debug.LogError("Invalid LevelData");
-                stateMachine.ChangeState(new MetaGameState());
+                stateMachine.SetState<MetaGameState>();
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace Model.GameLogic
             SpawnBlocks();
             SwapMatchedBlocks();
 
-            stateMachine.ChangeState(new WaitState(game));
+            stateMachine.SetState<WaitState>();
         }
 
         public void OnEnd()

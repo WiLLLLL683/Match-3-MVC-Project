@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.GameLogic.Tests
+namespace Model.Infrastructure.Tests
 {
     public class TestState : IState
     {
+        public string testString;
+
         public void OnStart()
         {
 

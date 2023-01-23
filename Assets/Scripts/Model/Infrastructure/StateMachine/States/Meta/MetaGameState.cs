@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Model.GameLogic
+namespace Model.Infrastructure
 {
     public class MetaGameState : IState
     {
