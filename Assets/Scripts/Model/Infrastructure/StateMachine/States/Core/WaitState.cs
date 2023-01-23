@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.GameLogic
+namespace Model.Infrastructure
 {
     public class WaitState : IState
     {
@@ -29,11 +29,11 @@ namespace Model.GameLogic
         {
             //проверка на проигрыш
             if (level.CheckLose())
-                stateMachine.ChangeState(new LoseState());
+                stateMachine.SetState<LoseState>();
 
             //проверка на выигрыш
             if (level.CheckWin())
-                stateMachine.ChangeState(new WinState());
+                stateMachine.SetState<WinState>();
 
             //подписка на ивенты инпута
             eventDispatcher.OnInputMove += OnInputMove;
@@ -52,7 +52,7 @@ namespace Model.GameLogic
 
         private void OnInputMove(Vector2Int _startPos, Directions _direction)
         {
-            stateMachine.ChangeState(new TurnState(game, _startPos, _direction));
+            stateMachine.SetState<TurnState>();
         }
 
         private void OnInputBooster()

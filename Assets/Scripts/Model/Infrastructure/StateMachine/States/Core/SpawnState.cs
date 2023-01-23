@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.GameLogic
+namespace Model.Infrastructure
 {
     public class SpawnState : IState
     {
@@ -51,7 +51,7 @@ namespace Model.GameLogic
 
             }
 
-            stateMachine.ChangeState(new WaitState(game));
+            stateMachine.SetState<WaitState>();
         }
 
         public void OnEnd()

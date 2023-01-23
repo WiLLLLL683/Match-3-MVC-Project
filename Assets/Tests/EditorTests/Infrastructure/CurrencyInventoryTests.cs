@@ -7,7 +7,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Model.GameLogic.Tests
+namespace Model.Infrastructure.Tests
 {
     public class CurrencyInventoryTests
     {

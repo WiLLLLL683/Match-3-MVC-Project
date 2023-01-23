@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.GameLogic
+namespace Model.Infrastructure
 {
     public class TurnState : IState
     {
@@ -66,7 +66,7 @@ namespace Model.GameLogic
             else
             {
                 swapAction.Undo();
-                stateMachine.PrevoiusState();
+                stateMachine.SetPrevoiusState();
             }
         }
 
@@ -80,7 +80,7 @@ namespace Model.GameLogic
             }
             else
             {
-                stateMachine.PrevoiusState();
+                stateMachine.SetPrevoiusState();
             }
         }
 
@@ -88,7 +88,7 @@ namespace Model.GameLogic
         {
             //TODO засчитать ход в логгер
             //TODO обновить счетчики
-            stateMachine.ChangeState(new SpawnState(game));
+            stateMachine.SetState<SpawnState>();
         }
     }
 }
