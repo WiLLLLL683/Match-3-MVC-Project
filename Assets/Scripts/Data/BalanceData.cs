@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Data
 {
     [System.Serializable]
-    public struct BalanceData
+    public class BalanceData
     {
         internal bool ValidCheck()
         {

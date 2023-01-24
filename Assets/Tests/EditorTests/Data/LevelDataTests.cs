@@ -11,9 +11,9 @@ namespace Data.Tests
     public class LevelDataTests
     {
         LevelData validLevel = new LevelData(
-            new GameBoardData() { cellTypes = new BasicCellType[1, 1] },
-            new CounterData[1] { new CounterData() { target = new BlueBlockType(), count = 1 } },
-            new CounterData[1] { new CounterData() { target = new BlueBlockType(), count = 1 } },
+            new GameBoardData(1,1) { cellTypes = new BasicCellType[1, 1] },
+            new CounterData[1] { new CounterData(new BlueBlockType(), 1 )},
+            new CounterData[1] { new CounterData(new BlueBlockType(), 1) },
             new BalanceData());
 
         [Test]

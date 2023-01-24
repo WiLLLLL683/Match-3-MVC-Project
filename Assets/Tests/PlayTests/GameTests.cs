@@ -74,14 +74,14 @@ namespace Model.Infrastructure.FunctionalTests
         [Test]
         public void LoadGame_ExistedSaveData_SaveDataLoaded()
         {
-            Assert.Fail();
+            Assert.Fail("Temporally not implemented");
             //TODO система сохранения
         }
 
         [Test]
         public void LoadGame_NoSaveData_NewSaveData()
         {
-            Assert.Fail();
+            Assert.Fail("Temporally not implemented");
             //TODO система сохранения
         }
 
@@ -99,7 +99,13 @@ namespace Model.Infrastructure.FunctionalTests
         public void StartCoreGame_ValidLevelData_WaitStateLoaded()
         {
             Game game = new();
-            LevelData levelData = new(new GameBoardData(), new CounterData[1], new CounterData[1], new BalanceData());
+            LevelData levelData = new
+                (
+                    new GameBoardData(1,1), 
+                    new CounterData[1] { new CounterData(new BasicBlockType(), 1)}, 
+                    new CounterData[1] { new CounterData(new Turn(), 1) }, 
+                    new BalanceData()
+                );
 
             game.StartCoreGame(levelData);
 
@@ -110,7 +116,7 @@ namespace Model.Infrastructure.FunctionalTests
         public void StartCoreGame_InValidLevelData_ReturnToMetaGameState()
         {
             Game game = new();
-            LevelData levelData = default;
+            LevelData levelData = null;
 
             game.StartCoreGame(levelData);
 

@@ -5,11 +5,17 @@ using UnityEngine;
 namespace Data
 {
     [Serializable]
-    public struct CounterData
+    public class CounterData
     {
         [SerializeReference]
         public ICounterTarget target;
         public int count;
+
+        public CounterData(ICounterTarget _target, int _count)
+        {
+            target = _target;
+            count = _count;
+        }
 
         internal bool ValidCheck()
         {
