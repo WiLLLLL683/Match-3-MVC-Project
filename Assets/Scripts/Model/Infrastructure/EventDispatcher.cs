@@ -10,7 +10,7 @@ namespace Model
     public delegate void CellDelegate(Cell sender, EventArgs eventArgs);
     public delegate void GoalDelegate(Counter sender, EventArgs eventArgs);
     public delegate void InputMoveDelegate(Vector2Int _startPos, Directions _direction);
-    public delegate void InputBoosterDelegate(); //TODO организовать инпут бустера
+    public delegate void InputBoosterDelegate(IBooster booster);
 
     public class EventDispatcher
     {

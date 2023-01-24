@@ -15,7 +15,7 @@ public class AllSystems
     {
         SpawnSystem = new SpawnSystem(_level);
         MatchSystem = new MatchSystem(_level);
-        GravitySystem = new GravitySystem(_level.gameBoard);
-        MoveSystem = new MoveSystem(_level.gameBoard);
+        GravitySystem = new GravitySystem(_level);
+        MoveSystem = new MoveSystem(_level);
     }
 }

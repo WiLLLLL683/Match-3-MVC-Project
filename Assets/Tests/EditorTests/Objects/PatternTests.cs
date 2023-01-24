@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Model.Objects.Tests
+namespace Model.Objects.UnitTests
 {
     public class PatternTests
     {

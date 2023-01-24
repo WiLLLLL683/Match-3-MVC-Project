@@ -41,15 +41,15 @@ namespace Model.Infrastructure
 
             ChangeState(previousState);
         }
-        public IState GetState<T>() where T : IState
+        public T GetState<T>() where T : IState
         {
             if (!states.ContainsKey(typeof(T)))
             {
                 Debug.LogError("Can't get state: " + typeof(T) + " - StateMachine doesn't contain this state");
-                return null;
+                return default;
             }
 
-            return states[typeof(T)];
+            return (T)states[typeof(T)];
         }
         public void AddState(IState _state)
         {

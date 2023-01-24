@@ -10,18 +10,18 @@ namespace Model.Systems
     /// </summary>
     public class GravitySystem : IGravitySystem
     {
-        private GameBoard gameBoard;
+        private Level level;
 
-        public GravitySystem(GameBoard _gameBoard)
+        public GravitySystem(Level _level)
         {
-            gameBoard = _gameBoard;
+            level = _level;
         }
 
         public void Execute()
         {
-            for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
+            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
             {
-                for (int y = gameBoard.cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
+                for (int y = level.gameBoard.cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
                 {
                     TryMoveBlockDown(x, y);
                 }
@@ -31,9 +31,9 @@ namespace Model.Systems
         private void TryMoveBlockDown(int x, int y)
         {
             int lowestY = y;
-            for (int i = gameBoard.cells.GetLength(1) - 1; i > y; i--)
+            for (int i = level.gameBoard.cells.GetLength(1) - 1; i > y; i--)
             {
-                if (gameBoard.cells[x, i].isEmpty)
+                if (level.gameBoard.cells[x, i].isEmpty)
                 {
                     lowestY = i;
                     break;
@@ -46,9 +46,14 @@ namespace Model.Systems
             }
             else
             {
-                SwapBlocksAction action = new SwapBlocksAction(gameBoard.cells[x, y], gameBoard.cells[x, lowestY]);
+                SwapBlocksAction action = new SwapBlocksAction(level.gameBoard.cells[x, y], level.gameBoard.cells[x, lowestY]);
                 action.Execute();
             }
         }
+
+        /// <summary>
+        /// for tests only
+        /// </summary>
+        public Level GetLevel() => level;
     }
 }

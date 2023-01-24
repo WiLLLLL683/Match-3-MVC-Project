@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using System;
 
-namespace Model.Objects.Tests
+namespace Model.Objects.UnitTests
 {
     public class BlockTests
     {

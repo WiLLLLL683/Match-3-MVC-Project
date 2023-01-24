@@ -24,11 +24,12 @@ namespace Model.Infrastructure
             gravitySystem = _game.Systems.GravitySystem;
             matchSystem = _game.Systems.MatchSystem;
             spawnSystem = _game.Systems.SpawnSystem;
-            level = _game.Level;
         }
 
         public void OnStart()
         {
+            level = game.Level;
+
             for (int i = 0; i < maxIterations; i++)
             {
                 //гравитация

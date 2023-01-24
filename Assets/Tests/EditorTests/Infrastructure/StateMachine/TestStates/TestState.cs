@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Model.Objects;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.Infrastructure.Tests
+namespace Model.Infrastructure.UnitTests
 {
     public class TestState : IState
     {
