@@ -23,32 +23,43 @@ namespace Model.Infrastructure
             BoosterInventory = new BoosterInventory();
             EventDispatcher = new EventDispatcher();
             Systems = new AllSystems();
-            StateMachine = new StateMachine(
-                new Dictionary<Type, IState>
-                {
-                    [typeof(LoadGameState)] = new LoadGameState(this),
-                    [typeof(MetaGameState)] = new MetaGameState(),
-                    [typeof(BonusState)] = new BonusState(),
-                    [typeof(ExitState)] = new ExitState(),
-                    [typeof(HintState)] = new HintState(),
-                    [typeof(MetaGameState)] = new MetaGameState(),
-                    [typeof(LoadLevelState)] = new LoadLevelState(this, new LevelData()), //TODO нужно прокидывать нужный уровень в момент загрузки кор-игры
-                    [typeof(LoseState)] = new LoseState(),
-                    [typeof(SpawnState)] = new SpawnState(this),
-                    [typeof(TurnState)] = new TurnState(this, new Vector2Int(), Directions.Up), //TODO нужно прокидывать инпут в момент хода
-                    [typeof(WaitState)] = new WaitState(this),
-                    [typeof(WinState)] = new WinState()
-                });
+            Systems.UpdateSystems(null);
+
+            StateMachine = new StateMachine();
+            StateMachine.AddState(new LoadGameState(this));
+            StateMachine.AddState(new MetaGameState());
+            StateMachine.AddState(new LoadLevelState(this));
+            StateMachine.AddState(new WaitState(this)); //TODO нужна ссылка на инпут/контроллер, для подписки на события
+            StateMachine.AddState(new TurnState(this));
+            StateMachine.AddState(new BoosterState(this));
+            StateMachine.AddState(new SpawnState(this));
+            StateMachine.AddState(new HintState());
+            StateMachine.AddState(new LoseState());
+            StateMachine.AddState(new WinState());
+            StateMachine.AddState(new BonusState());
+            StateMachine.AddState(new ExitState());
         }
 
         public void SetLevel(Level _level)
         {
-            Level = _level;
-            Systems.UpdateSystems(_level);
+            if (_level != null)
+            {
+                Level = _level;
+            }
+            else
+            {
+                Debug.LogWarning("Invalid Level");
+                StartMetaGame();
+            }
         }
 
+        public void LoadGame() => StateMachine.SetState<LoadGameState>();
         public void StartMetaGame() => StateMachine.SetState<MetaGameState>();
 
-        public void StartCoreGame(LevelData levelData) => StateMachine.SetState<LoadLevelState>();//new LoadLevelState(this, levelData));
+        public void StartCoreGame(LevelData levelData)
+        {
+            StateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
+            StateMachine.SetState<LoadLevelState>();
+        }
     }
 }

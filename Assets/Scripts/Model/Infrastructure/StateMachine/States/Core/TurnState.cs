@@ -16,21 +16,25 @@ namespace Model.Infrastructure
 
         private Vector2Int startPos;
         private Directions direction;
-        //private Booster booster; //TODO booster
 
-        public TurnState(Game _game, Vector2Int _startPos, Directions _direction)
+        public TurnState(Game _game)
         {
             game = _game;
             stateMachine = _game.StateMachine;
             moveSystem = _game.Systems.MoveSystem;
             matchSystem = _game.Systems.MatchSystem;
-            level = _game.Level;
+        }
+
+        public void SetInput(Vector2Int _startPos, Directions _direction)
+        {
             startPos = _startPos;
             direction = _direction;
         }
 
         public void OnStart()
         {
+            level = game.Level;
+
             if (direction == Directions.Zero)
             {
                 PressBlock();

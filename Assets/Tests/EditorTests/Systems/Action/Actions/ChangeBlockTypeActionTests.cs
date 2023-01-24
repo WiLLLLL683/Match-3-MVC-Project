@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
 
-namespace Model.Systems.Tests
+namespace Model.Systems.UnitTests
 {
     public class ChangeBlockTypeActionTests
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.Infrastructure.Tests
+namespace Model.Infrastructure.UnitTests
 {
     public class TestState2 : IState
     {

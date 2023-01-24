@@ -11,13 +11,11 @@ namespace Model.Systems
     /// </summary>
     public class MoveSystem : IMoveSystem
     {
-        private GameBoard gameBoard;
-        //private MatchSystem matchSystem; 
+        private Level level;
 
-        public MoveSystem(GameBoard _gameBoard) //, MatchSystem _matchSystem)
+        public MoveSystem(Level _level)
         {
-            gameBoard = _gameBoard;
-            //matchSystem = _matchSystem;
+            level = _level;
         }
 
         public SwapBlocksAction Move(Vector2Int _startPosition, Directions direction)
@@ -43,15 +41,21 @@ namespace Model.Systems
             }
 
             //проверка: начальная позиция вне поля?
-            if (!Helpers.CheckValidCellByPosition(gameBoard, _startPosition))
+            if (!Helpers.CheckValidCellByPosition(level.gameBoard, _startPosition))
                 return null;
 
             //проверка: конечная позиция вне поля?
-            if (!Helpers.CheckValidCellByPosition(gameBoard, targetPosition))
+            if (!Helpers.CheckValidCellByPosition(level.gameBoard, targetPosition))
                 return null;
 
             //возврат действия по смене блоков местами
-            return new SwapBlocksAction(gameBoard.cells[_startPosition.x, _startPosition.y], gameBoard.cells[targetPosition.x, targetPosition.y]);
+            return new SwapBlocksAction(level.gameBoard.cells[_startPosition.x, _startPosition.y], level.gameBoard.cells[targetPosition.x, targetPosition.y]);
         }
+
+
+        /// <summary>
+        /// for tests only
+        /// </summary>
+        public Level GetLevel() => level;
     }
 }

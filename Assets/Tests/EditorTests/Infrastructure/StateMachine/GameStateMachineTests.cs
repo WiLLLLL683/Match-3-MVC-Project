@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Model.Infrastructure.Tests
+namespace Model.Infrastructure.UnitTests
 {
     public class GameStateMachineTests
     {

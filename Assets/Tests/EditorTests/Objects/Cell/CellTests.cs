@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
 
-namespace Model.Objects.Tests
+namespace Model.Objects.UnitTests
 {
     public class CellTests
     {
