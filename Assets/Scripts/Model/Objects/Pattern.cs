@@ -6,8 +6,7 @@ using UnityEngine;
 
 namespace Model.Objects
 {
-
-    /// <summary>
+     /// <summary>
     /// Паттерн для нахождения одинаковых блоков, выстроенных в ряд
     /// </summary>
     public class Pattern
@@ -16,6 +15,11 @@ namespace Model.Objects
         private int totalSum; //сумма помеченых клеток в паттерне
         private Vector2Int originPosition = new Vector2Int(0, 0);
         private Type originType;
+
+        public Pattern(PatternData _data)
+        {
+            new Pattern(_data.grid);
+        }
 
         public Pattern(bool[,] _grid)
         {

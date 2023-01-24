@@ -5,12 +5,14 @@ using UnityEngine;
 namespace Data
 {
     [Serializable]
-    public struct LevelData
+    public class LevelData
     {
         public GameBoardData gameBoard;
         public CounterData[] goals;
         public CounterData[] restrictions;
         public BalanceData balance;
+        public PatternData matchPatterns;
+        public PatternData hintPatterns;
 
         public LevelData(GameBoardData _gameBoard, CounterData[] _goals, CounterData[] _restrictions, BalanceData _balance)
         {

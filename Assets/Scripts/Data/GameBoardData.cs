@@ -5,13 +5,21 @@ using Model.Objects;
 namespace Data
 {
     [System.Serializable]
-    public struct GameBoardData
+    public class GameBoardData
     {
         public ACellType[,] cellTypes;
 
         public GameBoardData(int xLength, int yLength)
         {
-            cellTypes = new ACellType[xLength, yLength];
+            cellTypes = new ACellType[xLength, yLength]; 
+            
+            for (int i = 0; i < xLength; i++)
+            {
+                for (int j = 0; j < yLength; j++)
+                {
+                    cellTypes[i, j] = new BasicCellType();
+                }
+            }
         }
 
         public bool ValidCheck()
