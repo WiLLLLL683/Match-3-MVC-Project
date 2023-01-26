@@ -11,11 +11,19 @@ public class AllSystems
     public IGravitySystem GravitySystem { get; private set; }
     public IMoveSystem MoveSystem { get; private set; }
 
-    public void UpdateSystems(Level _level)
+    public AllSystems()
     {
-        SpawnSystem = new SpawnSystem(_level);
-        MatchSystem = new MatchSystem(_level);
-        GravitySystem = new GravitySystem(_level);
-        MoveSystem = new MoveSystem(_level);
+        SpawnSystem = new SpawnSystem();
+        MatchSystem = new MatchSystem();
+        GravitySystem = new GravitySystem();
+        MoveSystem = new MoveSystem();
+    }
+
+    public void SetLevel(Level _level)
+    {
+        SpawnSystem.SetLevel(_level);
+        MatchSystem.SetLevel(_level);
+        GravitySystem.SetLevel(_level);
+        MoveSystem.SetLevel(_level);
     }
 }

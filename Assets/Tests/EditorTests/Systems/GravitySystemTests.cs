@@ -15,7 +15,8 @@ namespace Model.Systems.UnitTests
             Level level = new(1,2);
             Block block = level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             level.gameBoard.cells[0, 1].SetBlock(null);
-            GravitySystem gravitySystem = new GravitySystem(level);
+            GravitySystem gravitySystem = new GravitySystem();
+            gravitySystem.SetLevel(level);
 
             gravitySystem.Execute();
 
@@ -29,7 +30,8 @@ namespace Model.Systems.UnitTests
             Level level = new(1, 2);
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             Block blockB = level.gameBoard.cells[0, 1].SpawnBlock(new BlueBlockType());
-            GravitySystem gravitySystem = new GravitySystem(level);
+            GravitySystem gravitySystem = new GravitySystem();
+            gravitySystem.SetLevel(level);
 
             gravitySystem.Execute();
 
@@ -44,7 +46,8 @@ namespace Model.Systems.UnitTests
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
             Block blockB = level.gameBoard.cells[0, 1].SpawnBlock(new BlueBlockType());
             level.gameBoard.cells[0, 2].SetBlock(null);
-            GravitySystem gravitySystem = new GravitySystem(level);
+            GravitySystem gravitySystem = new GravitySystem();
+            gravitySystem.SetLevel(level);
 
             gravitySystem.Execute();
 
@@ -59,7 +62,8 @@ namespace Model.Systems.UnitTests
             Level level = new(1, 2);
             level.gameBoard.cells[0, 0].SetBlock(null);
             level.gameBoard.cells[0, 1].SetBlock(null);
-            GravitySystem gravitySystem = new GravitySystem(level);
+            GravitySystem gravitySystem = new GravitySystem();
+            gravitySystem.SetLevel(level);
 
             gravitySystem.Execute();
 

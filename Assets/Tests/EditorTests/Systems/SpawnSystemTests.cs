@@ -8,15 +8,16 @@ using UnityEngine.TestTools;
 
 namespace Model.Systems.UnitTests
 {
-    public class GenerationSystemTests
+    public class SpawnSystemTests
     {
         [Test]
         public void SpawnTopLine_2cellsGameBoard_OnlyTopLineSpawned()
         {
             Level level = new Level(1, 2);
-            SpawnSystem generationSystem = new SpawnSystem(level);
+            SpawnSystem spawnSystem = new SpawnSystem();
+            spawnSystem.SetLevel(level);
 
-            generationSystem.SpawnTopLine();
+            spawnSystem.SpawnTopLine();
 
             Assert.IsFalse(level.gameBoard.cells[0, 0].isEmpty);
             Assert.IsTrue(level.gameBoard.cells[0, 1].isEmpty);
@@ -26,9 +27,10 @@ namespace Model.Systems.UnitTests
         public void SpawnTopLine_1cellGameBoard_OnlyTopLineSpawned()
         {
             Level level = new Level(1, 1);
-            SpawnSystem generationSystem = new SpawnSystem(level);
+            SpawnSystem spawnSystem = new SpawnSystem();
+            spawnSystem.SetLevel(level);
 
-            generationSystem.SpawnTopLine();
+            spawnSystem.SpawnTopLine();
 
             Assert.IsFalse(level.gameBoard.cells[0, 0].isEmpty);
         }
@@ -37,9 +39,10 @@ namespace Model.Systems.UnitTests
         public void SpawnTopLine_9cellsGameBoard_OnlyTopLineSpawned()
         {
             Level level = new Level(3, 3);
-            SpawnSystem generationSystem = new SpawnSystem(level);
+            SpawnSystem spawnSystem = new SpawnSystem();
+            spawnSystem.SetLevel(level);
 
-            generationSystem.SpawnTopLine();
+            spawnSystem.SpawnTopLine();
 
             for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++) //первая полоса заполнена
             {
@@ -59,9 +62,10 @@ namespace Model.Systems.UnitTests
         public void SpawnBonusBlock_EmptyCell_BonusBlockSpawned()
         {
             Level level = new Level(1, 1);
-            SpawnSystem generationSystem = new SpawnSystem(level);
+            SpawnSystem spawnSystem = new SpawnSystem();
+            spawnSystem.SetLevel(level);
 
-            generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0,0]);
+            spawnSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0,0]);
 
             Assert.IsFalse(level.gameBoard.cells[0,0].isEmpty);
             Assert.That(level.gameBoard.cells[0, 0].block.type is BlueBlockType);
@@ -72,9 +76,10 @@ namespace Model.Systems.UnitTests
         {
             Level level = new Level(1, 1);
             level.gameBoard.cells[0, 0].SpawnBlock(new RedBlockType());
-            SpawnSystem generationSystem = new SpawnSystem(level);
+            SpawnSystem spawnSystem = new SpawnSystem();
+            spawnSystem.SetLevel(level);
 
-            generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
+            spawnSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
 
             Assert.That(level.gameBoard.cells[0, 0].block.type is BlueBlockType);
         }
@@ -84,9 +89,10 @@ namespace Model.Systems.UnitTests
         {
             Level level = new Level(1, 1);
             level.gameBoard.cells[0, 0].ChangeType(new NotPlayableCellType());
-            SpawnSystem generationSystem = new SpawnSystem(level);
+            SpawnSystem spawnSystem = new SpawnSystem();
+            spawnSystem.SetLevel(level);
 
-            generationSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
+            spawnSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.cells[0, 0]);
 
             Assert.IsTrue(level.gameBoard.cells[0, 0].isEmpty);
         }

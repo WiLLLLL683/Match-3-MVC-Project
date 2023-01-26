@@ -12,64 +12,65 @@ namespace Model.Infrastructure.FunctionalTests
 {
     public class GameTests
     {
-        [Test]
-        public void SetLevel_ValidLevel_LevelSetInGame()
-        {
-            Game game = new();
-            Level level = new(1, 1);
-            Assert.Null(game.Level);// AreEqual(null, game.Level);
+        //TODO перенести это в тест LoadLevelState
+        //[Test]
+        //public void SetLevel_ValidLevel_LevelSetInGame()
+        //{
+        //    Game game = new();
+        //    Level level = new(1, 1);
+        //    Assert.Null(game.Level);// AreEqual(null, game.Level);
 
-            game.SetLevel(level);
+        //    game.SetLevel(level);
 
-            Assert.AreEqual(level, game.Level);
-        }
+        //    Assert.AreEqual(level, game.Level);
+        //}
 
-        [Test]
-        public void SetLevel_ValidLevel_LevelSetInSystems()
-        {
-            Game game = new();
-            Level level = new(1, 1);
-            var spawn = (SpawnSystem)game.Systems.SpawnSystem;
-            var match = (MatchSystem)game.Systems.MatchSystem;
-            var gravity = (GravitySystem)game.Systems.GravitySystem;
-            var move = (MoveSystem)game.Systems.MoveSystem;
-            Assert.Null(spawn.GetLevel());
-            Assert.Null(match.GetLevel());
-            Assert.Null(gravity.GetLevel());
-            Assert.Null(move.GetLevel());
+        //[Test]
+        //public void SetLevel_ValidLevel_LevelSetInSystems()
+        //{
+        //    Game game = new();
+        //    Level level = new(1, 1);
+        //    var spawn = (SpawnSystem)game.Systems.SpawnSystem;
+        //    var match = (MatchSystem)game.Systems.MatchSystem;
+        //    var gravity = (GravitySystem)game.Systems.GravitySystem;
+        //    var move = (MoveSystem)game.Systems.MoveSystem;
+        //    Assert.Null(spawn.GetLevel());
+        //    Assert.Null(match.GetLevel());
+        //    Assert.Null(gravity.GetLevel());
+        //    Assert.Null(move.GetLevel());
 
-            game.SetLevel(level);
+        //    game.SetLevel(level);
 
-            Assert.AreEqual(level, spawn.GetLevel()); //TODO при передаче уровня создаются новые системы - нужно обновить сервиспровайдер
-            Assert.AreEqual(level, match.GetLevel());
-            Assert.AreEqual(level, gravity.GetLevel());
-            Assert.AreEqual(level, move.GetLevel());
-        }
+        //    Assert.AreEqual(level, spawn.GetLevel()); //TODO при передаче уровня создаются новые системы - нужно обновить сервиспровайдер
+        //    Assert.AreEqual(level, match.GetLevel());
+        //    Assert.AreEqual(level, gravity.GetLevel());
+        //    Assert.AreEqual(level, move.GetLevel());
+        //}
 
-        [Test]
-        public void SetLevel_ValidLevel_LevelSetInStates()
-        {
-            Game game = new();
-            Level level = new(1, 1);
-            var state = new TestState_ForGameTests(game);
-            game.StateMachine.AddState(state);
+        //[Test]
+        //public void SetLevel_ValidLevel_LevelSetInStates()
+        //{
+        //    Game game = new();
+        //    Level level = new(1, 1);
+        //    var state = new TestState_ForGameTests(game);
+        //    game.StateMachine.AddState(state);
 
-            game.SetLevel(level);
-            game.StateMachine.SetState<TestState_ForGameTests>();
+        //    game.SetLevel(level);
+        //    game.StateMachine.SetState<TestState_ForGameTests>();
 
-            Assert.AreEqual(level, state.level);
-        }
+        //    Assert.AreEqual(level, state.level);
+        //}
 
-        [Test]
-        public void SetLevel_InValidLevel_ReturnToMetaGameState()
-        {
-            Game game = new();
-            Level level = null;
+        //[Test]
+        //public void SetLevel_InValidLevel_ReturnToMetaGameState()
+        //{
+        //    Game game = new();
+        //    Level level = null;
 
-            game.SetLevel(level);
+        //    game.SetLevel(level);
 
-            Assert.AreEqual(typeof(MetaGameState), game.StateMachine.currentState.GetType());
-        }
+        //    Assert.AreEqual(typeof(MetaGameState), game.StateMachine.currentState.GetType());
+        //}
 
         [Test]
         public void LoadGame_ExistedSaveData_SaveDataLoaded()

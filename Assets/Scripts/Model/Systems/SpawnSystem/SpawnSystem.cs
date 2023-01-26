@@ -12,7 +12,7 @@ namespace Model.Systems
     {
         private Level level;
 
-        public SpawnSystem(Level _level)
+        public void SetLevel(Level _level)
         {
             level = _level;
         }

@@ -23,7 +23,6 @@ namespace Model.Infrastructure
             BoosterInventory = new BoosterInventory();
             EventDispatcher = new EventDispatcher();
             Systems = new AllSystems();
-            Systems.UpdateSystems(null);
 
             StateMachine = new StateMachine();
             StateMachine.AddState(new LoadGameState(this));
@@ -40,26 +39,13 @@ namespace Model.Infrastructure
             StateMachine.AddState(new ExitState());
         }
 
-        public void SetLevel(Level _level)
-        {
-            if (_level != null)
-            {
-                Level = _level;
-            }
-            else
-            {
-                Debug.LogWarning("Invalid Level");
-                StartMetaGame();
-            }
-        }
-
         public void LoadGame() => StateMachine.SetState<LoadGameState>();
         public void StartMetaGame() => StateMachine.SetState<MetaGameState>();
-
         public void StartCoreGame(LevelData levelData)
         {
             StateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
             StateMachine.SetState<LoadLevelState>();
         }
+        public void SetLevel(Level _level) => Level = _level;
     }
 }

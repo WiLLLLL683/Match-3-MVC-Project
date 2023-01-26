@@ -12,7 +12,7 @@ namespace Model.Systems
     {
         private Level level;
 
-        public MatchSystem(Level _level)
+        public void SetLevel(Level _level)
         {
             level = _level;
         }

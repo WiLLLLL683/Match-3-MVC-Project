@@ -61,7 +61,7 @@ namespace Model.Infrastructure
         {
             level = new Level(levelData);
             game.SetLevel(level);
-            systems.UpdateSystems(level);
+            systems.SetLevel(level);
             eventDispatcher.SubscribeOnLevel(level);
         }
 

@@ -7,5 +7,6 @@ namespace Model.Systems
     {
         List<Cell> FindFirstHint();
         List<Cell> FindMatches();
+        void SetLevel(Level level);
     }
 }
