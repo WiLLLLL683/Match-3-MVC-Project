@@ -103,8 +103,8 @@ namespace Model.Infrastructure.FunctionalTests
             LevelData levelData = new
                 (
                     new GameBoardData(1,1), 
-                    new CounterData[1] { new CounterData(new BasicBlockType(), 1)}, 
-                    new CounterData[1] { new CounterData(new Turn(), 1) }, 
+                    new Counter[1] { new Counter(new BasicBlockType(), 1)}, 
+                    new Counter[1] { new Counter(new Turn(), 1) }, 
                     new Balance(),
                     new Pattern[1],
                     new Pattern[1]
