@@ -14,9 +14,9 @@ namespace Data.Tests
             new GameBoardData(1,1) { cellTypes = new BasicCellType[1, 1] },
             new CounterData[1] { new CounterData(new BlueBlockType(), 1 )},
             new CounterData[1] { new CounterData(new BlueBlockType(), 1) },
-            new BalanceData(),
-            new PatternData[1],
-            new PatternData[1]
+            new Balance(),
+            new Pattern[1],
+            new Pattern[1]
             );
 
         [Test]

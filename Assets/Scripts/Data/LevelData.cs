@@ -10,11 +10,11 @@ namespace Data
         public GameBoardData gameBoard;
         public CounterData[] goals;
         public CounterData[] restrictions;
-        public BalanceData balance;
-        public PatternData[] matchPatterns;
-        public PatternData[] hintPatterns;
+        public Balance balance;
+        public Pattern[] matchPatterns;
+        public Pattern[] hintPatterns;
 
-        public LevelData(GameBoardData _gameBoard, CounterData[] _goals, CounterData[] _restrictions, BalanceData _balance, PatternData[] _matchPatterns, PatternData[] _hintPatterns)
+        public LevelData(GameBoardData _gameBoard, CounterData[] _goals, CounterData[] _restrictions, Balance _balance, Pattern[] _matchPatterns, Pattern[] _hintPatterns)
         {
             gameBoard = _gameBoard;
             goals = _goals;
@@ -38,7 +38,7 @@ namespace Data
                 if (restrictions[i].ValidCheck() == false) 
                     return false;
             }
-            if (balance.ValidCheck() == false) 
+            if (balance == null) 
                 return false;
 
             return true;
