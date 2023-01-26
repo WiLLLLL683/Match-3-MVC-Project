@@ -10,9 +10,9 @@ namespace Model.Objects
         private Dictionary<ABlockType, int> typesWeight;
         private int totalWeight;
 
-        public Balance(BalanceData data)
+        public Balance()
         {
-            //TODO typeProbabilities = data...
+            //TODO typeWeight = data...
             typesWeight = new Dictionary<ABlockType, int>();
 
             totalWeight = 0;

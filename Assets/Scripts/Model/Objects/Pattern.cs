@@ -16,11 +16,6 @@ namespace Model.Objects
         private Vector2Int originPosition = new Vector2Int(0, 0);
         private Type originType;
 
-        public Pattern(PatternData _data)
-        {
-            new Pattern(_data.grid);
-        }
-
         public Pattern(bool[,] _grid)
         {
             grid = _grid;

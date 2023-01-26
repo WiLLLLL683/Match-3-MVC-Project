@@ -13,7 +13,7 @@ namespace Data.ForUnity
         public Array2DCellTypeEnum board;
         public CounterData[] goals;
         public CounterData[] restrictions;
-        public BalanceData balance;
+        public Balance balance;
         public Array2DBlockTypeEnum[] matchPatterns;
         public Array2DBlockTypeEnum[] hintPatterns;
 
@@ -22,8 +22,8 @@ namespace Data.ForUnity
             GameBoardData boardData = GetGameboardData();
 
             //TODO временная заглушка
-            var match = new PatternData[1];
-            var hint = new PatternData[1];
+            var match = new Pattern[1];
+            var hint = new Pattern[1];
 
             LevelData levelData = new LevelData(boardData, goals, restrictions, balance, match, hint);
             return levelData;
