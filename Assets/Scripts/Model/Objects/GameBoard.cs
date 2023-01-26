@@ -56,6 +56,47 @@ namespace Model.Objects
                 _block.OnDestroy += UnRegisterBlock;
             }
         }
+        public bool CheckValidBlockByPosition(Vector2Int _position)
+        {
+            //позиция вне границ игрового поля?
+            if (!CheckValidCellByPosition(_position))
+            {
+                return false;
+            }
+
+            //играбельна ли клетка?
+            if (!cells[_position.x, _position.y].IsPlayable)
+            {
+                Debug.LogError("Tried to get Block but Cell was notPlayable");
+                return false;
+            }
+
+            //есть ли блок в клетке?
+            if (cells[_position.x, _position.y].isEmpty)
+            {
+                Debug.LogError("Tried to get Block but Cell was empty");
+                return false;
+            }
+
+            return true;
+        }
+        public bool CheckValidCellByPosition(Vector2Int _position)
+        {
+            //позиция в границах игрового поля?
+            if (_position.x >= 0 &&
+                _position.y >= 0 &&
+                _position.x < cells.GetLength(0) &&
+                _position.y < cells.GetLength(1))
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogError("Cell position out of GameBoards range");
+                return false;
+            }
+        }
+
 
         private void UnRegisterBlock(Block _block, EventArgs eventArgs)
         {
