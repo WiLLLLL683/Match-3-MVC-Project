@@ -41,7 +41,7 @@ namespace Model.Infrastructure
 
         public void LoadGame() => StateMachine.SetState<LoadGameState>();
         public void StartMetaGame() => StateMachine.SetState<MetaGameState>();
-        public void StartCoreGame(LevelData levelData)
+        public void StartCoreGame(LevelDataScriptable levelData)
         {
             StateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
             StateMachine.SetState<LoadLevelState>();

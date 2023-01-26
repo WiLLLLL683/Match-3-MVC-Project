@@ -17,7 +17,7 @@ namespace Array2DEditor
     }
 }
 
-namespace Data.ForUnity
+namespace Data
 {
     public enum CounterTargetEnum
     {

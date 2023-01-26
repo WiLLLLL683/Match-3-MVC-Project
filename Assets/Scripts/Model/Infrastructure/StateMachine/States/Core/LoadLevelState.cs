@@ -15,7 +15,7 @@ namespace Model.Infrastructure
         private AllSystems systems;
         private IMatchSystem matchSystem;
 
-        private LevelData levelData;
+        private LevelDataScriptable levelData;
         private Level level;
 
         private const int MATCH_CHECK_ITERATIONS = 3; //количество итераций проверки совпавших блоков
@@ -29,7 +29,7 @@ namespace Model.Infrastructure
             matchSystem = _game.Systems.MatchSystem;
         }
 
-        public void SetLevelData(LevelData _levelData)
+        public void SetLevelData(LevelDataScriptable _levelData)
         {
             levelData = _levelData;
         }

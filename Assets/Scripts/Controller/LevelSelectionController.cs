@@ -9,8 +9,8 @@ namespace Controller
     public class LevelSelectionController : MonoBehaviour
     {
         private Game game;
-        private LevelData[] allLevels;
-        private LevelData selectedLevel;
+        private LevelDataScriptable[] allLevels;
+        private LevelDataScriptable selectedLevel;
 
         public void Init(Game _game)
         {
