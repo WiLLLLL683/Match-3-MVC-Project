@@ -105,7 +105,9 @@ namespace Model.Infrastructure.FunctionalTests
                     new GameBoardData(1,1), 
                     new CounterData[1] { new CounterData(new BasicBlockType(), 1)}, 
                     new CounterData[1] { new CounterData(new Turn(), 1) }, 
-                    new BalanceData()
+                    new BalanceData(),
+                    new PatternData[1],
+                    new PatternData[1]
                 );
 
             game.StartCoreGame(levelData);

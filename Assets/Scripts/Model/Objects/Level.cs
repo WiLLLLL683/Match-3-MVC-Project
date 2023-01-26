@@ -45,7 +45,17 @@ namespace Model.Objects
 
             balance = new Balance(levelData.balance);
 
-            //TODO внедрить загрузку паттернов
+            matchPatterns = new Pattern[levelData.matchPatterns.Length];
+            for (int i = 0; i < matchPatterns.Length; i++)
+            {
+                matchPatterns[i] = new Pattern(levelData.matchPatterns[i]);
+            }
+
+            hintPatterns = new Pattern[levelData.hintPatterns.Length];
+            for (int i = 0; i < hintPatterns.Length; i++)
+            {
+                hintPatterns[i] = new Pattern(levelData.hintPatterns[i]);
+            }
         }
 
         /// <summary>

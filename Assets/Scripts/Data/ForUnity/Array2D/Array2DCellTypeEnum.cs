@@ -13,6 +13,11 @@ namespace Array2DEditor
         {
             return cells[idx];
         }
+
+        public void SetSize()
+        {
+
+        }
     }
 
     [System.Serializable]

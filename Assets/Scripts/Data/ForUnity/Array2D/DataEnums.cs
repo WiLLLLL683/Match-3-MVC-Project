@@ -54,33 +54,33 @@ namespace Data.ForUnity
             }
         }
 
-        public static ICounterTarget GetCounterTarget(CounterDataForUnity counterData)
-        {
-            switch (counterData.targetType)
-            {
-                case CounterTargetEnum.Block:
-                    switch (counterData.blockType)
-                    {
-                        case BlockTypeEnum.Blue:
-                            return new BlueBlockType();
-                        case BlockTypeEnum.Red:
-                            return new RedBlockType();
-                        default:
-                            return null;
-                    }
-                case CounterTargetEnum.Cell:
-                    switch (counterData.cellType)
-                    {
-                        case CellTypeEnum.Basic:
-                            return new BasicCellType();
-                        default:
-                            return null;
-                    };
-                case CounterTargetEnum.Turn:
-                    return new Turn();
-                default:
-                    return null;
-            }
-        }
+        //public static ICounterTarget GetCounterTarget(CounterDataForUnity counterData)
+        //{
+        //    switch (counterData.targetType)
+        //    {
+        //        case CounterTargetEnum.Block:
+        //            switch (counterData.blockType)
+        //            {
+        //                case BlockTypeEnum.Blue:
+        //                    return new BlueBlockType();
+        //                case BlockTypeEnum.Red:
+        //                    return new RedBlockType();
+        //                default:
+        //                    return null;
+        //            }
+        //        case CounterTargetEnum.Cell:
+        //            switch (counterData.cellType)
+        //            {
+        //                case CellTypeEnum.Basic:
+        //                    return new BasicCellType();
+        //                default:
+        //                    return null;
+        //            };
+        //        case CounterTargetEnum.Turn:
+        //            return new Turn();
+        //        default:
+        //            return null;
+        //    }
+        //}
     }
 }

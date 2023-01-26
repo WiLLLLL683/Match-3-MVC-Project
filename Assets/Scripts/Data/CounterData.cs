@@ -7,7 +7,7 @@ namespace Data
     [Serializable]
     public class CounterData
     {
-        [SerializeReference]
+        [SerializeReference, SubclassSelector]
         public ICounterTarget target;
         public int count;
 

@@ -7,45 +7,56 @@ using Model.Objects;
 
 namespace Data.ForUnity
 {
-    [CreateAssetMenu(fileName ="NewLevelData",menuName ="Data/LevelData")]
+    [CreateAssetMenu(fileName ="NewLevelData",menuName ="Data/LevelDataOld")]
     public class LevelDataScriptable : ScriptableObject
     {
         public Array2DCellTypeEnum board;
-        public CounterDataForUnity[] goals;
-        public CounterDataForUnity[] restrictions;
+        public CounterData[] goals;
+        public CounterData[] restrictions;
         public BalanceData balance;
-
-        [SerializeReference]
-        [SR]
-        public ICounterTarget counterTarget;
+        public Array2DBlockTypeEnum[] matchPatterns;
+        public Array2DBlockTypeEnum[] hintPatterns;
 
         public LevelData GetLevelData()
+        {
+            GameBoardData boardData = GetGameboardData();
+
+            //TODO временная заглушка
+            var match = new PatternData[1];
+            var hint = new PatternData[1];
+
+            LevelData levelData = new LevelData(boardData, goals, restrictions, balance, match, hint);
+            return levelData;
+        }
+
+
+        private GameBoardData GetGameboardData()
         {
             GameBoardData boardData = new GameBoardData(board.GridSize.x, board.GridSize.y);
             for (int i = 0; i < board.GridSize.x; i++)
             {
                 for (int j = 0; j < board.GridSize.y; j++)
                 {
-                    boardData.cellTypes[i,j] = DataFromEnum.GetCellType(board.GetCell(i,j));
+                    boardData.cellTypes[i, j] = DataFromEnum.GetCellType(board.GetCell(i, j));
                 }
             }
 
-            CounterData[] goalsData = new CounterData[goals.Length];
-            for (int i = 0; i < goals.Length; i++)
-            {
-                goalsData[i].target = DataFromEnum.GetCounterTarget(goals[i]);
-                goalsData[i].count = goals[i].count;
-            }
+            return boardData;
+        }
 
-            CounterData[] restrictionsData = new CounterData[restrictions.Length];
-            for (int i = 0; i < restrictions.Length; i++)
-            {
-                restrictionsData[i].target = DataFromEnum.GetCounterTarget(restrictions[i]);
-                restrictionsData[i].count = restrictions[i].count;
-            }
+        //TODO функция получения паттерна из данных
+        //private PatternData GetPatternsData(Array2DBlockTypeEnum[] _data)
+        //{
+        //    GameBoardData boardData = new GameBoardData(board.GridSize.x, board.GridSize.y);
+        //    for (int i = 0; i < board.GridSize.x; i++)
+        //    {
+        //        for (int j = 0; j < board.GridSize.y; j++)
+        //        {
+        //            boardData.cellTypes[i, j] = DataFromEnum.GetCellType(board.GetCell(i, j));
+        //        }
+        //    }
 
-            LevelData levelData = new LevelData(boardData, goalsData, restrictionsData, balance);
-            return levelData;
-        } 
+        //    return boardData;
+        //}
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
+    [Serializable]
     public class BasicCellType : ACellType
     {
         public override void DestroyCellMaterial()

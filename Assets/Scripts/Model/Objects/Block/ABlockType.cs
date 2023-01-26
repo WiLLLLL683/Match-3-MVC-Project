@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
+    [Serializable]
     public abstract class ABlockType : ICounterTarget
     {
         /// <summary>
