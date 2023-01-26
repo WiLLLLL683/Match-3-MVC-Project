@@ -36,7 +36,7 @@ namespace Model.Infrastructure
 
         public void OnStart()
         {
-            if (!levelData.ValidCheck())
+            if (levelData == null)
             {
                 Debug.LogError("Invalid LevelData");
                 stateMachine.SetState<MetaGameState>();

@@ -8,11 +8,13 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    [Serializable]
     public class Counter
     {
-        public ICounterTarget Target { get; private set; }
-        public int Count { get { return count; } }
-        private int count;
+        public ICounterTarget Target => target;
+        [SerializeReference, SubclassSelector] private ICounterTarget target;
+        public int Count => count;
+        [SerializeField] private int count;
         public bool isCompleted { get; private set; }
 
         public event GoalDelegate OnUpdateEvent;
@@ -20,14 +22,8 @@ namespace Model.Objects
 
         public Counter(ICounterTarget _target,int _count)
         {
-            Target = _target;
+            target = _target;
             count = _count;
-        }
-
-        public Counter(CounterData data)
-        {
-            Target = data.target;
-            count = data.count;
         }
 
         public void UpdateGoal(ICounterTarget goalTarget)

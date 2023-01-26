@@ -24,38 +24,12 @@ namespace Model.Objects
         /// <param name="levelData"></param>
         public Level(LevelData levelData)
         {
-            //if (levelData.ValidCheck() != true)
-            //{
-            //    return;
-            //}
-
             gameBoard = new GameBoard(levelData.gameBoard);
-
-            goals = new Counter[levelData.goals.Length];
-            for (int i = 0; i < goals.Length; i++)
-            {
-                goals[i] = new Counter(levelData.goals[i]);
-            }
-
-            restrictions = new Counter[levelData.restrictions.Length];
-            for (int i = 0; i < goals.Length; i++)
-            {
-                restrictions[i] = new Counter(levelData.restrictions[i]);
-            }
-
+            goals = levelData.goals;
+            restrictions = levelData.restrictions;
             balance = levelData.balance;
-
-            matchPatterns = new Pattern[levelData.matchPatterns.Length];
-            for (int i = 0; i < matchPatterns.Length; i++)
-            {
-                matchPatterns[i] = levelData.matchPatterns[i];
-            }
-
-            hintPatterns = new Pattern[levelData.hintPatterns.Length];
-            for (int i = 0; i < hintPatterns.Length; i++)
-            {
-                hintPatterns[i] = levelData.hintPatterns[i];
-            }
+            matchPatterns = levelData.matchPatterns;
+            hintPatterns = levelData.hintPatterns;
         }
 
         /// <summary>

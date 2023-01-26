@@ -11,8 +11,8 @@ namespace Data.ForUnity
     public class LevelDataScriptable : ScriptableObject
     {
         public Array2DCellTypeEnum board;
-        public CounterData[] goals;
-        public CounterData[] restrictions;
+        public Counter[] goals;
+        public Counter[] restrictions;
         public Balance balance;
         public Array2DBlockTypeEnum[] matchPatterns;
         public Array2DBlockTypeEnum[] hintPatterns;
