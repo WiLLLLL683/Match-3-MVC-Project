@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
+    [Serializable]
     public class NotPlayableCellType : ACellType
     {
         public override bool canContainBlock { get { return false; } }

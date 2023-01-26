@@ -14,7 +14,10 @@ namespace Data.Tests
             new GameBoardData(1,1) { cellTypes = new BasicCellType[1, 1] },
             new CounterData[1] { new CounterData(new BlueBlockType(), 1 )},
             new CounterData[1] { new CounterData(new BlueBlockType(), 1) },
-            new BalanceData());
+            new BalanceData(),
+            new PatternData[1],
+            new PatternData[1]
+            );
 
         [Test]
         public void ValidCheck_ValidLevel_True()

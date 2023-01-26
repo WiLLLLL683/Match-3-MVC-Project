@@ -4,7 +4,6 @@ using Model.Objects;
 
 namespace Data
 {
-    [System.Serializable]
     public class GameBoardData
     {
         public ACellType[,] cellTypes;
