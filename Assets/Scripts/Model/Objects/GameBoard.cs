@@ -14,19 +14,23 @@ namespace Model.Objects
         public Cell[,] cells { get; private set; }
         public List<Block> blocks { get; private set; }
 
+        [SerializeReference, SubclassSelector] private ACellType[,] cellTypes;
+
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
-        public GameBoard(GameBoardData data)
+        public GameBoard(ACellType[,] _cellTypes)
         {
-            cells = new Cell[data.cellTypes.GetLength(0), data.cellTypes.GetLength(1)];
+            cellTypes = _cellTypes;
+
+            cells = new Cell[cellTypes.GetLength(0), cellTypes.GetLength(1)];
             blocks = new List<Block>();
 
-            for (int i = 0; i < data.cellTypes.GetLength(0); i++)
+            for (int i = 0; i < cellTypes.GetLength(0); i++)
             {
-                for (int j = 0; j < data.cellTypes.GetLength(1); j++)
+                for (int j = 0; j < cellTypes.GetLength(1); j++)
                 {
-                    cells[i, j] = new Cell(data.cellTypes[i,j], new Vector2Int(i, j));
+                    cells[i, j] = new Cell(cellTypes[i,j], new Vector2Int(i, j));
                 }
             }
         }

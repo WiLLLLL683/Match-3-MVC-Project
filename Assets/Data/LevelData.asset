@@ -27,7 +27,10 @@ MonoBehaviour:
   - target:
       rid: 4508593107460161542
     count: 25
-  matchPatterns: []
+  matchPatterns:
+  - gridSize: {x: 0, y: 0}
+    cellSize: {x: 64, y: 16}
+    cells: []
   hintPatterns: []
   references:
     version: 2

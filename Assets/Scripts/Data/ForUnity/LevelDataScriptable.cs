@@ -19,29 +19,29 @@ namespace Data.ForUnity
 
         public LevelData GetLevelData()
         {
-            GameBoardData boardData = GetGameboardData();
+            GameBoard gameBoard = GetGameboardData();
 
             //TODO временная заглушка
             var match = new Pattern[1];
             var hint = new Pattern[1];
 
-            LevelData levelData = new LevelData(boardData, goals, restrictions, balance, match, hint);
+            LevelData levelData = new LevelData(gameBoard, goals, restrictions, balance, match, hint);
             return levelData;
         }
 
 
-        private GameBoardData GetGameboardData()
+        private GameBoard GetGameboardData()
         {
-            GameBoardData boardData = new GameBoardData(board.GridSize.x, board.GridSize.y);
+            ACellType[,] aCellTypes = new ACellType[board.GridSize.x, board.GridSize.y];
             for (int i = 0; i < board.GridSize.x; i++)
             {
                 for (int j = 0; j < board.GridSize.y; j++)
                 {
-                    boardData.cellTypes[i, j] = DataFromEnum.GetCellType(board.GetCell(i, j));
+                    aCellTypes[i, j] = DataFromEnum.GetCellType(board.GetCell(i, j));
                 }
             }
 
-            return boardData;
+            return new GameBoard(aCellTypes);
         }
 
         //TODO функция получения паттерна из данных
