@@ -49,7 +49,7 @@ namespace Model.Objects
             Vector2Int originPosOnGameboard = new Vector2Int(originPosition.x + _startPosition.x, originPosition.y + _startPosition.y);
 
             //есть ли блок?
-            if (!Helpers.CheckValidBlockByPosition(_gameBoard, originPosOnGameboard))
+            if (!_gameBoard.CheckValidBlockByPosition(originPosOnGameboard))
                 return new List<Cell>();
 
             //взять тип оригинального блока
@@ -70,7 +70,7 @@ namespace Model.Objects
                         continue;
 
                     //есть ли блок?
-                    if (!Helpers.CheckValidBlockByPosition(_gameBoard, posOnGameboard))
+                    if (!_gameBoard.CheckValidBlockByPosition(posOnGameboard))
                         continue;
 
                     //совпадают ли типы блоков?

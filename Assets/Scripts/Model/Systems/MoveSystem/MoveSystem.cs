@@ -41,16 +41,17 @@ namespace Model.Systems
             }
 
             //проверка: начальная позиция вне поля?
-            if (!Helpers.CheckValidCellByPosition(level.gameBoard, _startPosition))
+            if (!level.gameBoard.CheckValidCellByPosition(_startPosition))
                 return null;
 
             //проверка: конечная позиция вне поля?
-            if (!Helpers.CheckValidCellByPosition(level.gameBoard, targetPosition))
+            if (!level.gameBoard.CheckValidCellByPosition(targetPosition))
                 return null;
 
             //возврат действия по смене блоков местами
             return new SwapBlocksAction(level.gameBoard.cells[_startPosition.x, _startPosition.y], level.gameBoard.cells[targetPosition.x, targetPosition.y]);
         }
+
 
 
         /// <summary>
