@@ -7,14 +7,14 @@ namespace Data
 {
     public class LevelData
     {
-        public GameBoardData gameBoard;
+        public GameBoard gameBoard;
         public Counter[] goals;
         public Counter[] restrictions;
         public Balance balance;
         public Pattern[] matchPatterns;
         public Pattern[] hintPatterns;
 
-        public LevelData(GameBoardData _gameBoard, Counter[] _goals, Counter[] _restrictions, Balance _balance, Pattern[] _matchPatterns, Pattern[] _hintPatterns)
+        public LevelData(GameBoard _gameBoard, Counter[] _goals, Counter[] _restrictions, Balance _balance, Pattern[] _matchPatterns, Pattern[] _hintPatterns)
         {
             gameBoard = _gameBoard;
             goals = _goals;

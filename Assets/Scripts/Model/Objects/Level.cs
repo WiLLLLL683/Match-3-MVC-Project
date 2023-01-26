@@ -24,7 +24,7 @@ namespace Model.Objects
         /// <param name="levelData"></param>
         public Level(LevelData levelData)
         {
-            gameBoard = new GameBoard(levelData.gameBoard);
+            gameBoard = levelData.gameBoard;
             goals = levelData.goals;
             restrictions = levelData.restrictions;
             balance = levelData.balance;
