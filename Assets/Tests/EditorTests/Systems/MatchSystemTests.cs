@@ -15,7 +15,8 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
             Level level = DotLevel1x1(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem(level);
+            MatchSystem matchSystem = new MatchSystem();
+            matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
@@ -28,7 +29,8 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
             Level level = new Level(1,1, matchPatterns);
-            MatchSystem matchSystem = new MatchSystem(level);
+            MatchSystem matchSystem = new MatchSystem();
+            matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
@@ -43,7 +45,8 @@ namespace Model.Systems.UnitTests
             matchPatterns[0] = DotPattern1x1();
             Level level = new Level(1,1, matchPatterns);
             level.gameBoard.cells[0, 0].ChangeType(new NotPlayableCellType());
-            MatchSystem matchSystem = new MatchSystem(level);
+            MatchSystem matchSystem = new MatchSystem();
+            matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
@@ -60,7 +63,8 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = VertLinePattern1x3();
             Level level = VertLineLevel1x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem(level);
+            MatchSystem matchSystem = new MatchSystem();
+            matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
@@ -79,7 +83,8 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = VertLinePattern1x3();
             Level level = VertLineLevel3x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem(level);
+            MatchSystem matchSystem = new MatchSystem();
+            matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
@@ -98,7 +103,8 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = CrossPattern3x3();
             Level level = CrossLevel3x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem(level);
+            MatchSystem matchSystem = new MatchSystem();
+            matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
@@ -118,7 +124,8 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = CrossPattern3x3();
             Level level = NoMatchLevel3x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem(level);
+            MatchSystem matchSystem = new MatchSystem();
+            matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 

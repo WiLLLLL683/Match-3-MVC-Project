@@ -24,10 +24,10 @@ namespace Model.Objects
         /// <param name="levelData"></param>
         public Level(LevelData levelData)
         {
-            if (levelData.ValidCheck() != true)
-            {
-                return;
-            }
+            //if (levelData.ValidCheck() != true)
+            //{
+            //    return;
+            //}
 
             gameBoard = new GameBoard(levelData.gameBoard);
 
