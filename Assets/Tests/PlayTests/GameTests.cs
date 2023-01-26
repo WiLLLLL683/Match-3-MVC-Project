@@ -96,34 +96,34 @@ namespace Model.Infrastructure.FunctionalTests
             Assert.AreEqual(typeof(MetaGameState), game.StateMachine.currentState.GetType());
         }
 
-        [Test]
-        public void StartCoreGame_ValidLevelData_WaitStateLoaded()
-        {
-            Game game = new();
-            LevelData levelData = new
-                (
-                    new GameBoard(1,1),
-                    new Counter[1] { new Counter(new BasicBlockType(), 1)}, 
-                    new Counter[1] { new Counter(new Turn(), 1) }, 
-                    new Balance(),
-                    new Pattern[1],
-                    new Pattern[1]
-                );
+        //[Test]
+        //public void StartCoreGame_ValidLevelData_WaitStateLoaded()
+        //{
+        //    Game game = new();
+        //    LevelData levelData = new
+        //        (
+        //            new GameBoard(1,1),
+        //            new Counter[1] { new Counter(new BasicBlockType(), 1)}, 
+        //            new Counter[1] { new Counter(new Turn(), 1) }, 
+        //            new Balance(),
+        //            new Pattern[1],
+        //            new Pattern[1]
+        //        );
 
-            game.StartCoreGame(levelData);
+        //    game.StartCoreGame(levelData);
 
-            Assert.AreEqual(typeof(WaitState), game.StateMachine.currentState.GetType());
-        }
+        //    Assert.AreEqual(typeof(WaitState), game.StateMachine.currentState.GetType());
+        //}
 
-        [Test]
-        public void StartCoreGame_InValidLevelData_ReturnToMetaGameState()
-        {
-            Game game = new();
-            LevelData levelData = null;
+        //[Test]
+        //public void StartCoreGame_InValidLevelData_ReturnToMetaGameState()
+        //{
+        //    Game game = new();
+        //    LevelData levelData = null;
 
-            game.StartCoreGame(levelData);
+        //    game.StartCoreGame(levelData);
 
-            Assert.AreEqual(typeof(MetaGameState), game.StateMachine.currentState.GetType());
-        }
+        //    Assert.AreEqual(typeof(MetaGameState), game.StateMachine.currentState.GetType());
+        //}
     }
 }

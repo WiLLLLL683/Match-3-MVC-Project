@@ -49,5 +49,10 @@ namespace Model.Objects
 
             return new BasicBlockType();
         }
+
+        public Balance Clone()
+        {
+            return (Balance)this.MemberwiseClone();
+        }
     }
 }
