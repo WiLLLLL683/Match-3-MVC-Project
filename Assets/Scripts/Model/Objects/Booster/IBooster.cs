@@ -2,7 +2,10 @@
 using System.Collections;
 using UnityEngine;
 
-public interface IBooster
+namespace Model.Objects
 {
+    public interface IBooster
+    {
 
+    }
 }

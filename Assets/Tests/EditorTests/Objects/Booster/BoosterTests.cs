@@ -7,7 +7,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Model.Systems.UnitTests
+namespace Model.Objects.UnitTests
 {
     public class BoosterTests
     {

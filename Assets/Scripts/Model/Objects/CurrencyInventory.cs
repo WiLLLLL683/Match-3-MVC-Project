@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.Infrastructure
+namespace Model.Objects
 {
     public class CurrencyInventory
     {

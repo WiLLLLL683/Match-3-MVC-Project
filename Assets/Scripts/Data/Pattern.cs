@@ -1,10 +1,10 @@
-using Model;
+using Model.Objects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.Objects
+namespace Data
 {
      /// <summary>
     /// Паттерн для нахождения одинаковых блоков, выстроенных в ряд

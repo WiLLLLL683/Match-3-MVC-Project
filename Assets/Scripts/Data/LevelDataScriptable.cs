@@ -23,6 +23,7 @@ namespace Data
         [SerializeField] private Balance balance;
         [SerializeField] private Array2DBool[] matchPatterns;
         [SerializeField] private Array2DBool[] hintPatterns;
+        [SerializeField] private Array2DBool test;
 
         //public LevelData GetLevelData()
         //{
