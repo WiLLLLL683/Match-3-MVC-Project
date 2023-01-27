@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8a5abbff2e38d4db3e63c59082f1f7, type: 3}
   m_Name: LevelData
   m_EditorClassIdentifier: 
-  board:
-    gridSize: {x: 3, y: 3}
-    cellSize: {x: 64, y: 16}
+  gameBoard:
+    gridSize: {x: 6, y: 6}
+    cellSize: {x: 40, y: 20}
     cells:
-    - row: 010000000100000001000000
-    - row: 010000000100000000000000
-    - row: 010000000000000000000000
+    - row: 010000000000000000000000000000000000000000000000
+    - row: 000000000100000000000000000000000000000000000000
+    - row: 000000000000000000000000000000000000000000000000
+    - row: 000000000000000000000000000000000000000000000000
+    - row: 000000000000000001000000000000000000000000000000
+    - row: 000000000000000000000000000000000000000000000000
   goals:
   - target:
       rid: 4508593107460161541
@@ -28,10 +31,33 @@ MonoBehaviour:
       rid: 4508593107460161542
     count: 25
   matchPatterns:
+  - gridSize: {x: 5, y: 5}
+    cellSize: {x: 16, y: 16}
+    cells:
+    - row: 0000000000
+    - row: 0000000000
+    - row: 0000000000
+    - row: 0000000000
+    - row: 0000000000
+  - gridSize: {x: 5, y: 5}
+    cellSize: {x: 16, y: 16}
+    cells:
+    - row: 0000000000
+    - row: 0000000000
+    - row: 0000000000
+    - row: 0000000000
+    - row: 0000000000
+  hintPatterns:
   - gridSize: {x: 0, y: 0}
-    cellSize: {x: 64, y: 16}
+    cellSize: {x: 16, y: 16}
     cells: []
-  hintPatterns: []
+  test:
+    gridSize: {x: 3, y: 3}
+    cellSize: {x: 16, y: 16}
+    cells:
+    - row: 000000
+    - row: 000000
+    - row: 000000
   references:
     version: 2
     RefIds:

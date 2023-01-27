@@ -1,13 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Model.Objects;
-using Model.Systems;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Model.Infrastructure.UnitTests
+namespace Model.Objects.UnitTests
 {
     public class BoosterInventoryTests
     {

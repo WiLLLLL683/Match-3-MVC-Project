@@ -1,9 +1,9 @@
-﻿using Data;
+﻿using Model.Objects;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Model.Objects
+namespace Data
 {
     public class Balance
     {
