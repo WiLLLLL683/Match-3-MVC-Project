@@ -9,48 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a8a5abbff2e38d4db3e63c59082f1f7, type: 3}
+  m_Script: {fileID: 11500000, guid: d49f1110e2127ee4db9f52865c7e2206, type: 3}
   m_Name: LevelData
   m_EditorClassIdentifier: 
   gameBoard:
-    gridSize: {x: 6, y: 6}
-    cellSize: {x: 40, y: 20}
+    gridSize: {x: 3, y: 3}
+    cellSize: {x: 64, y: 16}
     cells:
-    - row: 010000000000000000000000000000000000000000000000
-    - row: 000000000100000000000000000000000000000000000000
-    - row: 000000000000000000000000000000000000000000000000
-    - row: 000000000000000000000000000000000000000000000000
-    - row: 000000000000000001000000000000000000000000000000
-    - row: 000000000000000000000000000000000000000000000000
-  goals:
-  - target:
-      rid: 4508593107460161541
-    count: 10
-  restrictions:
-  - target:
-      rid: 4508593107460161542
-    count: 25
-  matchPatterns:
-  - gridSize: {x: 5, y: 5}
-    cellSize: {x: 16, y: 16}
-    cells:
-    - row: 0000000000
-    - row: 0000000000
-    - row: 0000000000
-    - row: 0000000000
-    - row: 0000000000
-  - gridSize: {x: 5, y: 5}
-    cellSize: {x: 16, y: 16}
-    cells:
-    - row: 0000000000
-    - row: 0000000000
-    - row: 0000000000
-    - row: 0000000000
-    - row: 0000000000
-  hintPatterns:
-  - gridSize: {x: 0, y: 0}
-    cellSize: {x: 16, y: 16}
-    cells: []
+    - row: 000000000000000000000000
+    - row: 000000000000000000000000
+    - row: 000000000000000000000000
+  goals: []
+  restrictions: []
+  balance: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
+  matchPatterns: []
+  hintPatterns: []
   test:
     gridSize: {x: 3, y: 3}
     cellSize: {x: 16, y: 16}
@@ -60,8 +33,4 @@ MonoBehaviour:
     - row: 000000
   references:
     version: 2
-    RefIds:
-    - rid: 4508593107460161541
-      type: {class: BasicCellType, ns: Model.Objects, asm: GameAssembly}
-    - rid: 4508593107460161542
-      type: {class: Turn, ns: Model.Systems, asm: GameAssembly}
+    RefIds: []
