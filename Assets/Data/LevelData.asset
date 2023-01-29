@@ -19,24 +19,22 @@ MonoBehaviour:
     - row: 000000000100000000000000
     - row: 010000000100000001000000
     - row: 000000000100000000000000
-  goals: []
-  restrictions: []
+  goals:
+  - target:
+      rid: -2
+    count: 0
+  restrictions:
+  - target:
+      rid: -2
+    count: 0
   balance: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
   matchPatterns:
-  - gridSize: {x: 3, y: 3}
-    cellSize: {x: 16, y: 16}
-    cells:
-    - row: 000000
-    - row: 000000
-    - row: 000000
-  hintPatterns: []
-  test:
-    gridSize: {x: 3, y: 3}
-    cellSize: {x: 16, y: 16}
-    cells:
-    - row: 000000
-    - row: 000000
-    - row: 000000
+  - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
+  - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
+  hintPatterns:
+  - {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

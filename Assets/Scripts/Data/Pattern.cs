@@ -1,4 +1,6 @@
+using Array2DEditor;
 using Model.Objects;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,30 +11,28 @@ namespace Data
      /// <summary>
     /// Паттерн для нахождения одинаковых блоков, выстроенных в ряд
     /// </summary>
-    public class Pattern
+    [CreateAssetMenu(fileName ="Pattern", menuName ="Data/Pattern")]
+    public class Pattern: ScriptableObject
     {
+        [SerializeField] private Array2DBool array2d;
+
         private bool[,] grid;
-        private int totalSum; //сумма помеченых клеток в паттерне
-        private Vector2Int originPosition = new Vector2Int(0, 0);
+        [ShowNonSerializedField] private int totalSum; //сумма помеченых клеток в паттерне
+        [ShowNonSerializedField] private Vector2Int originPosition = new Vector2Int(0, 0);
         private Type originType;
 
         public Pattern(bool[,] _grid)
         {
             grid = _grid;
-            for (int x = 0; x < grid.GetLength(0); x++)
-            {
-                for (int y = 0; y < grid.GetLength(1); y++)
-                {
-                    if (grid[x, y] == true)
-                    {
-                        //взять положение любой помеченной клетки чтобы позже найти оригинал для сравнения
-                        originPosition.x = x;
-                        originPosition.y = y;
-                        //подсчитать сумму помеченных клеток
-                        totalSum++;
-                    }
-                }
-            }
+            originPosition = GetOriginPosition();
+            totalSum = CalculateTotalSum();
+        }
+
+        private void OnValidate()
+        {
+            grid = GetGridFromArray2d(array2d);
+            originPosition = GetOriginPosition();
+            totalSum = CalculateTotalSum();
         }
 
         public List<Cell> Match(GameBoard _gameBoard, Vector2Int _startPosition)
@@ -82,6 +82,59 @@ namespace Data
                 return matchedCells;
             else
                 return new List<Cell>();
+        }
+
+
+
+        private Vector2Int GetOriginPosition()
+        {
+            Vector2Int pos = new();
+
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    if (grid[x, y] == true)
+                    {
+                        pos.x = x;
+                        pos.y = y;
+                        return pos;
+                    }
+                }
+            }
+
+            return pos;
+        }
+        private int CalculateTotalSum()
+        {
+            int sum = 0;
+
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    if (grid[x, y] == true)
+                    {
+                        sum++;
+                    }
+                }
+            }
+
+            return sum;
+        }
+        private bool[,] GetGridFromArray2d(Array2DBool _data)
+        {
+            bool[,] grid = new bool[_data.GridSize.x, _data.GridSize.y];
+
+            for (int i = 0; i < _data.GridSize.x; i++)
+            {
+                for (int j = 0; j < _data.GridSize.y; j++)
+                {
+                    grid[i,j] = _data.GetCell(i,j);
+                }
+            }
+
+            return grid;
         }
     }
 }

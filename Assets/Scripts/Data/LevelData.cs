@@ -11,32 +11,18 @@ namespace Data
     public class LevelData : ScriptableObject
     {
         public GameBoard GameBoard => GetGameboardData();
-        public Counter[] Goals => (Counter[])goals.Clone();
+        public Counter[] Goals => (Counter[])goals.Clone(); //TODO Возможно стоит клонировать и элементы внутри массива
         public Counter[] Restrictions => (Counter[])restrictions.Clone();
         public Balance Balance => balance.Clone();
-        public Pattern[] MatchPatterns => GetPatternsData(matchPatterns);
-        public Pattern[] HintPatterns => GetPatternsData(hintPatterns);
+        public Pattern[] MatchPatterns => (Pattern[])matchPatterns.Clone();
+        public Pattern[] HintPatterns => (Pattern[])hintPatterns.Clone();
 
         [SerializeField] private Array2DCellTypeEnum gameBoard;
         [SerializeField] private Counter[] goals;
         [SerializeField] private Counter[] restrictions;
         [SerializeField] private Balance balance;
-        [SerializeField] private Array2DBool[] matchPatterns;
-        [SerializeField] private Array2DBool[] hintPatterns;
-        [SerializeField] private Array2DBool test;
-
-        //public LevelData GetLevelData()
-        //{
-        //    GameBoard gameBoard = GetGameboardData();
-
-        //    //TODO временная заглушка
-        //    var match = new Pattern[1];
-        //    var hint = new Pattern[1];
-
-        //    LevelData levelData = new LevelData(gameBoard, goals, restrictions, balance, match, hint);
-        //    return levelData;
-        //}
-
+        [SerializeField] private Pattern[] matchPatterns;
+        [SerializeField] private Pattern[] hintPatterns;
 
         private GameBoard GetGameboardData()
         {
@@ -50,18 +36,6 @@ namespace Data
             }
 
             return new GameBoard(aCellTypes);
-        }
-
-        //TODO функция получения паттерна из данных
-        private Pattern[] GetPatternsData(Array2DBool[] _data)
-        {
-            Pattern[] patterns = new Pattern[_data.Length];
-            for (int i = 0; i < patterns.Length; i++)
-            {
-                patterns[i] = new Pattern(_data[i].GetCells());
-            }
-
-            return patterns;
         }
     }
 }
