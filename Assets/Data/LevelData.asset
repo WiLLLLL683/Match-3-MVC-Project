@@ -14,15 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameBoard:
     gridSize: {x: 3, y: 3}
-    cellSize: {x: 64, y: 16}
+    cellSize: {x: 32, y: 16}
     cells:
-    - row: 000000000000000000000000
-    - row: 000000000000000000000000
-    - row: 000000000000000000000000
+    - row: 000000000100000000000000
+    - row: 010000000100000001000000
+    - row: 000000000100000000000000
   goals: []
   restrictions: []
   balance: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
-  matchPatterns: []
+  matchPatterns:
+  - gridSize: {x: 3, y: 3}
+    cellSize: {x: 16, y: 16}
+    cells:
+    - row: 000000
+    - row: 000000
+    - row: 000000
   hintPatterns: []
   test:
     gridSize: {x: 3, y: 3}

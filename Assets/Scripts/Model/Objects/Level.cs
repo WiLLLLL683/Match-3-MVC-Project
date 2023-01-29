@@ -48,9 +48,9 @@ namespace Model.Objects
             hintPatterns[0] = new Pattern(new bool[1, 1] { { true } });
 
 
-            Dictionary<ABlockType, int> balanceDictionary = new Dictionary<ABlockType, int>();
-            balanceDictionary.Add(new BasicBlockType(), 50);
-            balanceDictionary.Add(new BlueBlockType(), 50);
+            List<BlockType_Weight> balanceDictionary = new();
+            balanceDictionary.Add(new BlockType_Weight(new BlueBlockType(), 50));
+            balanceDictionary.Add(new BlockType_Weight(new RedBlockType(), 50));
             balance = new Balance(balanceDictionary);
         }
 
