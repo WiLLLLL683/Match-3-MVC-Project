@@ -16,7 +16,7 @@ namespace Model.Objects
         public Counter[] restrictions { get; private set; }
         public Balance balance { get; private set; }
         public Pattern[] matchPatterns { get; private set; }
-        public Pattern[] hintPatterns { get; private set; }
+        public HintPattern[] hintPatterns { get; private set; }
 
         /// <summary>
         /// Создание уровня исходя из данных с пустым игровым полем
@@ -44,8 +44,8 @@ namespace Model.Objects
             restrictions[0] = new Counter(new Turn(),2);
             matchPatterns = new Pattern[1];
             matchPatterns[0] = new Pattern(new bool[1, 1] { { true } });
-            hintPatterns = new Pattern[1];
-            hintPatterns[0] = new Pattern(new bool[1, 1] { { true } });
+            hintPatterns = new HintPattern[1];
+            hintPatterns[0] = new HintPattern(new bool[1, 1] { { true } }, new(0,0), Directions.Up);
 
 
             List<BlockType_Weight> balanceDictionary = new();
