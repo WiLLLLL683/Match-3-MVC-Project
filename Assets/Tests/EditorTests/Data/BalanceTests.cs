@@ -13,8 +13,8 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_1BasicType_BasicType()
         {
-            Dictionary<ABlockType, int> typesWeight = new Dictionary<ABlockType, int>();
-            typesWeight.Add(new BlueBlockType(), 100);
+            List<BlockType_Weight> typesWeight = new();
+            typesWeight.Add(new BlockType_Weight(new BlueBlockType(), 100));
             Balance balance = new Balance(typesWeight);
 
             ABlockType blockType = balance.GetRandomBlockType();
@@ -25,7 +25,7 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_NullData_BasicType()
         {
-            Dictionary<ABlockType, int> typesWeight = new Dictionary<ABlockType, int>();
+            List<BlockType_Weight> typesWeight = new();
             Balance balance = new Balance(typesWeight);
 
             ABlockType blockType = balance.GetRandomBlockType();
@@ -36,9 +36,9 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_2Types50persent_50persent()
         {
-            Dictionary<ABlockType, int> typesWeight = new Dictionary<ABlockType, int>();
-            typesWeight.Add(new BlueBlockType(), 50);
-            typesWeight.Add(new RedBlockType(), 50);
+            List<BlockType_Weight> typesWeight = new();
+            typesWeight.Add(new BlockType_Weight(new BlueBlockType(), 50));
+            typesWeight.Add(new BlockType_Weight(new RedBlockType(), 50));
             Balance balance = new Balance(typesWeight);
 
             int blueCount = 0;
@@ -62,11 +62,11 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_4Types25persent_25persent()
         {
-            Dictionary<ABlockType, int> typesWeight = new Dictionary<ABlockType, int>();
-            typesWeight.Add(new BlueBlockType(), 25);
-            typesWeight.Add(new RedBlockType(), 25);
-            typesWeight.Add(new BasicBlockType(), 25);
-            typesWeight.Add(new TestBlockType(), 25);
+            List<BlockType_Weight> typesWeight = new();
+            typesWeight.Add(new BlockType_Weight(new BlueBlockType(), 25));
+            typesWeight.Add(new BlockType_Weight(new RedBlockType(), 25));
+            typesWeight.Add(new BlockType_Weight(new BasicBlockType(), 25));
+            typesWeight.Add(new BlockType_Weight(new TestBlockType(), 25));
             Balance balance = new Balance(typesWeight);
 
             int blueCount = 0;

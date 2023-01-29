@@ -7,8 +7,8 @@ namespace Array2DEditor
 {
     public enum CellTypeEnum
     {
-        NotPlayable,
-        Basic
+        ____NotPlayable,
+        O___Basic
     }
     public enum BlockTypeEnum
     {
@@ -45,9 +45,9 @@ namespace Data
         {
             switch (_enum)
             {
-                case CellTypeEnum.NotPlayable:
+                case CellTypeEnum.____NotPlayable:
                     return new NotPlayableCellType();
-                case CellTypeEnum.Basic:
+                case CellTypeEnum.O___Basic:
                     return new BasicCellType();
                 default:
                     return null;
