@@ -14,12 +14,16 @@ namespace Data
     [CreateAssetMenu(fileName ="Pattern", menuName ="Data/Pattern")]
     public class Pattern: ScriptableObject
     {
-        [SerializeField] private Array2DBool array2d;
+        //для Unity
+        [SerializeField] protected Array2DBool array2d;
 
-        private bool[,] grid;
-        [ShowNonSerializedField] private int totalSum; //сумма помеченых клеток в паттерне
-        [ShowNonSerializedField] private Vector2Int originPosition = new Vector2Int(0, 0);
-        private Type originType;
+        //статичные данные
+        protected bool[,] grid;
+        [ShowNonSerializedField] protected int totalSum; //сумма помеченых клеток в паттерне
+        [ShowNonSerializedField] protected Vector2Int originPosition = new Vector2Int(0, 0);
+
+        //переменные
+        protected Type originType;
 
         public Pattern(bool[,] _grid)
         {
@@ -86,7 +90,7 @@ namespace Data
 
 
 
-        private Vector2Int GetOriginPosition()
+        protected Vector2Int GetOriginPosition()
         {
             Vector2Int pos = new();
 
@@ -105,7 +109,7 @@ namespace Data
 
             return pos;
         }
-        private int CalculateTotalSum()
+        protected int CalculateTotalSum()
         {
             int sum = 0;
 
@@ -122,7 +126,7 @@ namespace Data
 
             return sum;
         }
-        private bool[,] GetGridFromArray2d(Array2DBool _data)
+        protected bool[,] GetGridFromArray2d(Array2DBool _data)
         {
             bool[,] grid = new bool[_data.GridSize.x, _data.GridSize.y];
 

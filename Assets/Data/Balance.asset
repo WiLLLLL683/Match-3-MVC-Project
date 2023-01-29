@@ -15,10 +15,10 @@ MonoBehaviour:
   typesWeight:
   - blockType:
       rid: 4508593172856700929
-    weight: 10
+    weight: 15
   - blockType:
       rid: 4508593172856700930
-    weight: 10
+    weight: 15
   references:
     version: 2
     RefIds:

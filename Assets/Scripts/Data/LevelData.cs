@@ -15,14 +15,14 @@ namespace Data
         public Counter[] Restrictions => (Counter[])restrictions.Clone();
         public Balance Balance => balance.Clone();
         public Pattern[] MatchPatterns => (Pattern[])matchPatterns.Clone();
-        public Pattern[] HintPatterns => (Pattern[])hintPatterns.Clone();
+        public HintPattern[] HintPatterns => (HintPattern[])hintPatterns.Clone();
 
         [SerializeField] private Array2DCellTypeEnum gameBoard;
         [SerializeField] private Counter[] goals;
         [SerializeField] private Counter[] restrictions;
         [SerializeField] private Balance balance;
         [SerializeField] private Pattern[] matchPatterns;
-        [SerializeField] private Pattern[] hintPatterns;
+        [SerializeField] private HintPattern[] hintPatterns;
 
         private GameBoard GetGameboardData()
         {
