@@ -22,7 +22,7 @@ namespace Model.Objects
         /// Создание уровня исходя из данных с пустым игровым полем
         /// </summary>
         /// <param name="levelData"></param>
-        public Level(LevelDataScriptable levelData)
+        public Level(LevelData levelData)
         {
             gameBoard = levelData.GameBoard;
             goals = levelData.Goals;

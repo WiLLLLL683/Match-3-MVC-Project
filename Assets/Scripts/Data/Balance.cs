@@ -2,48 +2,64 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Data
 {
-    public class Balance
+    [Serializable]
+    public class BlockType_Weight
     {
-        private Dictionary<ABlockType, int> typesWeight;
+        [SerializeReference, SubclassSelector]
+        public ABlockType blockType;
+        public int weight;
+    }
+
+    [Serializable]
+    public class BlockType_Weight_Dictionary
+    {
+        public List<BlockType_Weight> data;
+    }
+
+
+    [CreateAssetMenu(fileName = "Balance", menuName = "Data/Balance")]
+    public class Balance: ScriptableObject
+    {
+        [SerializeField] private BlockType_Weight_Dictionary typesWeight;
         private int totalWeight;
 
         public Balance()
         {
-            //TODO typeWeight = data...
-            typesWeight = new Dictionary<ABlockType, int>();
+            typesWeight = new BlockType_Weight_Dictionary();
 
             totalWeight = 0;
-            foreach (var item in typesWeight)
+            foreach (var item in typesWeight.data)
             {
-                totalWeight += item.Value;
+                //totalWeight += item.Value;
             }
         }
 
         public Balance(Dictionary<ABlockType, int> _typesWeight)
         {
-            typesWeight = _typesWeight;
+            //typesWeight = _typesWeight;
 
             totalWeight = 0;
-            foreach (var item in typesWeight)
+            foreach (var item in typesWeight.data)
             {
-                totalWeight += item.Value;
+                //totalWeight += item.Value;
             }
         }
 
         public ABlockType GetRandomBlockType()
         {
-            int weightIndex = new Random().Next(0, totalWeight);
+            int weightIndex = new System.Random().Next(0, totalWeight);
 
             int currentWeightIndex = 0;
-            foreach (var item in typesWeight)
+            foreach (var item in typesWeight.data)
             {
-                currentWeightIndex += item.Value;
+                //currentWeightIndex += item.Value;
                 if (currentWeightIndex >= weightIndex)
                 {
-                    return item.Key;
+                    //return item.Key;
                 }
             }
 

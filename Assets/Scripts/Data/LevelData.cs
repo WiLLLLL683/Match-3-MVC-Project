@@ -7,8 +7,8 @@ using Model.Objects;
 
 namespace Data
 {
-    [CreateAssetMenu(fileName ="NewLevelData",menuName ="Data/LevelDataOld")]
-    public class LevelDataScriptable : ScriptableObject
+    [CreateAssetMenu(fileName ="LevelData",menuName ="Data/LevelData")]
+    public class LevelData : ScriptableObject
     {
         public GameBoard GameBoard => GetGameboardData();
         public Counter[] Goals => (Counter[])goals.Clone();
