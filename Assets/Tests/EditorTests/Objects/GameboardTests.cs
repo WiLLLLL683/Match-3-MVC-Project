@@ -14,11 +14,11 @@ namespace Model.Objects.UnitTests
             GameBoard gameBoard = new GameBoard(2,2);
 
             int fullCellsCount = 0;
-            for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
+            for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
             {
-                for (int y = 0; y < gameBoard.cells.GetLength(1); y++)
+                for (int y = 0; y < gameBoard.Cells.GetLength(1); y++)
                 {
-                    if (!gameBoard.cells[x, y].isEmpty)
+                    if (!gameBoard.Cells[x, y].IsEmpty)
                         fullCellsCount++;
                 }
             }
@@ -30,11 +30,11 @@ namespace Model.Objects.UnitTests
         public void RegisterBlock_NewBlock_BlockRegistred()
         {
             GameBoard gameBoard = new GameBoard(2,2);
-            Block block = new Block(new BasicBlockType(), gameBoard.cells[0,0]);
+            Block block = new Block(new BasicBlockType(), gameBoard.Cells[0,0]);
 
             gameBoard.RegisterBlock(block);
 
-            Assert.AreEqual(block,gameBoard.blocks[0]);
+            Assert.AreEqual(block,gameBoard.Blocks[0]);
         }
 
         [Test]
@@ -44,19 +44,19 @@ namespace Model.Objects.UnitTests
 
             gameBoard.RegisterBlock(null);
 
-            Assert.AreEqual(0, gameBoard.blocks.Count);
+            Assert.AreEqual(0, gameBoard.Blocks.Count);
         }
 
         [Test]
         public void UnRegisterBlock_DestroyBlock_BlockUnRegistred()
         {
             GameBoard gameBoard = new GameBoard(2,2);
-            Block block = new Block(new BasicBlockType(), gameBoard.cells[0,0]);
+            Block block = new Block(new BasicBlockType(), gameBoard.Cells[0,0]);
 
             gameBoard.RegisterBlock(block);
             block.Destroy();
 
-            Assert.AreEqual(0,gameBoard.blocks.Count);
+            Assert.AreEqual(0,gameBoard.Blocks.Count);
         }
 
     }

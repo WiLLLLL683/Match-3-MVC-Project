@@ -21,7 +21,7 @@ namespace Model.Systems.UnitTests
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
-            Assert.AreEqual(level.gameBoard.cells[0, 0], matchedCells[0]);
+            Assert.AreEqual(level.gameBoard.Cells[0, 0], matchedCells[0]);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
             Level level = new Level(1,1, matchPatterns);
-            level.gameBoard.cells[0, 0].ChangeType(new NotPlayableCellType());
+            level.gameBoard.Cells[0, 0].ChangeType(new NotPlayableCellType());
             MatchSystem matchSystem = new MatchSystem();
             matchSystem.SetLevel(level);
 
@@ -69,9 +69,9 @@ namespace Model.Systems.UnitTests
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
-            Assert.AreEqual(level.gameBoard.cells[0, 0], matchedCells[0]);
-            Assert.AreEqual(level.gameBoard.cells[0, 1], matchedCells[1]);
-            Assert.AreEqual(level.gameBoard.cells[0, 2], matchedCells[2]);
+            Assert.AreEqual(level.gameBoard.Cells[0, 0], matchedCells[0]);
+            Assert.AreEqual(level.gameBoard.Cells[0, 1], matchedCells[1]);
+            Assert.AreEqual(level.gameBoard.Cells[0, 2], matchedCells[2]);
             LogAssert.ignoreFailingMessages = false;
         }
 
@@ -89,9 +89,9 @@ namespace Model.Systems.UnitTests
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
-            Assert.AreEqual(level.gameBoard.cells[2, 0], matchedCells[0]);
-            Assert.AreEqual(level.gameBoard.cells[2, 1], matchedCells[1]);
-            Assert.AreEqual(level.gameBoard.cells[2, 2], matchedCells[2]);
+            Assert.AreEqual(level.gameBoard.Cells[2, 0], matchedCells[0]);
+            Assert.AreEqual(level.gameBoard.Cells[2, 1], matchedCells[1]);
+            Assert.AreEqual(level.gameBoard.Cells[2, 2], matchedCells[2]);
             LogAssert.ignoreFailingMessages = false;
         }
 
@@ -109,11 +109,11 @@ namespace Model.Systems.UnitTests
 
             List<Cell> matchedCells = matchSystem.FindMatches();
 
-            Assert.AreEqual(level.gameBoard.cells[0, 1], matchedCells[0]);
-            Assert.AreEqual(level.gameBoard.cells[1, 0], matchedCells[1]);
-            Assert.AreEqual(level.gameBoard.cells[1, 1], matchedCells[2]);
-            Assert.AreEqual(level.gameBoard.cells[1, 2], matchedCells[3]);
-            Assert.AreEqual(level.gameBoard.cells[2, 1], matchedCells[4]);
+            Assert.AreEqual(level.gameBoard.Cells[0, 1], matchedCells[0]);
+            Assert.AreEqual(level.gameBoard.Cells[1, 0], matchedCells[1]);
+            Assert.AreEqual(level.gameBoard.Cells[1, 1], matchedCells[2]);
+            Assert.AreEqual(level.gameBoard.Cells[1, 2], matchedCells[3]);
+            Assert.AreEqual(level.gameBoard.Cells[2, 1], matchedCells[4]);
             LogAssert.ignoreFailingMessages = false;
         }        
         
@@ -140,47 +140,47 @@ namespace Model.Systems.UnitTests
         private Level DotLevel1x1(Pattern[] matchPatterns)
         {
             Level level = new Level(1, 1, matchPatterns);
-            level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
             return level;
         }
         private Level VertLineLevel1x3(Pattern[] matchPatterns)
         {
             Level level = new Level(1, 3, matchPatterns);
-            level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[0, 1].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[0, 2].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[0, 1].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[0, 2].SpawnBlock(new BlueBlockType());
             return level;
         }
         private Level VertLineLevel3x3(Pattern[] matchPatterns)
         {
             Level level = new Level(3, 3, matchPatterns);
-            level.gameBoard.cells[2, 0].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[2, 1].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[2, 2].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[2, 0].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[2, 1].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[2, 2].SpawnBlock(new BlueBlockType());
             return level;
         }
         private Level NoMatchLevel3x3(Pattern[] matchPatterns)
         {
             Level level = new Level(3, 3, matchPatterns);
-            level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[0, 1].SpawnBlock(new RedBlockType());
-            level.gameBoard.cells[0, 2].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
-            level.gameBoard.cells[1, 1].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[1, 2].SpawnBlock(new RedBlockType());
-            level.gameBoard.cells[2, 0].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[2, 1].SpawnBlock(new RedBlockType());
-            level.gameBoard.cells[2, 2].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[0, 1].SpawnBlock(new RedBlockType());
+            level.gameBoard.Cells[0, 2].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[1, 0].SpawnBlock(new RedBlockType());
+            level.gameBoard.Cells[1, 1].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[1, 2].SpawnBlock(new RedBlockType());
+            level.gameBoard.Cells[2, 0].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[2, 1].SpawnBlock(new RedBlockType());
+            level.gameBoard.Cells[2, 2].SpawnBlock(new BlueBlockType());
             return level;
         }
         private Level CrossLevel3x3(Pattern[] matchPatterns)
         {
             Level level = new Level(3, 3, matchPatterns);
-            level.gameBoard.cells[0, 1].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[1, 0].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[1, 1].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[1, 2].SpawnBlock(new BlueBlockType());
-            level.gameBoard.cells[2, 1].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[0, 1].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[1, 0].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[1, 1].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[1, 2].SpawnBlock(new BlueBlockType());
+            level.gameBoard.Cells[2, 1].SpawnBlock(new BlueBlockType());
             return level;
         }
 

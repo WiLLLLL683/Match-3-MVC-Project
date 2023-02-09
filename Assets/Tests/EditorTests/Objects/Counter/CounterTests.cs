@@ -14,7 +14,7 @@ namespace Model.Objects.UnitTests
             Counter goal = new Counter(new BasicBlockType(),10);
             Block target = CreateBlock();
 
-            goal.UpdateGoal(target.type);
+            goal.UpdateGoal(target.Type);
 
             Assert.AreEqual(9, goal.Count);
         }
@@ -25,7 +25,7 @@ namespace Model.Objects.UnitTests
             Counter goal = new Counter(new BasicBlockType(),0);
             Block target = CreateBlock();
 
-            goal.UpdateGoal(target.type);
+            goal.UpdateGoal(target.Type);
 
             Assert.AreEqual(0, goal.Count);
         }
@@ -36,7 +36,7 @@ namespace Model.Objects.UnitTests
             Counter goal = new Counter(new RedBlockType(),10);
             Block target = CreateBlock();
 
-            goal.UpdateGoal(target.type);
+            goal.UpdateGoal(target.Type);
 
             Assert.AreEqual(10, goal.Count);
         }
@@ -59,7 +59,7 @@ namespace Model.Objects.UnitTests
 
             goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
-            goal.UpdateGoal(target.type);
+            goal.UpdateGoal(target.Type);
             goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
@@ -85,7 +85,7 @@ namespace Model.Objects.UnitTests
 
             goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
-            goal.UpdateGoal(target.type);
+            goal.UpdateGoal(target.Type);
             goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 
@@ -111,8 +111,8 @@ namespace Model.Objects.UnitTests
 
             goal.OnUpdateEvent += TestUpdate;
             goal.OnCompleteEvent += TestComplete;
-            goal.UpdateGoal(target.type);
-            goal.UpdateGoal(target.type);
+            goal.UpdateGoal(target.Type);
+            goal.UpdateGoal(target.Type);
             goal.OnUpdateEvent -= TestUpdate;
             goal.OnCompleteEvent -= TestComplete;
 

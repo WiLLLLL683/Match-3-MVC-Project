@@ -11,26 +11,22 @@ namespace Model.Objects
     /// </summary>
     public class GameBoard
     {
-        public Cell[,] cells { get; private set; }
-        public List<Block> blocks { get; private set; }
-
-        [SerializeReference, SubclassSelector] private ACellType[,] cellTypes;
+        public Cell[,] Cells { get; private set; }
+        public List<Block> Blocks { get; private set; }
 
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
         public GameBoard(ACellType[,] _cellTypes)
         {
-            cellTypes = _cellTypes;
+            Cells = new Cell[_cellTypes.GetLength(0), _cellTypes.GetLength(1)];
+            Blocks = new List<Block>();
 
-            cells = new Cell[cellTypes.GetLength(0), cellTypes.GetLength(1)];
-            blocks = new List<Block>();
-
-            for (int i = 0; i < cellTypes.GetLength(0); i++)
+            for (int i = 0; i < _cellTypes.GetLength(0); i++)
             {
-                for (int j = 0; j < cellTypes.GetLength(1); j++)
+                for (int j = 0; j < _cellTypes.GetLength(1); j++)
                 {
-                    cells[i, j] = new Cell(cellTypes[i,j], new Vector2Int(i, j));
+                    Cells[i, j] = new Cell(_cellTypes[i,j], new Vector2Int(i, j));
                 }
             }
         }
@@ -40,14 +36,14 @@ namespace Model.Objects
         /// </summary>
         public GameBoard(int xLength, int yLength)
         {
-            cells = new Cell[xLength, yLength];
-            blocks = new List<Block>();
+            Cells = new Cell[xLength, yLength];
+            Blocks = new List<Block>();
 
             for (int i = 0; i < xLength; i++)
             {
                 for (int j = 0; j < yLength; j++)
                 {
-                    cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i,j));
+                    Cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i,j));
                 }
             }
         }
@@ -59,7 +55,7 @@ namespace Model.Objects
         {
             if (_block != null)
             {
-                blocks.Add(_block);
+                Blocks.Add(_block);
                 _block.OnDestroy += UnRegisterBlock;
             }
         }
@@ -76,14 +72,14 @@ namespace Model.Objects
             }
 
             //играбельна ли клетка?
-            if (!cells[_position.x, _position.y].IsPlayable)
+            if (!Cells[_position.x, _position.y].IsPlayable)
             {
                 Debug.LogError("Tried to get Block but Cell was notPlayable");
                 return false;
             }
 
             //есть ли блок в клетке?
-            if (cells[_position.x, _position.y].isEmpty)
+            if (Cells[_position.x, _position.y].IsEmpty)
             {
                 Debug.LogError("Tried to get Block but Cell was empty");
                 return false;
@@ -100,8 +96,8 @@ namespace Model.Objects
             //позиция в границах игрового поля?
             if (_position.x >= 0 &&
                 _position.y >= 0 &&
-                _position.x < cells.GetLength(0) &&
-                _position.y < cells.GetLength(1))
+                _position.x < Cells.GetLength(0) &&
+                _position.y < Cells.GetLength(1))
             {
                 return true;
             }
@@ -115,7 +111,7 @@ namespace Model.Objects
 
         private void UnRegisterBlock(Block _block, EventArgs eventArgs)
         {
-            blocks.Remove(_block);
+            Blocks.Remove(_block);
         }
     }
 }

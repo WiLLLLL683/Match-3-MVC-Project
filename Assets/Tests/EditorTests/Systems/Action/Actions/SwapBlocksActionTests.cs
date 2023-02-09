@@ -20,8 +20,8 @@ namespace Model.Systems.UnitTests
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
 
-            Assert.AreEqual(blockB, cellA.block);
-            Assert.AreEqual(blockA, cellB.block);
+            Assert.AreEqual(blockB, cellA.Block);
+            Assert.AreEqual(blockA, cellB.Block);
         }
 
         [Test]
@@ -37,8 +37,8 @@ namespace Model.Systems.UnitTests
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
 
-            Assert.AreEqual(blockB, cellA.block);
-            Assert.AreEqual(null, cellB.block);
+            Assert.AreEqual(blockB, cellA.Block);
+            Assert.AreEqual(null, cellB.Block);
             Assert.AreEqual(1, eventCount);
         }
 
@@ -54,8 +54,8 @@ namespace Model.Systems.UnitTests
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
 
-            Assert.AreEqual(null, cellA.block);
-            Assert.AreEqual(null, cellB.block);
+            Assert.AreEqual(null, cellA.Block);
+            Assert.AreEqual(null, cellB.Block);
             Assert.AreEqual(2, eventCount);
         }
 
@@ -70,7 +70,7 @@ namespace Model.Systems.UnitTests
             action.Execute();
 
             Assert.AreEqual(null, cellA);
-            Assert.AreEqual(blockB, cellB.block);
+            Assert.AreEqual(blockB, cellB.Block);
         }
     }
 }

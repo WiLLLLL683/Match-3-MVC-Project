@@ -13,8 +13,8 @@ namespace Model.Systems.UnitTests
         public void Move_ValidTurn_BlocksSwaped()
         {
             Level level = new(2, 1);
-            Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new RedBlockType());
             MoveSystem moveSystem = new MoveSystem();
             moveSystem.SetLevel(level);
 
@@ -22,16 +22,16 @@ namespace Model.Systems.UnitTests
             if (action != null) 
                 action.Execute();
 
-            Assert.AreSame(blockB, level.gameBoard.cells[0,0].block);
-            Assert.AreSame(blockA, level.gameBoard.cells[1,0].block);
+            Assert.AreSame(blockB, level.gameBoard.Cells[0,0].Block);
+            Assert.AreSame(blockA, level.gameBoard.Cells[1,0].Block);
         }
 
         [Test]
         public void Move_InValidStartPos_NoChange()
         {
             Level level = new(2,1);
-            Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new RedBlockType());
             MoveSystem moveSystem = new MoveSystem();
             moveSystem.SetLevel(level);
 
@@ -40,16 +40,16 @@ namespace Model.Systems.UnitTests
                 action.Execute();
 
             LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
-            Assert.AreSame(blockA, level.gameBoard.cells[0,0].block);
-            Assert.AreSame(blockB, level.gameBoard.cells[1,0].block);
+            Assert.AreSame(blockA, level.gameBoard.Cells[0,0].Block);
+            Assert.AreSame(blockB, level.gameBoard.Cells[1,0].Block);
         }
 
         [Test]
         public void Move_InValidTargetPos_NoChange()
         {
             Level level = new(2, 1);
-            Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new RedBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new RedBlockType());
             MoveSystem moveSystem = new MoveSystem();
             moveSystem.SetLevel(level);
 
@@ -58,8 +58,8 @@ namespace Model.Systems.UnitTests
                 action.Execute();
 
             LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
-            Assert.AreSame(blockA, level.gameBoard.cells[0,0].block);
-            Assert.AreSame(blockB, level.gameBoard.cells[1,0].block);
+            Assert.AreSame(blockA, level.gameBoard.Cells[0,0].Block);
+            Assert.AreSame(blockB, level.gameBoard.Cells[1,0].Block);
         }
     }
 }

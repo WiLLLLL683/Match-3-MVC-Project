@@ -12,4 +12,12 @@ namespace Model
     {
         Up, Down, Left, Right, Zero
     }
+
+    /// <summary>
+    /// Направления для перемещения
+    /// </summary>
+    public enum CurrencyType
+    {
+        Gold, Star
+    }
 }

@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class AllSystems
 {
+    //TODO сделать более универсальный контейнер
+
     public ISpawnSystem SpawnSystem { get; private set; }
     public IMatchSystem MatchSystem { get; private set; }
     public IGravitySystem GravitySystem { get; private set; }

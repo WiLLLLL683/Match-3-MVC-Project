@@ -41,7 +41,7 @@ namespace Model.Infrastructure
                 //удалить совпадающие блоки
                 for (int j = 0; j < matches.Count; j++)
                 {
-                    level.UpdateGoals(matches[j].block.type);
+                    level.UpdateGoals(matches[j].Block.Type);
                     matches[j].DestroyBlock();
                 }
 

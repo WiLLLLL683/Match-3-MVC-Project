@@ -9,42 +9,79 @@ namespace Model.Objects
     /// </summary>
     public class CurrencyInventory
     {
-        //TODO сделать более универсальным по валютам
-        public int Gold { get; private set; }
+        public Dictionary<CurrencyType, int> currencies;
 
-        /// <summary>
-        /// Добавить валюту
-        /// </summary>
-        public void AddGold(int ammount)
+        public CurrencyInventory()
         {
-            if (ammount <= 0)
-            {
-                Debug.LogError("Can't add negative ammount of Gold");
-                return;
-            }
-
-            Gold += ammount;
+            currencies = new();
         }
 
         /// <summary>
-        /// Забрать валюту из инвентаря
+        /// For tests only
         /// </summary>
-        /// <param name="ammount"></param>
-        public void TakeGold(int ammount)
+        public CurrencyInventory(CurrencyType type)
+        {
+            currencies = new();
+            currencies.Add(type, 0);
+        }
+
+        /// <summary>
+        /// Добавить валюту определенного типа
+        /// </summary>
+        public void AddCurrency(CurrencyType type, int ammount)
         {
             if (ammount <= 0)
             {
-                Debug.LogError("Can't remove negative ammount of Gold");
+                Debug.LogError("Can't add negative ammount of " + type);
                 return;
             }
 
-            if (ammount > Gold)
+            if (currencies.ContainsKey(type))
             {
-                Debug.LogError("Not enough Gold");
+                currencies[type] += ammount;
+            }
+            else
+            {
+                currencies.Add(type, ammount);
+            }
+        }
+
+        /// <summary>
+        /// Забрать валюту определенного типа из инвентаря
+        /// </summary>
+        /// <param name="ammount"></param>
+        public void TakeCurrency(CurrencyType type, int ammount)
+        {
+            if (ammount <= 0)
+            {
+                Debug.LogError("Can't remove negative ammount of " + type);
                 return;
             }
 
-            Gold -= ammount;
+            if (!currencies.ContainsKey(type))
+            {
+                Debug.LogError("You have no " + type);
+                return;
+            }
+
+            if (ammount > currencies[type])
+            {
+                Debug.LogError("Not enough " + type);
+                return;
+            }
+
+            currencies[type] -= ammount;
+        }
+
+        public int GetAmmount(CurrencyType type)
+        {
+            if (!currencies.ContainsKey(type))
+            {
+                Debug.LogError("You have no " + type);
+                return 0;
+            }
+
+            return currencies[type];
         }
     }
 }

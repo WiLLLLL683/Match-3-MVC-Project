@@ -62,7 +62,7 @@ namespace Model.Infrastructure
             {
                 for (int i = 0; i < matches.Count; i++)
                 {
-                    level.UpdateGoals(matches[i].block.type);
+                    level.UpdateGoals(matches[i].Block.Type);
                     matches[i].DestroyBlock();
                 }
                 SucsessfullTurn();
@@ -76,7 +76,7 @@ namespace Model.Infrastructure
 
         private void PressBlock()
         {
-            bool turnSucsess = level.gameBoard.cells[startPos.x, startPos.y].block.Activate();
+            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate();
 
             if (turnSucsess)
             {

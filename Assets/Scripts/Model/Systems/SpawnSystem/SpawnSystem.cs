@@ -25,10 +25,10 @@ namespace Model.Systems
         /// </summary>
         public void SpawnTopLine()
         {
-            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
+            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
             {
                 ABlockType type = level.balance.GetRandomBlockType();
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.cells[x, 0]);
+                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.Cells[x, 0]);
                 spawnAction.Execute();
             }
         }
@@ -38,14 +38,14 @@ namespace Model.Systems
         /// </summary>
         public void SpawnBonusBlock(ABlockType _type, Cell _cell)
         {
-            if (_cell.isEmpty)
+            if (_cell.IsEmpty)
             {
                 SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, _type, _cell);
                 spawnAction.Execute();
             }
             else
             {
-                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(_type, _cell.block);
+                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(_type, _cell.Block);
                 changeTypeAction.Execute();
             }
         }
