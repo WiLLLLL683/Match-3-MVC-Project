@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Model.Infrastructure
 {
+    /// <summary>
+    /// Стейт-машина, хранящая по одному экземпляру добавленных в нее стейтов
+    /// </summary>
     public class StateMachine
     {
         public IState previousState { get; private set; }
@@ -21,6 +24,9 @@ namespace Model.Infrastructure
             states = _states;
         }
 
+        /// <summary>
+        /// Задать текущий стейт
+        /// </summary>
         public void SetState<T>() where T:IState
         {
             if (!states.ContainsKey(typeof(T)))
@@ -31,6 +37,9 @@ namespace Model.Infrastructure
 
             ChangeState(states[typeof(T)]);
         }
+        /// <summary>
+        /// Вернуться к предыдущему стейту
+        /// </summary>
         public void SetPrevoiusState()
         {
             if (previousState == null)
@@ -41,6 +50,9 @@ namespace Model.Infrastructure
 
             ChangeState(previousState);
         }
+        /// <summary>
+        /// Получить экземпляр стейта определенного типа
+        /// </summary>
         public T GetState<T>() where T : IState
         {
             if (!states.ContainsKey(typeof(T)))
@@ -51,6 +63,9 @@ namespace Model.Infrastructure
 
             return (T)states[typeof(T)];
         }
+        /// <summary>
+        /// Добавить новый стейт в стейт-машину
+        /// </summary>
         public void AddState(IState _state)
         {
             Type type = _state.GetType();

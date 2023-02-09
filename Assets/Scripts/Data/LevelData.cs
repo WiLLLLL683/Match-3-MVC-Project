@@ -7,6 +7,9 @@ using Model.Objects;
 
 namespace Data
 {
+    /// <summary>
+    /// Данные об уровне
+    /// </summary>
     [CreateAssetMenu(fileName ="LevelData",menuName ="Data/LevelData")]
     public class LevelData : ScriptableObject
     {

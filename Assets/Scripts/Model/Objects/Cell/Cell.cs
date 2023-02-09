@@ -27,12 +27,18 @@ namespace Model.Objects
             position = _position;
         }
 
+        /// <summary>
+        /// Изменить тип клетки
+        /// </summary>
         public void ChangeType(ACellType _type)
         {
             type = _type;
             OnTypeChange?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Поместить блок в клетку при возможности, null для опустошения клетки
+        /// </summary>
         public void SetBlock(Block _block)
         {
             if (IsPlayable)
@@ -50,6 +56,9 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Заспавнить блок в клетке при возможности
+        /// </summary>
         public Block SpawnBlock(ABlockType _blockType)
         {
             if (IsPlayable && isEmpty)
@@ -62,6 +71,9 @@ namespace Model.Objects
             return null;
         }
 
+        /// <summary>
+        /// Уничтожить блок в клетке при возможности
+        /// </summary>
         public void DestroyBlock()
         {
             if (IsPlayable && block != null)
@@ -71,6 +83,9 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Уничтожить саму клетку, результат зависит от типа клетки
+        /// </summary>
         public void DestroyCell()
         {
             if (type != null)

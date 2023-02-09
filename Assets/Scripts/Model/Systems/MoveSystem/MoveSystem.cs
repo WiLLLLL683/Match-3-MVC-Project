@@ -7,17 +7,23 @@ using UnityEngine;
 namespace Model.Systems
 {
     /// <summary>
-    /// Система смены соседних блоков местами
+    /// Система перемещения блоков
     /// </summary>
     public class MoveSystem : IMoveSystem
     {
         private Level level;
 
+        /// <summary>
+        /// Обновить данные об уровне
+        /// </summary>
         public void SetLevel(Level _level)
         {
             level = _level;
         }
 
+        /// <summary>
+        /// Сдвинуть блок в необходимую сторону со сменой блоков местами
+        /// </summary>
         public SwapBlocksAction Move(Vector2Int _startPosition, Directions direction)
         {
             //вычислить конечную позицию
@@ -50,6 +56,8 @@ namespace Model.Systems
 
             //возврат действия по смене блоков местами
             return new SwapBlocksAction(level.gameBoard.cells[_startPosition.x, _startPosition.y], level.gameBoard.cells[targetPosition.x, targetPosition.y]);
+
+            //TODO добавить ивенты различных исходов
         }
 
 

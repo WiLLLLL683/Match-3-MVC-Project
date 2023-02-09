@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Базовый тип клетки, которая может содержать блок
+    /// </summary>
     [Serializable]
     public class BasicCellType : ACellType
     {

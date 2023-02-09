@@ -3,10 +3,16 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class HudAdapter : MonoBehaviour
+namespace Controller
 {
-    internal void Init(Game game)
+    /// <summary>
+    /// Адаптер для передачи информации из модели в HUD
+    /// </summary>
+    public class HudAdapter : MonoBehaviour
     {
-        throw new NotImplementedException();
+        internal void Init(Game game)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Контейнер для игровых систем
+/// </summary>
 public class AllSystems
 {
     public ISpawnSystem SpawnSystem { get; private set; }

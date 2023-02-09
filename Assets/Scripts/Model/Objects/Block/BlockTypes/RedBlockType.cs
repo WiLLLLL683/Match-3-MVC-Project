@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Красный тип блока, без действия по активации
+    /// </summary>
     [Serializable]
     public class RedBlockType : ABlockType
     {

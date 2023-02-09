@@ -25,6 +25,9 @@ namespace Data
             totalSum = CalculateTotalSum();
         }
 
+        /// <summary>
+        /// Поиск подсказки на уровне, вызывает ивент инпута с данными о блоке и направлении в котором его нужно переместить
+        /// </summary>
         public void GetHint(GameBoard _gameBoard, Vector2Int _startPosition, InputMoveDelegate _hintMove)
         {
             if (Match(_gameBoard,_startPosition).Count == 0)
@@ -32,6 +35,7 @@ namespace Data
                 return;
             }
 
+            //TODO проверить как работает нахождение подсказки
             Vector2Int cellToMoveOnGameboard = new Vector2Int(cellToMove.x + _startPosition.x, cellToMove.y + _startPosition.y);
 
             _hintMove?.Invoke(cellToMoveOnGameboard, directionToMove);

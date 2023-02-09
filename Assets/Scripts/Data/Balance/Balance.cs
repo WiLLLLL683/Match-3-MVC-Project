@@ -6,7 +6,9 @@ using UnityEngine;
 
 namespace Data
 {
-
+    /// <summary>
+    /// Данные о вероятностях спавна разных типов блоков
+    /// </summary>
     [CreateAssetMenu(fileName = "Balance", menuName = "Data/Balance")]
     public class Balance: ScriptableObject
     {
@@ -30,6 +32,9 @@ namespace Data
             totalWeight = CalculateTotalWeight();
         }
 
+        /// <summary>
+        /// Получить рандомный тип блока с заданными вероятностями
+        /// </summary>
         public ABlockType GetRandomBlockType()
         {
             int weightIndex = new System.Random().Next(0, totalWeight);

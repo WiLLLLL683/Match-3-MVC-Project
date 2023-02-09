@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Data
 {
+    /// <summary>
+    /// Класс для отображения в инспекторе пары: тип блока - вероятность его выпадения
+    /// </summary>
     [Serializable]
     public class BlockType_Weight
     {
