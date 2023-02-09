@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Pattern
   m_EditorClassIdentifier: 
   array2d:
-    gridSize: {x: 3, y: 4}
+    gridSize: {x: 3, y: 3}
     cellSize: {x: 16, y: 16}
     cells:
-    - row: 000101
-    - row: 010101
     - row: 000000
+    - row: 010101
     - row: 000000
