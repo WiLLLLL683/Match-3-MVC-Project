@@ -67,11 +67,11 @@ namespace Model.Infrastructure
 
         private void SpawnBlocks()
         {
-            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
+            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
             {
-                for (int y = 0; y < level.gameBoard.cells.GetLength(1); y++)
+                for (int y = 0; y < level.gameBoard.Cells.GetLength(1); y++)
                 {
-                    SpawnRandomBlock(level, level.gameBoard.cells[x, y]);
+                    SpawnRandomBlock(level, level.gameBoard.Cells[x, y]);
                 }
             }
         }

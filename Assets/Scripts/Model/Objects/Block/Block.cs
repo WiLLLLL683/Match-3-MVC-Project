@@ -10,17 +10,17 @@ namespace Model.Objects
     /// </summary>
     public class Block
     {
-        public ABlockType type { get; private set; }
-        public Cell cell { get; private set; }
-        public Vector2Int Position { get { return cell.position; } }
+        public ABlockType Type { get; private set; }
+        public Cell Cell { get; private set; }
+        public Vector2Int Position { get { return Cell.Position; } }
         public event BlockDelegate OnDestroy;
         public event BlockDelegate OnTypeChange;
         public event BlockDelegate OnPositionChange;
 
         public Block(ABlockType _type, Cell _cell)
         {
-            type = _type;
-            cell = _cell;
+            Type = _type;
+            Cell = _cell;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Model.Objects
         /// </summary>
         public void ChangePosition(Cell _cell)
         {
-            cell = _cell;
+            Cell = _cell;
             OnPositionChange?.Invoke(this, new EventArgs());
         }
 
@@ -37,7 +37,7 @@ namespace Model.Objects
         /// </summary>
         public void ChangeType(ABlockType _type)
         {
-            type = _type;
+            Type = _type;
             OnTypeChange?.Invoke(this, new EventArgs());
         }
 
@@ -46,7 +46,7 @@ namespace Model.Objects
         /// </summary>
         public bool Activate()
         {
-            return type.Activate();
+            return Type.Activate();
         }
 
         /// <summary>

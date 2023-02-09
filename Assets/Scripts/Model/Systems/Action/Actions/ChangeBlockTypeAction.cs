@@ -20,7 +20,7 @@ namespace Model.Systems
             targetType = _type;
             if (block != null)
             {
-                previousType = block.type;
+                previousType = block.Type;
             }
         }
 

@@ -25,9 +25,9 @@ namespace Model.Systems
         /// </summary>
         public void Execute()
         {
-            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
+            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
             {
-                for (int y = level.gameBoard.cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
+                for (int y = level.gameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
                 {
                     TryMoveBlockDown(x, y);
                 }
@@ -39,9 +39,9 @@ namespace Model.Systems
         private void TryMoveBlockDown(int x, int y)
         {
             int lowestY = y;
-            for (int i = level.gameBoard.cells.GetLength(1) - 1; i > y; i--)
+            for (int i = level.gameBoard.Cells.GetLength(1) - 1; i > y; i--)
             {
-                if (level.gameBoard.cells[x, i].isEmpty)
+                if (level.gameBoard.Cells[x, i].IsEmpty)
                 {
                     lowestY = i;
                     break;
@@ -54,7 +54,7 @@ namespace Model.Systems
             }
             else
             {
-                SwapBlocksAction action = new SwapBlocksAction(level.gameBoard.cells[x, y], level.gameBoard.cells[x, lowestY]);
+                SwapBlocksAction action = new SwapBlocksAction(level.gameBoard.Cells[x, y], level.gameBoard.Cells[x, lowestY]);
                 action.Execute();
             }
         }

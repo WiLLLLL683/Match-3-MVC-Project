@@ -55,7 +55,7 @@ namespace Data
                 return new List<Cell>();
 
             //взять тип оригинального блока
-            originType = _gameBoard.cells[originPosOnGameboard.x, originPosOnGameboard.y].block.type.GetType();
+            originType = _gameBoard.Cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.GetType();
 
             int sum = 0;
             List<Cell> matchedCells = new List<Cell>();
@@ -76,10 +76,10 @@ namespace Data
                         continue;
 
                     //совпадают ли типы блоков?
-                    if (_gameBoard.cells[posOnGameboard.x, posOnGameboard.y].block.type.GetType().Equals(originType))
+                    if (_gameBoard.Cells[posOnGameboard.x, posOnGameboard.y].Block.Type.GetType().Equals(originType))
                     {
                         sum++;
-                        matchedCells.Add(_gameBoard.cells[posOnGameboard.x, posOnGameboard.y]);
+                        matchedCells.Add(_gameBoard.Cells[posOnGameboard.x, posOnGameboard.y]);
                     }
                 }
             }

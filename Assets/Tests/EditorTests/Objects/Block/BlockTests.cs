@@ -18,7 +18,7 @@ namespace Model.Objects.UnitTests
 
             block.ChangePosition(cellB);
 
-            Assert.AreEqual(cellB, block.cell);
+            Assert.AreEqual(cellB, block.Cell);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Model.Objects.UnitTests
 
             block.ChangeType(newType);
 
-            Assert.AreEqual(newType, block.type);
+            Assert.AreEqual(newType, block.Type);
         }
 
         [Test]

@@ -17,7 +17,7 @@ namespace Model.Systems.UnitTests
 
             action.Execute();
 
-            Assert.AreEqual(typeof(RedBlockType), block.type.GetType());
+            Assert.AreEqual(typeof(RedBlockType), block.Type.GetType());
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Model.Systems.UnitTests
             action.Execute();
 
             LogAssert.Expect(LogType.Error, "Invalid input data");
-            Assert.AreEqual(typeof(BlueBlockType), block.type.GetType());
+            Assert.AreEqual(typeof(BlueBlockType), block.Type.GetType());
         }
 
 

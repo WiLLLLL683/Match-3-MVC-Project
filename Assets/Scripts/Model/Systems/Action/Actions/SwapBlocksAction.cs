@@ -33,8 +33,8 @@ namespace Model.Systems
         {
             if (_A != null && _B != null)
             {
-                Block tempBlock = _A.block;
-                _A.SetBlock(_B.block);
+                Block tempBlock = _A.Block;
+                _A.SetBlock(_B.Block);
                 _B.SetBlock(tempBlock);
             }
         }

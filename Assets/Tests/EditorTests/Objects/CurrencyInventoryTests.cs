@@ -12,81 +12,125 @@ namespace Model.Infrastructure.UnitTests
     public class CurrencyInventoryTests
     {
         [Test]
-        public void AddGold_PositiveAmmount_GoldAdded()
+        public void AddCurrency_PositiveAmmount_GoldAdded()
         {
-            CurrencyInventory inventory = new();
-            
-            inventory.AddGold(100);
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
 
-            Assert.AreEqual(100, inventory.Gold);
+            inventory.AddCurrency(type, 100);
+
+            Assert.AreEqual(100, inventory.GetAmmount(type));
         }
 
         [Test]
-        public void AddGold_ZeroAmmount_GoldNotAdded()
+        public void AddCurrency_ZeroAmmount_GoldNotAdded()
         {
-            CurrencyInventory inventory = new();
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
 
-            inventory.AddGold(0);
+            inventory.AddCurrency(type, 0);
 
-            Assert.AreEqual(0, inventory.Gold);
-            LogAssert.Expect(LogType.Error, "Can't add negative ammount of Gold");
+            Assert.AreEqual(0, inventory.GetAmmount(type));
+            LogAssert.Expect(LogType.Error, "Can't add negative ammount of " + type);
         }
 
         [Test]
-        public void AddGold_NegativeAmmount_GoldNotAdded()
+        public void AddCurrency_NegativeAmmount_GoldNotAdded()
         {
-            CurrencyInventory inventory = new();
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
 
-            inventory.AddGold(-555);
+            inventory.AddCurrency(type, -555);
 
-            Assert.AreEqual(0, inventory.Gold);
-            LogAssert.Expect(LogType.Error, "Can't add negative ammount of Gold");
+            Assert.AreEqual(0, inventory.GetAmmount(type));
+            LogAssert.Expect(LogType.Error, "Can't add negative ammount of " + type);
         }
 
         [Test]
-        public void TakeGold_PositiveAmmount_GoldRemoved()
+        public void TakeCurrency_PositiveAmmount_GoldRemoved()
         {
-            CurrencyInventory inventory = new();
-            inventory.AddGold(100);
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
+            inventory.AddCurrency(type, 100);
 
-            inventory.TakeGold(10);
+            inventory.TakeCurrency(type, 10);
 
-            Assert.AreEqual(90, inventory.Gold);
+            Assert.AreEqual(90, inventory.GetAmmount(type));
         }
 
         [Test]
-        public void TakeGold_NotEnoughGold_GoldNotRemoved()
+        public void TakeCurrency_NotEnough_GoldNotRemoved()
         {
-            CurrencyInventory inventory = new();
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
 
-            inventory.TakeGold(10);
+            inventory.TakeCurrency(type, 10);
 
-            Assert.AreEqual(0, inventory.Gold);
-            LogAssert.Expect(LogType.Error, "Not enough Gold");
+            Assert.AreEqual(0, inventory.GetAmmount(type));
+            LogAssert.Expect(LogType.Error, "Not enough " + type);
         }
 
         [Test]
-        public void TakeGold_ZeroAmmount_GoldNotRemoved()
+        public void TakeCurrency_ZeroAmmount_GoldNotRemoved()
         {
-            CurrencyInventory inventory = new();
-            inventory.AddGold(100);
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
+            inventory.AddCurrency(type, 100);
 
-            inventory.TakeGold(0);
+            inventory.TakeCurrency(type, 0);
 
-            Assert.AreEqual(100, inventory.Gold);
-            LogAssert.Expect(LogType.Error, "Can't remove negative ammount of Gold");
+            Assert.AreEqual(100, inventory.GetAmmount(type));
+            LogAssert.Expect(LogType.Error, "Can't remove negative ammount of " + type);
         }
 
         [Test]
-        public void TakeGold_NegativeAmmount_GoldNotRemoved()
+        public void TakeCurrency_NegativeAmmount_GoldNotRemoved()
         {
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
+            inventory.AddCurrency(type, 100);
+
+            inventory.TakeCurrency(type, -10);
+
+            Assert.AreEqual(100, inventory.GetAmmount(type));
+            LogAssert.Expect(LogType.Error, "Can't remove negative ammount of " + type);
+        }
+
+        [Test]
+        public void TakeCurrency_NoCurrencyOfType_GoldNotRemoved()
+        {
+            CurrencyType type = CurrencyType.Gold;
             CurrencyInventory inventory = new();
-            inventory.AddGold(100);
 
-            inventory.TakeGold(-10);
+            inventory.TakeCurrency(type, 10);
 
-            Assert.AreEqual(100, inventory.Gold);
-            LogAssert.Expect(LogType.Error, "Can't remove negative ammount of Gold");
+            Assert.AreEqual(0, inventory.GetAmmount(type));
+            LogAssert.Expect(LogType.Error, "You have no " + type);
+            LogAssert.Expect(LogType.Error, "You have no " + type);
+        }
+
+        [Test]
+        public void GetAmmount_ValidType_ValidAmmount()
+        {
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new(type);
+            inventory.AddCurrency(type, 100);
+
+            int ammount = inventory.GetAmmount(type);
+
+            Assert.AreEqual(100, ammount);
+        }
+
+        [Test]
+        public void GetAmmount_NoCurrencyOfType_Zero()
+        {
+            CurrencyType type = CurrencyType.Gold;
+            CurrencyInventory inventory = new();
+
+            int ammount = inventory.GetAmmount(type);
+
+            Assert.AreEqual(0, ammount);
+            LogAssert.Expect(LogType.Error, "You have no " + type);
         }
     }
 }

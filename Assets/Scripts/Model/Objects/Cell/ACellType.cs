@@ -9,7 +9,7 @@ namespace Model.Objects
     [Serializable]
     public abstract class ACellType : ICounterTarget
     {
-        public virtual bool canContainBlock { get { return true; } }
+        public virtual bool CanContainBlock { get { return true; } }
         public abstract void DestroyCellMaterial();
     }
 }

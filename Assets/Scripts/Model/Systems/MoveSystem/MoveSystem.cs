@@ -55,7 +55,7 @@ namespace Model.Systems
                 return null;
 
             //возврат действия по смене блоков местами
-            return new SwapBlocksAction(level.gameBoard.cells[_startPosition.x, _startPosition.y], level.gameBoard.cells[targetPosition.x, targetPosition.y]);
+            return new SwapBlocksAction(level.gameBoard.Cells[_startPosition.x, _startPosition.y], level.gameBoard.Cells[targetPosition.x, targetPosition.y]);
 
             //TODO добавить ивенты различных исходов
         }

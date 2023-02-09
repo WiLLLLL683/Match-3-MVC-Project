@@ -18,7 +18,7 @@ namespace Model.Systems
         {
             cell = _cell;
             targetType = _type;
-            previousType = cell.type;
+            previousType = cell.Type;
         }
 
         public void Execute()
