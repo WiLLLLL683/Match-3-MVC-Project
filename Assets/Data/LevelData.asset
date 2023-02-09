@@ -32,7 +32,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
   - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
   hintPatterns:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 2271e9eec7997984e98d096ddceb24f7, type: 2}
   references:
     version: 2
     RefIds:
