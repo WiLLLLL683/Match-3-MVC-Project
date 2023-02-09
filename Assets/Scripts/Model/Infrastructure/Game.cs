@@ -14,14 +14,14 @@ namespace Model.Infrastructure
         public CurrencyInventory CurrencyInventory { get; private set; }
         public BoosterInventory BoosterInventory { get; private set; }
         public StateMachine StateMachine { get; private set; }
-        public EventDispatcher EventDispatcher { get; private set; }
+        //public EventDispatcher EventDispatcher { get; private set; }
         public AllSystems Systems { get; private set; }
 
         public Game()
         {
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
-            EventDispatcher = new EventDispatcher();
+            //EventDispatcher = new EventDispatcher();
             Systems = new AllSystems();
 
             StateMachine = new StateMachine();

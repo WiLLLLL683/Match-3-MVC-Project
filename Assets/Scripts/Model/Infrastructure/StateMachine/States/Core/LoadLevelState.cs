@@ -11,7 +11,7 @@ namespace Model.Infrastructure
     {
         private Game game;
         private StateMachine stateMachine;
-        private EventDispatcher eventDispatcher;
+        //private EventDispatcher eventDispatcher;
         private AllSystems systems;
         private IMatchSystem matchSystem;
 
@@ -24,7 +24,7 @@ namespace Model.Infrastructure
         {
             game = _game;
             stateMachine = _game.StateMachine;
-            eventDispatcher = _game.EventDispatcher;
+            //eventDispatcher = _game.EventDispatcher;
             systems = _game.Systems;
             matchSystem = _game.Systems.MatchSystem;
         }
@@ -62,7 +62,7 @@ namespace Model.Infrastructure
             level = new Level(levelData);
             game.SetLevel(level);
             systems.SetLevel(level);
-            eventDispatcher.SubscribeOnLevel(level);
+            //eventDispatcher.SubscribeOnLevel(level);
         }
 
         private void SpawnBlocks()
