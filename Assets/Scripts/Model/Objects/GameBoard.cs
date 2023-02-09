@@ -52,6 +52,9 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Регистрация блока в игровом поле
+        /// </summary>
         public void RegisterBlock(Block _block)
         {
             if (_block != null)
@@ -60,6 +63,10 @@ namespace Model.Objects
                 _block.OnDestroy += UnRegisterBlock;
             }
         }
+
+        /// <summary>
+        /// Проверка наличия блока в заданной позиции
+        /// </summary>
         public bool CheckValidBlockByPosition(Vector2Int _position)
         {
             //позиция вне границ игрового поля?
@@ -84,6 +91,10 @@ namespace Model.Objects
 
             return true;
         }
+
+        /// <summary>
+        /// Проверка наличия клетки в границах игрового поля
+        /// </summary>
         public bool CheckValidCellByPosition(Vector2Int _position)
         {
             //позиция в границах игрового поля?

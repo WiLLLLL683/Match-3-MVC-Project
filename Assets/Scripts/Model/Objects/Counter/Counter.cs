@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Счетчик целей заданного типа
+    /// </summary>
     [Serializable]
     public class Counter
     {
@@ -26,6 +29,10 @@ namespace Model.Objects
             count = _count;
         }
 
+        /// <summary>
+        /// Проверка на совпадение с целью счетчика, уменьшение счета при совпадении
+        /// </summary>
+        /// <param name="goalTarget"></param>
         public void UpdateGoal(ICounterTarget goalTarget)
         {
             if (goalTarget.GetType() == Target.GetType() && !isCompleted)

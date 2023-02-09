@@ -3,10 +3,16 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class BoosterController : MonoBehaviour
+namespace Controller
 {
-    internal void Init(Game game)
+    /// <summary>
+    /// Контроллер для бустеров
+    /// </summary>
+    public class BoosterController : MonoBehaviour
     {
-        throw new NotImplementedException();
+        internal void Init(Game game)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

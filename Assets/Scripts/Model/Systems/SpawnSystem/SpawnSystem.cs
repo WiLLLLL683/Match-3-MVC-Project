@@ -6,17 +6,23 @@ using UnityEngine;
 namespace Model.Systems
 {
     /// <summary>
-    /// Система для спавна новых блоков - вверху уровня при нехватке блоков ниже, бонусных блоков по команде
+    /// Система для спавна новых блоков
     /// </summary>
     public class SpawnSystem : ISpawnSystem
     {
         private Level level;
 
+        /// <summary>
+        /// Обновить данные об уровне
+        /// </summary>
         public void SetLevel(Level _level)
         {
             level = _level;
         }
 
+        /// <summary>
+        /// спавн новых блоков вверху уровня при нехватке блоков ниже
+        /// </summary>
         public void SpawnTopLine()
         {
             for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
@@ -27,6 +33,9 @@ namespace Model.Systems
             }
         }
 
+        /// <summary>
+        /// спавн бонусных блоков
+        /// </summary>
         public void SpawnBonusBlock(ABlockType _type, Cell _cell)
         {
             if (_cell.isEmpty)

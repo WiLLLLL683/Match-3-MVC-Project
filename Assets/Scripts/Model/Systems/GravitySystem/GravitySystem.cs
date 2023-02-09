@@ -12,11 +12,17 @@ namespace Model.Systems
     {
         private Level level;
 
+        /// <summary>
+        /// Обновить данные об уровне
+        /// </summary>
         public void SetLevel(Level _level)
         {
             level = _level;
         }
 
+        /// <summary>
+        /// Переместить все "висящие в воздухе" блоки вниз
+        /// </summary>
         public void Execute()
         {
             for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
@@ -27,6 +33,8 @@ namespace Model.Systems
                 }
             }
         }
+
+
 
         private void TryMoveBlockDown(int x, int y)
         {

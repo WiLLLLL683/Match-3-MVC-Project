@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Controller
 {
+    /// <summary>
+    /// Контроллер для окна выбора уровня
+    /// </summary>
     public class LevelSelectionController : MonoBehaviour
     {
         private Game game;

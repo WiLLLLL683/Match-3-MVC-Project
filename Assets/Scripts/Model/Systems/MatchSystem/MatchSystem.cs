@@ -13,6 +13,9 @@ namespace Model.Systems
     {
         private Level level;
 
+        /// <summary>
+        /// Обновить данные об уровне
+        /// </summary>
         public void SetLevel(Level _level)
         {
             level = _level;
@@ -49,6 +52,8 @@ namespace Model.Systems
 
             return matchedCells; //TODO вернуть только клетки которые нужно сменить для подсказки
         }
+
+
 
         private List<Cell> CheckPattern(Pattern _pattern)
         {

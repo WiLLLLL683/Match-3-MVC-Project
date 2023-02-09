@@ -39,6 +39,9 @@ namespace Data
             totalSum = CalculateTotalSum();
         }
 
+        /// <summary>
+        /// Найти клетки совпадающие с данным паттерном
+        /// </summary>
         public List<Cell> Match(GameBoard _gameBoard, Vector2Int _startPosition)
         {
             //пуст ли паттерн?

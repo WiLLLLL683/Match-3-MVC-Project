@@ -4,9 +4,16 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Инвентарь для хранения бустеров
+    /// </summary>
     public class BoosterInventory
     {
         private Dictionary<Type, int> boosters = new();
+
+        /// <summary>
+        /// Добавить бустер определенного типа
+        /// </summary>
         public void AddBooster<T>(int ammount) where T : IBooster
         {
             if (ammount <= 0)
@@ -26,6 +33,9 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Забрать бустер определенного типа
+        /// </summary>
         public IBooster TakeBooster<T>() where T : IBooster, new()
         {
             Type boosterType = typeof(T);
@@ -44,6 +54,9 @@ namespace Model.Objects
             return new T();
         }
 
+        /// <summary>
+        /// Получить количество бустеров определенного типа
+        /// </summary>
         public int GetBoosterAmmount<T>() where T : IBooster
         {
             Type boosterType = typeof(T);

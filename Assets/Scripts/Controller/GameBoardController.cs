@@ -3,10 +3,16 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class GameBoardController : MonoBehaviour
+namespace Controller
 {
-    internal void Init(Game game)
+    /// <summary>
+    /// Контроллер для игрового поля
+    /// </summary>
+    public class GameBoardController : MonoBehaviour
     {
-        throw new NotImplementedException();
+        internal void Init(Game game)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

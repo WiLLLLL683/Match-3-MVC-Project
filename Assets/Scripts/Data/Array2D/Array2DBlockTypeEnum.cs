@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Array2DEditor
 {
+    /// <summary>
+    /// Класс для отображения в инспекторе 2-х мерного массива с типами блоков
+    /// </summary>
     [System.Serializable]
     public class Array2DBlockTypeEnum : Array2D<BlockTypeEnum>
     {

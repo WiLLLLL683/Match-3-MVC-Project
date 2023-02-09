@@ -4,10 +4,17 @@ using UnityEngine;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Инвентарь для игровых валют
+    /// </summary>
     public class CurrencyInventory
     {
+        //TODO сделать более универсальным по валютам
         public int Gold { get; private set; }
 
+        /// <summary>
+        /// Добавить валюту
+        /// </summary>
         public void AddGold(int ammount)
         {
             if (ammount <= 0)
@@ -19,6 +26,10 @@ namespace Model.Objects
             Gold += ammount;
         }
 
+        /// <summary>
+        /// Забрать валюту из инвентаря
+        /// </summary>
+        /// <param name="ammount"></param>
         public void TakeGold(int ammount)
         {
             if (ammount <= 0)

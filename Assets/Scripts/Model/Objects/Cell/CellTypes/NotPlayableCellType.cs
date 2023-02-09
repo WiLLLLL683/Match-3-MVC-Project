@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Тип клетки которая не может содержать блок
+    /// </summary>
     [Serializable]
     public class NotPlayableCellType : ACellType
     {

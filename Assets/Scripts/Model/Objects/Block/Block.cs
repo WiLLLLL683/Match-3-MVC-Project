@@ -23,23 +23,35 @@ namespace Model.Objects
             cell = _cell;
         }
 
+        /// <summary>
+        /// «адать клетку в которой расположен блок
+        /// </summary>
         public void ChangePosition(Cell _cell)
         {
             cell = _cell;
             OnPositionChange?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// »зменить тип блока
+        /// </summary>
         public void ChangeType(ABlockType _type)
         {
             type = _type;
             OnTypeChange?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// јктивировать блок, зависит от типа блока
+        /// </summary>
         public bool Activate()
         {
             return type.Activate();
         }
 
+        /// <summary>
+        /// уничтожить блок
+        /// </summary>
         public void Destroy()
         {
             OnDestroy?.Invoke(this,new EventArgs());

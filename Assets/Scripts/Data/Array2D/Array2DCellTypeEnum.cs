@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Array2DEditor
 {
+    /// <summary>
+    /// Класс для отображения в инспекторе 2-х мерного массива с типами клеток
+    /// </summary>
     [System.Serializable]
     public class Array2DCellTypeEnum : Array2D<CellTypeEnum>
     {

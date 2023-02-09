@@ -21,7 +21,6 @@ namespace Model.Objects
         /// <summary>
         /// Создание уровня исходя из данных с пустым игровым полем
         /// </summary>
-        /// <param name="levelData"></param>
         public Level(LevelData levelData)
         {
             gameBoard = levelData.GameBoard;
@@ -63,6 +62,9 @@ namespace Model.Objects
             matchPatterns = _matchPatterns;
         }
 
+        /// <summary>
+        /// Проверить все ли цели уровня выполнены
+        /// </summary>
         public bool CheckWin()
         {
             for (int i = 0; i < goals.Length; i++)
@@ -74,6 +76,9 @@ namespace Model.Objects
             return true;
         }
 
+        /// <summary>
+        /// Проверить закончились ли огранияения уровня
+        /// </summary>
         public bool CheckLose()
         {
             for (int i = 0; i < restrictions.Length; i++)
@@ -85,6 +90,9 @@ namespace Model.Objects
             return false;
         }
 
+        /// <summary>
+        /// Пересчет счетчика целей уровня, с вычетом 1 цели
+        /// </summary>
         public void UpdateGoals(ICounterTarget _target)
         {
             for (int i = 0; i < goals.Length; i++)
@@ -93,6 +101,9 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Пересчет счетчика ограничений уровня, с вычетом 1 цели
+        /// </summary>
         public void UpdateRestrictions(ICounterTarget _target)
         {
             for (int i = 0; i < restrictions.Length; i++)

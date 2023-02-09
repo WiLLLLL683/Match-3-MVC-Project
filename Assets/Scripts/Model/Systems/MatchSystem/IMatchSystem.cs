@@ -5,8 +5,8 @@ namespace Model.Systems
 {
     public interface IMatchSystem
     {
-        List<Cell> FindFirstHint();
-        List<Cell> FindMatches();
-        void SetLevel(Level level);
+        public List<Cell> FindFirstHint();
+        public List<Cell> FindMatches();
+        public void SetLevel(Level level);
     }
 }

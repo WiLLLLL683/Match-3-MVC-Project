@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace Model.Infrastructure
 {
+    /// <summary>
+    /// Основной объект модели игры
+    /// </summary>
     public class Game
     {
         public Level Level { get; private set; }
@@ -39,13 +42,26 @@ namespace Model.Infrastructure
             StateMachine.AddState(new ExitState());
         }
 
+        /// <summary>
+        /// Загрузка игры
+        /// </summary>
         public void LoadGame() => StateMachine.SetState<LoadGameState>();
+        /// <summary>
+        /// Запуск мета-игры
+        /// </summary>
         public void StartMetaGame() => StateMachine.SetState<MetaGameState>();
+        /// <summary>
+        /// Запуск выбранного уровня кор-игры
+        /// </summary>
+        /// <param name="levelData"></param>
         public void StartCoreGame(LevelData levelData)
         {
             StateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
             StateMachine.SetState<LoadLevelState>();
         }
+        /// <summary>
+        /// Обновить данные об уровне
+        /// </summary>
         public void SetLevel(Level _level) => Level = _level;
     }
 }

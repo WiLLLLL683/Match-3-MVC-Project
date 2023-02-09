@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Model
 {
+    /// <summary>
+    /// Направления для перемещения
+    /// </summary>
     public enum Directions
     {
         Up, Down, Left, Right, Zero
