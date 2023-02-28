@@ -49,10 +49,5 @@ namespace Model.Systems
                 changeTypeAction.Execute();
             }
         }
-
-        /// <summary>
-        /// for tests only
-        /// </summary>
-        public Level GetLevel() => level;
     }
 }

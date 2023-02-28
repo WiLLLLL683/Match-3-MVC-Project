@@ -91,10 +91,5 @@ namespace Model.Systems
             //если совпадений нет, то вернуть пустой список
             return new List<Cell>();
         }
-
-        /// <summary>
-        /// for tests only
-        /// </summary>
-        public Level GetLevel() => level;
     }
 }

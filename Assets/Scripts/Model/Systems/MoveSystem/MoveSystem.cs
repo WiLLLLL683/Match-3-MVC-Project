@@ -59,12 +59,5 @@ namespace Model.Systems
 
             //TODO добавить ивенты различных исходов
         }
-
-
-
-        /// <summary>
-        /// for tests only
-        /// </summary>
-        public Level GetLevel() => level;
     }
 }

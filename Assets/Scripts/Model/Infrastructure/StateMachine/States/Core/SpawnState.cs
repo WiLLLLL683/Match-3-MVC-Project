@@ -21,9 +21,9 @@ namespace Model.Infrastructure
         {
             game = _game;
             stateMachine = _game.StateMachine;
-            gravitySystem = _game.Systems.GravitySystem;
-            matchSystem = _game.Systems.MatchSystem;
-            spawnSystem = _game.Systems.SpawnSystem;
+            gravitySystem = _game.Systems.GetSystem<IGravitySystem>();
+            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
+            spawnSystem = _game.Systems.GetSystem<ISpawnSystem>();
         }
 
         public void OnStart()

@@ -22,7 +22,7 @@ namespace Model.Infrastructure
         {
             game = _game;
             //eventDispatcher = _game.EventDispatcher;
-            matchSystem = _game.Systems.MatchSystem;
+            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
             stateMachine = _game.StateMachine;
         }
 

@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace Model.Systems
 {
-    public interface IMoveSystem
+    public interface IMoveSystem : ISystem
     {
         public SwapBlocksAction Move(Vector2Int _startPosition, Directions direction);
-        public void SetLevel(Level level);
     }
 }
