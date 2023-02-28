@@ -58,10 +58,5 @@ namespace Model.Systems
                 action.Execute();
             }
         }
-
-        /// <summary>
-        /// for tests only
-        /// </summary>
-        public Level GetLevel() => level;
     }
 }

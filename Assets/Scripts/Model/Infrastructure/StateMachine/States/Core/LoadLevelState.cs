@@ -26,7 +26,7 @@ namespace Model.Infrastructure
             stateMachine = _game.StateMachine;
             //eventDispatcher = _game.EventDispatcher;
             systems = _game.Systems;
-            matchSystem = _game.Systems.MatchSystem;
+            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
         }
 
         public void SetLevelData(LevelData _levelData)

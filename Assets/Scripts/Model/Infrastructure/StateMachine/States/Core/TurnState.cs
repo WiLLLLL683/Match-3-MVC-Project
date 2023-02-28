@@ -21,8 +21,8 @@ namespace Model.Infrastructure
         {
             game = _game;
             stateMachine = _game.StateMachine;
-            moveSystem = _game.Systems.MoveSystem;
-            matchSystem = _game.Systems.MatchSystem;
+            moveSystem = _game.Systems.GetSystem<IMoveSystem>();
+            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
         }
 
         public void SetInput(Vector2Int _startPos, Directions _direction)

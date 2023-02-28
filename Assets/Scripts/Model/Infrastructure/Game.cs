@@ -25,7 +25,12 @@ namespace Model.Infrastructure
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
             //EventDispatcher = new EventDispatcher();
+
             Systems = new AllSystems();
+            Systems.AddSystem(new SpawnSystem());
+            Systems.AddSystem(new MatchSystem());
+            Systems.AddSystem(new GravitySystem());
+            Systems.AddSystem(new MoveSystem());
 
             StateMachine = new StateMachine();
             StateMachine.AddState(new LoadGameState(this));

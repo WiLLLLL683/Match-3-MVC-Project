@@ -2,9 +2,8 @@
 
 namespace Model.Systems
 {
-    public interface IGravitySystem
+    public interface IGravitySystem : ISystem
     {
         void Execute();
-        void SetLevel(Level level);
     }
 }
