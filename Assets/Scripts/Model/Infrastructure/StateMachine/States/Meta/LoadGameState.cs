@@ -10,10 +10,10 @@ namespace Model.Infrastructure
         private Game game;
         private StateMachine stateMachine;
 
-        public LoadGameState(Game _game)
+        public LoadGameState(Game _game, StateMachine _stateMachine)
         {
             game = _game;
-            stateMachine = _game.StateMachine;
+            stateMachine = _stateMachine;
         }
 
         public void OnStart()

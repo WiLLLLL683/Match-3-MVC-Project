@@ -12,7 +12,7 @@ namespace Model.Objects
     [Serializable]
     public class NotPlayableCellType : ACellType
     {
-        public override bool CanContainBlock { get { return false; } }
+        public override bool CanContainBlock => false;
         public override void DestroyCellMaterial()
         {
             

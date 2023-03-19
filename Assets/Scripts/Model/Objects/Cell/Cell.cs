@@ -10,7 +10,7 @@ namespace Model.Objects
     /// </summary>
     public class Cell
     {
-        public bool IsPlayable { get { return Type.CanContainBlock; } }
+        public bool IsPlayable => Type.CanContainBlock;
         public bool IsEmpty { get; private set; }
         public ACellType Type { get; private set; }
         public Block Block { get; private set; }
