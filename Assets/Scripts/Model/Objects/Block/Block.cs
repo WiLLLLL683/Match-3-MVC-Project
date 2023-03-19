@@ -12,7 +12,7 @@ namespace Model.Objects
     {
         public ABlockType Type { get; private set; }
         public Cell Cell { get; private set; }
-        public Vector2Int Position { get { return Cell.Position; } }
+        public Vector2Int Position => Cell.Position;
         public event BlockDelegate OnDestroy;
         public event BlockDelegate OnTypeChange;
         public event BlockDelegate OnPositionChange;

@@ -12,18 +12,16 @@ namespace Model.Infrastructure
         private Game game;
         private StateMachine stateMachine;
         private IMatchSystem matchSystem;
-        //private EventDispatcher eventDispatcher;
         //данные
         private Level level; //TODO проверить меняется ли уровень при изменении в Game?
         private List<Cell> hintCells;
 
 
-        public WaitState(Game _game) //TODO input
+        public WaitState(Game _game, StateMachine _stateMachine, AllSystems _systems) //TODO input
         {
             game = _game;
-            //eventDispatcher = _game.EventDispatcher;
-            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
-            stateMachine = _game.StateMachine;
+            stateMachine = _stateMachine;
+            matchSystem = _systems.GetSystem<IMatchSystem>();
         }
 
         public void OnStart()
@@ -39,8 +37,6 @@ namespace Model.Infrastructure
                 stateMachine.SetState<WinState>();
 
             //TODO подписка на ивенты инпута
-            //eventDispatcher.OnInputMove += OnInputMove;
-            //eventDispatcher.OnInputBooster += OnInputBooster;
 
             //поиск блоков для подсказки
             hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
@@ -49,8 +45,6 @@ namespace Model.Infrastructure
         public void OnEnd()
         {
             //отписка от ивента инпута
-            //eventDispatcher.OnInputMove -= OnInputMove;
-            //eventDispatcher.OnInputBooster -= OnInputBooster;
         }
 
         private void OnInputMove(Vector2Int _startPos, Directions _direction)

@@ -10,8 +10,8 @@ namespace Model.Infrastructure
     /// </summary>
     public class StateMachine
     {
-        public IState previousState { get; private set; }
-        public IState currentState { get; private set; }
+        public IState PreviousState { get; private set; }
+        public IState CurrentState { get; private set; }
         
         private Dictionary<Type, IState> states;
 
@@ -42,13 +42,13 @@ namespace Model.Infrastructure
         /// </summary>
         public void SetPrevoiusState()
         {
-            if (previousState == null)
+            if (PreviousState == null)
             {
                 Debug.LogWarning("There's no previous state");
                 return;
             }
 
-            ChangeState(previousState);
+            ChangeState(PreviousState);
         }
         /// <summary>
         /// Получить экземпляр стейта определенного типа
@@ -89,10 +89,10 @@ namespace Model.Infrastructure
                 return;
             }
 
-            previousState = currentState;
-            previousState?.OnEnd();
-            currentState = _state;
-            currentState.OnStart();
+            PreviousState = CurrentState;
+            PreviousState?.OnEnd();
+            CurrentState = _state;
+            CurrentState.OnStart();
         }
     }
 }

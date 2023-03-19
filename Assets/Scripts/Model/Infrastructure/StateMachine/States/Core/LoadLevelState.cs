@@ -11,7 +11,6 @@ namespace Model.Infrastructure
     {
         private Game game;
         private StateMachine stateMachine;
-        //private EventDispatcher eventDispatcher;
         private AllSystems systems;
         private IMatchSystem matchSystem;
 
@@ -20,13 +19,12 @@ namespace Model.Infrastructure
 
         private const int MATCH_CHECK_ITERATIONS = 3; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game _game)
+        public LoadLevelState(Game _game, StateMachine _stateMachine, AllSystems _systems)
         {
             game = _game;
-            stateMachine = _game.StateMachine;
-            //eventDispatcher = _game.EventDispatcher;
-            systems = _game.Systems;
-            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
+            stateMachine = _stateMachine;
+            systems = _systems;
+            matchSystem = _systems.GetSystem<IMatchSystem>();
         }
 
         public void SetLevelData(LevelData _levelData)
@@ -62,7 +60,6 @@ namespace Model.Infrastructure
             level = new Level(levelData);
             game.SetLevel(level);
             systems.SetLevel(level);
-            //eventDispatcher.SubscribeOnLevel(level);
         }
 
         private void SpawnBlocks()

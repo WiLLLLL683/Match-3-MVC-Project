@@ -19,7 +19,7 @@ namespace Model.Infrastructure.UnitTests
 
             stateMachine.SetState<TestState>();
 
-            Assert.AreEqual(typeof(TestState), stateMachine.currentState.GetType());
+            Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace Model.Infrastructure.UnitTests
             stateMachine.SetState<TestState>();
             stateMachine.SetState<TestState2>();
 
-            Assert.AreEqual(typeof(TestState2), stateMachine.currentState.GetType());
-            Assert.AreEqual(typeof(TestState), stateMachine.previousState.GetType());
+            Assert.AreEqual(typeof(TestState2), stateMachine.CurrentState.GetType());
+            Assert.AreEqual(typeof(TestState), stateMachine.PreviousState.GetType());
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Model.Infrastructure.UnitTests
             stateMachine.SetState<TestState>();
             stateMachine.SetPrevoiusState();
 
-            Assert.AreEqual(typeof(TestState), stateMachine.currentState.GetType());
+            Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Model.Infrastructure.UnitTests
             stateMachine.SetState<TestState2>();
             stateMachine.SetPrevoiusState();
 
-            Assert.AreEqual(typeof(TestState), stateMachine.currentState.GetType());
+            Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
         [Test]
         public void GetState_ValidState_ReferenceToValidState()

@@ -16,53 +16,51 @@ namespace Model.Infrastructure
         public Level Level { get; private set; }
         public CurrencyInventory CurrencyInventory { get; private set; }
         public BoosterInventory BoosterInventory { get; private set; }
-        public StateMachine StateMachine { get; private set; }
-        //public EventDispatcher EventDispatcher { get; private set; }
-        public AllSystems Systems { get; private set; }
+        
+        private StateMachine stateMachine;
+        private AllSystems systems;
 
         public Game()
         {
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
-            //EventDispatcher = new EventDispatcher();
 
-            Systems = new AllSystems();
-            Systems.AddSystem(new SpawnSystem());
-            Systems.AddSystem(new MatchSystem());
-            Systems.AddSystem(new GravitySystem());
-            Systems.AddSystem(new MoveSystem());
+            systems = new AllSystems();
+            systems.AddSystem(new SpawnSystem());
+            systems.AddSystem(new MatchSystem());
+            systems.AddSystem(new GravitySystem());
+            systems.AddSystem(new MoveSystem());
 
-            StateMachine = new StateMachine();
-            StateMachine.AddState(new LoadGameState(this));
-            StateMachine.AddState(new MetaGameState());
-            StateMachine.AddState(new LoadLevelState(this));
-            StateMachine.AddState(new WaitState(this)); //TODO нужна ссылка на инпут/контроллер, для подписки на события
-            StateMachine.AddState(new TurnState(this));
-            StateMachine.AddState(new BoosterState(this));
-            StateMachine.AddState(new SpawnState(this));
-            StateMachine.AddState(new HintState());
-            StateMachine.AddState(new LoseState());
-            StateMachine.AddState(new WinState());
-            StateMachine.AddState(new BonusState());
-            StateMachine.AddState(new ExitState());
+            stateMachine = new StateMachine();
+            stateMachine.AddState(new LoadGameState(this, stateMachine));
+            stateMachine.AddState(new MetaGameState());
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems));
+            stateMachine.AddState(new WaitState(this, stateMachine, systems)); //TODO нужна ссылка на инпут/контроллер, для подписки на события
+            stateMachine.AddState(new TurnState(this, stateMachine, systems));
+            stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
+            stateMachine.AddState(new SpawnState(this, stateMachine, systems));
+            stateMachine.AddState(new HintState(stateMachine, systems));
+            stateMachine.AddState(new LoseState(stateMachine, systems));
+            stateMachine.AddState(new WinState(stateMachine, systems));
+            stateMachine.AddState(new BonusState(stateMachine, systems));
+            stateMachine.AddState(new ExitState(stateMachine, systems));
         }
 
         /// <summary>
         /// Загрузка игры
         /// </summary>
-        public void LoadGame() => StateMachine.SetState<LoadGameState>();
+        public void LoadGame() => stateMachine.SetState<LoadGameState>();
         /// <summary>
         /// Запуск мета-игры
         /// </summary>
-        public void StartMetaGame() => StateMachine.SetState<MetaGameState>();
+        public void StartMetaGame() => stateMachine.SetState<MetaGameState>();
         /// <summary>
         /// Запуск выбранного уровня кор-игры
         /// </summary>
-        /// <param name="levelData"></param>
         public void StartCoreGame(LevelData levelData)
         {
-            StateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
-            StateMachine.SetState<LoadLevelState>();
+            stateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
+            stateMachine.SetState<LoadLevelState>();
         }
         /// <summary>
         /// Обновить данные об уровне

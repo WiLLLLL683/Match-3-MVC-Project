@@ -11,13 +11,15 @@ namespace Model.Infrastructure
         private Game game;
         private Level level;
         private StateMachine stateMachine;
+        private BoosterInventory boosterInventory;
 
         private IBooster booster;
 
-        public BoosterState(Game _game)
+        public BoosterState(Game _game, StateMachine _stateMachine, AllSystems _systems, BoosterInventory _boosterInventory)
         {
             game = _game;
-            stateMachine = _game.StateMachine;
+            stateMachine = _stateMachine;
+            boosterInventory = _boosterInventory;
         }
 
         public void SetInput(IBooster _booster)
@@ -28,8 +30,12 @@ namespace Model.Infrastructure
         public void OnStart()
         {
             level = game.Level;
+            if (true)
+            {
+
+            }
             //TODO использовать бустер
-            //TODO засчитать ход
+            SucsessfullTurn();
         }
 
         public void OnEnd()

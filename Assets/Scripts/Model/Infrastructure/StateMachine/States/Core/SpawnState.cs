@@ -17,13 +17,13 @@ namespace Model.Infrastructure
 
         private int maxIterations = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game _game)
+        public SpawnState(Game _game, StateMachine _stateMachine, AllSystems _systems)
         {
             game = _game;
-            stateMachine = _game.StateMachine;
-            gravitySystem = _game.Systems.GetSystem<IGravitySystem>();
-            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
-            spawnSystem = _game.Systems.GetSystem<ISpawnSystem>();
+            stateMachine = _stateMachine;
+            gravitySystem = _systems.GetSystem<IGravitySystem>();
+            matchSystem = _systems.GetSystem<IMatchSystem>();
+            spawnSystem = _systems.GetSystem<ISpawnSystem>();
         }
 
         public void OnStart()

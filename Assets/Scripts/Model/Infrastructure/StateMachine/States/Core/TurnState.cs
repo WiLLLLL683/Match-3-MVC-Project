@@ -17,12 +17,12 @@ namespace Model.Infrastructure
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game _game)
+        public TurnState(Game _game, StateMachine _stateMachine, AllSystems _systems)
         {
             game = _game;
-            stateMachine = _game.StateMachine;
-            moveSystem = _game.Systems.GetSystem<IMoveSystem>();
-            matchSystem = _game.Systems.GetSystem<IMatchSystem>();
+            stateMachine = _stateMachine;
+            moveSystem = _systems.GetSystem<IMoveSystem>();
+            matchSystem = _systems.GetSystem<IMatchSystem>();
         }
 
         public void SetInput(Vector2Int _startPos, Directions _direction)

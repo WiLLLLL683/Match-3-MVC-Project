@@ -9,7 +9,7 @@ namespace Model.Objects
     /// </summary>
     public class CurrencyInventory
     {
-        public Dictionary<CurrencyType, int> currencies;
+        private Dictionary<CurrencyType, int> currencies;
 
         public CurrencyInventory()
         {
