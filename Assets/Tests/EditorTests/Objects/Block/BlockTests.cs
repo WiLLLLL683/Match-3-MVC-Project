@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using System;
 
-namespace Model.Objects.Tests
+namespace Model.Objects.UnitTests
 {
     public class BlockTests
     {
@@ -18,7 +18,7 @@ namespace Model.Objects.Tests
 
             block.ChangePosition(cellB);
 
-            Assert.AreEqual(cellB, block.cell);
+            Assert.AreEqual(cellB, block.Cell);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Model.Objects.Tests
 
             block.ChangeType(newType);
 
-            Assert.AreEqual(newType, block.type);
+            Assert.AreEqual(newType, block.Type);
         }
 
         [Test]

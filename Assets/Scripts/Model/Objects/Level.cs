@@ -16,36 +16,19 @@ namespace Model.Objects
         public Counter[] restrictions { get; private set; }
         public Balance balance { get; private set; }
         public Pattern[] matchPatterns { get; private set; }
-        public Pattern[] hintPatterns { get; private set; }
+        public HintPattern[] hintPatterns { get; private set; }
 
         /// <summary>
         /// Создание уровня исходя из данных с пустым игровым полем
         /// </summary>
-        /// <param name="levelData"></param>
         public Level(LevelData levelData)
         {
-            if (levelData.ValidCheck() != true)
-            {
-                return;
-            }
-
-            gameBoard = new GameBoard(levelData.gameBoard);
-
-            goals = new Counter[levelData.goals.Length];
-            for (int i = 0; i < goals.Length; i++)
-            {
-                goals[i] = new Counter(levelData.goals[i]);
-            }
-
-            restrictions = new Counter[levelData.restrictions.Length];
-            for (int i = 0; i < goals.Length; i++)
-            {
-                restrictions[i] = new Counter(levelData.restrictions[i]);
-            }
-
-            balance = new Balance(levelData.balance);
-
-            //TODO внедрить загрузку паттернов
+            gameBoard = levelData.GameBoard;
+            goals = levelData.Goals;
+            restrictions = levelData.Restrictions;
+            balance = levelData.Balance;
+            matchPatterns = levelData.MatchPatterns;
+            hintPatterns = levelData.HintPatterns;
         }
 
         /// <summary>
@@ -58,10 +41,15 @@ namespace Model.Objects
             goals[0] = new Counter(new BasicBlockType(),2);
             restrictions = new Counter[1];
             restrictions[0] = new Counter(new Turn(),2);
+            matchPatterns = new Pattern[1];
+            matchPatterns[0] = new Pattern(new bool[1, 1] { { true } });
+            hintPatterns = new HintPattern[1];
+            hintPatterns[0] = new HintPattern(new bool[1, 1] { { true } }, new(0,0), Directions.Up);
 
-            Dictionary<ABlockType, int> balanceDictionary = new Dictionary<ABlockType, int>();
-            balanceDictionary.Add(new BasicBlockType(), 50);
-            balanceDictionary.Add(new BlueBlockType(), 50);
+
+            List<BlockType_Weight> balanceDictionary = new();
+            balanceDictionary.Add(new BlockType_Weight(new BlueBlockType(), 50));
+            balanceDictionary.Add(new BlockType_Weight(new RedBlockType(), 50));
             balance = new Balance(balanceDictionary);
         }
 
@@ -74,6 +62,9 @@ namespace Model.Objects
             matchPatterns = _matchPatterns;
         }
 
+        /// <summary>
+        /// Проверить все ли цели уровня выполнены
+        /// </summary>
         public bool CheckWin()
         {
             for (int i = 0; i < goals.Length; i++)
@@ -85,6 +76,9 @@ namespace Model.Objects
             return true;
         }
 
+        /// <summary>
+        /// Проверить закончились ли огранияения уровня
+        /// </summary>
         public bool CheckLose()
         {
             for (int i = 0; i < restrictions.Length; i++)
@@ -96,6 +90,9 @@ namespace Model.Objects
             return false;
         }
 
+        /// <summary>
+        /// Пересчет счетчика целей уровня, с вычетом 1 цели
+        /// </summary>
         public void UpdateGoals(ICounterTarget _target)
         {
             for (int i = 0; i < goals.Length; i++)
@@ -104,6 +101,9 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Пересчет счетчика ограничений уровня, с вычетом 1 цели
+        /// </summary>
         public void UpdateRestrictions(ICounterTarget _target)
         {
             for (int i = 0; i < restrictions.Length; i++)

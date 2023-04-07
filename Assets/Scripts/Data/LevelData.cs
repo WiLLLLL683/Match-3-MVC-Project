@@ -1,43 +1,44 @@
-﻿using Model.Objects;
-using System;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Array2DEditor;
+using Model.Objects;
 
 namespace Data
 {
-    [Serializable]
-    public struct LevelData
+    /// <summary>
+    /// Данные об уровне
+    /// </summary>
+    [CreateAssetMenu(fileName ="LevelData",menuName ="Data/LevelData")]
+    public class LevelData : ScriptableObject
     {
-        public GameBoardData gameBoard;
-        public CounterData[] goals;
-        public CounterData[] restrictions;
-        public BalanceData balance;
+        public GameBoard GameBoard => GetGameboardData();
+        public Counter[] Goals => (Counter[])goals.Clone(); //TODO Возможно стоит клонировать и элементы внутри массива
+        public Counter[] Restrictions => (Counter[])restrictions.Clone();
+        public Balance Balance => balance.Clone();
+        public Pattern[] MatchPatterns => (Pattern[])matchPatterns.Clone();
+        public HintPattern[] HintPatterns => (HintPattern[])hintPatterns.Clone();
 
-        public LevelData(GameBoardData _gameBoard, CounterData[] _goals, CounterData[] _restrictions, BalanceData _balance)
+        [SerializeField] private Array2DCellTypeEnum gameBoard;
+        [SerializeField] private Counter[] goals;
+        [SerializeField] private Counter[] restrictions;
+        [SerializeField] private Balance balance;
+        [SerializeField] private Pattern[] matchPatterns;
+        [SerializeField] private HintPattern[] hintPatterns;
+
+        private GameBoard GetGameboardData()
         {
-            gameBoard = _gameBoard;
-            goals = _goals;
-            restrictions = _restrictions;
-            balance = _balance;
-        }
-
-        public bool ValidCheck()
-        {
-            if (gameBoard.ValidCheck() == false) 
-                return false;
-            for (int i = 0; i < goals.Length; i++)
+            ACellType[,] aCellTypes = new ACellType[gameBoard.GridSize.x, gameBoard.GridSize.y];
+            for (int i = 0; i < gameBoard.GridSize.x; i++)
             {
-                if (goals[i].ValidCheck() == false) 
-                    return false;
+                for (int j = 0; j < gameBoard.GridSize.y; j++)
+                {
+                    aCellTypes[i, j] = DataFromEnum.GetCellType(gameBoard.GetCell(i, j));
+                }
             }
-            for (int i = 0; i < restrictions.Length; i++)
-            {
-                if (restrictions[i].ValidCheck() == false) 
-                    return false;
-            }
-            if (balance.ValidCheck() == false) 
-                return false;
 
-            return true;
+            return new GameBoard(aCellTypes);
         }
     }
 }

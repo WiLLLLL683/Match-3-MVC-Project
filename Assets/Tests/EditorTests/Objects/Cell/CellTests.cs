@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
 
-namespace Model.Objects.Tests
+namespace Model.Objects.UnitTests
 {
     public class CellTests
     {
@@ -14,7 +14,7 @@ namespace Model.Objects.Tests
         {
             Cell cell = new Cell(new BasicCellType(), new Vector2Int(0,0));
 
-            Assert.AreEqual(true, cell.isEmpty);
+            Assert.AreEqual(true, cell.IsEmpty);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Model.Objects.Tests
 
             cell.SetBlock(block);
 
-            Assert.AreEqual(block, cell.block);
+            Assert.AreEqual(block, cell.Block);
         }
 
         [Test]
@@ -55,8 +55,8 @@ namespace Model.Objects.Tests
             cell.SetBlock(block);
             cell.SetBlock(null);
 
-            Assert.AreEqual(null, cell.block);
-            Assert.AreEqual(true, cell.isEmpty);
+            Assert.AreEqual(null, cell.Block);
+            Assert.AreEqual(true, cell.IsEmpty);
             Assert.AreEqual(1, eventCount);
         }
 
@@ -68,7 +68,7 @@ namespace Model.Objects.Tests
 
             cell.SetBlock(block);
 
-            Assert.AreEqual(null, cell.block);
+            Assert.AreEqual(null, cell.Block);
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace Model.Objects.Tests
             cell.SetBlock(block);
             cell.DestroyBlock();
 
-            Assert.AreEqual(true, cell.isEmpty);
+            Assert.AreEqual(true, cell.IsEmpty);
         }
 
         [Test]

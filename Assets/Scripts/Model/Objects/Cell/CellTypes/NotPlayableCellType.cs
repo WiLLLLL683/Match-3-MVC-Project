@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace Model.Objects
 {
+    /// <summary>
+    /// Тип клетки которая не может содержать блок
+    /// </summary>
+    [Serializable]
     public class NotPlayableCellType : ACellType
     {
-        public override bool canContainBlock { get { return false; } }
+        public override bool CanContainBlock => false;
         public override void DestroyCellMaterial()
         {
             

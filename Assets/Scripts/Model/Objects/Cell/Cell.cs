@@ -10,11 +10,11 @@ namespace Model.Objects
     /// </summary>
     public class Cell
     {
-        public bool IsPlayable { get { return type.canContainBlock; } }
-        public bool isEmpty { get; private set; }
-        public ACellType type { get; private set; }
-        public Block block { get; private set; }
-        public Vector2Int position { get; private set; }
+        public bool IsPlayable => Type.CanContainBlock;
+        public bool IsEmpty { get; private set; }
+        public ACellType Type { get; private set; }
+        public Block Block { get; private set; }
+        public Vector2Int Position { get; private set; }
 
         public event CellDelegate OnEmpty;
         public event CellDelegate OnDestroy;
@@ -22,26 +22,32 @@ namespace Model.Objects
 
         public Cell(ACellType _type, Vector2Int _position)
         {
-            isEmpty = true;
-            type = _type;
-            position = _position;
+            IsEmpty = true;
+            Type = _type;
+            Position = _position;
         }
 
+        /// <summary>
+        /// Изменить тип клетки
+        /// </summary>
         public void ChangeType(ACellType _type)
         {
-            type = _type;
+            Type = _type;
             OnTypeChange?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Поместить блок в клетку при возможности, null для опустошения клетки
+        /// </summary>
         public void SetBlock(Block _block)
         {
             if (IsPlayable)
             {
                 if (_block != null)
                 {
-                    block = _block;
-                    block.ChangePosition(this);
-                    isEmpty = false;
+                    Block = _block;
+                    Block.ChangePosition(this);
+                    IsEmpty = false;
                 }
                 else
                 {
@@ -50,9 +56,12 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Заспавнить блок в клетке при возможности
+        /// </summary>
         public Block SpawnBlock(ABlockType _blockType)
         {
-            if (IsPlayable && isEmpty)
+            if (IsPlayable && IsEmpty)
             {
                 Block block = new Block(_blockType,this);
                 SetBlock(block);
@@ -62,20 +71,26 @@ namespace Model.Objects
             return null;
         }
 
+        /// <summary>
+        /// Уничтожить блок в клетке при возможности
+        /// </summary>
         public void DestroyBlock()
         {
-            if (IsPlayable && block != null)
+            if (IsPlayable && Block != null)
             {
-                block.Destroy();
+                Block.Destroy();
                 SetEmpty();
             }
         }
 
+        /// <summary>
+        /// Уничтожить саму клетку, результат зависит от типа клетки
+        /// </summary>
         public void DestroyCell()
         {
-            if (type != null)
+            if (Type != null)
             {
-                type.DestroyCellMaterial();
+                Type.DestroyCellMaterial();
                 OnDestroy?.Invoke(this, new EventArgs());
             }
         }
@@ -84,8 +99,8 @@ namespace Model.Objects
 
         private void SetEmpty()
         {
-            block = null;
-            isEmpty = true;
+            Block = null;
+            IsEmpty = true;
             OnEmpty?.Invoke(this, new EventArgs());
         }
     }

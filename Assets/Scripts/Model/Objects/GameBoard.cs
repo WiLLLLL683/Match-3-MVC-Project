@@ -11,22 +11,22 @@ namespace Model.Objects
     /// </summary>
     public class GameBoard
     {
-        public Cell[,] cells { get; private set; }
-        public List<Block> blocks { get; private set; }
+        public Cell[,] Cells { get; private set; }
+        public List<Block> Blocks { get; private set; }
 
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
-        public GameBoard(GameBoardData data)
+        public GameBoard(ACellType[,] _cellTypes)
         {
-            cells = new Cell[data.cellTypes.GetLength(0), data.cellTypes.GetLength(1)];
-            blocks = new List<Block>();
+            Cells = new Cell[_cellTypes.GetLength(0), _cellTypes.GetLength(1)];
+            Blocks = new List<Block>();
 
-            for (int i = 0; i < data.cellTypes.GetLength(0); i++)
+            for (int i = 0; i < _cellTypes.GetLength(0); i++)
             {
-                for (int j = 0; j < data.cellTypes.GetLength(1); j++)
+                for (int j = 0; j < _cellTypes.GetLength(1); j++)
                 {
-                    cells[i, j] = new Cell(data.cellTypes[i,j], new Vector2Int(i, j));
+                    Cells[i, j] = new Cell(_cellTypes[i,j], new Vector2Int(i, j));
                 }
             }
         }
@@ -36,30 +36,82 @@ namespace Model.Objects
         /// </summary>
         public GameBoard(int xLength, int yLength)
         {
-            cells = new Cell[xLength, yLength];
-            blocks = new List<Block>();
+            Cells = new Cell[xLength, yLength];
+            Blocks = new List<Block>();
 
             for (int i = 0; i < xLength; i++)
             {
                 for (int j = 0; j < yLength; j++)
                 {
-                    cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i,j));
+                    Cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i,j));
                 }
             }
         }
 
+        /// <summary>
+        /// Регистрация блока в игровом поле
+        /// </summary>
         public void RegisterBlock(Block _block)
         {
             if (_block != null)
             {
-                blocks.Add(_block);
+                Blocks.Add(_block);
                 _block.OnDestroy += UnRegisterBlock;
             }
         }
 
+        /// <summary>
+        /// Проверка наличия блока в заданной позиции
+        /// </summary>
+        public bool CheckValidBlockByPosition(Vector2Int _position)
+        {
+            //позиция вне границ игрового поля?
+            if (!CheckValidCellByPosition(_position))
+            {
+                return false;
+            }
+
+            //играбельна ли клетка?
+            if (!Cells[_position.x, _position.y].IsPlayable)
+            {
+                Debug.LogError("Tried to get Block but Cell was notPlayable");
+                return false;
+            }
+
+            //есть ли блок в клетке?
+            if (Cells[_position.x, _position.y].IsEmpty)
+            {
+                Debug.LogError("Tried to get Block but Cell was empty");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Проверка наличия клетки в границах игрового поля
+        /// </summary>
+        public bool CheckValidCellByPosition(Vector2Int _position)
+        {
+            //позиция в границах игрового поля?
+            if (_position.x >= 0 &&
+                _position.y >= 0 &&
+                _position.x < Cells.GetLength(0) &&
+                _position.y < Cells.GetLength(1))
+            {
+                return true;
+            }
+            else
+            {
+                Debug.LogError("Cell position out of GameBoards range");
+                return false;
+            }
+        }
+
+
         private void UnRegisterBlock(Block _block, EventArgs eventArgs)
         {
-            blocks.Remove(_block);
+            Blocks.Remove(_block);
         }
     }
 }
