@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Model.Objects;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
-namespace Model.Objects
+namespace Data
 {
     /// <summary>
     /// Тип блока с возможностью активации
     /// </summary>
     [Serializable]
-    public abstract class ABlockType : ICounterTarget
+    [CreateAssetMenu(fileName = "FILE_NAME", menuName = "MENU/SUBMENU")]
+    public abstract class ABlockType : ScriptableObject, ICounterTarget
     {
+        public Sprite Sprite;
+
         /// <summary>
         /// Возвращает успешен ли был ход
         /// </summary>

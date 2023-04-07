@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Model.Objects
+namespace Data
 {
     /// <summary>
     /// Базовый тип блока, без действия по активации

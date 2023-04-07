@@ -2,13 +2,13 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Model.Objects
+namespace Data
 {
     /// <summary>
-    /// Синий тип блока, без действия по активации
+    /// Красный тип блока, без действия по активации
     /// </summary>
     [Serializable]
-    public class BlueBlockType : ABlockType
+    public class RedBlockType : ABlockType
     {
         public override bool Activate()
         {

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
+using Data;
 
 namespace Model.Objects.UnitTests
 {
