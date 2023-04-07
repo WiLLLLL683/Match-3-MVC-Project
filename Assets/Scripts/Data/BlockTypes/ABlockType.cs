@@ -9,10 +9,10 @@ namespace Data
     /// Тип блока с возможностью активации
     /// </summary>
     [Serializable]
-    [CreateAssetMenu(fileName = "FILE_NAME", menuName = "MENU/SUBMENU")]
     public abstract class ABlockType : ScriptableObject, ICounterTarget
     {
         public Sprite Sprite;
+        public ParticleSystem DestroyEffect;
 
         /// <summary>
         /// Возвращает успешен ли был ход

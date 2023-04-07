@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Objects
+namespace Data
 {
     /// <summary>
-    /// Базовый тип клетки, которая может содержать блок
+    /// Тип клетки которая не может содержать блок
     /// </summary>
     [Serializable]
-    public class BasicCellType : ACellType
+    public class NotPlayableCellType : ACellType
     {
+        public override bool CanContainBlock => false;
         public override void DestroyCellMaterial()
         {
             

@@ -13,6 +13,7 @@ namespace View
         private Model.Objects.Block blockModel;
         //private Cell cell; //TODO нужно ли?
         private Vector2 targetPosition;
+        private ParticleSystem destroyEffect;
 
         public void Init(Model.Objects.Block _blockData)
         {
@@ -21,13 +22,13 @@ namespace View
             ChangeType(_blockData, null);
             SetTargetPosition(_blockData, null);
 
-            blockModel.OnDestroy += DestroyBlock;
+            blockModel.OnDestroy += PlayDestroyEffect;
             blockModel.OnPositionChange += SetTargetPosition;
             blockModel.OnTypeChange += ChangeType;
         }
         private void OnDestroy()
         {
-            blockModel.OnDestroy -= DestroyBlock;
+            blockModel.OnDestroy -= PlayDestroyEffect;
             blockModel.OnPositionChange -= SetTargetPosition;
             blockModel.OnTypeChange -= ChangeType;
         }
@@ -38,6 +39,14 @@ namespace View
 
 
 
+        private void PlayDestroyEffect(Model.Objects.Block sender, EventArgs eventArgs)
+        {
+            if (destroyEffect == null)
+                destroyEffect = Instantiate(blockModel.Type.DestroyEffect, transform);
+
+            destroyEffect.Play();
+            Destroy(gameObject);
+        }
         private void SetTargetPosition(Model.Objects.Block sender, EventArgs eventArgs)
         {
             targetPosition = sender.Position;
@@ -45,10 +54,6 @@ namespace View
         private void ChangeType(Model.Objects.Block sender, EventArgs eventArgs)
         {
             icon.sprite = sender.Type.Sprite;
-        }
-        private void DestroyBlock(Model.Objects.Block sender, EventArgs eventArgs)
-        {
-            Destroy(gameObject);
         }
     }
 }

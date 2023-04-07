@@ -7,7 +7,7 @@ namespace Data
     /// <summary>
     /// Красный тип блока, без действия по активации
     /// </summary>
-    [Serializable]
+    [CreateAssetMenu(fileName = "RedBlockType", menuName = "BlockTypes/RedBlockType")]
     public class RedBlockType : ABlockType
     {
         public override bool Activate()
