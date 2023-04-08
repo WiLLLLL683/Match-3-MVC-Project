@@ -7,7 +7,7 @@ namespace View
 {
     public class Block : MonoBehaviour
     {
-        [SerializeField] private Image icon;
+        [SerializeField] private SpriteRenderer icon;
         [SerializeField] private float moveSpeed;
 
         private Model.Objects.Block blockModel;

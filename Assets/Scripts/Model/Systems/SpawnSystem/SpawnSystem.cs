@@ -26,10 +26,11 @@ namespace Model.Systems
         /// </summary>
         public void SpawnTopLine()
         {
+            const int y = 0; //верхн€€ лини€
             for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
             {
                 ABlockType type = level.balance.GetRandomBlockType();
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.Cells[x, 0]);
+                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.Cells[x, y]);
                 spawnAction.Execute();
             }
         }

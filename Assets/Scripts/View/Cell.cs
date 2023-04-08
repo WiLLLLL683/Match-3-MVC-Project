@@ -7,7 +7,7 @@ namespace View
 {
     public class Cell : MonoBehaviour
     {
-        [SerializeField] private Image icon;
+        [SerializeField] private SpriteRenderer icon;
 
         private Model.Objects.Cell cellModel;
         private ParticleSystem destroyEffect;
