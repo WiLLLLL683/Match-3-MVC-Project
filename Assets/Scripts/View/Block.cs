@@ -15,12 +15,13 @@ namespace View
         private Vector2 targetPosition;
         private ParticleSystem destroyEffect;
 
-        public void Init(Model.Objects.Block _blockData)
+        public void Init(Model.Objects.Block _blockModel)
         {
-            blockModel = _blockData;
+            blockModel = _blockModel;
 
-            ChangeType(_blockData, null);
-            SetTargetPosition(_blockData, null);
+            transform.position = ModelPosToViewPos(_blockModel);
+            ChangeType(_blockModel, null);
+            SetTargetPosition(_blockModel, null);
 
             blockModel.OnDestroy += PlayDestroyEffect;
             blockModel.OnPositionChange += SetTargetPosition;
@@ -47,13 +48,15 @@ namespace View
             destroyEffect.Play();
             Destroy(gameObject);
         }
-        private void SetTargetPosition(Model.Objects.Block sender, EventArgs eventArgs)
-        {
-            targetPosition = sender.Position;
-        }
+        private void SetTargetPosition(Model.Objects.Block sender, EventArgs eventArgs) => targetPosition = ModelPosToViewPos(sender);
         private void ChangeType(Model.Objects.Block sender, EventArgs eventArgs)
         {
             icon.sprite = sender.Type.Sprite;
+        }
+        private Vector2 ModelPosToViewPos(Model.Objects.Block sender)
+        {
+            //строки положения нумеруются сверху вниз, поэтому Position.y отрицательный
+            return new Vector2(sender.Position.x, -sender.Position.y);
         }
     }
 }
