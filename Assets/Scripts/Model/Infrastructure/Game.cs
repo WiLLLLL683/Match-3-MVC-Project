@@ -26,10 +26,10 @@ namespace Model.Infrastructure
             BoosterInventory = new BoosterInventory();
 
             systems = new AllSystems();
-            systems.AddSystem(new SpawnSystem());
-            systems.AddSystem(new MatchSystem());
-            systems.AddSystem(new GravitySystem());
-            systems.AddSystem(new MoveSystem());
+            systems.AddSystem<ISpawnSystem>(new SpawnSystem());
+            systems.AddSystem<IMatchSystem>(new MatchSystem());
+            systems.AddSystem<IGravitySystem>(new GravitySystem());
+            systems.AddSystem<IMoveSystem>(new MoveSystem());
 
             stateMachine = new StateMachine();
             stateMachine.AddState(new LoadGameState(this, stateMachine));

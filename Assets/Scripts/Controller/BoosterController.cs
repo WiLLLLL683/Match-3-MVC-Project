@@ -12,7 +12,7 @@ namespace Controller
     {
         internal void Init(Game game)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

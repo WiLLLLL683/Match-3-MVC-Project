@@ -24,7 +24,7 @@ namespace Model.Infrastructure
             game = _game;
             stateMachine = _stateMachine;
             systems = _systems;
-            matchSystem = _systems.GetSystem<IMatchSystem>();
+            matchSystem = systems.GetSystem<IMatchSystem>();
         }
 
         public void SetLevelData(LevelData _levelData)
@@ -43,9 +43,10 @@ namespace Model.Infrastructure
 
             LoadLevel();
             SpawnBlocks();
-            SwapMatchedBlocks();
+            //SwapMatchedBlocks();
 
-            stateMachine.SetState<WaitState>();
+            Debug.Log("Core Game Started");
+            //stateMachine.SetState<WaitState>();
         }
 
         public void OnEnd()

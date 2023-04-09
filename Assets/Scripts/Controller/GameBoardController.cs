@@ -1,7 +1,9 @@
 ﻿using Model.Infrastructure;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using UnityEngine;
+using View;
 
 namespace Controller
 {
@@ -10,9 +12,27 @@ namespace Controller
     /// </summary>
     public class GameBoardController : MonoBehaviour
     {
-        internal void Init(Game game)
+        [SerializeField] private BlockSpawner blockSpawner;
+        [SerializeField] private CellSpawner cellSpawner;
+
+        private Game game;
+
+        public void Init(Game _game)
         {
-            throw new NotImplementedException();
+            game = _game;
+        }
+
+        [Button]
+        public void SpawnCells()
+        {
+            cellSpawner.Clear();
+            cellSpawner.SpawnGameboard(game.Level.gameBoard);
+        }
+        [Button]
+        public void SpawnBlocks()
+        {
+            blockSpawner.Clear();
+            blockSpawner.SpawnGameboard(game.Level.gameBoard);
         }
     }
 }

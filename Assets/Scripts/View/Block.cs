@@ -19,8 +19,8 @@ namespace View
         {
             blockModel = _blockModel;
 
-            transform.position = ModelPosToViewPos(_blockModel);
-            ChangeType(_blockModel, null);
+            transform.localPosition = ModelPosToViewPos(_blockModel);
+            //ChangeType(_blockModel, null);
             SetTargetPosition(_blockModel, null);
 
             blockModel.OnDestroy += PlayDestroyEffect;
@@ -29,13 +29,16 @@ namespace View
         }
         private void OnDestroy()
         {
-            blockModel.OnDestroy -= PlayDestroyEffect;
-            blockModel.OnPositionChange -= SetTargetPosition;
-            blockModel.OnTypeChange -= ChangeType;
+            if (blockModel != null)
+            {
+                blockModel.OnDestroy -= PlayDestroyEffect;
+                blockModel.OnPositionChange -= SetTargetPosition;
+                blockModel.OnTypeChange -= ChangeType;
+            }
         }
         private void Update()
         {
-            transform.position = Vector2.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
         }
 
 
@@ -53,10 +56,10 @@ namespace View
         {
             icon.sprite = sender.Type.Sprite;
         }
-        private Vector2 ModelPosToViewPos(Model.Objects.Block sender)
+        private Vector2 ModelPosToViewPos(Model.Objects.Block block)
         {
             //строки положения нумеруются сверху вниз, поэтому Position.y отрицательный
-            return new Vector2(sender.Position.x, -sender.Position.y);
+            return new Vector2(block.Position.x, -block.Position.y);
         }
     }
 }

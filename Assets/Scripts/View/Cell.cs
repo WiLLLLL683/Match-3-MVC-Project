@@ -17,10 +17,16 @@ namespace View
         {
             cellModel = _cellModel;
 
+            transform.localPosition = ModelPosToViewPos(_cellModel);
+            //ChangeType(_cellModel, null);
+
             cellModel.OnDestroy += PlayDestroyEffect;
             cellModel.OnEmpty += PlayEmptyEffect;
             cellModel.OnTypeChange += ChangeType;
         }
+
+
+
 
         private void PlayDestroyEffect(Model.Objects.Cell sender, EventArgs eventArgs)
         {
@@ -29,7 +35,6 @@ namespace View
 
             destroyEffect.Play();
         }
-
         private void PlayEmptyEffect(Model.Objects.Cell sender, EventArgs eventArgs)
         {
             if (emptyEffect == null)
@@ -37,10 +42,14 @@ namespace View
 
             emptyEffect.Play();
         }
-
         private void ChangeType(Model.Objects.Cell sender, EventArgs eventArgs)
         {
             icon.sprite = sender.Type.Sprite;
+        }
+        private Vector2 ModelPosToViewPos(Model.Objects.Cell cell)
+        {
+            //строки положения нумеруются сверху вниз, поэтому Position.y отрицательный
+            return new Vector2(cell.Position.x, -cell.Position.y);
         }
     }
 }

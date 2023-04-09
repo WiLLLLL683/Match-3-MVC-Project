@@ -22,5 +22,31 @@ namespace View
             allBlocks.Add(block);
             return block;
         }
+        public List<Block> SpawnGameboard(Model.Objects.GameBoard gameBoard)
+        {
+            List<Block> spawnedCells = new();
+            Block block;
+
+            for (int x = 0; x < gameBoard.Blocks.Count; x++)
+            {
+                block = SpawnBlock(gameBoard.Blocks[x]);
+                spawnedCells.Add(block);
+            }
+
+            return spawnedCells;
+        }
+        public void Clear()
+        {
+            for (int i = 0; i < allBlocks.Count; i++)
+            {
+                Destroy(allBlocks[i].gameObject);
+            }
+
+            //уничтожить неучтенные объекты
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+        }
     }
 }
