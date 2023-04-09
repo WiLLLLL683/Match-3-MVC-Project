@@ -30,6 +30,9 @@ namespace View
 
         private void PlayDestroyEffect(Model.Objects.Cell sender, EventArgs eventArgs)
         {
+            if (sender.Type.DestroyEffect == null)
+                return;
+
             if (destroyEffect == null)
                 destroyEffect = Instantiate(cellModel.Type.DestroyEffect, transform);
 
@@ -37,6 +40,9 @@ namespace View
         }
         private void PlayEmptyEffect(Model.Objects.Cell sender, EventArgs eventArgs)
         {
+            if (sender.Type.EmptyEffect == null)
+                return;
+
             if (emptyEffect == null)
                 emptyEffect = Instantiate(cellModel.Type.EmptyEffect, transform);
 
@@ -44,6 +50,11 @@ namespace View
         }
         private void ChangeType(Model.Objects.Cell sender, EventArgs eventArgs)
         {
+            if (sender.Type.EmptyEffect == null)
+                icon.enabled = false;
+            else
+                icon.enabled = true;
+
             icon.sprite = sender.Type.Sprite;
         }
         private Vector2 ModelPosToViewPos(Model.Objects.Cell cell)

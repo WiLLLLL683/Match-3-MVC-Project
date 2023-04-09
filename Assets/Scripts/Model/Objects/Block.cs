@@ -9,6 +9,7 @@ namespace Model.Objects
     /// <summary>
     /// Объект игрового блока
     /// </summary>
+    [System.Serializable]
     public class Block
     {
         public ABlockType Type { get; private set; }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data;
+using NaughtyAttributes;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +13,7 @@ namespace View
         [SerializeField] private float moveSpeed;
 
         private Model.Objects.Block blockModel;
+        [SerializeField] private ABlockType type;
         //private Cell cell; //TODO нужно ли?
         private Vector2 targetPosition;
         private ParticleSystem destroyEffect;
@@ -18,9 +21,10 @@ namespace View
         public void Init(Model.Objects.Block _blockModel)
         {
             blockModel = _blockModel;
+            type = blockModel.Type;
 
             transform.localPosition = ModelPosToViewPos(_blockModel);
-            //ChangeType(_blockModel, null);
+            ChangeType(_blockModel, null);
             SetTargetPosition(_blockModel, null);
 
             blockModel.OnDestroy += PlayDestroyEffect;

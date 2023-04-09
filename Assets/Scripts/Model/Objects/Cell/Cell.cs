@@ -9,6 +9,7 @@ namespace Model.Objects
     /// <summary>
     /// Объект клетки игрового поля, которая хранит в себе блок
     /// </summary>
+    [Serializable]
     public class Cell
     {
         public bool IsPlayable => Type.CanContainBlock;

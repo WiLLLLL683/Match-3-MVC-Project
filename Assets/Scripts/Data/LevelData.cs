@@ -19,6 +19,7 @@ namespace Data
         public Balance Balance => balance.Clone();
         public Pattern[] MatchPatterns => (Pattern[])matchPatterns.Clone();
         public HintPattern[] HintPatterns => (HintPattern[])hintPatterns.Clone();
+        [SerializeReference] public ACellType[] cellTypes;
 
         [SerializeField] private Array2DCellTypeEnum gameBoard;
         [SerializeField] private Counter[] goals;
