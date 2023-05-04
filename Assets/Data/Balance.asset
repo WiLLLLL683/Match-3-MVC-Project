@@ -13,16 +13,7 @@ MonoBehaviour:
   m_Name: Balance
   m_EditorClassIdentifier: 
   typesWeight:
-  - blockType:
-      rid: 4508593172856700929
+  - blockType: {fileID: 11400000, guid: 5296ba99051466549b01125b2cc4e831, type: 2}
     weight: 15
-  - blockType:
-      rid: 4508593172856700930
+  - blockType: {fileID: 11400000, guid: d1ae5d5c14860fe45a51f2c47d242445, type: 2}
     weight: 15
-  references:
-    version: 2
-    RefIds:
-    - rid: 4508593172856700929
-      type: {class: BlueBlockType, ns: Model.Objects, asm: GameAssembly}
-    - rid: 4508593172856700930
-      type: {class: RedBlockType, ns: Model.Objects, asm: GameAssembly}

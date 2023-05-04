@@ -11,6 +11,8 @@ namespace View
     {
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private float moveSpeed;
+        [SerializeField] private float tapSpeed;
+        [SerializeField] private float tapScale;
 
         private Model.Objects.Block blockModel;
         [SerializeField] private ABlockType type;
@@ -44,9 +46,39 @@ namespace View
         {
             transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
         }
+        public void GrabBlock(Vector2 deltaPosition)
+        {
+            targetPosition = ModelPosToViewPos(blockModel) + deltaPosition;
+        }
+        public void ReturnBlock()
+        {
+            SetTargetPosition(blockModel, null);
+        }
+        public void TapBlock()
+        {
+            StartCoroutine(TapRoutine());
+        }
 
 
 
+        private IEnumerator TapRoutine()
+        {
+            Vector3 scaleBefore = icon.transform.localScale;
+            float timer = tapSpeed / 2;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+            icon.transform.localScale *= tapScale;
+            timer = tapSpeed / 2;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+            icon.transform.localScale = scaleBefore;
+        }
         private void PlayDestroyEffect(Model.Objects.Block sender, EventArgs eventArgs)
         {
             if (destroyEffect == null)
@@ -55,11 +87,11 @@ namespace View
             destroyEffect.Play();
             Destroy(gameObject);
         }
-        private void SetTargetPosition(Model.Objects.Block sender, EventArgs eventArgs) => targetPosition = ModelPosToViewPos(sender);
         private void ChangeType(Model.Objects.Block sender, EventArgs eventArgs)
         {
             icon.sprite = sender.Type.Sprite;
         }
+        private void SetTargetPosition(Model.Objects.Block sender, EventArgs eventArgs) => targetPosition = ModelPosToViewPos(sender);
         private Vector2 ModelPosToViewPos(Model.Objects.Block block)
         {
             //строки положения нумеруются сверху вниз, поэтому Position.y отрицательный

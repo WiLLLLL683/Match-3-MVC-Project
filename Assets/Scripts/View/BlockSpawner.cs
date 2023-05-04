@@ -24,16 +24,16 @@ namespace View
         }
         public List<Block> SpawnGameboard(Model.Objects.GameBoard gameBoard)
         {
-            List<Block> spawnedCells = new();
+            List<Block> spawnedBlocks = new();
             Block block;
 
             for (int x = 0; x < gameBoard.Blocks.Count; x++)
             {
                 block = SpawnBlock(gameBoard.Blocks[x]);
-                spawnedCells.Add(block);
+                spawnedBlocks.Add(block);
             }
 
-            return spawnedCells;
+            return spawnedBlocks;
         }
         public void Clear()
         {

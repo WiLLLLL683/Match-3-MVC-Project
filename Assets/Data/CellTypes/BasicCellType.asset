@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 271bc66052bf3384badd5b1c8090d5fc, type: 3}
   m_Name: BasicCellType
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 0}
-  DestroyEffect: {fileID: 0}
-  EmptyEffect: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: ab7dea9d715132c4180f270b6b3af452, type: 3}
+  DestroyEffect: {fileID: 1653460736588825326, guid: 7b87fedbd0d08c045a741dfd16402747, type: 3}
+  EmptyEffect: {fileID: 1653460736588825326, guid: 7b87fedbd0d08c045a741dfd16402747, type: 3}

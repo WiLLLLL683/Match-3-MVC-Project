@@ -6,9 +6,9 @@ using UnityEngine;
 namespace Controller
 {
     /// <summary>
-    /// Адаптер для передачи информации из модели в HUD
+    /// Контроллер для HUD
     /// </summary>
-    public class HudAdapter : MonoBehaviour
+    public class HudController : MonoBehaviour
     {
         internal void Init(Game game)
         {

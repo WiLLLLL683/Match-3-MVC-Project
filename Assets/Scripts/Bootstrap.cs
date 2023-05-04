@@ -9,7 +9,7 @@ public class Bootstrap : MonoBehaviour
 {
     [SerializeField] private GameBoardController gameBoardController;
     [SerializeField] private BoosterController boosterController;
-    [SerializeField] private HudAdapter hudAdapter;
+    [SerializeField] private HudController hudAdapter;
     [SerializeField] private LevelSelectionController levelSelectionController;
     [SerializeField] private LevelData selectedLevel;
 

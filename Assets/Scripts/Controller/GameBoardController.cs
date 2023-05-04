@@ -1,4 +1,5 @@
-﻿using Model.Infrastructure;
+﻿using Model;
+using Model.Infrastructure;
 using NaughtyAttributes;
 using System;
 using System.Collections;
@@ -14,12 +15,23 @@ namespace Controller
     {
         [SerializeField] private BlockSpawner blockSpawner;
         [SerializeField] private CellSpawner cellSpawner;
+        [SerializeField] private GameBoardInput input;
 
         private Game game;
 
         public void Init(Game _game)
         {
             game = _game;
+
+            input.OnSwipeMoving += GrabBlock;
+            input.OnSwipeEnded += MoveBlock;
+            input.OnTap += ActivateBlock;
+        }
+        private void OnDestroy()
+        {
+            input.OnSwipeMoving -= GrabBlock;
+            input.OnSwipeEnded -= MoveBlock;
+            input.OnTap -= ActivateBlock;
         }
 
         [Button]
@@ -33,6 +45,26 @@ namespace Controller
         {
             blockSpawner.Clear();
             blockSpawner.SpawnGameboard(game.Level.gameBoard);
+        }
+
+
+
+        private void GrabBlock(Block block, Vector2 deltaPosition)
+        {
+            block.GrabBlock(deltaPosition);
+            Debug.Log(block + " grabbed", block);
+        }
+        private void MoveBlock(Block block, Directions direction)
+        {
+            block.ReturnBlock();
+            Debug.Log(block + " moved " + direction);
+            //TODO вызов модели
+        }
+        private void ActivateBlock(Block block)
+        {
+            block.TapBlock();
+            Debug.Log(block + " activated");
+            //TODO активация блока в клетке?
         }
     }
 }

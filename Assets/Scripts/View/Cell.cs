@@ -27,7 +27,6 @@ namespace View
 
 
 
-
         private void PlayDestroyEffect(Model.Objects.Cell sender, EventArgs eventArgs)
         {
             if (sender.Type.DestroyEffect == null)

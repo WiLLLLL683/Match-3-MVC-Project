@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e82d35c565b835c4b8eead75768c35be, type: 3}
   m_Name: BasicBlockType
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 0}
-  DestroyEffect: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: b7481a4c424715542a70ac1efc7468db, type: 3}
+  DestroyEffect: {fileID: 1653460736588825326, guid: 7b87fedbd0d08c045a741dfd16402747, type: 3}
