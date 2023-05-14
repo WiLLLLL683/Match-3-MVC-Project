@@ -10,9 +10,16 @@ namespace Controller
     /// </summary>
     public class HudController : MonoBehaviour
     {
-        internal void Init(Game game)
-        {
+        private Game game;
 
+        public void Init(Game _game)
+        {
+            game = _game;
+        }
+
+        public void PauseGame()
+        {
+            //TODO логика меню паузы
         }
     }
 }

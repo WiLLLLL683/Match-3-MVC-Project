@@ -14,16 +14,16 @@ namespace Data
     public class LevelData : ScriptableObject
     {
         public GameBoard GameBoard => GetGameboardData();
-        public Counter[] Goals => (Counter[])goals.Clone(); //TODO Возможно стоит клонировать и элементы внутри массива
-        public Counter[] Restrictions => (Counter[])restrictions.Clone();
+        public Model.Objects.Counter[] Goals => (Model.Objects.Counter[])goals.Clone(); //TODO Возможно стоит клонировать и элементы внутри массива
+        public Model.Objects.Counter[] Restrictions => (Model.Objects.Counter[])restrictions.Clone();
         public Balance Balance => balance.Clone();
         public Pattern[] MatchPatterns => (Pattern[])matchPatterns.Clone();
         public HintPattern[] HintPatterns => (HintPattern[])hintPatterns.Clone();
         [SerializeReference] public ACellType[] cellTypes;
 
         [SerializeField] private Array2DCellTypeEnum gameBoard;
-        [SerializeField] private Counter[] goals;
-        [SerializeField] private Counter[] restrictions;
+        [SerializeField] private Model.Objects.Counter[] goals;
+        [SerializeField] private Model.Objects.Counter[] restrictions;
         [SerializeField] private Balance balance;
         [SerializeField] private Pattern[] matchPatterns;
         [SerializeField] private HintPattern[] hintPatterns;

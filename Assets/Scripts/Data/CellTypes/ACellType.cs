@@ -16,6 +16,9 @@ namespace Data
         public ParticleSystem EmptyEffect;
 
         public virtual bool CanContainBlock => true;
+
+        public Sprite Icon => Sprite;
+
         public abstract void DestroyCellMaterial();
     }
 }

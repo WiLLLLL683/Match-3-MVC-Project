@@ -14,6 +14,8 @@ namespace Data
         public Sprite Sprite;
         public ParticleSystem DestroyEffect;
 
+        public Sprite Icon => Sprite;
+
         /// <summary>
         /// Возвращает успешен ли был ход
         /// </summary>
