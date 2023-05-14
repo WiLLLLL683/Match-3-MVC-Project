@@ -8,6 +8,10 @@ namespace View
     public class Cell : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer icon;
+        [SerializeField] private SpriteRenderer fill;
+        [SerializeField] private GameObject background;
+        [SerializeField] private Sprite evenSprite;
+        [SerializeField] private Sprite oddSprite;
 
         private Model.Objects.Cell cellModel;
         private ParticleSystem destroyEffect;
@@ -18,15 +22,33 @@ namespace View
             cellModel = _cellModel;
 
             transform.localPosition = ModelPosToViewPos(_cellModel);
-            //ChangeType(_cellModel, null);
+            SetCheckerBoardPattern();
+            //SetType(_cellModel, null);
 
             cellModel.OnDestroy += PlayDestroyEffect;
             cellModel.OnEmpty += PlayEmptyEffect;
-            cellModel.OnTypeChange += ChangeType;
+            cellModel.OnTypeChange += SetType;
+        }
+        private void OnDestroy()
+        {
+            if (cellModel == null)
+                return;
+
+            cellModel.OnDestroy -= PlayDestroyEffect;
+            cellModel.OnEmpty -= PlayEmptyEffect;
+            cellModel.OnTypeChange -= SetType;
         }
 
 
 
+        private void SetCheckerBoardPattern()
+        {
+            if ((cellModel.Position.x % 2 == 1 && cellModel.Position.y % 2 == 1) ||
+                (cellModel.Position.x % 2 == 0 && cellModel.Position.y % 2 == 0))
+                fill.sprite = evenSprite;
+            else
+                fill.sprite = oddSprite;
+        }
         private void PlayDestroyEffect(Model.Objects.Cell sender, EventArgs eventArgs)
         {
             if (sender.Type.DestroyEffect == null)
@@ -37,9 +59,9 @@ namespace View
 
             destroyEffect.Play();
         }
-        private void PlayEmptyEffect(Model.Objects.Cell sender, EventArgs eventArgs)
+        private void PlayEmptyEffect(Model.Objects.Cell cell, EventArgs eventArgs)
         {
-            if (sender.Type.EmptyEffect == null)
+            if (cell.Type.EmptyEffect == null)
                 return;
 
             if (emptyEffect == null)
@@ -47,14 +69,19 @@ namespace View
 
             emptyEffect.Play();
         }
-        private void ChangeType(Model.Objects.Cell sender, EventArgs eventArgs)
+        private void SetType(Model.Objects.Cell cell, EventArgs eventArgs)
         {
-            if (sender.Type.EmptyEffect == null)
-                icon.enabled = false;
-            else
-                icon.enabled = true;
+            if (!cell.Type.IsPlayable)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
 
-            icon.sprite = sender.Type.Sprite;
+            if(cell.Type.Sprite != null)
+            {
+                icon.gameObject.SetActive(true);
+                icon.sprite = cell.Type.Sprite;
+            }
         }
         private Vector2 ModelPosToViewPos(Model.Objects.Cell cell)
         {

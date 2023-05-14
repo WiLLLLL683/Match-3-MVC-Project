@@ -14,6 +14,7 @@ namespace Data
     public class NotPlayableCellType : ACellType
     {
         public override bool CanContainBlock => false;
+        public override bool IsPlayable => false;
         public override void DestroyCellMaterial()
         {
             

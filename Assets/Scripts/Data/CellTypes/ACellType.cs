@@ -16,6 +16,7 @@ namespace Data
         public ParticleSystem EmptyEffect;
 
         public virtual bool CanContainBlock => true;
+        public virtual bool IsPlayable => true;
 
         public Sprite Icon => Sprite;
 
