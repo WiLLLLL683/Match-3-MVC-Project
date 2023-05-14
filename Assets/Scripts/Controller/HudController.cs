@@ -10,6 +10,8 @@ namespace Controller
     /// </summary>
     public class HudController : MonoBehaviour
     {
+        [SerializeField] private PauseMenuController pauseMenuController;
+
         private Game game;
 
         public void Init(Game _game)
@@ -19,7 +21,7 @@ namespace Controller
 
         public void PauseGame()
         {
-            //TODO логика меню паузы
+            pauseMenuController.ShowPauseMenu();
         }
     }
 }
