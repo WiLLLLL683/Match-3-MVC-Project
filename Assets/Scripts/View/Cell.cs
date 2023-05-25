@@ -23,7 +23,7 @@ namespace View
 
             transform.localPosition = ModelPosToViewPos(_cellModel);
             SetCheckerBoardPattern();
-            //SetType(_cellModel, null);
+            SetType(_cellModel, null);
 
             cellModel.OnDestroy += PlayDestroyEffect;
             cellModel.OnEmpty += PlayEmptyEffect;

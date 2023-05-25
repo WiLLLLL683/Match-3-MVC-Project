@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22426263862cc5b40bb63d9c3b7f9e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberText: {fileID: 3304880354434994039}
+  countText: {fileID: 3304880354434994039}
   icon: {fileID: 8378028481049969328}
 --- !u!1 &6834058212296079800
 GameObject:
