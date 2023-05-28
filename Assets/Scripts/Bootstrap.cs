@@ -23,7 +23,7 @@ public class Bootstrap : MonoBehaviour
         gameBoardController.Init(game);
         boosterController.Init(game);
         hudAdapter.Init(game);
-        levelSelectionController.Init(game);
+        levelSelectionController?.Init(game);
 
         game.StartCoreGame(selectedLevel);
 
