@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Model.Systems
 {
@@ -11,12 +12,13 @@ namespace Model.Systems
     [Serializable]
     public class Turn : ICounterTarget
     {
+        public Sprite Icon => null;
+
         private List<IAction> actions = new();
 
         /// <summary>
         /// Добавить действие в ход
         /// </summary>
-        /// <param name="_action"></param>
         public void AddAction(IAction _action)
         {
             actions.Add(_action);

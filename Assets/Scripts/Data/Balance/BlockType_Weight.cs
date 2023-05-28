@@ -10,7 +10,6 @@ namespace Data
     [Serializable]
     public class BlockType_Weight
     {
-        [SerializeReference, SubclassSelector]
         public ABlockType blockType = new BlueBlockType();
         public int weight;
 

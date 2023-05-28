@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace Model.Objects
     /// <summary>
     /// Объект клетки игрового поля, которая хранит в себе блок
     /// </summary>
+    [Serializable]
     public class Cell
     {
         public bool IsPlayable => Type.CanContainBlock;

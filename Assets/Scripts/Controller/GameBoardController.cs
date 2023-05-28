@@ -1,7 +1,10 @@
-﻿using Model.Infrastructure;
+﻿using Model;
+using Model.Infrastructure;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using UnityEngine;
+using View;
 
 namespace Controller
 {
@@ -10,9 +13,58 @@ namespace Controller
     /// </summary>
     public class GameBoardController : MonoBehaviour
     {
-        internal void Init(Game game)
+        [SerializeField] private BlockSpawner blockSpawner;
+        [SerializeField] private CellSpawner cellSpawner;
+        [SerializeField] private GameBoardInput input;
+
+        private Game game;
+
+        public void Init(Game _game)
         {
-            throw new NotImplementedException();
+            game = _game;
+
+            input.OnSwipeMoving += GrabBlock;
+            input.OnSwipeEnded += MoveBlock;
+            input.OnTap += ActivateBlock;
+        }
+        private void OnDestroy()
+        {
+            input.OnSwipeMoving -= GrabBlock;
+            input.OnSwipeEnded -= MoveBlock;
+            input.OnTap -= ActivateBlock;
+        }
+
+        [Button]
+        public void SpawnCells()
+        {
+            cellSpawner.Clear();
+            cellSpawner.SpawnGameboard(game.Level.gameBoard);
+        }
+        [Button]
+        public void SpawnBlocks()
+        {
+            blockSpawner.Clear();
+            blockSpawner.SpawnGameboard(game.Level.gameBoard);
+        }
+
+
+
+        private void GrabBlock(Block block, Vector2 deltaPosition)
+        {
+            block.GrabBlock(deltaPosition);
+            Debug.Log(block + " grabbed", block);
+        }
+        private void MoveBlock(Block block, Directions direction)
+        {
+            block.ReturnBlock();
+            Debug.Log(block + " moved " + direction);
+            //TODO вызов модели
+        }
+        private void ActivateBlock(Block block)
+        {
+            block.TapBlock();
+            Debug.Log(block + " activated");
+            //TODO активация блока в клетке?
         }
     }
 }
