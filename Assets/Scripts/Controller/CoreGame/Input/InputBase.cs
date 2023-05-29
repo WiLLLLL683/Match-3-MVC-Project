@@ -1,7 +1,6 @@
 ﻿using Model;
 using System;
 using UnityEngine;
-using View;
 
 namespace Controller
 {

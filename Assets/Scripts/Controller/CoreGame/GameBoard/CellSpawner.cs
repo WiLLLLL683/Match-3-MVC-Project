@@ -1,11 +1,12 @@
-﻿using Data;
+﻿using Controller;
+using Data;
 using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace View
+namespace Controller
 {
     public class CellSpawner : MonoBehaviour
     {

@@ -24,16 +24,18 @@ namespace Controller
         public void ShowCompleteMenu()
         {
             defeatMenu.gameObject.SetActive(false);
-            completeMenu.gameObject.SetActive(true);
-
             input.Disable();
+
+            completeMenu.UpdateScore(4221,3); //TODO брать счет из модели
+            completeMenu.gameObject.SetActive(true);
         }
         public void ShowDefeatMenu()
         {
-            defeatMenu.gameObject.SetActive(true);
             completeMenu.gameObject.SetActive(false);
-
             input.Disable();
+
+            defeatMenu.UpdateScore(42); //TODO брать счет из модели
+            defeatMenu.gameObject.SetActive(true);
         }
         public void HideAllMenus()
         {

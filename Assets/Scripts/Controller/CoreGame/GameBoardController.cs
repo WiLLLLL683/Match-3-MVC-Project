@@ -4,7 +4,6 @@ using NaughtyAttributes;
 using System;
 using System.Collections;
 using UnityEngine;
-using View;
 
 namespace Controller
 {
