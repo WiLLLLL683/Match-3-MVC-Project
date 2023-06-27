@@ -17,16 +17,16 @@ namespace Model.Objects
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
-        public GameBoard(ACellType[,] _cellTypes)
+        public GameBoard(ACellType[,] cellTypes)
         {
-            Cells = new Cell[_cellTypes.GetLength(0), _cellTypes.GetLength(1)];
+            Cells = new Cell[cellTypes.GetLength(0), cellTypes.GetLength(1)];
             Blocks = new List<Block>();
 
-            for (int i = 0; i < _cellTypes.GetLength(0); i++)
+            for (int i = 0; i < cellTypes.GetLength(0); i++)
             {
-                for (int j = 0; j < _cellTypes.GetLength(1); j++)
+                for (int j = 0; j < cellTypes.GetLength(1); j++)
                 {
-                    Cells[i, j] = new Cell(_cellTypes[i,j], new Vector2Int(i, j));
+                    Cells[i, j] = new Cell(cellTypes[i,j], new Vector2Int(i, j));
                 }
             }
         }
@@ -51,35 +51,35 @@ namespace Model.Objects
         /// <summary>
         /// Регистрация блока в игровом поле
         /// </summary>
-        public void RegisterBlock(Block _block)
+        public void RegisterBlock(Block block)
         {
-            if (_block != null)
+            if (block != null)
             {
-                Blocks.Add(_block);
-                _block.OnDestroy += UnRegisterBlock;
+                Blocks.Add(block);
+                block.OnDestroy += UnRegisterBlock;
             }
         }
 
         /// <summary>
         /// Проверка наличия блока в заданной позиции
         /// </summary>
-        public bool CheckValidBlockByPosition(Vector2Int _position)
+        public bool CheckValidBlockByPosition(Vector2Int position)
         {
             //позиция вне границ игрового поля?
-            if (!CheckValidCellByPosition(_position))
+            if (!CheckValidCellByPosition(position))
             {
                 return false;
             }
 
             //играбельна ли клетка?
-            if (!Cells[_position.x, _position.y].IsPlayable)
+            if (!Cells[position.x, position.y].IsPlayable)
             {
                 Debug.LogError("Tried to get Block but Cell was notPlayable");
                 return false;
             }
 
             //есть ли блок в клетке?
-            if (Cells[_position.x, _position.y].IsEmpty)
+            if (Cells[position.x, position.y].IsEmpty)
             {
                 Debug.LogError("Tried to get Block but Cell was empty");
                 return false;
@@ -91,13 +91,13 @@ namespace Model.Objects
         /// <summary>
         /// Проверка наличия клетки в границах игрового поля
         /// </summary>
-        public bool CheckValidCellByPosition(Vector2Int _position)
+        public bool CheckValidCellByPosition(Vector2Int position)
         {
             //позиция в границах игрового поля?
-            if (_position.x >= 0 &&
-                _position.y >= 0 &&
-                _position.x < Cells.GetLength(0) &&
-                _position.y < Cells.GetLength(1))
+            if (position.x >= 0 &&
+                position.y >= 0 &&
+                position.x < Cells.GetLength(0) &&
+                position.y < Cells.GetLength(1))
             {
                 return true;
             }
@@ -109,9 +109,7 @@ namespace Model.Objects
         }
 
 
-        private void UnRegisterBlock(Block _block, EventArgs eventArgs)
-        {
-            Blocks.Remove(_block);
-        }
+
+        private void UnRegisterBlock(Block block) => Blocks.Remove(block);
     }
 }

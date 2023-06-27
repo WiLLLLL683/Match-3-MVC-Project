@@ -43,8 +43,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1393836645415585421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75ed30c4d20dbea4ba13c5b26100725d, type: 3}
-  m_Name: 
+  m_Script: {fileID: 11500000, guid: a73ea1b073ec9ad4f870df1086fb1e38, type: 3}
+  m_Name: BlockView
   m_EditorClassIdentifier: 
   icon: {fileID: 1393836646070208606}
   moveSpeed: 10

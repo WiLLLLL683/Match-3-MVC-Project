@@ -12,22 +12,22 @@ namespace Controller
     public class BlockSpawner : MonoBehaviour
     {
         [SerializeField] private Transform parent;
-        [SerializeField] private Block blockPrefab;
-        //[SerializeField] private AllBlockTypes allBlockTypes;
+        [SerializeField] private BlockView blockPrefab;
 
-        private List<Block> allBlocks = new();
+        private List<BlockController> allBlocks = new();
 
-        public Block SpawnBlock(Model.Objects.Block _blockModel)
+        public BlockView SpawnBlock(Model.Objects.Block blockModel)
         {
-            Block block = Instantiate(blockPrefab, parent);
-            block.Init(_blockModel);
-            allBlocks.Add(block);
-            return block;
+            BlockView blockView = Instantiate(blockPrefab, parent);
+            BlockController blockController = new(blockModel, blockView);
+            blockController.Activate();
+            allBlocks.Add(blockController);
+            return blockView;
         }
-        public List<Block> SpawnGameboard(Model.Objects.GameBoard gameBoard)
+        public List<BlockView> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
         {
-            List<Block> spawnedBlocks = new();
-            Block block;
+            List<BlockView> spawnedBlocks = new();
+            BlockView block;
 
             for (int x = 0; x < gameBoard.Blocks.Count; x++)
             {
@@ -41,8 +41,10 @@ namespace Controller
         {
             for (int i = 0; i < allBlocks.Count; i++)
             {
-                Destroy(allBlocks[i].gameObject);
+                allBlocks[i].Destroy(null);
             }
+
+            allBlocks.Clear();
 
             //уничтожить неучтенные объекты
             for (int i = 0; i < parent.childCount; i++)

@@ -15,48 +15,43 @@ namespace Model.Objects
         public ABlockType Type { get; private set; }
         public Cell Cell { get; private set; }
         public Vector2Int Position => Cell.Position;
-        public event BlockDelegate OnDestroy;
-        public event BlockDelegate OnTypeChange;
-        public event BlockDelegate OnPositionChange;
 
-        public Block(ABlockType _type, Cell _cell)
+        public event Action<Block> OnDestroy;
+        public event Action<ABlockType> OnTypeChange;
+        public event Action<Vector2> OnPositionChange;
+
+        public Block(ABlockType type, Cell cell)
         {
-            Type = _type;
-            Cell = _cell;
+            Type = type;
+            Cell = cell;
         }
 
         /// <summary>
         /// «адать клетку в которой расположен блок
         /// </summary>
-        public void ChangePosition(Cell _cell)
+        public void ChangePosition(Cell cell)
         {
-            Cell = _cell;
-            OnPositionChange?.Invoke(this, new EventArgs());
+            Cell = cell;
+            OnPositionChange?.Invoke(Position);
         }
 
         /// <summary>
         /// »зменить тип блока
         /// </summary>
-        public void ChangeType(ABlockType _type)
+        public void ChangeType(ABlockType type)
         {
-            Type = _type;
-            OnTypeChange?.Invoke(this, new EventArgs());
+            Type = type;
+            OnTypeChange?.Invoke(type);
         }
 
         /// <summary>
         /// јктивировать блок, зависит от типа блока
         /// </summary>
-        public bool Activate()
-        {
-            return Type.Activate();
-        }
+        public bool Activate() => Type.Activate();
 
         /// <summary>
         /// уничтожить блок
         /// </summary>
-        public void Destroy()
-        {
-            OnDestroy?.Invoke(this,new EventArgs());
-        }
+        public void Destroy() => OnDestroy?.Invoke(this);
     }
 }

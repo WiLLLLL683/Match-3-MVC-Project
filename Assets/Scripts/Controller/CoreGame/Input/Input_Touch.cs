@@ -13,12 +13,12 @@ namespace Controller
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
 
-        public override event Action<Block> OnTouchBegan;
-        public override event Action<Block, Vector2> OnSwipeMoving;
-        public override event Action<Block, Directions> OnSwipeEnded;
-        public override event Action<Block> OnTap;
+        public override event Action<BlockView> OnTouchBegan;
+        public override event Action<BlockView, Vector2> OnSwipeMoving;
+        public override event Action<BlockView, Directions> OnSwipeEnded;
+        public override event Action<BlockView> OnTap;
 
-        private Block selectedBlock;
+        private BlockView selectedBlock;
         private Vector2 firstTouchWorldPosition;
         private Vector2 deltaWorldPosition;
         private Vector2 deltaWorldPositionClamped;
@@ -113,7 +113,7 @@ namespace Controller
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider == null)
                 return false;
-            if (!hit.collider.TryGetComponent<Block>(out Block block))
+            if (!hit.collider.TryGetComponent<BlockView>(out BlockView block))
                 return false;
 
             firstTouchWorldPosition = worldPoint;

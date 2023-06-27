@@ -45,25 +45,25 @@ namespace Controller
         public void SpawnBlocks()
         {
             blockSpawner.Clear();
-            blockSpawner.SpawnGameboard(game.Level.gameBoard);
+            blockSpawner.SpawnGameBoard(game.Level.gameBoard);
         }
 
 
 
-        private void GrabBlock(Block block, Vector2 deltaPosition)
+        private void GrabBlock(BlockView block, Vector2 deltaPosition)
         {
-            block.GrabBlock(deltaPosition);
+            block.Grab(deltaPosition);
             Debug.Log(block + " grabbed", block);
         }
-        private void MoveBlock(Block block, Directions direction)
+        private void MoveBlock(BlockView block, Directions direction)
         {
-            block.ReturnBlock();
+            block.Release();
             Debug.Log(block + " moved " + direction);
             //TODO вызов модели
         }
-        private void ActivateBlock(Block block)
+        private void ActivateBlock(BlockView block)
         {
-            block.TapBlock();
+            block.Tap();
             Debug.Log(block + " activated");
             //TODO активация блока в клетке?
         }
