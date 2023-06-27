@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Controller
+namespace ViewElements
 {
     public class EndGameMenu : MonoBehaviour
     {

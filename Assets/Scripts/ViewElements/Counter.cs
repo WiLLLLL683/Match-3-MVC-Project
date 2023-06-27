@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
-namespace Controller
+namespace ViewElements
 {
-    public class Booster : MonoBehaviour
+    public class Counter : MonoBehaviour
     {
-        [SerializeField] private TMP_Text ammountText;
+        [SerializeField] private TMP_Text countText;
         [SerializeField] private Image icon;
 
         public void Init(Sprite iconSprite, int initialNumber)
         {
             SetIcon(iconSprite);
-            SetAmmount(initialNumber);
+            SetCount(initialNumber);
         }
-        public void SetAmmount(int boosterAmmount) => ammountText.text = boosterAmmount.ToString();
+
+        public void SetCount(int count) => countText.text = count.ToString();
         public void SetIcon(Sprite iconSprite)
         {
             if (icon != null && iconSprite != null)

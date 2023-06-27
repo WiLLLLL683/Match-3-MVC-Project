@@ -5,7 +5,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Controller
+namespace ViewElements
 {
     public class Block : MonoBehaviour
     {
