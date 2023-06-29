@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Controller;
+using Data;
 using NaughtyAttributes;
 using System;
 using System.Collections;
@@ -6,11 +7,9 @@ using UnityEngine;
 
 namespace ViewElements
 {
-    public class BlockView : MonoBehaviour
+    public class BlockView : MonoBehaviour, IBlockView
     {
-        public Action OnTap;
-        public Action OnGrab;
-        public Action OnRelease;
+        public IBlockController Controller { get; private set; }
 
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private float moveSpeed;
@@ -23,9 +22,10 @@ namespace ViewElements
         private Vector2 modelPosition;
         private ParticleSystem destroyEffect;
 
-        public void Init(ABlockType type, Vector2 modelPosition)
+        public void Init(ABlockType type, Vector2 modelPosition, IBlockController controller)
         {
             this.type = type;
+            this.Controller = controller;
 
             SetModelPosition(modelPosition);
             transform.localPosition = ModelPosToViewPos(modelPosition);
@@ -36,21 +36,9 @@ namespace ViewElements
             transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
         }
 
-        public void Tap()
-        {
-            OnTap?.Invoke();
-            StartCoroutine(TapAnimation());
-        }
-        public void Grab(Vector2 deltaPosition)
-        {
-            OnGrab?.Invoke();
-            targetPosition = ModelPosToViewPos(modelPosition) + deltaPosition;
-        }
-        public void Release()
-        {
-            OnRelease?.Invoke();
-            targetPosition = ModelPosToViewPos(modelPosition);
-        }
+        public void PlayClickAnimation() => StartCoroutine(TapAnimation());
+        public void DragPosition(Vector2 deltaPosition) => targetPosition = ModelPosToViewPos(modelPosition) + deltaPosition;
+        public void ReturnToModelPosition() => targetPosition = ModelPosToViewPos(modelPosition);
         public void ChangeType(ABlockType blockType) => icon.sprite = blockType.Sprite;
         public void SetModelPosition(Vector2 modelPosition)
         {
@@ -64,8 +52,6 @@ namespace ViewElements
 
             destroyEffect.Play();
         }
-
-
 
         private IEnumerator TapAnimation()
         {

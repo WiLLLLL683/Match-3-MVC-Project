@@ -9,16 +9,16 @@ namespace Controller
     public class Input_Touch : InputBase
     {
         [SerializeField] private Camera mainCamera;
-        [SerializeField] private float minSwipeDistance = 0.1f;
+        [SerializeField] private float minSwipeDistance = 0.6f;
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
 
-        public override event Action<BlockView> OnTouchBegan;
-        public override event Action<BlockView, Vector2> OnSwipeMoving;
-        public override event Action<BlockView, Directions> OnSwipeEnded;
-        public override event Action<BlockView> OnTap;
+        public override event Action<IBlockController> OnTouchBegan;
+        public override event Action<IBlockController, Vector2> OnSwipeMoving;
+        public override event Action<IBlockController, Directions> OnSwipeEnded;
+        public override event Action<IBlockController> OnTap;
 
-        private BlockView selectedBlock;
+        private IBlockController selectedBlock;
         private Vector2 firstTouchWorldPosition;
         private Vector2 deltaWorldPosition;
         private Vector2 deltaWorldPositionClamped;
@@ -113,13 +113,12 @@ namespace Controller
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider == null)
                 return false;
-            if (!hit.collider.TryGetComponent<BlockView>(out BlockView block))
+            if (!hit.collider.TryGetComponent<IBlockView>(out IBlockView block))
                 return false;
 
             firstTouchWorldPosition = worldPoint;
-            selectedBlock = block;
+            selectedBlock = block.Controller;
             return true;
         }
-
     }
 }

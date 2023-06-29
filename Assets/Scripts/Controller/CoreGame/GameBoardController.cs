@@ -50,20 +50,20 @@ namespace Controller
 
 
 
-        private void GrabBlock(BlockView block, Vector2 deltaPosition)
+        private void GrabBlock(IBlockController block, Vector2 deltaPosition)
         {
-            block.Grab(deltaPosition);
-            Debug.Log(block + " grabbed", block);
+            //TODO ограничение границами играбельных клеток
+            block.Drag(deltaPosition);
+            Debug.Log(block + " grabbed");
         }
-        private void MoveBlock(BlockView block, Directions direction)
+        private void MoveBlock(IBlockController block, Directions direction)
         {
-            block.Release();
+            block.Move(direction);
             Debug.Log(block + " moved " + direction);
-            //TODO вызов модели
         }
-        private void ActivateBlock(BlockView block)
+        private void ActivateBlock(IBlockController block)
         {
-            block.Tap();
+            block.Activate();
             Debug.Log(block + " activated");
             //TODO активация блока в клетке?
         }

@@ -14,20 +14,20 @@ namespace Controller
         [SerializeField] private Transform parent;
         [SerializeField] private BlockView blockPrefab;
 
-        private List<BlockController> allBlocks = new();
+        private List<IBlockController> allBlocks = new();
 
-        public BlockView SpawnBlock(Model.Objects.Block blockModel)
+        public IBlockView SpawnBlock(Model.Objects.Block blockModel)
         {
-            BlockView blockView = Instantiate(blockPrefab, parent);
-            BlockController blockController = new(blockModel, blockView);
-            blockController.Activate();
+            IBlockView blockView = Instantiate(blockPrefab, parent);
+            IBlockController blockController = new BlockController(blockModel, blockView);
+            blockController.Init();
             allBlocks.Add(blockController);
             return blockView;
         }
-        public List<BlockView> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
+        public List<IBlockView> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
         {
-            List<BlockView> spawnedBlocks = new();
-            BlockView block;
+            List<IBlockView> spawnedBlocks = new();
+            IBlockView block;
 
             for (int x = 0; x < gameBoard.Blocks.Count; x++)
             {
