@@ -39,7 +39,7 @@ namespace Presenter
         public void SpawnCells()
         {
             cellSpawner.Clear();
-            cellSpawner.SpawnGameboard(game.Level.gameBoard);
+            cellSpawner.SpawnGameBoard(game.Level.gameBoard);
         }
         [Button]
         public void SpawnBlocks()

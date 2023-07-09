@@ -19,7 +19,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private InterfaceReference<IBoosterInventoryPresenter, MonoBehaviour> boosterInventoryPrefab;
     [SerializeField] private InterfaceReference<IPausePresenter, MonoBehaviour> pausePrefab;
     [SerializeField] private InterfaceReference<IEndGamePresenter, MonoBehaviour> endGamePrefab;
-    [Header("Config")]
+    [Header("Settings")]
     [SerializeField] private LevelData selectedLevel;
 
     private Game game;

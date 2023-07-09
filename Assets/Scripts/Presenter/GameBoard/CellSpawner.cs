@@ -6,28 +6,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using View;
+using AYellowpaper;
 
 namespace Presenter
 {
     public class CellSpawner : MonoBehaviour
     {
         [SerializeField] private Transform parent;
-        [SerializeField] private CellView cellPrefab;
-        //[SerializeField] private AllBlockTypes allBlockTypes;
+        [SerializeField] private InterfaceReference<ICellView, MonoBehaviour> cellPrefab;
 
-        private List<CellView> allCells = new();
+        private List<ICellPresenter> allCells = new();
 
-        public CellView SpawnCell(Model.Objects.Cell _cellModel)
+        public ICellPresenter SpawnCell(Model.Objects.Cell cellModel)
         {
-            CellView cell = Instantiate(cellPrefab, parent);
-            cell.Init(_cellModel);
-            allCells.Add(cell);
-            return cell;
+            ICellView cellView = (ICellView)Instantiate(cellPrefab.UnderlyingValue, parent);
+            ICellPresenter cellPresenter = new CellPresenter(cellModel, cellView);
+            cellPresenter.Init();
+            allCells.Add(cellPresenter);
+            return cellPresenter;
         }
-        public List<CellView> SpawnGameboard(Model.Objects.GameBoard gameBoard)
+        public List<ICellPresenter> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
         {
-            List<CellView> spawnedCells = new();
-            CellView cell;
+            List<ICellPresenter> spawnedCells = new();
+            ICellPresenter cell;
 
             for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
             {
@@ -44,7 +45,7 @@ namespace Presenter
         {
             for (int i = 0; i < allCells.Count; i++)
             {
-                Destroy(allCells[i].gameObject);
+                allCells[i].Destroy(null);
             }
 
             //уничтожить неучтенные объекты

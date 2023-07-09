@@ -51,7 +51,7 @@ namespace Model.Objects.UnitTests
             Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             Block block = new Block(new BasicBlockType(), cell);
             int eventCount = 0;
-            cell.OnEmpty += (cell, eventArgs) => eventCount += 1;
+            cell.OnEmpty += (cell) => eventCount += 1;
 
             cell.SetBlock(block);
             cell.SetBlock(null);
@@ -90,7 +90,7 @@ namespace Model.Objects.UnitTests
             Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             Block block = new Block(new BasicBlockType(), null);
             bool test = false;
-            void TestFunc(Cell cell, System.EventArgs eventArgs)
+            void TestFunc(Cell cell)
             {
                 test = true;
             }
@@ -108,7 +108,7 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             bool test = false;
-            void TestFunc(Cell cell, System.EventArgs eventArgs)
+            void TestFunc(Cell cell)
             {
                 test = true;
             }
@@ -125,7 +125,7 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(new NotPlayableCellType(), new Vector2Int(0, 0));
             bool test = false;
-            void TestFunc(Cell cell, System.EventArgs eventArgs)
+            void TestFunc(Cell cell)
             {
                 test = true;
             }
@@ -142,7 +142,7 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             int eventRised = 0;
-            cell.OnDestroy += (Cell cell, System.EventArgs eventArgs) => eventRised += 1;
+            cell.OnDestroy += (Cell cell) => eventRised += 1;
 
             cell.DestroyCell();
 
@@ -154,7 +154,7 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(null, new Vector2Int(0, 0));
             int eventRised = 0;
-            cell.OnDestroy += (Cell cell, System.EventArgs eventArgs) => eventRised += 1;
+            cell.OnDestroy += (Cell cell) => eventRised += 1;
 
             cell.DestroyCell();
 

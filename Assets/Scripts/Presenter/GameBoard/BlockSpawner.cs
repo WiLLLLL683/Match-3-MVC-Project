@@ -6,28 +6,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using View;
+using AYellowpaper;
 
 namespace Presenter
 {
     public class BlockSpawner : MonoBehaviour
     {
         [SerializeField] private Transform parent;
-        [SerializeField] private BlockView blockPrefab;
+        [SerializeField] private InterfaceReference<IBlockView, MonoBehaviour> blockPrefab;
 
         private List<IBlockPresenter> allBlocks = new();
 
-        public IBlockView SpawnBlock(Model.Objects.Block blockModel)
+        public IBlockPresenter SpawnBlock(Model.Objects.Block blockModel)
         {
-            IBlockView blockView = Instantiate(blockPrefab, parent);
-            IBlockPresenter blockController = new BlockPresenter(blockModel, blockView);
-            blockController.Init();
-            allBlocks.Add(blockController);
-            return blockView;
+            IBlockView blockView = (IBlockView)Instantiate(blockPrefab.UnderlyingValue, parent);
+            IBlockPresenter blockPresenter = new BlockPresenter(blockModel, blockView);
+            blockPresenter.Init();
+            allBlocks.Add(blockPresenter);
+            return blockPresenter;
         }
-        public List<IBlockView> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
+        public List<IBlockPresenter> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
         {
-            List<IBlockView> spawnedBlocks = new();
-            IBlockView block;
+            List<IBlockPresenter> spawnedBlocks = new();
+            IBlockPresenter block;
 
             for (int x = 0; x < gameBoard.Blocks.Count; x++)
             {

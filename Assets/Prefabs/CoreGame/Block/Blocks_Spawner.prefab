@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 9112107451156967411}
-  blockPrefab: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}
+  blockPrefab:
+    _underlyingValue: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}
 --- !u!1001 &9112107449698512637
 PrefabInstance:
   m_ObjectHideFlags: 0

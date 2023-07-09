@@ -55,7 +55,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 6947219109200572102}
-  cellPrefab: {fileID: 5919296878604722895, guid: 8213a8f6c326f5a4797bde3812823299, type: 3}
+  cellPrefab:
+    _underlyingValue: {fileID: 5919296878604722895, guid: 8213a8f6c326f5a4797bde3812823299, type: 3}
 --- !u!1001 &6947219108116949434
 PrefabInstance:
   m_ObjectHideFlags: 0

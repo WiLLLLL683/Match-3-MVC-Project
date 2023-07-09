@@ -18,9 +18,9 @@ namespace Model.Objects
         public Block Block { get; private set; }
         public Vector2Int Position { get; private set; }
 
-        public event CellDelegate OnEmpty;
-        public event CellDelegate OnDestroy;
-        public event CellDelegate OnTypeChange;
+        public event Action<Cell> OnEmpty;
+        public event Action<Cell> OnDestroy;
+        public event Action<ACellType> OnTypeChange;
 
         public Cell(ACellType _type, Vector2Int _position)
         {
@@ -35,7 +35,7 @@ namespace Model.Objects
         public void ChangeType(ACellType _type)
         {
             Type = _type;
-            OnTypeChange?.Invoke(this, new EventArgs());
+            OnTypeChange?.Invoke(Type);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Model.Objects
             if (Type != null)
             {
                 Type.DestroyCellMaterial();
-                OnDestroy?.Invoke(this, new EventArgs());
+                OnDestroy?.Invoke(this);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Model.Objects
         {
             Block = null;
             IsEmpty = true;
-            OnEmpty?.Invoke(this, new EventArgs());
+            OnEmpty?.Invoke(this);
         }
     }
 }
