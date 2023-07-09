@@ -1,12 +1,12 @@
-﻿using Controller;
+﻿using Presenter;
 using Model.Infrastructure;
 using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Controller
+namespace Presenter
 {
-    public class PauseMenuController : MonoBehaviour
+    public class PausePresenter : MonoBehaviour
     {
         [SerializeField] private GameObject pauseMenu;
 

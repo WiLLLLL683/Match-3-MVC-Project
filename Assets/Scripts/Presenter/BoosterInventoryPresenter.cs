@@ -3,12 +3,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Controller
+namespace Presenter
 {
     /// <summary>
-    /// Контроллер для бустеров
+    /// Контроллер для инвентаря бустеров
     /// </summary>
-    public class BoosterController : MonoBehaviour
+    public class BoosterInventoryPresenter : MonoBehaviour
     {
         internal void Init(Game game)
         {

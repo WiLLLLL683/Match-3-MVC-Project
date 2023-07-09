@@ -1,25 +1,25 @@
-﻿using Controller;
+﻿using Presenter;
 using Data;
 using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
     public class BlockSpawner : MonoBehaviour
     {
         [SerializeField] private Transform parent;
         [SerializeField] private BlockView blockPrefab;
 
-        private List<IBlockController> allBlocks = new();
+        private List<IBlockPresenter> allBlocks = new();
 
         public IBlockView SpawnBlock(Model.Objects.Block blockModel)
         {
             IBlockView blockView = Instantiate(blockPrefab, parent);
-            IBlockController blockController = new BlockController(blockModel, blockView);
+            IBlockPresenter blockController = new BlockPresenter(blockModel, blockView);
             blockController.Init();
             allBlocks.Add(blockController);
             return blockView;

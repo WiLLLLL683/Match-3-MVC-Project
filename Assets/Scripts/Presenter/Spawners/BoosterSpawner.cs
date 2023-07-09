@@ -1,22 +1,22 @@
-﻿using Controller;
+﻿using Presenter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
     public class BoosterSpawner : MonoBehaviour
     {
         [SerializeField] private Transform parent;
-        [SerializeField] private Booster boosterPrefab;
+        [SerializeField] private BoosterView boosterPrefab;
 
-        private List<Booster> allBoosters = new();
+        private List<BoosterView> allBoosters = new();
 
-        public Booster SpawnCounter(Model.Objects.IBooster _boosterModel)
+        public BoosterView SpawnCounter(Model.Objects.IBooster _boosterModel)
         {
-            Booster booster = Instantiate(boosterPrefab, parent);
+            BoosterView booster = Instantiate(boosterPrefab, parent);
             booster.Init(_boosterModel.Icon, _boosterModel.Ammount);
             allBoosters.Add(booster);
             return booster;

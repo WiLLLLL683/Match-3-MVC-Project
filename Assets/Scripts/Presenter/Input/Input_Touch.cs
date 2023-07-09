@@ -2,9 +2,9 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
     public class Input_Touch : InputBase
     {
@@ -13,12 +13,12 @@ namespace Controller
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
 
-        public override event Action<IBlockController> OnTouchBegan;
-        public override event Action<IBlockController, Vector2> OnSwipeMoving;
-        public override event Action<IBlockController, Directions> OnSwipeEnded;
-        public override event Action<IBlockController> OnTap;
+        public override event Action<IBlockPresenter> OnTouchBegan;
+        public override event Action<IBlockPresenter, Vector2> OnSwipeMoving;
+        public override event Action<IBlockPresenter, Directions> OnSwipeEnded;
+        public override event Action<IBlockPresenter> OnTap;
 
-        private IBlockController selectedBlock;
+        private IBlockPresenter selectedBlock;
         private Vector2 firstTouchWorldPosition;
         private Vector2 deltaWorldPosition;
         private Vector2 deltaWorldPositionClamped;
@@ -64,6 +64,8 @@ namespace Controller
         }
         public override void Enable() => enabled = true;
         public override void Disable() => enabled = false;
+
+
 
         private void ResetTimer() => timer = tapDelay;
         private void UpdateTimer() => timer -= Time.deltaTime;

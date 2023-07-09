@@ -1,33 +1,33 @@
-﻿using Controller;
+﻿using Presenter;
 using Data;
 using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
     public class CellSpawner : MonoBehaviour
     {
         [SerializeField] private Transform parent;
-        [SerializeField] private Cell cellPrefab;
+        [SerializeField] private CellView cellPrefab;
         //[SerializeField] private AllBlockTypes allBlockTypes;
 
-        private List<Cell> allCells = new();
+        private List<CellView> allCells = new();
 
-        public Cell SpawnCell(Model.Objects.Cell _cellModel)
+        public CellView SpawnCell(Model.Objects.Cell _cellModel)
         {
-            Cell cell = Instantiate(cellPrefab, parent);
+            CellView cell = Instantiate(cellPrefab, parent);
             cell.Init(_cellModel);
             allCells.Add(cell);
             return cell;
         }
-        public List<Cell> SpawnGameboard(Model.Objects.GameBoard gameBoard)
+        public List<CellView> SpawnGameboard(Model.Objects.GameBoard gameBoard)
         {
-            List<Cell> spawnedCells = new();
-            Cell cell;
+            List<CellView> spawnedCells = new();
+            CellView cell;
 
             for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
             {

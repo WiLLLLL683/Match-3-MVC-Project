@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Controller
+namespace Presenter
 {
     /// <summary>
     /// Контроллер для окна выбора уровня

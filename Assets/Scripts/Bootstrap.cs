@@ -1,4 +1,4 @@
-﻿using Controller;
+﻿using Presenter;
 using Data;
 using Model.Infrastructure;
 using System;
@@ -12,12 +12,12 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private Canvas backgroundPrefab;
     [SerializeField] private Canvas headerPrefab;
     [Header("Core Game Prefabs")]
-    [SerializeField] private HudController hudPrefab;
-    [SerializeField] private GameBoardController gameBoardPrefab;
+    [SerializeField] private HudPresenter hudPrefab;
+    [SerializeField] private GameBoardPresenter gameBoardPrefab;
     [SerializeReference] private InputBase inputPrefab;
-    [SerializeField] private BoosterController boostersPrefab;
-    [SerializeField] private PauseMenuController pausePrefab;
-    [SerializeField] private EndGameController endGamePrefab;
+    [SerializeField] private BoosterInventoryPresenter boostersPrefab;
+    [SerializeField] private PausePresenter pausePrefab;
+    [SerializeField] private EndGamePresenter endGamePrefab;
 
     [Header("Settings")]
     [SerializeField] private LevelData selectedLevel;
@@ -28,12 +28,12 @@ public class Bootstrap : MonoBehaviour
     private Canvas background;
     private Canvas header;
 
-    private HudController hud;
-    private GameBoardController gameBoard;
+    private HudPresenter hud;
+    private GameBoardPresenter gameBoard;
     private InputBase input;
-    private BoosterController boosters;
-    private PauseMenuController pause;
-    private EndGameController endGame;
+    private BoosterInventoryPresenter boosters;
+    private PausePresenter pause;
+    private EndGamePresenter endGame;
 
     private void Awake()
     {

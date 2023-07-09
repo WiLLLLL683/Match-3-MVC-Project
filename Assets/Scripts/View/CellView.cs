@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ViewElements
+namespace View
 {
-    public class Cell : MonoBehaviour
+    public class CellView : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private SpriteRenderer fill;

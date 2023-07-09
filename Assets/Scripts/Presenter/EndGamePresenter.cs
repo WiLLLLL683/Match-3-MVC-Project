@@ -2,11 +2,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
-    public class EndGameController : MonoBehaviour
+    public class EndGamePresenter : MonoBehaviour
     {
         [SerializeField] private EndGameMenu completeMenu;
         [SerializeField] private EndGameMenu defeatMenu;

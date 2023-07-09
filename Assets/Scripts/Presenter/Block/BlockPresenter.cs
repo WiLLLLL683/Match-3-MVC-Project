@@ -4,16 +4,16 @@ using Model.Objects;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
-    public class BlockController : IBlockController
+    public class BlockPresenter : IBlockPresenter
     {
         private Block model;
         private IBlockView view;
 
-        public BlockController(Block model, IBlockView view)
+        public BlockPresenter(Block model, IBlockView view)
         {
             this.model = model;
             this.view = view;
@@ -36,7 +36,7 @@ namespace Controller
             view.PlayDestroyEffect();
             GameObject.Destroy(view.gameObject);
         }
-        public void Drag(Vector2 deltaPosition) => view.DragPosition(deltaPosition);
+        public void Drag(Vector2 deltaPosition) => view.Drag(deltaPosition);
         public void Move(Directions direction)
         {
             Debug.Log("Move");

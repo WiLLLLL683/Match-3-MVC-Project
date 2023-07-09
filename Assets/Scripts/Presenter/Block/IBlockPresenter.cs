@@ -1,11 +1,11 @@
 ﻿using Model;
 using Model.Objects;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
-    public interface IBlockController
+    public interface IBlockPresenter
     {
         public void Init();
         public void Destroy(Block block);

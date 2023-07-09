@@ -3,12 +3,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Controller
+namespace Presenter
 {
     /// <summary>
     /// Контроллер для HUD
     /// </summary>
-    public class HudController : MonoBehaviour
+    public class HudPresenter : MonoBehaviour
     {
         private Game game;
 

@@ -1,22 +1,22 @@
-﻿using Controller;
+﻿using Presenter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ViewElements;
+using View;
 
-namespace Controller
+namespace Presenter
 {
     public class CounterSpawner : MonoBehaviour
     {
         [SerializeField] private Transform parent;
-        [SerializeField] private Counter counterPrefab;
+        [SerializeField] private CounterView counterPrefab;
 
-        private List<Counter> allCounters = new();
+        private List<CounterView> allCounters = new();
 
-        public Counter SpawnCounter(Model.Objects.Counter _counterModel)
+        public CounterView SpawnCounter(Model.Objects.Counter _counterModel)
         {
-            Counter Counter = Instantiate(counterPrefab, parent);
+            CounterView Counter = Instantiate(counterPrefab, parent);
             Counter.Init(_counterModel.Target.Icon, _counterModel.Count);
             allCounters.Add(Counter);
             return Counter;

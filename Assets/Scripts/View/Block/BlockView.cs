@@ -1,15 +1,15 @@
-﻿using Controller;
+﻿using Presenter;
 using Data;
 using NaughtyAttributes;
 using System;
 using System.Collections;
 using UnityEngine;
 
-namespace ViewElements
+namespace View
 {
     public class BlockView : MonoBehaviour, IBlockView
     {
-        public IBlockController Controller { get; private set; }
+        public IBlockPresenter Controller { get; private set; }
 
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private float moveSpeed;
@@ -22,7 +22,7 @@ namespace ViewElements
         private Vector2 modelPosition;
         private ParticleSystem destroyEffect;
 
-        public void Init(ABlockType type, Vector2 modelPosition, IBlockController controller)
+        public void Init(ABlockType type, Vector2 modelPosition, IBlockPresenter controller)
         {
             this.type = type;
             this.Controller = controller;
@@ -37,7 +37,7 @@ namespace ViewElements
         }
 
         public void PlayClickAnimation() => StartCoroutine(TapAnimation());
-        public void DragPosition(Vector2 deltaPosition) => targetPosition = ModelPosToViewPos(modelPosition) + deltaPosition;
+        public void Drag(Vector2 deltaPosition) => targetPosition = ModelPosToViewPos(modelPosition) + deltaPosition;
         public void ReturnToModelPosition() => targetPosition = ModelPosToViewPos(modelPosition);
         public void ChangeType(ABlockType blockType) => icon.sprite = blockType.Sprite;
         public void SetModelPosition(Vector2 modelPosition)
