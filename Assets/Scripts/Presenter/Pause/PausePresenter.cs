@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace Presenter
 {
-    public class PausePresenter : MonoBehaviour
+    public class PausePresenter : MonoBehaviour, IPausePresenter
     {
         [SerializeField] private GameObject pauseMenu;
 
         private Game game;
-        private InputBase input;
+        private IInput input;
         private Bootstrap bootstrap;
 
-        public void Init(Game game, InputBase input, Bootstrap bootstrap)
+        public void Init(Game game, IInput input, Bootstrap bootstrap)
         {
             this.game = game;
             this.input = input;

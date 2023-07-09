@@ -6,17 +6,17 @@ using View;
 
 namespace Presenter
 {
-    public class Input_Touch : InputBase
+    public class Input_Touch : MonoBehaviour, IInput
     {
         [SerializeField] private Camera mainCamera;
         [SerializeField] private float minSwipeDistance = 0.6f;
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
 
-        public override event Action<IBlockPresenter> OnTouchBegan;
-        public override event Action<IBlockPresenter, Vector2> OnSwipeMoving;
-        public override event Action<IBlockPresenter, Directions> OnSwipeEnded;
-        public override event Action<IBlockPresenter> OnTap;
+        public event Action<IBlockPresenter> OnTouchBegan;
+        public event Action<IBlockPresenter, Vector2> OnSwipeMoving;
+        public event Action<IBlockPresenter, Directions> OnSwipeEnded;
+        public event Action<IBlockPresenter> OnTap;
 
         private IBlockPresenter selectedBlock;
         private Vector2 firstTouchWorldPosition;
@@ -62,8 +62,8 @@ namespace Presenter
                 selectedBlock = null;
             }
         }
-        public override void Enable() => enabled = true;
-        public override void Disable() => enabled = false;
+        public void Enable() => enabled = true;
+        public void Disable() => enabled = false;
 
 
 

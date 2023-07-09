@@ -6,16 +6,16 @@ using View;
 
 namespace Presenter
 {
-    public class EndGamePresenter : MonoBehaviour
+    public class EndGamePresenter : MonoBehaviour, IEndGamePresenter
     {
         [SerializeField] private EndGameMenu completeMenu;
         [SerializeField] private EndGameMenu defeatMenu;
 
         private Game game;
-        private InputBase input;
+        private IInput input;
         private Bootstrap bootstrap;
 
-        public void Init(Game game, InputBase input, Bootstrap bootstrap)
+        public void Init(Game game, IInput input, Bootstrap bootstrap)
         {
             this.game = game;
             this.input = input;
@@ -27,7 +27,7 @@ namespace Presenter
             defeatMenu.gameObject.SetActive(false);
             input.Disable();
 
-            completeMenu.UpdateScore(4221,3); //TODO брать счет из модели
+            completeMenu.UpdateScore(4221, 3); //TODO брать счет из модели
             completeMenu.gameObject.SetActive(true);
         }
         public void ShowDefeatMenu()

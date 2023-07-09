@@ -9,7 +9,7 @@ namespace Presenter
     /// <summary>
     /// Контроллер для окна выбора уровня
     /// </summary>
-    public class LevelSelectionController : MonoBehaviour
+    public class LevelSelectionController : MonoBehaviour, ILevelSelectionController
     {
         private Game game;
         private Bootstrap bootstrap;

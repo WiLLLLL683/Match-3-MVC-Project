@@ -5,8 +5,10 @@ using View;
 
 namespace Presenter
 {
-    public abstract class InputBase : MonoBehaviour
+    public interface IInput
     {
+        public GameObject gameObject { get; }
+        
         public abstract event Action<IBlockPresenter> OnTouchBegan;
         public abstract event Action<IBlockPresenter, Vector2> OnSwipeMoving;
         public abstract event Action<IBlockPresenter, Directions> OnSwipeEnded;

@@ -296,7 +296,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3793116412616789871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1241e4f4fb20bc8449dfbb7ab3aefb87, type: 3}
+  m_Script: {fileID: 11500000, guid: 925016bdf19321f42ba83630ff0bf7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   blockSpawner: {fileID: 7349188069586345335}
@@ -745,7 +745,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b712a58e8befe143a9b087eef228408, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c7b934cb364b264584ab9627b7a7ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6109873686312707321

@@ -8,9 +8,9 @@ namespace Presenter
     /// <summary>
     /// Контроллер для инвентаря бустеров
     /// </summary>
-    public class BoosterInventoryPresenter : MonoBehaviour
+    public class BoosterInventoryPresenter : MonoBehaviour, IBoosterInventoryPresenter
     {
-        internal void Init(Game game)
+        public void Init(Game game)
         {
 
         }

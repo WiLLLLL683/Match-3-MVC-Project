@@ -8,7 +8,7 @@ namespace Presenter
     /// <summary>
     /// Контроллер для HUD
     /// </summary>
-    public class HudPresenter : MonoBehaviour
+    public class HudPresenter : MonoBehaviour, IHudPresenter
     {
         private Game game;
 

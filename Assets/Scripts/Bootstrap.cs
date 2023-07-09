@@ -4,51 +4,49 @@ using Model.Infrastructure;
 using System;
 using System.Collections;
 using UnityEngine;
+using AYellowpaper;
 
 public class Bootstrap : MonoBehaviour
 {
     [Header("Meta Game Prefabs")]
-    [SerializeField] private LevelSelectionController levelSelectionPrefab;
+    [SerializeField] private InterfaceReference<ILevelSelectionController, MonoBehaviour> levelSelectionPrefab;
     [SerializeField] private Canvas backgroundPrefab;
     [SerializeField] private Canvas headerPrefab;
     [Header("Core Game Prefabs")]
-    [SerializeField] private HudPresenter hudPrefab;
-    [SerializeField] private GameBoardPresenter gameBoardPrefab;
-    [SerializeReference] private InputBase inputPrefab;
-    [SerializeField] private BoosterInventoryPresenter boostersPrefab;
-    [SerializeField] private PausePresenter pausePrefab;
-    [SerializeField] private EndGamePresenter endGamePrefab;
-
-    [Header("Settings")]
+    [SerializeField] private InterfaceReference<IHudPresenter, MonoBehaviour> hudPrefab;
+    [SerializeField] private InterfaceReference<IGameBoardPresenter, MonoBehaviour> gameBoardPrefab;
+    [SerializeField] private InterfaceReference<IInput, MonoBehaviour> inputPrefab;
+    [SerializeField] private InterfaceReference<IBoosterInventoryPresenter, MonoBehaviour> boosterInventoryPrefab;
+    [SerializeField] private InterfaceReference<IPausePresenter, MonoBehaviour> pausePrefab;
+    [SerializeField] private InterfaceReference<IEndGamePresenter, MonoBehaviour> endGamePrefab;
+    [Header("Config")]
     [SerializeField] private LevelData selectedLevel;
 
     private Game game;
-
-    private LevelSelectionController levelSelection;
+    //meta game
+    private ILevelSelectionController levelSelection;
     private Canvas background;
     private Canvas header;
-
-    private HudPresenter hud;
-    private GameBoardPresenter gameBoard;
-    private InputBase input;
-    private BoosterInventoryPresenter boosters;
-    private PausePresenter pause;
-    private EndGamePresenter endGame;
+    //core game
+    private IHudPresenter hud;
+    private IGameBoardPresenter gameBoard;
+    private IInput input;
+    private IBoosterInventoryPresenter boosters;
+    private IPausePresenter pause;
+    private IEndGamePresenter endGame;
 
     private void Awake()
     {
         game = new();
 
         LoadMetaGame();
-        //LoadCoreGame();
     }
-
     public void LoadMetaGame()
     {
         if (gameBoard != null)
             UnloadCoreGame();
 
-        levelSelection = Instantiate(levelSelectionPrefab);
+        levelSelection = (ILevelSelectionController)Instantiate(levelSelectionPrefab.UnderlyingValue);
         background = Instantiate(backgroundPrefab);
         header = Instantiate(headerPrefab);
 
@@ -61,12 +59,12 @@ public class Bootstrap : MonoBehaviour
         if (levelSelection != null)
             UnloadMetaGame();
 
-        hud = Instantiate(hudPrefab);
-        gameBoard = Instantiate(gameBoardPrefab);
-        input = Instantiate(inputPrefab);
-        boosters = Instantiate(boostersPrefab);
-        pause = Instantiate(pausePrefab);
-        endGame = Instantiate(endGamePrefab);
+        hud = (IHudPresenter) Instantiate(hudPrefab.UnderlyingValue);
+        gameBoard = (IGameBoardPresenter) Instantiate(gameBoardPrefab.UnderlyingValue);
+        input = (IInput) Instantiate(inputPrefab.UnderlyingValue);
+        boosters = (IBoosterInventoryPresenter) Instantiate(boosterInventoryPrefab.UnderlyingValue);
+        pause = (IPausePresenter) Instantiate(pausePrefab.UnderlyingValue);
+        endGame = (IEndGamePresenter) Instantiate(endGamePrefab.UnderlyingValue);
 
         hud.Init(game);
         gameBoard.Init(game, input);
@@ -78,6 +76,8 @@ public class Bootstrap : MonoBehaviour
         gameBoard.SpawnCells();
         gameBoard.SpawnBlocks();
     }
+
+
 
     private void UnloadCoreGame()
     {

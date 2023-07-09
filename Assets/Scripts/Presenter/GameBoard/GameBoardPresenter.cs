@@ -11,15 +11,15 @@ namespace Presenter
     /// <summary>
     /// Контроллер для игрового поля
     /// </summary>
-    public class GameBoardPresenter : MonoBehaviour
+    public class GameBoardPresenter : MonoBehaviour, IGameBoardPresenter
     {
         [SerializeField] private BlockSpawner blockSpawner;
         [SerializeField] private CellSpawner cellSpawner;
 
         private Game game;
-        private InputBase input;
+        private IInput input;
 
-        public void Init(Game game, InputBase input)
+        public void Init(Game game, IInput input)
         {
             this.game = game;
             this.input = input;

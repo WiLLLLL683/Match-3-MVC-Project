@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 730921600496646355}
   - component: {fileID: 730921600496646348}
   m_Layer: 5
-  m_Name: Booster_View
+  m_Name: BoosterInventory_View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 730921600496646350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 049d917654c0f7943b7d2d1a431fb489, type: 3}
+  m_Script: {fileID: 11500000, guid: 97201ab56417a83488cc834ee855bba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!223 &730921600496646354
