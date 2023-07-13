@@ -1,10 +1,9 @@
-﻿using Data;
-using Model;
-using Model.Objects;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using View;
+using Data;
+using Model;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -21,7 +20,11 @@ namespace Presenter
 
         public void Init()
         {
-            view.Init(model.Type, model.Position, this);
+            view.Init(model.Type, model.Position);
+
+            view.OnMove += Move;
+            view.OnActivate += Activate;
+            view.OnDrag += Drag;
 
             model.OnDestroy += Destroy;
             model.OnPositionChange += SyncPosition;
@@ -29,6 +32,10 @@ namespace Presenter
         }
         public void Destroy(Block block)
         {
+            view.OnMove -= Move;
+            view.OnActivate -= Activate;
+            view.OnDrag -= Drag;
+
             model.OnDestroy -= Destroy;
             model.OnPositionChange -= SyncPosition;
             model.OnTypeChange -= ChangeType;
@@ -36,7 +43,11 @@ namespace Presenter
             view.PlayDestroyEffect();
             GameObject.Destroy(view.gameObject);
         }
-        public void Drag(Vector2 deltaPosition) => view.Drag(deltaPosition);
+        public void Drag(Directions direction, Vector2 deltaPosition)
+        {
+            //TODO сдвиг парного блока
+            view.DragPosition(deltaPosition);
+        }
         public void Move(Directions direction)
         {
             Debug.Log("Move");
@@ -53,6 +64,6 @@ namespace Presenter
         }
 
         private void SyncPosition(Vector2 modelPosition) => view.SetModelPosition(modelPosition);
-        private void ChangeType(ABlockType type) => view.ChangeType(type);
+        private void ChangeType(ABlockType type) => view.SetType(type);
     }
 }

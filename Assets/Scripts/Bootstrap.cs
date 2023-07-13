@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using AYellowpaper;
+using View;
 
 public class Bootstrap : MonoBehaviour
 {
@@ -67,7 +68,7 @@ public class Bootstrap : MonoBehaviour
         endGame = (IEndGamePresenter) Instantiate(endGamePrefab.UnderlyingValue);
 
         hud.Init(game);
-        gameBoard.Init(game, input);
+        gameBoard.Init(game);
         boosters.Init(game);
         pause.Init(game, input, this);
         endGame.Init(game, input, this);

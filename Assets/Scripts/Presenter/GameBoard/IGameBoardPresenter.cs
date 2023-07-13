@@ -1,6 +1,7 @@
 ﻿using Model.Infrastructure;
 using System;
 using UnityEngine;
+using View;
 
 namespace Presenter
 {
@@ -8,7 +9,7 @@ namespace Presenter
     {
         public GameObject gameObject { get; }
 
-        void Init(Game game, IInput input);
+        void Init(Game game);
         void SpawnBlocks();
         void SpawnCells();
     }

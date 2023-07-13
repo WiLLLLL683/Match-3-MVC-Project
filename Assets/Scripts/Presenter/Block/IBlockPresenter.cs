@@ -1,6 +1,6 @@
-﻿using Model;
+﻿using UnityEngine;
 using Model.Objects;
-using UnityEngine;
+using Model;
 using View;
 
 namespace Presenter
@@ -9,7 +9,7 @@ namespace Presenter
     {
         public void Init();
         public void Destroy(Block block);
-        public void Drag(Vector2 deltaPosition);
+        public void Drag(Directions direction, Vector2 deltaPosition);
         public void Move(Directions direction);
         public void Activate();
     }

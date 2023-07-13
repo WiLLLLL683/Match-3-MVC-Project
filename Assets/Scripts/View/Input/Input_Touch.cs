@@ -1,10 +1,8 @@
-﻿using Model;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
-using View;
 
-namespace Presenter
+namespace View
 {
     public class Input_Touch : MonoBehaviour, IInput
     {
@@ -13,12 +11,7 @@ namespace Presenter
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
 
-        public event Action<IBlockPresenter> OnTouchBegan;
-        public event Action<IBlockPresenter, Vector2> OnSwipeMoving;
-        public event Action<IBlockPresenter, Directions> OnSwipeEnded;
-        public event Action<IBlockPresenter> OnTap;
-
-        private IBlockPresenter selectedBlock;
+        private IBlockInput selectedBlock;
         private Vector2 firstTouchWorldPosition;
         private Vector2 deltaWorldPosition;
         private Vector2 deltaWorldPositionClamped;
@@ -29,7 +22,6 @@ namespace Presenter
         {
             mainCamera = Camera.main;
         }
-
         private void Update()
         {
             if (Input.touchCount <= 0)
@@ -41,23 +33,25 @@ namespace Presenter
                 if (!TrySelectBlock(touch))
                     return;
                 ResetTimer();
-                OnTouchBegan?.Invoke(selectedBlock);
             }
 
             UpdateTimer();
 
-            if (selectedBlock != null && touch.phase == TouchPhase.Moved)
+            if (selectedBlock == null)
+                return;
+
+            if (touch.phase == TouchPhase.Moved)
             {
                 GetDeltaWorldPosition(touch);
                 GetSwipeDirection();
-                OnSwipeMoving?.Invoke(selectedBlock, deltaWorldPositionClamped);
+                selectedBlock.Input_Drag(swipeDirection, deltaWorldPositionClamped);
             }
-            if (selectedBlock != null && touch.phase == TouchPhase.Ended)
+            if (touch.phase == TouchPhase.Ended)
             {
                 if (timer > 0)
-                    OnTap?.Invoke(selectedBlock);
+                    selectedBlock.Input_ActivateBlock();
                 else
-                    OnSwipeEnded?.Invoke(selectedBlock, swipeDirection);
+                    selectedBlock.Input_MoveBlock(swipeDirection);
 
                 selectedBlock = null;
             }
@@ -115,11 +109,11 @@ namespace Presenter
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider == null)
                 return false;
-            if (!hit.collider.TryGetComponent<IBlockView>(out IBlockView block))
+            if (!hit.collider.TryGetComponent<IBlockInput>(out IBlockInput block))
                 return false;
 
             firstTouchWorldPosition = worldPoint;
-            selectedBlock = block.Controller;
+            selectedBlock = block;
             return true;
         }
     }
