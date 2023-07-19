@@ -1,11 +1,11 @@
-﻿using Presenter;
-using Data;
+﻿using Data;
+using Model.Objects;
+using View;
 using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using View;
 using AYellowpaper;
 
 namespace Presenter
@@ -16,24 +16,29 @@ namespace Presenter
         [SerializeField] private InterfaceReference<IBlockView, MonoBehaviour> blockPrefab;
 
         private List<IBlockPresenter> allBlocks = new();
+        private IGameBoardPresenter gameBoardPresenter;
 
-        public IBlockPresenter SpawnBlock(Model.Objects.Block blockModel)
+        public void Init(IGameBoardPresenter gameBoardPresenter)
+        {
+            this.gameBoardPresenter = gameBoardPresenter;
+        }
+        public IBlockView SpawnBlock(Block blockModel)
         {
             IBlockView blockView = (IBlockView)Instantiate(blockPrefab.UnderlyingValue, parent);
             IBlockPresenter blockPresenter = new BlockPresenter(blockModel, blockView);
             blockPresenter.Init();
+            blockView.Init(blockModel.Type, blockModel.Position, gameBoardPresenter);
             allBlocks.Add(blockPresenter);
-            return blockPresenter;
+            return blockView;
         }
-        public List<IBlockPresenter> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
+        public Dictionary<Block, IBlockView> SpawnGameBoard(GameBoard gameBoard)
         {
-            List<IBlockPresenter> spawnedBlocks = new();
-            IBlockPresenter block;
+            Dictionary<Block, IBlockView> spawnedBlocks = new();
 
-            for (int x = 0; x < gameBoard.Blocks.Count; x++)
+            for (int i = 0; i < gameBoard.Blocks.Count; i++)
             {
-                block = SpawnBlock(gameBoard.Blocks[x]);
-                spawnedBlocks.Add(block);
+                Block blockModel = gameBoard.Blocks[i];
+                spawnedBlocks[blockModel] = SpawnBlock(blockModel);
             }
 
             return spawnedBlocks;

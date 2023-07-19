@@ -18,7 +18,7 @@ namespace Model.Objects
 
         public event Action<Block> OnDestroy;
         public event Action<ABlockType> OnTypeChange;
-        public event Action<Vector2> OnPositionChange;
+        public event Action<Vector2Int> OnPositionChange;
 
         public Block(ABlockType type, Cell cell)
         {

@@ -46,11 +46,11 @@ public class Bootstrap : MonoBehaviour
     {
         if (gameBoard != null)
             UnloadCoreGame();
-
+        //создание окон вью
         levelSelection = (ILevelSelectionController)Instantiate(levelSelectionPrefab.UnderlyingValue);
         background = Instantiate(backgroundPrefab);
         header = Instantiate(headerPrefab);
-
+        //инициализация
         levelSelection.Init(game, this);
 
         //game.StartMetaGame();
@@ -59,21 +59,23 @@ public class Bootstrap : MonoBehaviour
     {
         if (levelSelection != null)
             UnloadMetaGame();
-
+        //создание окон вью
         hud = (IHudPresenter) Instantiate(hudPrefab.UnderlyingValue);
         gameBoard = (IGameBoardPresenter) Instantiate(gameBoardPrefab.UnderlyingValue);
         input = (IInput) Instantiate(inputPrefab.UnderlyingValue);
         boosters = (IBoosterInventoryPresenter) Instantiate(boosterInventoryPrefab.UnderlyingValue);
         pause = (IPausePresenter) Instantiate(pausePrefab.UnderlyingValue);
         endGame = (IEndGamePresenter) Instantiate(endGamePrefab.UnderlyingValue);
-
+        //запуск модели
+        game.StartCoreGame(selectedLevel);
+        //инициализация
         hud.Init(game);
-        gameBoard.Init(game);
+        gameBoard.Init(game, game.Level.gameBoard);
+        input.Init(gameBoard);
         boosters.Init(game);
         pause.Init(game, input, this);
         endGame.Init(game, input, this);
-
-        game.StartCoreGame(selectedLevel);
+        //создание игровых элементов
         gameBoard.SpawnCells();
         gameBoard.SpawnBlocks();
     }

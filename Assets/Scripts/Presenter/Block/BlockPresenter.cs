@@ -20,11 +20,8 @@ namespace Presenter
 
         public void Init()
         {
-            view.Init(model.Type, model.Position);
-
             view.OnMove += Move;
             view.OnActivate += Activate;
-            view.OnDrag += Drag;
 
             model.OnDestroy += Destroy;
             model.OnPositionChange += SyncPosition;
@@ -34,7 +31,6 @@ namespace Presenter
         {
             view.OnMove -= Move;
             view.OnActivate -= Activate;
-            view.OnDrag -= Drag;
 
             model.OnDestroy -= Destroy;
             model.OnPositionChange -= SyncPosition;
@@ -43,15 +39,9 @@ namespace Presenter
             view.PlayDestroyEffect();
             GameObject.Destroy(view.gameObject);
         }
-        public void Drag(Directions direction, Vector2 deltaPosition)
-        {
-            //TODO сдвиг парного блока
-            view.DragPosition(deltaPosition);
-        }
         public void Move(Directions direction)
         {
             Debug.Log("Move");
-            view.ReturnToModelPosition();
             //TODO обращение к модели для запуска систем
         }
         public void Activate()
@@ -63,7 +53,7 @@ namespace Presenter
             //model.Activate();
         }
 
-        private void SyncPosition(Vector2 modelPosition) => view.SetModelPosition(modelPosition);
+        private void SyncPosition(Vector2Int modelPosition) => view.SetModelPosition(modelPosition);
         private void ChangeType(ABlockType type) => view.SetType(type);
     }
 }

@@ -12,7 +12,7 @@ public enum Directions
 }
 
 /// <summary>
-/// Направления для перемещения
+/// Типы валют
 /// </summary>
 public enum CurrencyType
 {

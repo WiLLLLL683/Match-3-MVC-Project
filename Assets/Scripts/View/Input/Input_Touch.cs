@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Presenter;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,15 +13,18 @@ namespace View
         [SerializeField] private float tapDelay = 0.1f;
 
         private IBlockInput selectedBlock;
+        private IBlockInput oppositeBlock;
         private Vector2 firstTouchWorldPosition;
         private Vector2 deltaWorldPosition;
         private Vector2 deltaWorldPositionClamped;
         private Directions swipeDirection;
         private float timer;
+        private IGameBoardPresenter gameBoardPresenter;
 
-        private void Awake()
+        public void Init(IGameBoardPresenter gameBoardPresenter)
         {
             mainCamera = Camera.main;
+            this.gameBoardPresenter = gameBoardPresenter;
         }
         private void Update()
         {
@@ -44,7 +48,10 @@ namespace View
             {
                 GetDeltaWorldPosition(touch);
                 GetSwipeDirection();
+                GetOppositeBlock();
+
                 selectedBlock.Input_Drag(swipeDirection, deltaWorldPositionClamped);
+                oppositeBlock?.Input_Drag(swipeDirection.ToOpposite(), -deltaWorldPositionClamped);
             }
             if (touch.phase == TouchPhase.Ended)
             {
@@ -53,7 +60,10 @@ namespace View
                 else
                     selectedBlock.Input_MoveBlock(swipeDirection);
 
+                selectedBlock.Input_Release();
+                oppositeBlock.Input_Release();
                 selectedBlock = null;
+                oppositeBlock = null;
             }
         }
         public void Enable() => enabled = true;
@@ -63,6 +73,19 @@ namespace View
 
         private void ResetTimer() => timer = tapDelay;
         private void UpdateTimer() => timer -= Time.deltaTime;
+        private bool TrySelectBlock(Touch touch)
+        {
+            Vector2 worldPoint = mainCamera.ScreenToWorldPoint(touch.position);
+            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+            if (hit.collider == null)
+                return false;
+            if (!hit.collider.TryGetComponent<IBlockInput>(out IBlockInput block))
+                return false;
+
+            firstTouchWorldPosition = worldPoint;
+            selectedBlock = block;
+            return true;
+        }
         private void GetDeltaWorldPosition(Touch touch)
         {
             Vector2 worldPoint = mainCamera.ScreenToWorldPoint(touch.position);
@@ -103,18 +126,18 @@ namespace View
                 }
             }
         }
-        private bool TrySelectBlock(Touch touch)
+        private void GetOppositeBlock()
         {
-            Vector2 worldPoint = mainCamera.ScreenToWorldPoint(touch.position);
-            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-            if (hit.collider == null)
-                return false;
-            if (!hit.collider.TryGetComponent<IBlockInput>(out IBlockInput block))
-                return false;
+            if (swipeDirection == Directions.Zero)
+                return;
 
-            firstTouchWorldPosition = worldPoint;
-            selectedBlock = block;
-            return true;
+            IBlockInput newOppositeBlock = (IBlockInput)gameBoardPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int().ToViewPos());
+
+            if (oppositeBlock != newOppositeBlock)
+            {
+                oppositeBlock?.Input_Release();
+                oppositeBlock = newOppositeBlock;
+            }
         }
     }
 }

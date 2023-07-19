@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Data;
+using Presenter;
 
 namespace View
 {
@@ -13,15 +14,12 @@ namespace View
 
         public abstract event Action<Directions> OnMove;
         public abstract event Action OnActivate;
-        public abstract event Action<Directions, Vector2> OnDrag;
 
         //инициализация
-        public void Init(ABlockType type, Vector2 modelPosition);
-        public void SetModelPosition(Vector2 modelPosition);
+        public void Init(ABlockType type, Vector2Int modelPosition, IGameBoardPresenter gameBoardPresenter);
+        public void SetModelPosition(Vector2Int modelPosition);
         public void SetType(ABlockType blockType);
         //визуал
-        public void DragPosition(Vector2 deltaPosition);
-        public void ReturnToModelPosition();
         public void PlayClickAnimation();
         public void PlayDestroyEffect();
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
 using Data;
+using Presenter;
 
 namespace View
 {
@@ -13,31 +14,32 @@ namespace View
         [SerializeField] private float tapSpeed;
         [SerializeField] private float tapScale;
 
+        public Vector2Int ModelPosition => modelPosition;
+
         public event Action<Directions> OnMove;
         public event Action OnActivate;
-        public event Action<Directions, Vector2> OnDrag;
 
         private ABlockType type;
         private Vector2 targetPosition;
-        private Vector2 modelPosition;
+        private Vector2Int modelPosition;
         private ParticleSystem destroyEffect;
 
-        public void Init(ABlockType type, Vector2 modelPosition)
+        public void Init(ABlockType type, Vector2Int modelPosition, IGameBoardPresenter gameBoardPresenter)
         {
             SetType(type);
             SetModelPosition(modelPosition);
 
-            transform.localPosition = ModelPosToViewPos(modelPosition);
+            transform.localPosition = (Vector2)modelPosition.ToViewPos();
         }
         private void Update()
         {
             transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
         }
 
-        public void SetModelPosition(Vector2 modelPosition)
+        public void SetModelPosition(Vector2Int modelPosition)
         {
             this.modelPosition = modelPosition;
-            targetPosition = ModelPosToViewPos(modelPosition);
+            targetPosition = modelPosition.ToViewPos();
         }
         public void SetType(ABlockType type)
         {
@@ -58,11 +60,10 @@ namespace View
         public void Input_Drag(Directions direction, Vector2 deltaPosition)
         {
             Debug.Log(this + " grabbed");
-            OnDrag?.Invoke(direction, deltaPosition);
+            targetPosition = modelPosition.ToViewPos() + deltaPosition;
         }
+        public void Input_Release() => targetPosition = modelPosition.ToViewPos();
         //View
-        public void DragPosition(Vector2 deltaPosition) => targetPosition = ModelPosToViewPos(modelPosition) + deltaPosition;
-        public void ReturnToModelPosition() => targetPosition = ModelPosToViewPos(modelPosition);
         public void PlayClickAnimation() => StartCoroutine(TapAnimation());
         public void PlayDestroyEffect()
         {
@@ -91,11 +92,6 @@ namespace View
                 yield return null;
             }
             icon.transform.localScale = scaleBefore;
-        }
-        private Vector2 ModelPosToViewPos(Vector2 modelPosition)
-        {
-            //строки положения нумеруются сверху вниз, поэтому Position.y отрицательный
-            return new Vector2(modelPosition.x, -modelPosition.y);
         }
     }
 }

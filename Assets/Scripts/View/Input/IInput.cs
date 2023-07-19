@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Presenter;
+using System;
 using UnityEngine;
 
 namespace View
@@ -8,6 +9,7 @@ namespace View
     /// </summary>
     public interface IInput
     {
+        void Init(IGameBoardPresenter gameBoardPresenter);
         public abstract void Enable();
         public abstract void Disable();
     }
