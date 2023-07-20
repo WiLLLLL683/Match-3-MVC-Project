@@ -53,7 +53,7 @@ namespace Presenter
             //model.Activate();
         }
 
-        private void SyncPosition(Vector2Int modelPosition) => view.SetModelPosition(modelPosition);
-        private void ChangeType(ABlockType type) => view.SetType(type);
+        private void SyncPosition(Vector2Int modelPosition) => view.ChangeModelPosition(modelPosition);
+        private void ChangeType(ABlockType type) => view.ChangeType(type);
     }
 }

@@ -1,15 +1,17 @@
-﻿using Data;
-using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using Data;
 
 namespace View
 {
+    /// <summary>
+    /// Визуальный элемент клетки.<br/>
+    /// При инициализации выбирает цвет своей заливки для создания шахматного рисунка игрового поля.
+    /// Может изменять свой тип и проигрывать эффекты.
+    /// </summary>
     public class CellView : MonoBehaviour, ICellView
     {
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private SpriteRenderer fill;
-        //[SerializeField] private GameObject background;
         [SerializeField] private Sprite evenSprite;
         [SerializeField] private Sprite oddSprite;
 

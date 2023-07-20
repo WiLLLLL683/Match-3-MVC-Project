@@ -6,19 +6,19 @@ using Presenter;
 namespace View
 {
     /// <summary>
-    /// Вью для блока, вызывается из IBlockPresenter
+    /// Визуальный элемент блока, вызывается из IBlockPresenter
     /// </summary>
     public interface IBlockView
     {
         public GameObject gameObject { get; }
 
-        public abstract event Action<Directions> OnMove;
-        public abstract event Action OnActivate;
+        public event Action<Directions> OnMove;
+        public event Action OnActivate;
 
         //инициализация
         public void Init(ABlockType type, Vector2Int modelPosition, IGameBoardPresenter gameBoardPresenter);
-        public void SetModelPosition(Vector2Int modelPosition);
-        public void SetType(ABlockType blockType);
+        public void ChangeModelPosition(Vector2Int modelPosition);
+        public void ChangeType(ABlockType blockType);
         //визуал
         public void PlayClickAnimation();
         public void PlayDestroyEffect();

@@ -1,11 +1,9 @@
 ﻿using Presenter;
-using System;
-using UnityEngine;
 
 namespace View
 {
     /// <summary>
-    /// Выделенный функционал управления блоками
+    /// Выделенный функционал управления блоками на игровом поле
     /// </summary>
     public interface IInput
     {

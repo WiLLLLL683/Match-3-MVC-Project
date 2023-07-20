@@ -1,9 +1,11 @@
-﻿using Data;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
+using Data;
 
 namespace View
 {
+    /// <summary>
+    /// Визуальный элемент клетки, вызывается из ICellPresenter
+    /// </summary>
     public interface ICellView
     {
         void Init(Vector2 modelPosition, ACellType type);

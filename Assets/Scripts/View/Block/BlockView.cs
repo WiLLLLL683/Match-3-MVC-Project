@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using NaughtyAttributes;
 using Data;
 using Presenter;
 
 namespace View
 {
+    /// <summary>
+    /// Визуальный элемент блока.<br/>
+    /// Постоянно стремится к targetPosition.
+    /// Может перетаскиваться из IInput и передавать инпут для перемещения и активации блока.
+    /// Может изменять свой тип и базовое положение, проигрывать анимацию нажатия и эффект разрушения.
+    /// </summary>
     public class BlockView : MonoBehaviour, IBlockView, IBlockInput
     {
         [SerializeField] private SpriteRenderer icon;
@@ -26,8 +31,8 @@ namespace View
 
         public void Init(ABlockType type, Vector2Int modelPosition, IGameBoardPresenter gameBoardPresenter)
         {
-            SetType(type);
-            SetModelPosition(modelPosition);
+            ChangeType(type);
+            ChangeModelPosition(modelPosition);
 
             transform.localPosition = (Vector2)modelPosition.ToViewPos();
         }
@@ -36,12 +41,12 @@ namespace View
             transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
         }
 
-        public void SetModelPosition(Vector2Int modelPosition)
+        public void ChangeModelPosition(Vector2Int modelPosition)
         {
             this.modelPosition = modelPosition;
             targetPosition = modelPosition.ToViewPos();
         }
-        public void SetType(ABlockType type)
+        public void ChangeType(ABlockType type)
         {
             this.type = type;
             icon.sprite = type.Sprite;

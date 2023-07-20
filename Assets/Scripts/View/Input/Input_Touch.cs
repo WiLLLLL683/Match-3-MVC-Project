@@ -1,10 +1,13 @@
-﻿using Presenter;
-using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using Presenter;
 
 namespace View
 {
+    /// <summary>
+    /// Тач инпут для мобильных телефонов.<br/>
+    /// Перетаскивает вью блоков при свайпе по экрану, вызывает соответствующий метод инпута во вью блока при отпускании.<br/>
+    /// Нажатия на экран отслеживаются в Update, выделение блока происходит через raycast, противоположный блок получается из IGameBoardPresenter
+    /// </summary>
     public class Input_Touch : MonoBehaviour, IInput
     {
         [SerializeField] private Camera mainCamera;

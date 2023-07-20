@@ -3,7 +3,7 @@
 namespace View
 {
     /// <summary>
-    /// Методы вызываемые из IInput
+    /// Методы инпута вызываемые из IInput
     /// </summary>
     public interface IBlockInput
     {
