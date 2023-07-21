@@ -1,4 +1,5 @@
 ﻿using Data;
+using Model.Readonly;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,16 +11,17 @@ namespace Model.Objects
     /// Объект клетки игрового поля, которая хранит в себе блок
     /// </summary>
     [Serializable]
-    public class Cell
+    public class Cell : ICell_Readonly
     {
         public bool IsPlayable => Type.CanContainBlock;
         public bool IsEmpty { get; private set; }
         public ACellType Type { get; private set; }
         public Block Block { get; private set; }
+        public IBlock_Readonly Block_Readonly => Block;
         public Vector2Int Position { get; private set; }
 
-        public event Action<Cell> OnEmpty;
-        public event Action<Cell> OnDestroy;
+        public event Action<ICell_Readonly> OnEmpty;
+        public event Action<ICell_Readonly> OnDestroy;
         public event Action<ACellType> OnTypeChange;
 
         public Cell(ACellType _type, Vector2Int _position)
@@ -65,7 +67,7 @@ namespace Model.Objects
         {
             if (IsPlayable && IsEmpty)
             {
-                Block block = new Block(_blockType,this);
+                Block block = new Block(_blockType, this);
                 SetBlock(block);
                 return block;
             }

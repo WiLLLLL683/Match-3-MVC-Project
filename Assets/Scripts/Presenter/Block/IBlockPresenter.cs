@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-using Model.Objects;
-using Model;
-using View;
+﻿using Model.Readonly;
 
 namespace Presenter
 {
     public interface IBlockPresenter
     {
         public void Init();
-        public void Destroy(Block block);
+        public void Destroy(IBlock_Readonly block);
         public void Move(Directions direction);
         public void Activate();
     }

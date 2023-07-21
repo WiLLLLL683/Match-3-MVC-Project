@@ -7,6 +7,6 @@ namespace Model.Objects
     public interface IBooster
     {
         public Sprite Icon { get; }
-        public int Ammount { get; }
+        public int Amount { get; }
     }
 }

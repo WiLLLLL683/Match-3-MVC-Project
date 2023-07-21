@@ -1,9 +1,5 @@
-﻿using Data;
-using Model.Objects;
+﻿using Model.Readonly;
 using View;
-using NaughtyAttributes;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper;
@@ -16,28 +12,22 @@ namespace Presenter
         [SerializeField] private InterfaceReference<IBlockView, MonoBehaviour> blockPrefab;
 
         private List<IBlockPresenter> allBlocks = new();
-        private IGameBoardPresenter gameBoardPresenter;
 
-        public void Init(IGameBoardPresenter gameBoardPresenter)
-        {
-            this.gameBoardPresenter = gameBoardPresenter;
-        }
-        public IBlockView SpawnBlock(Block blockModel)
+        public IBlockView SpawnBlock(IBlock_Readonly blockModel)
         {
             IBlockView blockView = (IBlockView)Instantiate(blockPrefab.UnderlyingValue, parent);
             IBlockPresenter blockPresenter = new BlockPresenter(blockModel, blockView);
             blockPresenter.Init();
-            blockView.Init(blockModel.Type, blockModel.Position, gameBoardPresenter);
+            blockView.Init(blockModel.Type, blockModel.Position);
             allBlocks.Add(blockPresenter);
             return blockView;
         }
-        public Dictionary<Block, IBlockView> SpawnGameBoard(GameBoard gameBoard)
+        public Dictionary<IBlock_Readonly, IBlockView> SpawnGameBoard(IGameBoard_Readonly gameBoard)
         {
-            Dictionary<Block, IBlockView> spawnedBlocks = new();
+            Dictionary<IBlock_Readonly, IBlockView> spawnedBlocks = new();
 
-            for (int i = 0; i < gameBoard.Blocks.Count; i++)
+            foreach (var blockModel in gameBoard.Blocks_Readonly)
             {
-                Block blockModel = gameBoard.Blocks[i];
                 spawnedBlocks[blockModel] = SpawnBlock(blockModel);
             }
 

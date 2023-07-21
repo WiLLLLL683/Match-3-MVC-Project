@@ -1,7 +1,4 @@
-﻿using Presenter;
-using Model.Infrastructure;
-using System;
-using System.Collections;
+﻿using Model.Infrastructure;
 using UnityEngine;
 using View;
 

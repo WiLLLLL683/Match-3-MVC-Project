@@ -1,7 +1,4 @@
-﻿using Presenter;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using View;
 
@@ -17,7 +14,7 @@ namespace Presenter
         public BoosterView SpawnCounter(Model.Objects.IBooster _boosterModel)
         {
             BoosterView booster = Instantiate(boosterPrefab, parent);
-            booster.Init(_boosterModel.Icon, _boosterModel.Ammount);
+            booster.Init(_boosterModel.Icon, _boosterModel.Amount);
             allBoosters.Add(booster);
             return booster;
         }

@@ -9,6 +9,6 @@ namespace Model.Objects.UnitTests
     {
         public Sprite Icon => throw new NotImplementedException();
 
-        public int Ammount => throw new NotImplementedException();
+        public int Amount => throw new NotImplementedException();
     }
 }

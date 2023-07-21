@@ -16,7 +16,7 @@ namespace View
         public event Action OnActivate;
 
         //инициализация
-        public void Init(ABlockType type, Vector2Int modelPosition, IGameBoardPresenter gameBoardPresenter);
+        public void Init(ABlockType type, Vector2Int modelPosition);
         public void ChangeModelPosition(Vector2Int modelPosition);
         public void ChangeType(ABlockType blockType);
         //визуал

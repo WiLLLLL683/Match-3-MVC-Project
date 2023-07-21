@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using UnityEngine;
 using Model.Infrastructure;
-using Model.Objects;
+using Model.Readonly;
 using View;
 using System.Collections.Generic;
 
@@ -14,27 +12,26 @@ namespace Presenter
         [SerializeField] private BlockSpawner blockSpawner;
         [SerializeField] private CellSpawner cellSpawner;
 
-        private Dictionary<Cell, ICellView> cells;
-        private Dictionary<Block, IBlockView> blocks;
+        private Dictionary<ICell_Readonly, ICellView> cells;
+        private Dictionary<IBlock_Readonly, IBlockView> blocks;
         private Game game;
-        private GameBoard gameBoard;
+        private IGameBoard_Readonly gameBoard;
 
-        public void Init(Game game, GameBoard gameBoard)
+        public void Init(Game game, IGameBoard_Readonly gameBoard)
         {
             this.game = game;
             this.gameBoard = gameBoard;
 
-            blockSpawner.Init(this);
             //TODO спавн блоков по событию в модели
         }
         public ICellView GetCellView(Vector2Int modelPosition)
         {
-            Cell cellModel = gameBoard.Cells[modelPosition.x, modelPosition.y];
+            ICell_Readonly cellModel = gameBoard.Cells_Readonly[modelPosition.x, modelPosition.y];
             return cells[cellModel];
         }
         public IBlockView GetBlockView(Vector2Int modelPosition)
         {
-            Block blockModel = gameBoard.Cells[modelPosition.x, modelPosition.y].Block;
+            IBlock_Readonly blockModel = gameBoard.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
             if (blockModel != null && blocks.ContainsKey(blockModel))
                 return blocks[blockModel];
             else

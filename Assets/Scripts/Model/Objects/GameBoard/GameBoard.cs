@@ -1,6 +1,6 @@
 ﻿using Data;
+using Model.Readonly;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +9,12 @@ namespace Model.Objects
     /// <summary>
     /// Объект игрового поля, хранит сетку клеток и все блоки на поле
     /// </summary>
-    public class GameBoard
+    public class GameBoard : IGameBoard_Readonly
     {
         public Cell[,] Cells { get; private set; }
         public List<Block> Blocks { get; private set; }
+        public ICell_Readonly[,] Cells_Readonly => Cells;
+        public IEnumerable<IBlock_Readonly> Blocks_Readonly => Blocks;
 
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
@@ -26,7 +28,7 @@ namespace Model.Objects
             {
                 for (int j = 0; j < cellTypes.GetLength(1); j++)
                 {
-                    Cells[i, j] = new Cell(cellTypes[i,j], new Vector2Int(i, j));
+                    Cells[i, j] = new Cell(cellTypes[i, j], new Vector2Int(i, j));
                 }
             }
         }
@@ -43,7 +45,7 @@ namespace Model.Objects
             {
                 for (int j = 0; j < yLength; j++)
                 {
-                    Cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i,j));
+                    Cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i, j));
                 }
             }
         }

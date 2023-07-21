@@ -1,7 +1,5 @@
 ﻿using Data;
 using Model.Infrastructure;
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Presenter

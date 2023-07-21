@@ -29,7 +29,7 @@ namespace View
         private Vector2Int modelPosition;
         private ParticleSystem destroyEffect;
 
-        public void Init(ABlockType type, Vector2Int modelPosition, IGameBoardPresenter gameBoardPresenter)
+        public void Init(ABlockType type, Vector2Int modelPosition)
         {
             ChangeType(type);
             ChangeModelPosition(modelPosition);

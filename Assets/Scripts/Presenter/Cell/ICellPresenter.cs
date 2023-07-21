@@ -1,11 +1,10 @@
-﻿using Model.Objects;
-using System;
+﻿using Model.Readonly;
 
 namespace Presenter
 {
     public interface ICellPresenter
     {
         void Init();
-        void Destroy(Cell cell);
+        void Destroy(ICell_Readonly cell);
     }
 }

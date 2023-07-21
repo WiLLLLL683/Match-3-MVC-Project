@@ -1,6 +1,4 @@
-﻿using Presenter;
-using System;
-using System.Collections;
+﻿using Model.Readonly;
 using System.Collections.Generic;
 using UnityEngine;
 using View;
@@ -14,13 +12,12 @@ namespace Presenter
 
         private List<CounterView> allCounters = new();
 
-        public CounterView SpawnCounter(Model.Objects.Counter _counterModel)
+        public CounterView SpawnCounter(ICounter_Readonly _counterModel)
         {
             CounterView Counter = Instantiate(counterPrefab, parent);
             Counter.Init(_counterModel.Target.Icon, _counterModel.Count);
             allCounters.Add(Counter);
             return Counter;
         }
-
     }
 }

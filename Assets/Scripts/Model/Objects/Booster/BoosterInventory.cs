@@ -57,7 +57,7 @@ namespace Model.Objects
         /// <summary>
         /// Получить количество бустеров определенного типа
         /// </summary>
-        public int GetBoosterAmmount<T>() where T : IBooster
+        public int GetBoosterAmount<T>() where T : IBooster
         {
             Type boosterType = typeof(T);
             if (boosters.ContainsKey(boosterType))

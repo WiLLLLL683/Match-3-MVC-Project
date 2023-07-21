@@ -1,18 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using View;
 using Data;
-using Model;
-using Model.Objects;
+using Model.Readonly;
 
 namespace Presenter
 {
     public class BlockPresenter : IBlockPresenter
     {
-        private Block model;
+        private IBlock_Readonly model;
         private IBlockView view;
 
-        public BlockPresenter(Block model, IBlockView view)
+        public BlockPresenter(IBlock_Readonly model, IBlockView view)
         {
             this.model = model;
             this.view = view;
@@ -23,16 +21,16 @@ namespace Presenter
             view.OnMove += Move;
             view.OnActivate += Activate;
 
-            model.OnDestroy += Destroy;
+            model.OnDestroy_Readonly += Destroy;
             model.OnPositionChange += SyncPosition;
             model.OnTypeChange += ChangeType;
         }
-        public void Destroy(Block block)
+        public void Destroy(IBlock_Readonly block)
         {
             view.OnMove -= Move;
             view.OnActivate -= Activate;
 
-            model.OnDestroy -= Destroy;
+            model.OnDestroy_Readonly -= Destroy;
             model.OnPositionChange -= SyncPosition;
             model.OnTypeChange -= ChangeType;
 

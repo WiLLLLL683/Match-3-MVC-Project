@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Model.Objects;
+﻿using Model.Readonly;
 using View;
 using Data;
 
@@ -9,10 +6,10 @@ namespace Presenter
 {
     public class CellPresenter : ICellPresenter
     {
-        private Cell model;
+        private ICell_Readonly model;
         private ICellView view;
 
-        public CellPresenter(Cell model, ICellView view)
+        public CellPresenter(ICell_Readonly model, ICellView view)
         {
             this.model = model;
             this.view = view;
@@ -26,7 +23,7 @@ namespace Presenter
             model.OnEmpty += Empty;
             model.OnTypeChange += ChangeType;
         }
-        public void Destroy(Cell cell)
+        public void Destroy(ICell_Readonly cell)
         {
             view.PlayDestroyEffect();
 
@@ -38,6 +35,6 @@ namespace Presenter
 
 
         private void ChangeType(ACellType type) => view.ChangeType(type);
-        private void Empty(Cell cell) => view.PlayEmptyEffect();
+        private void Empty(ICell_Readonly cell) => view.PlayEmptyEffect();
     }
 }

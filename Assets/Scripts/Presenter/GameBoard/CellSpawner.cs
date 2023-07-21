@@ -1,10 +1,5 @@
-﻿using Presenter;
-using Data;
-using Model.Objects;
+﻿using Model.Readonly;
 using View;
-using NaughtyAttributes;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper;
@@ -18,7 +13,7 @@ namespace Presenter
 
         private List<ICellPresenter> allCells = new();
 
-        public ICellView SpawnCell(Model.Objects.Cell cellModel)
+        public ICellView SpawnCell(ICell_Readonly cellModel)
         {
             ICellView cellView = (ICellView)Instantiate(cellPrefab.UnderlyingValue, parent);
             ICellPresenter cellPresenter = new CellPresenter(cellModel, cellView);
@@ -26,17 +21,17 @@ namespace Presenter
             allCells.Add(cellPresenter);
             return cellView;
         }
-        public Dictionary<Cell, ICellView> SpawnGameBoard(Model.Objects.GameBoard gameBoard)
+        public Dictionary<ICell_Readonly, ICellView> SpawnGameBoard(IGameBoard_Readonly gameBoard)
         {
-            int xLength = gameBoard.Cells.GetLength(0);
-            int yLength = gameBoard.Cells.GetLength(1);
-            Dictionary<Cell, ICellView> spawnedCells = new();
+            int xLength = gameBoard.Cells_Readonly.GetLength(0);
+            int yLength = gameBoard.Cells_Readonly.GetLength(1);
+            Dictionary<ICell_Readonly, ICellView> spawnedCells = new();
 
             for (int x = 0; x < xLength; x++)
             {
                 for (int y = 0; y < yLength; y++)
                 {
-                    Cell cellModel = gameBoard.Cells[x, y];
+                    ICell_Readonly cellModel = gameBoard.Cells_Readonly[x, y];
                     spawnedCells[cellModel] = SpawnCell(cellModel);
                 }
             }
