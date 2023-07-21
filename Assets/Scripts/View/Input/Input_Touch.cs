@@ -51,10 +51,10 @@ namespace View
             {
                 GetDeltaWorldPosition(touch);
                 GetSwipeDirection();
-                GetOppositeBlock();
-
-                selectedBlock.Input_Drag(swipeDirection, deltaWorldPositionClamped);
-                oppositeBlock?.Input_Drag(swipeDirection.ToOpposite(), -deltaWorldPositionClamped);
+                if(TryGetOppositeBlock())
+                    DragBlocks();
+                else
+                    ReleaseBlocks();
             }
             if (touch.phase == TouchPhase.Ended)
             {
@@ -63,10 +63,8 @@ namespace View
                 else
                     selectedBlock.Input_MoveBlock(swipeDirection);
 
-                selectedBlock.Input_Release();
-                oppositeBlock.Input_Release();
-                selectedBlock = null;
-                oppositeBlock = null;
+                ReleaseBlocks();
+                ClearSelection();
             }
         }
         public void Enable() => enabled = true;
@@ -129,10 +127,10 @@ namespace View
                 }
             }
         }
-        private void GetOppositeBlock()
+        private bool TryGetOppositeBlock()
         {
             if (swipeDirection == Directions.Zero)
-                return;
+                return false;
 
             IBlockInput newOppositeBlock = (IBlockInput)gameBoardPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int().ToViewPos());
 
@@ -141,6 +139,23 @@ namespace View
                 oppositeBlock?.Input_Release();
                 oppositeBlock = newOppositeBlock;
             }
+
+            return oppositeBlock != null;
+        }
+        private void DragBlocks()
+        {
+            selectedBlock.Input_Drag(swipeDirection, deltaWorldPositionClamped);
+            oppositeBlock?.Input_Drag(swipeDirection.ToOpposite(), -deltaWorldPositionClamped);
+        }
+        private void ReleaseBlocks()
+        {
+            selectedBlock.Input_Release();
+            oppositeBlock?.Input_Release();
+        }
+        private void ClearSelection()
+        {
+            selectedBlock = null;
+            oppositeBlock = null;
         }
     }
 }

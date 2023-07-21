@@ -35,7 +35,10 @@ namespace Presenter
         public IBlockView GetBlockView(Vector2Int modelPosition)
         {
             Block blockModel = gameBoard.Cells[modelPosition.x, modelPosition.y].Block;
-            return blocks[blockModel];
+            if (blockModel != null && blocks.ContainsKey(blockModel))
+                return blocks[blockModel];
+            else
+                return null;
         }
 
         [Button]
