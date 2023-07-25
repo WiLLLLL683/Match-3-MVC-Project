@@ -30,3 +30,6 @@ MonoBehaviour:
     _underlyingValue: {fileID: 6444822807969165478, guid: b6b485faab3daa045b795bf70f50446e, type: 3}
   blockPrefab: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}
   cellPrefab: {fileID: 5919296878604722895, guid: 8213a8f6c326f5a4797bde3812823299, type: 3}
+  boosterPrefab: {fileID: 4633542665250583476, guid: 54af3666ffa5db6428dc8595493f1420, type: 3}
+  goalCounterPrefab: {fileID: 8609726869626626574, guid: 110581f0f3784fc4c8cc4e9970d24f2e, type: 3}
+  restrictionCounterPrefab: {fileID: 352177093698865892, guid: eab474ff57b958f4192975662f8a0db1, type: 3}

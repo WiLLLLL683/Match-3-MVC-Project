@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 2115648654558851450}
   - component: {fileID: 2115648654558851453}
   m_Layer: 5
-  m_Name: Meta_Header_View
+  m_Name: Meta_Header_Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

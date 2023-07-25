@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 714966426420018365}
   - component: {fileID: 714966426420018364}
   m_Layer: 5
-  m_Name: Meta_Background_View
+  m_Name: Meta_Background_Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -36,7 +36,7 @@ MonoBehaviour:
     count: 1
   restrictions:
   - target:
-      rid: -2
+      rid: 4838321234394480641
     count: 1
   balance: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
   matchPatterns:
@@ -48,3 +48,5 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 4838321234394480641
+      type: {class: Turn, ns: Model.Systems, asm: GameAssembly}

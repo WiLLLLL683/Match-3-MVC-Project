@@ -26,6 +26,7 @@ namespace Data
         public IBlockView blockPrefab;
         public ICellView cellPrefab;
         public IBoosterView boosterPrefab;
-        public ICounterView counterPrefab;
+        public ICounterView goalCounterPrefab;
+        public ICounterView restrictionCounterPrefab;
     }
 }

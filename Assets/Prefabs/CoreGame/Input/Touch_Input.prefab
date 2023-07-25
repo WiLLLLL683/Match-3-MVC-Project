@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 879022936496586445}
   - component: {fileID: 879022936496586446}
   m_Layer: 0
-  m_Name: Input_Touch
+  m_Name: Touch_Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
