@@ -3,6 +3,7 @@ using Model.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Model.Infrastructure
 {
@@ -70,7 +71,7 @@ namespace Model.Infrastructure
             else
             {
                 swapAction.Undo();
-                stateMachine.SetPrevoiusState();
+                stateMachine.SetPreviousState();
             }
         }
 
@@ -84,7 +85,7 @@ namespace Model.Infrastructure
             }
             else
             {
-                stateMachine.SetPrevoiusState();
+                stateMachine.SetPreviousState();
             }
         }
 

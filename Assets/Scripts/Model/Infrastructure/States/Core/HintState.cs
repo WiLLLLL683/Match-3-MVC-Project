@@ -2,14 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Model.Infrastructure
 {
-    public class ExitState : IState
+    public class HintState : IState
     {
         private StateMachine stateMachine;
-
-        public ExitState(StateMachine _stateMachine, AllSystems _systems)
+        
+        public HintState(StateMachine _stateMachine, AllSystems _systems)
         {
             stateMachine = _stateMachine;
         }

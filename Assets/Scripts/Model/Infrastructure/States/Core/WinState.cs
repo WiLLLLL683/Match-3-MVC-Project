@@ -2,18 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Model.Infrastructure
 {
-    public class LoseState : IState
+    public class WinState : IState
     {
         private StateMachine stateMachine;
-        
-        public LoseState(StateMachine _stateMachine, AllSystems _systems)
+
+        public WinState(StateMachine _stateMachine, AllSystems _systems)
         {
             stateMachine = _stateMachine;
         }
-
+        
         public void OnStart()
         {
 

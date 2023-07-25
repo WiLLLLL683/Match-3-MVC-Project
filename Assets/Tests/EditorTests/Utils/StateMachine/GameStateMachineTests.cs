@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Utils;
 
-namespace Model.Infrastructure.UnitTests
+namespace Model.Utils.UnitTests
 {
     public class GameStateMachineTests
     {
@@ -49,7 +50,7 @@ namespace Model.Infrastructure.UnitTests
                 });
 
             stateMachine.SetState<TestState>();
-            stateMachine.SetPrevoiusState();
+            stateMachine.SetPreviousState();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
@@ -66,7 +67,7 @@ namespace Model.Infrastructure.UnitTests
 
             stateMachine.SetState<TestState>();
             stateMachine.SetState<TestState2>();
-            stateMachine.SetPrevoiusState();
+            stateMachine.SetPreviousState();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }

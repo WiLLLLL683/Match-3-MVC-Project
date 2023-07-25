@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.Infrastructure
+namespace Utils
 {
     /// <summary>
     /// Стейт-машина, хранящая по одному экземпляру добавленных в нее стейтов
@@ -40,7 +40,7 @@ namespace Model.Infrastructure
         /// <summary>
         /// Вернуться к предыдущему стейту
         /// </summary>
-        public void SetPrevoiusState()
+        public void SetPreviousState()
         {
             if (PreviousState == null)
             {

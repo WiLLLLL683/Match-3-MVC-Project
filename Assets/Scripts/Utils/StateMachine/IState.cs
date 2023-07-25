@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Model.Infrastructure
+namespace Utils
 {
     public interface IState
     {
