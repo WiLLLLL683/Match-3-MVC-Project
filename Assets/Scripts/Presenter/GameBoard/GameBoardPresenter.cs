@@ -15,23 +15,28 @@ namespace Presenter
 
         private Dictionary<ICell_Readonly, ICellView> cells = new();
         private Dictionary<IBlock_Readonly, IBlockView> blocks = new();
-        private Game game;
-        private IGameBoard_Readonly gameBoard;
-        private IFactory<IBlock_Readonly, IBlockView> blockSpawner;
-        private IFactory<ICell_Readonly, ICellView> cellSpawner;
 
-        public void Init(Game game, IGameBoard_Readonly gameBoard, PrefabConfig prefabConfig)
+        private IGameBoard_Readonly gameBoard;
+        private FactoryBase<IBlock_Readonly, IBlockView> blockFactory;
+        private FactoryBase<ICell_Readonly, ICellView> cellFactory;
+
+        public void Init(IGameBoard_Readonly gameBoard,
+            FactoryBase<IBlock_Readonly, IBlockView> blockFactory,
+            FactoryBase<ICell_Readonly, ICellView> cellFactory)
         {
-            this.game = game;
             this.gameBoard = gameBoard;
-            this.blockSpawner = new BlockFactory(prefabConfig.blockPrefab, blocksParent);
-            this.cellSpawner = new CellFactory(prefabConfig.cellPrefab, cellsParent);
+            this.blockFactory = blockFactory;
+            this.cellFactory = cellFactory; //new CellFactory(prefabConfig.cellPrefab, cellsParent);
+
+            this.blockFactory.SetParent(blocksParent);
+            this.cellFactory.SetParent(cellsParent);
             //TODO спавн блоков по событию в модели
         }
         [Button]
         public void SpawnCells()
         {
-            cellSpawner.Clear();
+            cellFactory.Clear();
+            cellFactory.ClearParent();
             cells.Clear();
 
             int xLength = gameBoard.Cells_Readonly.GetLength(0);
@@ -42,19 +47,20 @@ namespace Presenter
                 for (int y = 0; y < yLength; y++)
                 {
                     ICell_Readonly cellModel = gameBoard.Cells_Readonly[x, y];
-                    cells[cellModel] = cellSpawner.Create(cellModel);
+                    cells[cellModel] = cellFactory.Create(cellModel);
                 }
             }
         }
         [Button]
         public void SpawnBlocks()
         {
-            blockSpawner.Clear();
+            blockFactory.Clear();
+            blockFactory.ClearParent();
             blocks.Clear();
 
             foreach (var blockModel in gameBoard.Blocks_Readonly)
             {
-                blocks[blockModel] = blockSpawner.Create(blockModel);
+                blocks[blockModel] = blockFactory.Create(blockModel);
             }
         }
         public ICellView GetCellView(Vector2Int modelPosition)
@@ -79,7 +85,7 @@ namespace Presenter
 
             foreach (var blockModel in gameBoard.Blocks_Readonly)
             {
-                spawnedBlocks[blockModel] = blockSpawner.Create(blockModel);
+                spawnedBlocks[blockModel] = blockFactory.Create(blockModel);
             }
 
             return spawnedBlocks;
@@ -95,7 +101,7 @@ namespace Presenter
                 for (int y = 0; y < yLength; y++)
                 {
                     ICell_Readonly cellModel = gameBoard.Cells_Readonly[x, y];
-                    spawnedCells[cellModel] = cellSpawner.Create(cellModel);
+                    spawnedCells[cellModel] = cellFactory.Create(cellModel);
                 }
             }
 

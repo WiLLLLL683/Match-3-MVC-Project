@@ -1,5 +1,7 @@
 ﻿using Model.Infrastructure;
+using Model.Objects;
 using UnityEngine;
+using View;
 
 namespace Presenter
 {
@@ -7,6 +9,8 @@ namespace Presenter
     {
         public GameObject gameObject { get; }
         
-        void Init(Game _game);
+        void Init(Game game,
+            FactoryBase<Counter, ICounterView> goalFactory,
+            FactoryBase<Counter, ICounterView> restrictionFactory);
     }
 }

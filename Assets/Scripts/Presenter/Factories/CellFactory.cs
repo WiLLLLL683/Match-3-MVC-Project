@@ -6,38 +6,31 @@ using AYellowpaper;
 
 namespace Presenter
 {
-    public class CellFactory : IFactory<ICell_Readonly, ICellView>
+    public class CellFactory : FactoryBase<ICell_Readonly, ICellView>
     {
-        private Transform parent;
-        private ICellView cellPrefab;
-
         private List<ICellPresenter> allCells = new();
 
-        public CellFactory(ICellView viewPrefab, Transform parent)
+        public CellFactory(ICellView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {
-            this.cellPrefab = viewPrefab;
-            this.parent = parent;
         }
-        public ICellView Create(ICell_Readonly cellModel)
+
+        public override ICellView Create(ICell_Readonly model)
         {
-            ICellView cellView = GameObject.Instantiate(cellPrefab, parent);
-            ICellPresenter cellPresenter = new CellPresenter(cellModel, cellView);
-            cellPresenter.Init();
-            allCells.Add(cellPresenter);
-            return cellView;
+            ICellView view = GameObject.Instantiate(viewPrefab, parent);
+            ICellPresenter presenter = new CellPresenter(model, view);
+            presenter.Init();
+            view.Init(model.Position, model.Type);
+            allCells.Add(presenter);
+            return view;
         }
-        public void Clear()
+        public override void Clear()
         {
             for (int i = 0; i < allCells.Count; i++)
             {
                 allCells[i].Destroy(null);
             }
-
-            //уничтожить неучтенные объекты
-            for (int i = 0; i < parent.childCount; i++)
-            {
-                GameObject.Destroy(parent.GetChild(i).gameObject);
-            }
+            
+            allCells.Clear();
         }
     }
 }

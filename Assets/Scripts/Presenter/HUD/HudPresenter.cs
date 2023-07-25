@@ -1,5 +1,7 @@
 ﻿using Model.Infrastructure;
+using Model.Objects;
 using UnityEngine;
+using View;
 
 namespace Presenter
 {
@@ -12,10 +14,18 @@ namespace Presenter
         [SerializeField] private Transform restrictionsParent;
         
         private Game game;
+        private FactoryBase<Counter, ICounterView> goalFactory;
+        private FactoryBase<Counter, ICounterView> restrictionFactory;
 
-        public void Init(Game _game)
+        public void Init(Game game,
+            FactoryBase<Counter, ICounterView> goalFactory,
+            FactoryBase<Counter, ICounterView> restrictionFactory)
         {
-            game = _game;
+            this.game = game;
+            this.goalFactory = goalFactory;
+            this.goalFactory.SetParent(goalsParent);
+            this.restrictionFactory = restrictionFactory;
+            this.restrictionFactory.SetParent(restrictionsParent);
         }
     }
 }

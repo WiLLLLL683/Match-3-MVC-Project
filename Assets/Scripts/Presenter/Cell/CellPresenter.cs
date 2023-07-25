@@ -17,8 +17,6 @@ namespace Presenter
 
         public void Init()
         {
-            view.Init(model.Position, model.Type);
-
             model.OnDestroy += Destroy;
             model.OnEmpty += Empty;
             model.OnTypeChange += ChangeType;

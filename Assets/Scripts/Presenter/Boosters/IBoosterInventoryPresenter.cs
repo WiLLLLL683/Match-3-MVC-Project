@@ -1,12 +1,14 @@
 ﻿using Data;
 using Model.Infrastructure;
+using Model.Objects;
 using UnityEngine;
+using View;
 
 namespace Presenter
 {
     public interface IBoosterInventoryPresenter
     {
-        public void Init(Game game, PrefabConfig prefabs);
+        public void Init(Game game, FactoryBase<IBooster, IBoosterView> factory);
 
         public GameObject gameObject { get; }
     }

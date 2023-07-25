@@ -14,7 +14,9 @@ namespace Presenter
     {
         public GameObject gameObject { get; }
 
-        public void Init(Game game, IGameBoard_Readonly gameBoard, PrefabConfig prefabConfig);
+        public void Init(IGameBoard_Readonly gameBoard,
+            FactoryBase<IBlock_Readonly, IBlockView> blockFactory,
+            FactoryBase<ICell_Readonly, ICellView> cellFactory);
         public void SpawnBlocks();
         public void SpawnCells();
         public IBlockView GetBlockView(Vector2Int modelPosition);

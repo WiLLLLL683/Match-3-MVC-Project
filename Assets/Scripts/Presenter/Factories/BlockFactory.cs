@@ -6,28 +6,24 @@ using AYellowpaper;
 
 namespace Presenter
 {
-    public class BlockFactory : IFactory<IBlock_Readonly, IBlockView>
+    public class BlockFactory : FactoryBase<IBlock_Readonly, IBlockView>
     {
-        private Transform parent;
-        private IBlockView blockPrefab;
-
         private List<IBlockPresenter> allBlocks = new();
 
-        public BlockFactory(IBlockView viewPrefab, Transform parent)
+        public BlockFactory(IBlockView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {
-            this.blockPrefab = viewPrefab;
-            this.parent = parent;
         }
-        public IBlockView Create(IBlock_Readonly blockModel)
+
+        public override IBlockView Create(IBlock_Readonly model)
         {
-            IBlockView blockView = GameObject.Instantiate(blockPrefab, parent);
-            IBlockPresenter blockPresenter = new BlockPresenter(blockModel, blockView);
-            blockPresenter.Init();
-            blockView.Init(blockModel.Type, blockModel.Position);
-            allBlocks.Add(blockPresenter);
-            return blockView;
+            IBlockView view = GameObject.Instantiate(viewPrefab, parent);
+            IBlockPresenter presenter = new BlockPresenter(model, view);
+            presenter.Init();
+            view.Init(model.Type, model.Position);
+            allBlocks.Add(presenter);
+            return view;
         }
-        public void Clear()
+        public override void Clear()
         {
             for (int i = 0; i < allBlocks.Count; i++)
             {
@@ -35,12 +31,6 @@ namespace Presenter
             }
 
             allBlocks.Clear();
-
-            //уничтожить неучтенные объекты
-            for (int i = 0; i < parent.childCount; i++)
-            {
-                GameObject.Destroy(parent.GetChild(i).gameObject);
-            }
         }
     }
 }

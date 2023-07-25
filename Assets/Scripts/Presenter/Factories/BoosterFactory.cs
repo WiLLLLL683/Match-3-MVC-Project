@@ -5,29 +5,24 @@ using View;
 
 namespace Presenter
 {
-    public class BoosterFactory : IFactory<IBooster, IBoosterView>
+    public class BoosterFactory : FactoryBase<IBooster, IBoosterView>
     {
-        private Transform parent;
-        private IBoosterView boosterPrefab;
-
         private List<IBoosterPresenter> allBoosters = new();
 
-        public BoosterFactory(IBoosterView boosterPrefab, Transform parent)
+        public BoosterFactory(IBoosterView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {
-            this.parent = parent;
-            this.boosterPrefab = boosterPrefab;
         }
 
-        public IBoosterView Create(IBooster model)
+        public override IBoosterView Create(IBooster model)
         {
-            IBoosterView view = GameObject.Instantiate(boosterPrefab, parent);
+            IBoosterView view = GameObject.Instantiate(viewPrefab, parent);
             IBoosterPresenter presenter = new BoosterPresenter(view, model);
             presenter.Init();
             view.Init(model.Icon, model.Amount);
             allBoosters.Add(presenter);
             return view;
         }
-        public void Clear()
+        public override void Clear()
         {
             for (int i = 0; i < allBoosters.Count; i++)
             {
@@ -35,12 +30,6 @@ namespace Presenter
             }
 
             allBoosters.Clear();
-
-            //уничтожить неучтенные объекты
-            for (int i = 0; i < parent.childCount; i++)
-            {
-                GameObject.Destroy(parent.GetChild(i).gameObject);
-            }
         }
     }
 }

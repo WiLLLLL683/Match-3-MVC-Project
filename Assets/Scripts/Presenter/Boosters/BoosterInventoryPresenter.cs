@@ -13,11 +13,12 @@ namespace Presenter
     {
         [SerializeField] private Transform boostersParent;
 
-        private IFactory<IBooster, IBoosterView> factory;
+        private FactoryBase<IBooster, IBoosterView> factory;
 
-        public void Init(Game game, PrefabConfig prefabs)
+        public void Init(Game game, FactoryBase<IBooster, IBoosterView> factory)
         {
-            factory = new BoosterFactory(prefabs.boosterPrefab, boostersParent);
+            this.factory = factory;
+            this.factory.SetParent(boostersParent);
         }
     }
 }
