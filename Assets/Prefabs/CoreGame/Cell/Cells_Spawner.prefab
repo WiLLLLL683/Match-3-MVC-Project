@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6947219109200572102}
-  - component: {fileID: 7772128547142337064}
   m_Layer: 0
   m_Name: Cells_Spawner
   m_TagString: Untagged
@@ -42,21 +41,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7772128547142337064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6947219109200572105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a662b679a68d1894c9064e25148b6b39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 6947219109200572102}
-  cellPrefab:
-    _underlyingValue: {fileID: 5919296878604722895, guid: 8213a8f6c326f5a4797bde3812823299, type: 3}
 --- !u!1001 &6947219108116949434
 PrefabInstance:
   m_ObjectHideFlags: 0

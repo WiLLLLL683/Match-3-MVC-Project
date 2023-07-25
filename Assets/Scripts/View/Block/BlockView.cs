@@ -12,7 +12,7 @@ namespace View
     /// Может перетаскиваться из IInput и передавать инпут для перемещения и активации блока.
     /// Может изменять свой тип и базовое положение, проигрывать анимацию нажатия и эффект разрушения.
     /// </summary>
-    public class BlockView : MonoBehaviour, IBlockView, IBlockInput
+    public class BlockView : IBlockView, IBlockInput
     {
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private float moveSpeed;
@@ -21,15 +21,15 @@ namespace View
 
         public Vector2Int ModelPosition => modelPosition;
 
-        public event Action<Directions> OnMove;
-        public event Action OnActivate;
+        public override event Action<Directions> OnMove;
+        public override event Action OnActivate;
 
         private ABlockType type;
         private Vector2 targetPosition;
         private Vector2Int modelPosition;
         private ParticleSystem destroyEffect;
 
-        public void Init(ABlockType type, Vector2Int modelPosition)
+        public override void Init(ABlockType type, Vector2Int modelPosition)
         {
             ChangeType(type);
             ChangeModelPosition(modelPosition);
@@ -41,12 +41,12 @@ namespace View
             transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
         }
 
-        public void ChangeModelPosition(Vector2Int modelPosition)
+        public override void ChangeModelPosition(Vector2Int modelPosition)
         {
             this.modelPosition = modelPosition;
             targetPosition = modelPosition.ToViewPos();
         }
-        public void ChangeType(ABlockType type)
+        public override void ChangeType(ABlockType type)
         {
             this.type = type;
             icon.sprite = type.Sprite;
@@ -69,8 +69,8 @@ namespace View
         }
         public void Input_Release() => targetPosition = modelPosition.ToViewPos();
         //View
-        public void PlayClickAnimation() => StartCoroutine(TapAnimation());
-        public void PlayDestroyEffect()
+        public override void PlayClickAnimation() => StartCoroutine(TapAnimation());
+        public override void PlayDestroyEffect()
         {
             if (destroyEffect == null)
                 destroyEffect = Instantiate(type.DestroyEffect, transform);

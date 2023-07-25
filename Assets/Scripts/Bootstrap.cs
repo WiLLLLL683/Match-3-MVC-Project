@@ -9,91 +9,42 @@ using View;
 
 public class Bootstrap : MonoBehaviour
 {
-    [Header("Meta Game Prefabs")]
-    [SerializeField] private InterfaceReference<ILevelSelectionController, MonoBehaviour> levelSelectionPrefab;
-    [SerializeField] private Canvas backgroundPrefab;
-    [SerializeField] private Canvas headerPrefab;
-    [Header("Core Game Prefabs")]
-    [SerializeField] private InterfaceReference<IHudPresenter, MonoBehaviour> hudPrefab;
-    [SerializeField] private InterfaceReference<IGameBoardPresenter, MonoBehaviour> gameBoardPrefab;
-    [SerializeField] private InterfaceReference<IInput, MonoBehaviour> inputPrefab;
-    [SerializeField] private InterfaceReference<IBoosterInventoryPresenter, MonoBehaviour> boosterInventoryPrefab;
-    [SerializeField] private InterfaceReference<IPausePresenter, MonoBehaviour> pausePrefab;
-    [SerializeField] private InterfaceReference<IEndGamePresenter, MonoBehaviour> endGamePrefab;
-    [Header("Settings")]
+    [Header("Config")]
+    [SerializeField] private PrefabConfig prefabs;
+    [Header("Current State")]
     [SerializeField] private LevelData selectedLevel;
 
     private Game game;
-    //meta game
-    private ILevelSelectionController levelSelection;
-    private Canvas background;
-    private Canvas header;
-    //core game
-    private IHudPresenter hud;
-    private IGameBoardPresenter gameBoard;
-    private IInput input;
-    private IBoosterInventoryPresenter boosters;
-    private IPausePresenter pause;
-    private IEndGamePresenter endGame;
+    private MetaGameFactory metaGameFactory;
+    private CoreGameFactory coreGameFactory;
+
+    private bool isCoreGameLoaded;
 
     private void Awake()
     {
         game = new();
+        coreGameFactory = new(game, prefabs, this);
+        metaGameFactory = new(game, prefabs, this);
 
         LoadMetaGame();
     }
     public void LoadMetaGame()
     {
-        if (gameBoard != null)
+        if (isCoreGameLoaded)
             UnloadCoreGame();
-        //создание окон вью
-        levelSelection = (ILevelSelectionController)Instantiate(levelSelectionPrefab.UnderlyingValue);
-        background = Instantiate(backgroundPrefab);
-        header = Instantiate(headerPrefab);
-        //инициализация
-        levelSelection.Init(game, this);
-
-        //game.StartMetaGame();
+        metaGameFactory.Create();
+        isCoreGameLoaded = false;
     }
     public void LoadCoreGame()
     {
-        if (levelSelection != null)
+        if (!isCoreGameLoaded)
             UnloadMetaGame();
-        //создание окон вью
-        hud = (IHudPresenter) Instantiate(hudPrefab.UnderlyingValue);
-        gameBoard = (IGameBoardPresenter) Instantiate(gameBoardPrefab.UnderlyingValue);
-        input = (IInput) Instantiate(inputPrefab.UnderlyingValue);
-        boosters = (IBoosterInventoryPresenter) Instantiate(boosterInventoryPrefab.UnderlyingValue);
-        pause = (IPausePresenter) Instantiate(pausePrefab.UnderlyingValue);
-        endGame = (IEndGamePresenter) Instantiate(endGamePrefab.UnderlyingValue);
-        //запуск модели
-        game.StartCoreGame(selectedLevel);
-        //инициализация
-        hud.Init(game);
-        gameBoard.Init(game, game.Level.gameBoard);
-        input.Init(gameBoard);
-        boosters.Init(game);
-        pause.Init(game, input, this);
-        endGame.Init(game, input, this);
-        //создание игровых элементов
-        gameBoard.SpawnCells();
-        gameBoard.SpawnBlocks();
+        coreGameFactory.Create(selectedLevel);
+        isCoreGameLoaded = true;
     }
 
 
 
-    private void UnloadCoreGame()
-    {
-        Destroy(hud.gameObject);
-        Destroy(gameBoard.gameObject);
-        Destroy(boosters.gameObject);
-        Destroy(pause.gameObject);
-        Destroy(endGame.gameObject);
-    }
-    private void UnloadMetaGame()
-    {
-        Destroy(levelSelection.gameObject);
-        Destroy(background.gameObject);
-        Destroy(header.gameObject);
-    }
+    private void UnloadCoreGame() => coreGameFactory.Clear();
+    private void UnloadMetaGame() => metaGameFactory.Clear();
 }

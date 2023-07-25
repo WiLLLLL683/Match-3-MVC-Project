@@ -8,7 +8,7 @@ namespace View
     /// При инициализации выбирает цвет своей заливки для создания шахматного рисунка игрового поля.
     /// Может изменять свой тип и проигрывать эффекты.
     /// </summary>
-    public class CellView : MonoBehaviour, ICellView
+    public class CellView : ICellView
     {
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private SpriteRenderer fill;
@@ -20,7 +20,7 @@ namespace View
         private ParticleSystem destroyEffect;
         private ParticleSystem emptyEffect;
 
-        public void Init(Vector2 modelPosition, ACellType type)
+        public override void Init(Vector2 modelPosition, ACellType type)
         {
             this.modelPosition = modelPosition;
 
@@ -28,7 +28,7 @@ namespace View
             ChangeType(type);
             SetCheckerBoardPattern();
         }
-        public void PlayDestroyEffect()
+        public override void PlayDestroyEffect()
         {
             if (type.DestroyEffect == null)
                 return;
@@ -38,7 +38,7 @@ namespace View
 
             destroyEffect.Play();
         }
-        public void PlayEmptyEffect()
+        public override void PlayEmptyEffect()
         {
             if (type.EmptyEffect == null)
                 return;
@@ -48,7 +48,7 @@ namespace View
 
             emptyEffect.Play();
         }
-        public void ChangeType(ACellType type)
+        public override void ChangeType(ACellType type)
         {
             this.type = type;
 

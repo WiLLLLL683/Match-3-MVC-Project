@@ -6,14 +6,14 @@ namespace View
     /// <summary>
     /// Визуальный элемент бустера, вызывается в IBoosterPresenter.
     /// </summary>
-    public interface IBoosterView
+    public abstract class IBoosterView : MonoBehaviour
     {
-        public event Action OnActivate;
+        public abstract event Action OnActivate;
 
-        public void Init(Sprite iconSprite, int initialNumber);
-        public void ChangeAmount(int boosterAmmount);
-        public void ChangeIcon(Sprite iconSprite);
-        public void DisableButton();
-        public void EnableButton();
+        public abstract void Init(Sprite iconSprite, int initialNumber);
+        public abstract void ChangeAmount(int boosterAmmount);
+        public abstract void ChangeIcon(Sprite iconSprite);
+        public abstract void DisableButton();
+        public abstract void EnableButton();
     }
 }

@@ -5,10 +5,10 @@ namespace View
     /// <summary>
     /// Визуальный элемент счетчика ходов или целей.<br/>
     /// </summary>
-    public interface ICounterView
+    public abstract class ICounterView : MonoBehaviour
     {
-        void Init(Sprite iconSprite, int initialNumber);
-        void ChangeCount(int count);
-        void ChangeIcon(Sprite iconSprite);
+        public abstract void Init(Sprite iconSprite, int initialNumber);
+        public abstract void ChangeCount(int count);
+        public abstract void ChangeIcon(Sprite iconSprite);
     }
 }

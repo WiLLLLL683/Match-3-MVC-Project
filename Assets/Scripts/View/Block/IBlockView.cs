@@ -8,19 +8,19 @@ namespace View
     /// <summary>
     /// Визуальный элемент блока, вызывается из IBlockPresenter
     /// </summary>
-    public interface IBlockView
+    public abstract class IBlockView : MonoBehaviour
     {
-        public GameObject gameObject { get; }
+        //public GameObject gameObject { get; }
 
-        public event Action<Directions> OnMove;
-        public event Action OnActivate;
+        public abstract event Action<Directions> OnMove;
+        public abstract event Action OnActivate;
 
         //инициализация
-        public void Init(ABlockType type, Vector2Int modelPosition);
-        public void ChangeModelPosition(Vector2Int modelPosition);
-        public void ChangeType(ABlockType blockType);
+        public abstract void Init(ABlockType type, Vector2Int modelPosition);
+        public abstract void ChangeModelPosition(Vector2Int modelPosition);
+        public abstract void ChangeType(ABlockType blockType);
         //визуал
-        public void PlayClickAnimation();
-        public void PlayDestroyEffect();
+        public abstract void PlayClickAnimation();
+        public abstract void PlayDestroyEffect();
     }
 }

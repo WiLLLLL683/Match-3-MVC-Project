@@ -1,6 +1,7 @@
 ﻿using Model.Infrastructure;
 using Model.Readonly;
 using UnityEngine;
+using Data;
 using View;
 
 namespace Presenter
@@ -11,13 +12,12 @@ namespace Presenter
     /// </summary>
     public interface IGameBoardPresenter
     {
-        public IBlockView GetBlockView(Vector2Int modelPosition);
-        public ICellView GetCellView(Vector2Int modelPosition);
-
         public GameObject gameObject { get; }
 
-        public void Init(Game game, IGameBoard_Readonly gameBoard);
+        public void Init(Game game, IGameBoard_Readonly gameBoard, PrefabConfig prefabConfig);
         public void SpawnBlocks();
         public void SpawnCells();
+        public IBlockView GetBlockView(Vector2Int modelPosition);
+        public ICellView GetCellView(Vector2Int modelPosition);
     }
 }

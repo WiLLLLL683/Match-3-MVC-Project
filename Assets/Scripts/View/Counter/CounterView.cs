@@ -8,19 +8,19 @@ namespace View
     /// Визуальный элемент счетчика ходов или целей.<br/>
     /// Часть HUD, может изменять иконку и текст с количеством.
     /// </summary>
-    public class CounterView : MonoBehaviour, ICounterView
+    public class CounterView : ICounterView
     {
         [SerializeField] private TMP_Text countText;
         [SerializeField] private Image icon;
 
-        public void Init(Sprite iconSprite, int initialNumber)
+        public override void Init(Sprite iconSprite, int initialNumber)
         {
             ChangeIcon(iconSprite);
             ChangeCount(initialNumber);
         }
 
-        public void ChangeCount(int count) => countText.text = count.ToString();
-        public void ChangeIcon(Sprite iconSprite)
+        public override void ChangeCount(int count) => countText.text = count.ToString();
+        public override void ChangeIcon(Sprite iconSprite)
         {
             if (icon != null && iconSprite != null)
             {
