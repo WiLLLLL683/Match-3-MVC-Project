@@ -2,9 +2,8 @@
 
 namespace Presenter
 {
-    public interface ICellPresenter
+    public interface ICellPresenter : IPresenter
     {
-        void Init();
         void Destroy(ICell_Readonly cell);
     }
 }

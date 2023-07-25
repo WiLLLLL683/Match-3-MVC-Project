@@ -27,13 +27,14 @@ public class MetaGameState : IState
         levelSelection = (ILevelSelectionController)GameObject.Instantiate(prefabs.levelSelectionPrefab.UnderlyingValue);
         background = GameObject.Instantiate(prefabs.backgroundPrefab);
         header = GameObject.Instantiate(prefabs.headerPrefab);
+        //TODO game.StartMetaGame();
         //инициализация
         levelSelection.Init(game, bootstrap);
-
-        //game.StartMetaGame();
+        levelSelection.Enable();
     }
     public void OnEnd()
     {
+        levelSelection.Disable();
         GameObject.Destroy(levelSelection.gameObject);
         GameObject.Destroy(background.gameObject);
         GameObject.Destroy(header.gameObject);

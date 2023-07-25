@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Presenter
 {
-    public interface ILevelSelectionController
+    public interface ILevelSelectionController : IPresenter
     {
         public GameObject gameObject { get; }
 

@@ -4,7 +4,7 @@ using View;
 
 namespace Presenter
 {
-    public interface IPausePresenter
+    public interface IPausePresenter : IPresenter
     {
         public GameObject gameObject { get; }
         

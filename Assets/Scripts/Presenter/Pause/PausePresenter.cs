@@ -18,6 +18,14 @@ namespace Presenter
             this.input = input;
             this.bootstrap = bootstrap;
         }
+        public void Enable()
+        {
+
+        }
+        public void Disable()
+        {
+
+        }
 
         //функционал кнопок
         public void ShowPauseMenu()

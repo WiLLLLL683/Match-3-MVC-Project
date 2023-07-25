@@ -49,14 +49,28 @@ public class CoreGameState : IState
         boosterInventory.Init(game, boosterFactory);
         pause.Init(game, input, bootstrap);
         endGame.Init(game, input, bootstrap);
+        //запуск
+        hud.Enable();
+        gameBoard.Enable();
+        input.Enable();
+        boosterInventory.Enable();
+        pause.Enable();
+        endGame.Enable();
         //создание игровых элементов
         gameBoard.SpawnCells();
         gameBoard.SpawnBlocks();
     }
     public void OnEnd()
     {
+        hud.Disable();
+        gameBoard.Disable();
+        input.Disable();
+        boosterInventory.Disable();
+        pause.Disable();
+        endGame.Disable();
         GameObject.Destroy(hud.gameObject);
         GameObject.Destroy(gameBoard.gameObject);
+        GameObject.Destroy(input.gameObject);
         GameObject.Destroy(boosterInventory.gameObject);
         GameObject.Destroy(pause.gameObject);
         GameObject.Destroy(endGame.gameObject);

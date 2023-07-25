@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CounterPresenter : ICounterPresenter
 {
-    public void Init() => throw new NotImplementedException();
+    public void Enable() => throw new NotImplementedException();
+    public void Disable() => throw new NotImplementedException();
     public void Destroy() => throw new NotImplementedException();
-
 }

@@ -26,11 +26,18 @@ namespace Presenter
         {
             this.gameBoard = gameBoard;
             this.blockFactory = blockFactory;
-            this.cellFactory = cellFactory; //new CellFactory(prefabConfig.cellPrefab, cellsParent);
+            this.cellFactory = cellFactory;
 
             this.blockFactory.SetParent(blocksParent);
             this.cellFactory.SetParent(cellsParent);
+        }
+        public void Enable()
+        {
             //TODO спавн блоков по событию в модели
+        }
+        public void Disable()
+        {
+
         }
         [Button]
         public void SpawnCells()

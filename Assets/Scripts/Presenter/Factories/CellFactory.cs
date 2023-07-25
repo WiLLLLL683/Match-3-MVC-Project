@@ -18,9 +18,9 @@ namespace Presenter
         {
             ICellView view = GameObject.Instantiate(viewPrefab, parent);
             ICellPresenter presenter = new CellPresenter(model, view);
-            presenter.Init();
             view.Init(model.Position, model.Type);
             allCells.Add(presenter);
+            presenter.Enable();
             return view;
         }
         public override void Clear()

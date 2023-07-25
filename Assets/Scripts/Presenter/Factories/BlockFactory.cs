@@ -18,7 +18,7 @@ namespace Presenter
         {
             IBlockView view = GameObject.Instantiate(viewPrefab, parent);
             IBlockPresenter presenter = new BlockPresenter(model, view);
-            presenter.Init();
+            presenter.Enable();
             view.Init(model.Type, model.Position);
             allBlocks.Add(presenter);
             return view;

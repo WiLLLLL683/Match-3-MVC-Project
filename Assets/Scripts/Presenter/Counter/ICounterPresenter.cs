@@ -2,9 +2,8 @@
 using System.Collections;
 using UnityEngine;
 
-public interface ICounterPresenter
+public interface ICounterPresenter : IPresenter
 {
-    public void Init();
     public void Destroy();
 
 }

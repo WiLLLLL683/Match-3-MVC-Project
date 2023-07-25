@@ -27,5 +27,13 @@ namespace Presenter
             this.restrictionFactory = restrictionFactory;
             this.restrictionFactory.SetParent(restrictionsParent);
         }
+        public void Enable()
+        {
+
+        }
+        public void Disable()
+        {
+
+        }
     }
 }

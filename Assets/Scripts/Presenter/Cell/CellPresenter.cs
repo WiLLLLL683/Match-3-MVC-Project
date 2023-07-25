@@ -15,19 +15,22 @@ namespace Presenter
             this.view = view;
         }
 
-        public void Init()
+        public void Enable()
         {
             model.OnDestroy += Destroy;
             model.OnEmpty += Empty;
             model.OnTypeChange += ChangeType;
         }
-        public void Destroy(ICell_Readonly cell)
+        public void Disable()
         {
-            view.PlayDestroyEffect();
-
             model.OnDestroy -= Destroy;
             model.OnEmpty -= Empty;
             model.OnTypeChange -= ChangeType;
+        }
+        public void Destroy(ICell_Readonly cell)
+        {
+            Disable();
+            view.PlayDestroyEffect();
         }
 
 

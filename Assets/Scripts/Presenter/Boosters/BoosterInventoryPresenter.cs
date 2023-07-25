@@ -20,5 +20,13 @@ namespace Presenter
             this.factory = factory;
             this.factory.SetParent(boostersParent);
         }
+        public void Enable()
+        {
+
+        }
+        public void Disable()
+        {
+
+        }
     }
 }

@@ -6,7 +6,7 @@ using View;
 
 namespace Presenter
 {
-    public interface IBoosterInventoryPresenter
+    public interface IBoosterInventoryPresenter : IPresenter
     {
         public void Init(Game game, FactoryBase<IBooster, IBoosterView> factory);
 

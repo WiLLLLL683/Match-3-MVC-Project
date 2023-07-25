@@ -18,7 +18,7 @@ namespace Presenter
         {
             ICounterView view = GameObject.Instantiate(viewPrefab, parent);
             ICounterPresenter presenter = new CounterPresenter();
-            presenter.Init();
+            presenter.Enable();
             view.Init(model.Target.Icon, model.Count);
             allCounters.Add(presenter);
             return view;

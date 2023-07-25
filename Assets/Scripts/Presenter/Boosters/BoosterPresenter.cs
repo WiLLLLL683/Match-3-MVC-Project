@@ -14,13 +14,17 @@ public class BoosterPresenter : IBoosterPresenter
         this.view = view;
         this.model = model;
     }
-    public void Init()
+    public void Enable()
+    {
+
+    }
+    public void Disable()
     {
 
     }
     public void Destroy()
     {
-
+        Disable();
     }
 
 

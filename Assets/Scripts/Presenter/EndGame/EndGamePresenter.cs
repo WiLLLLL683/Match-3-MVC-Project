@@ -19,6 +19,14 @@ namespace Presenter
             this.input = input;
             this.bootstrap = bootstrap;
         }
+        public void Enable()
+        {
+
+        }
+        public void Disable()
+        {
+
+        }
 
         public void ShowCompleteMenu()
         {

@@ -17,9 +17,9 @@ namespace Presenter
         {
             IBoosterView view = GameObject.Instantiate(viewPrefab, parent);
             IBoosterPresenter presenter = new BoosterPresenter(view, model);
-            presenter.Init();
             view.Init(model.Icon, model.Amount);
             allBoosters.Add(presenter);
+            presenter.Enable();
             return view;
         }
         public override void Clear()

@@ -1,4 +1,5 @@
 ﻿using Presenter;
+using UnityEngine;
 
 namespace View
 {
@@ -7,6 +8,8 @@ namespace View
     /// </summary>
     public interface IInput
     {
+        GameObject gameObject { get; }
+
         void Init(IGameBoardPresenter gameBoardPresenter);
         public abstract void Enable();
         public abstract void Disable();

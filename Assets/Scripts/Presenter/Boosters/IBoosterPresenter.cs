@@ -1,5 +1,4 @@
-﻿public interface IBoosterPresenter
+﻿public interface IBoosterPresenter : IPresenter
 {
-    void Init();
     void Destroy();
 }

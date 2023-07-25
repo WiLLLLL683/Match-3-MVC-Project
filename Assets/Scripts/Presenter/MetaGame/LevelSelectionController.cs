@@ -19,6 +19,14 @@ namespace Presenter
             this.game = game;
             this.bootstrap = bootstrap;
         }
+        public void Enable()
+        {
+
+        }
+        public void Disable()
+        {
+
+        }
 
         public void SelectPreviousLevel()
         {

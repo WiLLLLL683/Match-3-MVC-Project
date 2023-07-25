@@ -16,7 +16,7 @@ namespace Presenter
             this.view = view;
         }
 
-        public void Init()
+        public void Enable()
         {
             view.OnMove += Move;
             view.OnActivate += Activate;
@@ -25,7 +25,7 @@ namespace Presenter
             model.OnPositionChange += SyncPosition;
             model.OnTypeChange += ChangeType;
         }
-        public void Destroy(IBlock_Readonly block)
+        public void Disable()
         {
             view.OnMove -= Move;
             view.OnActivate -= Activate;
@@ -33,7 +33,10 @@ namespace Presenter
             model.OnDestroy_Readonly -= Destroy;
             model.OnPositionChange -= SyncPosition;
             model.OnTypeChange -= ChangeType;
-
+        }
+        public void Destroy(IBlock_Readonly block)
+        {
+            Disable();
             view.PlayDestroyEffect();
             GameObject.Destroy(view.gameObject);
         }
@@ -47,7 +50,6 @@ namespace Presenter
             Debug.Log("Activate");
             view.PlayClickAnimation();
             //TODO обращение к модели для запуска систем
-            //TODO исключить возможность запуска блока в обход систем модели
             //model.Activate();
         }
 
