@@ -4,18 +4,17 @@ using View;
 
 namespace Presenter
 {
-    public class EndGamePresenter : MonoBehaviour, IEndGamePresenter
+    public class EndGamePresenter : IEndGamePresenter
     {
-        [SerializeField] private EndGameMenu completeMenu;
-        [SerializeField] private EndGameMenu defeatMenu;
-
+        private AEndGameView view;
         private Game game;
         private IInput input;
         private Bootstrap bootstrap;
 
-        public void Init(Game game, IInput input, Bootstrap bootstrap)
+        public EndGamePresenter(Game game, AEndGameView view, IInput input, Bootstrap bootstrap)
         {
             this.game = game;
+            this.view = view;
             this.input = input;
             this.bootstrap = bootstrap;
         }
@@ -30,33 +29,19 @@ namespace Presenter
         public void Destroy()
         {
             Disable();
+            GameObject.Destroy(view.gameObject);
         }
 
-        public void ShowCompleteMenu()
+        public void OnLevelComplete()
         {
-            defeatMenu.gameObject.SetActive(false);
             input.Disable();
-
-            completeMenu.UpdateScore(4221, 3); //TODO брать счет из модели
-            completeMenu.gameObject.SetActive(true);
+            view.ShowCompleteMenu(4221, 3); //TODO брать счет из модели
         }
-        public void ShowDefeatMenu()
+        public void OnDefeat()
         {
-            completeMenu.gameObject.SetActive(false);
             input.Disable();
-
-            defeatMenu.UpdateScore(42); //TODO брать счет из модели
-            defeatMenu.gameObject.SetActive(true);
+            view.ShowDefeatMenu(42); //TODO брать счет из модели
         }
-        public void HideAllMenus()
-        {
-            defeatMenu.gameObject.SetActive(false);
-            completeMenu.gameObject.SetActive(false);
-
-            input.Enable();
-        }
-
-        //функционал кнопок
         public void Replay()
         {
             //TODO replay

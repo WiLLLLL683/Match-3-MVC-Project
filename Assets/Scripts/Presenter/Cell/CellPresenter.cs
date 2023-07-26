@@ -1,6 +1,7 @@
 ﻿using Model.Readonly;
 using View;
 using Data;
+using UnityEngine;
 
 namespace Presenter
 {
@@ -35,6 +36,7 @@ namespace Presenter
         {
             Disable();
             view.PlayDestroyEffect();
+            GameObject.Destroy(view.gameObject);
         }
         private void ChangeType(ACellType type) => view.ChangeType(type);
         private void Empty(ICell_Readonly cell) => view.PlayEmptyEffect();

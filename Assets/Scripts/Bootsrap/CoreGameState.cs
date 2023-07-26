@@ -25,6 +25,7 @@ public class CoreGameState : IState
     private BoosterFactory boosterFactory;
     private BoosterInventoryFactory boosterInventoryFactory;
     private GameBoardFactory gameBoardFactory;
+    private EndGameFactory endGameFactory;
 
     public CoreGameState(Game game, PrefabConfig prefabs, Bootstrap bootstrap)
     {
@@ -45,29 +46,27 @@ public class CoreGameState : IState
         restrictionFactory = new CounterFactory(prefabs.restrictionCounterPrefab);
         boosterFactory = new BoosterFactory(prefabs.boosterPrefab);
 
-        //создание фабрик экранов вью
+        //создание фабрик экранов
         boosterInventoryFactory = new BoosterInventoryFactory(prefabs.boosterInventoryPrefab, boosterFactory);
         gameBoardFactory = new GameBoardFactory(prefabs.gameBoardPrefab, blockFactory, cellFactory);
+        endGameFactory = new EndGameFactory(prefabs.endGamePrefab, input, bootstrap);
 
-        //создание экранов вью
+        //создание экранов
         boosterInventoryFactory.Create(game.BoosterInventory, out boosterInventory);
         gameBoardFactory.Create(game.Level.gameBoard, out gameBoard);
-
+        endGameFactory.Create(game, out endGame);
 
         hud = (IHudPresenter)GameObject.Instantiate(prefabs.hudPrefab.UnderlyingValue);
         input = (IInput)GameObject.Instantiate(prefabs.inputPrefab.UnderlyingValue);
         pause = (IPausePresenter)GameObject.Instantiate(prefabs.pausePrefab.UnderlyingValue);
-        endGame = (IEndGamePresenter)GameObject.Instantiate(prefabs.endGamePrefab.UnderlyingValue);
         //инициализация
         hud.Init(game, goalFactory, restrictionFactory);
         input.Init(gameBoard);
         pause.Init(game, input, bootstrap);
-        endGame.Init(game, input, bootstrap);
         //запуск
         hud.Enable();
         input.Enable();
         pause.Enable();
-        endGame.Enable();
         //создание игровых элементов
         gameBoard.SpawnCells();
         gameBoard.SpawnBlocks();
@@ -76,14 +75,13 @@ public class CoreGameState : IState
     {
         gameBoardFactory.Clear();
         boosterInventoryFactory.Clear();
+        endGameFactory.Clear();
 
         hud.Disable();
         input.Disable();
         pause.Disable();
-        endGame.Disable();
         GameObject.Destroy(hud.gameObject);
         GameObject.Destroy(input.gameObject);
         GameObject.Destroy(pause.gameObject);
-        GameObject.Destroy(endGame.gameObject);
     }
 }

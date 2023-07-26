@@ -7,12 +7,8 @@ namespace Presenter
 {
     public interface IEndGamePresenter : IPresenter
     {
-        public GameObject gameObject { get; }
-
-        void Init(Game game, IInput input, Bootstrap bootstrap);
-        void ShowCompleteMenu();
-        void ShowDefeatMenu();
-        void HideAllMenus();
+        void OnLevelComplete();
+        void OnDefeat();
         void Replay();
         void NextLevel();
         void Quit();

@@ -35,6 +35,7 @@ namespace Presenter
         public void Destroy()
         {
             Disable();
+            GameObject.Destroy(view.gameObject);
         }
     }
 }

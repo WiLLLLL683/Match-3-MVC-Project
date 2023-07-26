@@ -21,7 +21,7 @@ namespace Data
         public InterfaceReference<IInput, MonoBehaviour> inputPrefab;
         public ABoosterInventoryView boosterInventoryPrefab;
         public InterfaceReference<IPausePresenter, MonoBehaviour> pausePrefab;
-        public InterfaceReference<IEndGamePresenter, MonoBehaviour> endGamePrefab;
+        public AEndGameView endGamePrefab;
         [Header("Elements")]
         public IBlockView blockPrefab;
         public ICellView cellPrefab;

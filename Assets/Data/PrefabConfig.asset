@@ -24,8 +24,7 @@ MonoBehaviour:
   boosterInventoryPrefab: {fileID: 1802209963955293721, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
   pausePrefab:
     _underlyingValue: {fileID: 2011612834500659584, guid: f8e5d33a0fc616348be38b6903bc52ee, type: 3}
-  endGamePrefab:
-    _underlyingValue: {fileID: 6444822807969165478, guid: b6b485faab3daa045b795bf70f50446e, type: 3}
+  endGamePrefab: {fileID: 6444822807969165478, guid: b6b485faab3daa045b795bf70f50446e, type: 3}
   blockPrefab: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}
   cellPrefab: {fileID: 5919296878604722895, guid: 8213a8f6c326f5a4797bde3812823299, type: 3}
   boosterPrefab: {fileID: 4633542665250583476, guid: 54af3666ffa5db6428dc8595493f1420, type: 3}

@@ -25,6 +25,7 @@ public class BoosterPresenter : IBoosterPresenter
     public void Destroy()
     {
         Disable();
+        GameObject.Destroy(view.gameObject);
     }
 
 
