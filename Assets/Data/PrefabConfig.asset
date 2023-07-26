@@ -21,8 +21,7 @@ MonoBehaviour:
   gameBoardPrefab: {fileID: 3845067929878525123, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
   inputPrefab:
     _underlyingValue: {fileID: 879022936496586446, guid: 2727a4abd4d283240a0410e268d3f2a0, type: 3}
-  boosterInventoryPrefab:
-    _underlyingValue: {fileID: 730921600496646349, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
+  boosterInventoryPrefab: {fileID: 1802209963955293721, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
   pausePrefab:
     _underlyingValue: {fileID: 2011612834500659584, guid: f8e5d33a0fc616348be38b6903bc52ee, type: 3}
   endGamePrefab:

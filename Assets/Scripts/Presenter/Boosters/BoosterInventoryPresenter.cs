@@ -9,16 +9,20 @@ namespace Presenter
     /// <summary>
     /// Контроллер для инвентаря бустеров
     /// </summary>
-    public class BoosterInventoryPresenter : MonoBehaviour, IBoosterInventoryPresenter
+    public class BoosterInventoryPresenter : IBoosterInventoryPresenter
     {
-        [SerializeField] private Transform boostersParent;
-
+        private BoosterInventoryViewBase view;
+        private BoosterInventory model;
         private FactoryBase<IBooster, IBoosterView, IBoosterPresenter> factory;
 
-        public void Init(Game game, FactoryBase<IBooster, IBoosterView, IBoosterPresenter> factory)
+        public BoosterInventoryPresenter(BoosterInventory model, 
+            BoosterInventoryViewBase view, 
+            FactoryBase<IBooster, IBoosterView, IBoosterPresenter> factory)
         {
+            this.view = view;
+            this.model = model;
             this.factory = factory;
-            this.factory.SetParent(boostersParent);
+            this.factory.SetParent(this.view.BoostersParent);
         }
         public void Enable()
         {

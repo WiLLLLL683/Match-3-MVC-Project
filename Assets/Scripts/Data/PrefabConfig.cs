@@ -19,7 +19,7 @@ namespace Data
         public InterfaceReference<IHudPresenter, MonoBehaviour> hudPrefab;
         public IGameBoardView gameBoardPrefab;
         public InterfaceReference<IInput, MonoBehaviour> inputPrefab;
-        public InterfaceReference<IBoosterInventoryPresenter, MonoBehaviour> boosterInventoryPrefab;
+        public BoosterInventoryViewBase boosterInventoryPrefab;
         public InterfaceReference<IPausePresenter, MonoBehaviour> pausePrefab;
         public InterfaceReference<IEndGamePresenter, MonoBehaviour> endGamePrefab;
         [Header("Elements")]

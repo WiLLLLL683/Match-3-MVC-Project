@@ -18,6 +18,14 @@ public class CoreGameState : IState
     private IPausePresenter pause;
     private IEndGamePresenter endGame;
 
+    private BlockFactory blockFactory;
+    private CellFactory cellFactory;
+    private CounterFactory goalFactory;
+    private CounterFactory restrictionFactory;
+    private BoosterFactory boosterFactory;
+    private BoosterInventoryFactory boosterInventoryFactory;
+    private GameBoardFactory gameBoardFactory;
+
     public CoreGameState(Game game, PrefabConfig prefabs, Bootstrap bootstrap)
     {
         this.game = game;
@@ -29,28 +37,30 @@ public class CoreGameState : IState
     {
         //запуск модели
         game.StartCoreGame(bootstrap.SelectedLevel);
-        
-        //создание фабрик
-        var blockFactory = new BlockFactory(prefabs.blockPrefab);
-        var cellFactory = new CellFactory(prefabs.cellPrefab);
-        var boosterFactory = new BoosterFactory(prefabs.boosterPrefab);
-        var goalFactory = new CounterFactory(prefabs.goalCounterPrefab);
-        var restrictionFactory = new CounterFactory(prefabs.restrictionCounterPrefab);
-        var gameBoardFactory = new GameBoardFactory(prefabs.gameBoardPrefab, blockFactory, cellFactory);
 
+        //создание фабрик игровых элементов
+        blockFactory = new BlockFactory(prefabs.blockPrefab);
+        cellFactory = new CellFactory(prefabs.cellPrefab);
+        goalFactory = new CounterFactory(prefabs.goalCounterPrefab);
+        restrictionFactory = new CounterFactory(prefabs.restrictionCounterPrefab);
+        boosterFactory = new BoosterFactory(prefabs.boosterPrefab);
+
+        //создание фабрик экранов вью
+        boosterInventoryFactory = new BoosterInventoryFactory(prefabs.boosterInventoryPrefab, boosterFactory);
+        gameBoardFactory = new GameBoardFactory(prefabs.gameBoardPrefab, blockFactory, cellFactory);
+
+        //создание экранов вью
+        boosterInventoryFactory.Create(game.BoosterInventory, out boosterInventory);
         gameBoardFactory.Create(game.Level.gameBoard, out gameBoard);
 
 
-        //создание окон вью
         hud = (IHudPresenter)GameObject.Instantiate(prefabs.hudPrefab.UnderlyingValue);
         input = (IInput)GameObject.Instantiate(prefabs.inputPrefab.UnderlyingValue);
-        boosterInventory = (IBoosterInventoryPresenter)GameObject.Instantiate(prefabs.boosterInventoryPrefab.UnderlyingValue);
         pause = (IPausePresenter)GameObject.Instantiate(prefabs.pausePrefab.UnderlyingValue);
         endGame = (IEndGamePresenter)GameObject.Instantiate(prefabs.endGamePrefab.UnderlyingValue);
         //инициализация
         hud.Init(game, goalFactory, restrictionFactory);
         input.Init(gameBoard);
-        boosterInventory.Init(game, boosterFactory);
         pause.Init(game, input, bootstrap);
         endGame.Init(game, input, bootstrap);
         //запуск
@@ -66,7 +76,8 @@ public class CoreGameState : IState
     }
     public void OnEnd()
     {
-        gameBoard.Destroy();
+        gameBoardFactory.Clear();
+        boosterInventoryFactory.Clear();
 
         hud.Disable();
         input.Disable();
@@ -75,7 +86,6 @@ public class CoreGameState : IState
         endGame.Disable();
         GameObject.Destroy(hud.gameObject);
         GameObject.Destroy(input.gameObject);
-        GameObject.Destroy(boosterInventory.gameObject);
         GameObject.Destroy(pause.gameObject);
         GameObject.Destroy(endGame.gameObject);
     }
