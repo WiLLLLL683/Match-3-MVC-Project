@@ -16,8 +16,8 @@ namespace Data
         public Canvas backgroundPrefab;
         public Canvas headerPrefab;
         [Header("Core Game Screens")]
-        public InterfaceReference<IHudPresenter, MonoBehaviour> hudPrefab;
-        public IGameBoardView gameBoardPrefab;
+        public AHudView hudPrefab;
+        public AGameBoardView gameBoardPrefab;
         public InterfaceReference<IInput, MonoBehaviour> inputPrefab;
         public ABoosterInventoryView boosterInventoryPrefab;
         public InterfaceReference<IPausePresenter, MonoBehaviour> pausePrefab;

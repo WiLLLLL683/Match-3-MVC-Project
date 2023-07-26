@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Data;
 using Model.Systems;
+using Model.Readonly;
 
 namespace Model.Objects
 {
     /// <summary>
     /// Объект уровня с игровой доской и правилами
     /// </summary>
-    public class Level
+    public class Level : ILevel_Readonly
     {
         public GameBoard gameBoard { get; private set; }
+        public IGameBoard_Readonly GameBoard_Readonly => gameBoard;
         public Counter[] goals { get; private set; }
+        public ICounter_Readonly[] Goals_Readonly => goals;
         public Counter[] restrictions { get; private set; }
+        public ICounter_Readonly[] Restrictions_Readonly => goals;
         public Balance balance { get; private set; }
         public Pattern[] matchPatterns { get; private set; }
         public HintPattern[] hintPatterns { get; private set; }
@@ -38,13 +42,13 @@ namespace Model.Objects
         {
             gameBoard = new GameBoard(xLength, yLength);
             goals = new Counter[1];
-            goals[0] = new Counter(new BasicBlockType(),2);
+            goals[0] = new Counter(new BasicBlockType(), 2);
             restrictions = new Counter[1];
-            restrictions[0] = new Counter(new Turn(),2);
+            restrictions[0] = new Counter(new Turn(), 2);
             matchPatterns = new Pattern[1];
             matchPatterns[0] = new Pattern(new bool[1, 1] { { true } });
             hintPatterns = new HintPattern[1];
-            hintPatterns[0] = new HintPattern(new bool[1, 1] { { true } }, new(0,0), Directions.Up);
+            hintPatterns[0] = new HintPattern(new bool[1, 1] { { true } }, new(0, 0), Directions.Up);
 
 
             List<BlockType_Weight> balanceDictionary = new();

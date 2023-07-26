@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GameBoardView : IGameBoardView
+public class GameBoardView : AGameBoardView
 {
     [SerializeField] private Transform blocksParent;
     [SerializeField] private Transform cellsParent;

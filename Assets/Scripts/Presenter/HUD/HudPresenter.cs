@@ -1,5 +1,6 @@
 ﻿using Model.Infrastructure;
 using Model.Objects;
+using Model.Readonly;
 using UnityEngine;
 using View;
 
@@ -8,24 +9,24 @@ namespace Presenter
     /// <summary>
     /// Контроллер для HUD
     /// </summary>
-    public class HudPresenter : MonoBehaviour, IHudPresenter
+    public class HudPresenter : IHudPresenter
     {
-        [SerializeField] private Transform goalsParent;
-        [SerializeField] private Transform restrictionsParent;
-        
-        private Game game;
-        private AFactory<Counter, ICounterView, ICounterPresenter> goalFactory;
-        private AFactory<Counter, ICounterView, ICounterPresenter> restrictionFactory;
+        private ILevel_Readonly model;
+        private AHudView view;
+        private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory;
+        private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory;
 
-        public void Init(Game game,
-            AFactory<Counter, ICounterView, ICounterPresenter> goalFactory,
-            AFactory<Counter, ICounterView, ICounterPresenter> restrictionFactory)
+        public HudPresenter(ILevel_Readonly model,
+            AHudView view,
+            AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory,
+            AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory)
         {
-            this.game = game;
+            this.model = model;
+            this.view = view;
             this.goalFactory = goalFactory;
-            this.goalFactory.SetParent(goalsParent);
+            this.goalFactory.SetParent(this.view.GoalsParent);
             this.restrictionFactory = restrictionFactory;
-            this.restrictionFactory.SetParent(restrictionsParent);
+            this.restrictionFactory.SetParent(this.view.RestrictionsParent);
         }
         public void Enable()
         {
@@ -38,6 +39,7 @@ namespace Presenter
         public void Destroy()
         {
             Disable();
+            GameObject.Destroy(view.gameObject);
         }
     }
 }

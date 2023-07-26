@@ -10,7 +10,7 @@ namespace Presenter
 {
     public class GameBoardPresenter : IGameBoardPresenter
     {
-        private IGameBoardView view;
+        private AGameBoardView view;
         private IGameBoard_Readonly model;
         private AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
         private AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
@@ -19,7 +19,7 @@ namespace Presenter
         private Dictionary<IBlock_Readonly, IBlockView> blocks = new();
 
         public GameBoardPresenter(IGameBoard_Readonly model,
-                         IGameBoardView view,
+                         AGameBoardView view,
                          AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
                          AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory)
         {

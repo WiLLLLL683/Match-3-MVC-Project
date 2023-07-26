@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using View;
 
-public class GameBoardFactory : AFactory<IGameBoard_Readonly, IGameBoardView, IGameBoardPresenter>
+public class GameBoardFactory : AFactory<IGameBoard_Readonly, AGameBoardView, IGameBoardPresenter>
 {
     private readonly AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
     private readonly AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
 
     public GameBoardFactory(
-        IGameBoardView viewPrefab,
+        AGameBoardView viewPrefab,
         AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
         AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory, 
         Transform parent = null) : base(viewPrefab, parent)
@@ -20,9 +20,9 @@ public class GameBoardFactory : AFactory<IGameBoard_Readonly, IGameBoardView, IG
         this.cellFactory = cellFactory;
     }
 
-    public override IGameBoardView Create(IGameBoard_Readonly model, out IGameBoardPresenter presenter)
+    public override AGameBoardView Create(IGameBoard_Readonly model, out IGameBoardPresenter presenter)
     {
-        IGameBoardView view = GameObject.Instantiate(viewPrefab, parent);
+        AGameBoardView view = GameObject.Instantiate(viewPrefab, parent);
         presenter = new GameBoardPresenter(model, view, blockFactory, cellFactory);
         presenter.Enable();
         allPresenters.Add(presenter);
