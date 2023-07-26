@@ -5,7 +5,7 @@ using View;
 
 namespace Presenter
 {
-    public class BoosterFactory : FactoryBase<IBooster, IBoosterView>
+    public class BoosterFactory : FactoryBase<IBooster, IBoosterView, IBoosterPresenter>
     {
         private List<IBoosterPresenter> allBoosters = new();
 
@@ -13,10 +13,10 @@ namespace Presenter
         {
         }
 
-        public override IBoosterView Create(IBooster model)
+        public override IBoosterView Create(IBooster model, out IBoosterPresenter presenter)
         {
             IBoosterView view = GameObject.Instantiate(viewPrefab, parent);
-            IBoosterPresenter presenter = new BoosterPresenter(view, model);
+            presenter = new BoosterPresenter(view, model);
             view.Init(model.Icon, model.Amount);
             allBoosters.Add(presenter);
             presenter.Enable();

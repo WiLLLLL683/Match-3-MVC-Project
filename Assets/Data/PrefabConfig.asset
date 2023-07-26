@@ -18,8 +18,7 @@ MonoBehaviour:
   headerPrefab: {fileID: 2115648654558851451, guid: 9413e9376c9d00d409988275c8911050, type: 3}
   hudPrefab:
     _underlyingValue: {fileID: 8921414449694866095, guid: da23743b13a17bb4d879b4be4ab3ac0a, type: 3}
-  gameBoardPrefab:
-    _underlyingValue: {fileID: 3793116412616789869, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
+  gameBoardPrefab: {fileID: 3845067929878525123, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
   inputPrefab:
     _underlyingValue: {fileID: 879022936496586446, guid: 2727a4abd4d283240a0410e268d3f2a0, type: 3}
   boosterInventoryPrefab:

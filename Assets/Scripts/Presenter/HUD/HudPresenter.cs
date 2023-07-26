@@ -14,12 +14,12 @@ namespace Presenter
         [SerializeField] private Transform restrictionsParent;
         
         private Game game;
-        private FactoryBase<Counter, ICounterView> goalFactory;
-        private FactoryBase<Counter, ICounterView> restrictionFactory;
+        private FactoryBase<Counter, ICounterView, ICounterPresenter> goalFactory;
+        private FactoryBase<Counter, ICounterView, ICounterPresenter> restrictionFactory;
 
         public void Init(Game game,
-            FactoryBase<Counter, ICounterView> goalFactory,
-            FactoryBase<Counter, ICounterView> restrictionFactory)
+            FactoryBase<Counter, ICounterView, ICounterPresenter> goalFactory,
+            FactoryBase<Counter, ICounterView, ICounterPresenter> restrictionFactory)
         {
             this.game = game;
             this.goalFactory = goalFactory;

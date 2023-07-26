@@ -8,28 +8,28 @@ using Data;
 
 namespace Presenter
 {
-    public class GameBoardPresenter : MonoBehaviour, IGameBoardPresenter
+    public class GameBoardPresenter : IGameBoardPresenter
     {
-        [SerializeField] private Transform blocksParent;
-        [SerializeField] private Transform cellsParent;
+        private IGameBoardView view;
+        private IGameBoard_Readonly model;
+        private FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
+        private FactoryBase<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
 
         private Dictionary<ICell_Readonly, ICellView> cells = new();
         private Dictionary<IBlock_Readonly, IBlockView> blocks = new();
 
-        private IGameBoard_Readonly gameBoard;
-        private FactoryBase<IBlock_Readonly, IBlockView> blockFactory;
-        private FactoryBase<ICell_Readonly, ICellView> cellFactory;
-
-        public void Init(IGameBoard_Readonly gameBoard,
-            FactoryBase<IBlock_Readonly, IBlockView> blockFactory,
-            FactoryBase<ICell_Readonly, ICellView> cellFactory)
+        public GameBoardPresenter(IGameBoard_Readonly model,
+                         IGameBoardView view,
+                         FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
+                         FactoryBase<ICell_Readonly, ICellView, ICellPresenter> cellFactory)
         {
-            this.gameBoard = gameBoard;
+            this.view = view;
+            this.model = model;
             this.blockFactory = blockFactory;
             this.cellFactory = cellFactory;
 
-            this.blockFactory.SetParent(blocksParent);
-            this.cellFactory.SetParent(cellsParent);
+            this.blockFactory.SetParent(this.view.BlocksParent);
+            this.cellFactory.SetParent(this.view.CellsParent);
         }
         public void Enable()
         {
@@ -39,6 +39,11 @@ namespace Presenter
         {
 
         }
+        public void Destroy()
+        {
+            Disable();
+            GameObject.Destroy(view.gameObject);
+        }
         [Button]
         public void SpawnCells()
         {
@@ -46,14 +51,14 @@ namespace Presenter
             cellFactory.ClearParent();
             cells.Clear();
 
-            int xLength = gameBoard.Cells_Readonly.GetLength(0);
-            int yLength = gameBoard.Cells_Readonly.GetLength(1);
+            int xLength = model.Cells_Readonly.GetLength(0);
+            int yLength = model.Cells_Readonly.GetLength(1);
 
             for (int x = 0; x < xLength; x++)
             {
                 for (int y = 0; y < yLength; y++)
                 {
-                    ICell_Readonly cellModel = gameBoard.Cells_Readonly[x, y];
+                    ICell_Readonly cellModel = model.Cells_Readonly[x, y];
                     cells[cellModel] = cellFactory.Create(cellModel);
                 }
             }
@@ -65,19 +70,19 @@ namespace Presenter
             blockFactory.ClearParent();
             blocks.Clear();
 
-            foreach (var blockModel in gameBoard.Blocks_Readonly)
+            foreach (var blockModel in model.Blocks_Readonly)
             {
                 blocks[blockModel] = blockFactory.Create(blockModel);
             }
         }
         public ICellView GetCellView(Vector2Int modelPosition)
         {
-            ICell_Readonly cellModel = gameBoard.Cells_Readonly[modelPosition.x, modelPosition.y];
+            ICell_Readonly cellModel = model.Cells_Readonly[modelPosition.x, modelPosition.y];
             return cells[cellModel];
         }
         public IBlockView GetBlockView(Vector2Int modelPosition)
         {
-            IBlock_Readonly blockModel = gameBoard.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
+            IBlock_Readonly blockModel = model.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
             if (blockModel != null && blocks.ContainsKey(blockModel))
                 return blocks[blockModel];
             else

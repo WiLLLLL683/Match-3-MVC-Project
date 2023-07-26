@@ -13,9 +13,9 @@ namespace Presenter
     {
         [SerializeField] private Transform boostersParent;
 
-        private FactoryBase<IBooster, IBoosterView> factory;
+        private FactoryBase<IBooster, IBoosterView, IBoosterPresenter> factory;
 
-        public void Init(Game game, FactoryBase<IBooster, IBoosterView> factory)
+        public void Init(Game game, FactoryBase<IBooster, IBoosterView, IBoosterPresenter> factory)
         {
             this.factory = factory;
             this.factory.SetParent(boostersParent);

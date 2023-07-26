@@ -6,7 +6,7 @@ using View;
 
 namespace Presenter
 {
-    public abstract class FactoryBase<TModel, TView> where TView : MonoBehaviour
+    public abstract class FactoryBase<TModel, TView, TPresenter> where TView : MonoBehaviour
     {
         protected Transform parent;
         protected TView viewPrefab;
@@ -17,9 +17,10 @@ namespace Presenter
             this.parent = parent;
         }
 
-        public abstract TView Create(TModel model);
+        public abstract TView Create(TModel model, out TPresenter presenter);
         public abstract void Clear();
 
+        public TView Create(TModel model) => Create(model, out _);
         public void SetParent(Transform parent) => this.parent = parent;
         public void ClearParent()
         {

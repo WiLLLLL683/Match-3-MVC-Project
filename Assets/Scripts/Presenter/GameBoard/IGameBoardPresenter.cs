@@ -12,11 +12,7 @@ namespace Presenter
     /// </summary>
     public interface IGameBoardPresenter : IPresenter
     {
-        public GameObject gameObject { get; }
-
-        public void Init(IGameBoard_Readonly gameBoard,
-            FactoryBase<IBlock_Readonly, IBlockView> blockFactory,
-            FactoryBase<ICell_Readonly, ICellView> cellFactory);
+        public void Destroy();
         public void SpawnBlocks();
         public void SpawnCells();
         public IBlockView GetBlockView(Vector2Int modelPosition);

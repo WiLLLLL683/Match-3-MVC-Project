@@ -6,7 +6,7 @@ using AYellowpaper;
 
 namespace Presenter
 {
-    public class BlockFactory : FactoryBase<IBlock_Readonly, IBlockView>
+    public class BlockFactory : FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter>
     {
         private List<IBlockPresenter> allBlocks = new();
 
@@ -14,10 +14,10 @@ namespace Presenter
         {
         }
 
-        public override IBlockView Create(IBlock_Readonly model)
+        public override IBlockView Create(IBlock_Readonly model, out IBlockPresenter presenter)
         {
             IBlockView view = GameObject.Instantiate(viewPrefab, parent);
-            IBlockPresenter presenter = new BlockPresenter(model, view);
+            presenter = new BlockPresenter(model, view);
             presenter.Enable();
             view.Init(model.Type, model.Position);
             allBlocks.Add(presenter);

@@ -6,7 +6,7 @@ using AYellowpaper;
 
 namespace Presenter
 {
-    public class CellFactory : FactoryBase<ICell_Readonly, ICellView>
+    public class CellFactory : FactoryBase<ICell_Readonly, ICellView, ICellPresenter>
     {
         private List<ICellPresenter> allCells = new();
 
@@ -14,10 +14,10 @@ namespace Presenter
         {
         }
 
-        public override ICellView Create(ICell_Readonly model)
+        public override ICellView Create(ICell_Readonly model, out ICellPresenter presenter)
         {
             ICellView view = GameObject.Instantiate(viewPrefab, parent);
-            ICellPresenter presenter = new CellPresenter(model, view);
+            presenter = new CellPresenter(model, view);
             view.Init(model.Position, model.Type);
             allCells.Add(presenter);
             presenter.Enable();

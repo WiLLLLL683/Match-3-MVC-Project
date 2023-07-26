@@ -27,24 +27,28 @@ public class CoreGameState : IState
 
     public void OnStart()
     {
+        //запуск модели
+        game.StartCoreGame(bootstrap.SelectedLevel);
+        
         //создание фабрик
         var blockFactory = new BlockFactory(prefabs.blockPrefab);
         var cellFactory = new CellFactory(prefabs.cellPrefab);
         var boosterFactory = new BoosterFactory(prefabs.boosterPrefab);
         var goalFactory = new CounterFactory(prefabs.goalCounterPrefab);
         var restrictionFactory = new CounterFactory(prefabs.restrictionCounterPrefab);
+        var gameBoardFactory = new GameBoardFactory(prefabs.gameBoardPrefab, blockFactory, cellFactory);
+
+        gameBoardFactory.Create(game.Level.gameBoard, out gameBoard);
+
+
         //создание окон вью
         hud = (IHudPresenter)GameObject.Instantiate(prefabs.hudPrefab.UnderlyingValue);
-        gameBoard = (IGameBoardPresenter)GameObject.Instantiate(prefabs.gameBoardPrefab.UnderlyingValue);
         input = (IInput)GameObject.Instantiate(prefabs.inputPrefab.UnderlyingValue);
         boosterInventory = (IBoosterInventoryPresenter)GameObject.Instantiate(prefabs.boosterInventoryPrefab.UnderlyingValue);
         pause = (IPausePresenter)GameObject.Instantiate(prefabs.pausePrefab.UnderlyingValue);
         endGame = (IEndGamePresenter)GameObject.Instantiate(prefabs.endGamePrefab.UnderlyingValue);
-        //запуск модели
-        game.StartCoreGame(bootstrap.SelectedLevel);
         //инициализация
         hud.Init(game, goalFactory, restrictionFactory);
-        gameBoard.Init(game.Level.gameBoard, blockFactory, cellFactory);
         input.Init(gameBoard);
         boosterInventory.Init(game, boosterFactory);
         pause.Init(game, input, bootstrap);
@@ -62,14 +66,14 @@ public class CoreGameState : IState
     }
     public void OnEnd()
     {
+        gameBoard.Destroy();
+
         hud.Disable();
-        gameBoard.Disable();
         input.Disable();
         boosterInventory.Disable();
         pause.Disable();
         endGame.Disable();
         GameObject.Destroy(hud.gameObject);
-        GameObject.Destroy(gameBoard.gameObject);
         GameObject.Destroy(input.gameObject);
         GameObject.Destroy(boosterInventory.gameObject);
         GameObject.Destroy(pause.gameObject);

@@ -6,7 +6,7 @@ using View;
 
 namespace Presenter
 {
-    public class CounterFactory : FactoryBase<Counter, ICounterView>
+    public class CounterFactory : FactoryBase<Counter, ICounterView, ICounterPresenter>
     {
         private List<ICounterPresenter> allCounters = new();
 
@@ -14,10 +14,10 @@ namespace Presenter
         {
         }
 
-        public override ICounterView Create(Counter model)
+        public override ICounterView Create(Counter model, out ICounterPresenter presenter)
         {
             ICounterView view = GameObject.Instantiate(viewPrefab, parent);
-            ICounterPresenter presenter = new CounterPresenter();
+            presenter = new CounterPresenter();
             presenter.Enable();
             view.Init(model.Target.Icon, model.Count);
             allCounters.Add(presenter);
