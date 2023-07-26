@@ -65,9 +65,7 @@ public class CoreGameState : IState
         endGame.Init(game, input, bootstrap);
         //запуск
         hud.Enable();
-        gameBoard.Enable();
         input.Enable();
-        boosterInventory.Enable();
         pause.Enable();
         endGame.Enable();
         //создание игровых элементов
@@ -81,7 +79,6 @@ public class CoreGameState : IState
 
         hud.Disable();
         input.Disable();
-        boosterInventory.Disable();
         pause.Disable();
         endGame.Disable();
         GameObject.Destroy(hud.gameObject);

@@ -2,7 +2,7 @@
 
 namespace View
 {
-    public abstract class BoosterInventoryViewBase : MonoBehaviour
+    public abstract class ABoosterInventoryView : MonoBehaviour
     {
         public abstract Transform BoostersParent { get; }
     }

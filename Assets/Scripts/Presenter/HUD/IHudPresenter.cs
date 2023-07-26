@@ -10,7 +10,7 @@ namespace Presenter
         public GameObject gameObject { get; }
 
         public void Init(Game game,
-            FactoryBase<Counter, ICounterView, ICounterPresenter> goalFactory,
-            FactoryBase<Counter, ICounterView, ICounterPresenter> restrictionFactory);
+            AFactory<Counter, ICounterView, ICounterPresenter> goalFactory,
+            AFactory<Counter, ICounterView, ICounterPresenter> restrictionFactory);
     }
 }

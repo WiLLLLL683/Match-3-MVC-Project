@@ -6,7 +6,7 @@ using AYellowpaper;
 
 namespace Presenter
 {
-    public class CellFactory : FactoryBase<ICell_Readonly, ICellView, ICellPresenter>
+    public class CellFactory : AFactory<ICell_Readonly, ICellView, ICellPresenter>
     {
         public CellFactory(ICellView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {

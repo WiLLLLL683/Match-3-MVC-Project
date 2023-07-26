@@ -2,7 +2,7 @@
 
 namespace View
 {
-    public class BoosterInventoryView : BoosterInventoryViewBase
+    public class BoosterInventoryView : ABoosterInventoryView
     {
         [SerializeField] private Transform boostersParent;
 

@@ -12,16 +12,16 @@ namespace Presenter
     {
         private IGameBoardView view;
         private IGameBoard_Readonly model;
-        private FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
-        private FactoryBase<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
+        private AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
+        private AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
 
         private Dictionary<ICell_Readonly, ICellView> cells = new();
         private Dictionary<IBlock_Readonly, IBlockView> blocks = new();
 
         public GameBoardPresenter(IGameBoard_Readonly model,
                          IGameBoardView view,
-                         FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
-                         FactoryBase<ICell_Readonly, ICellView, ICellPresenter> cellFactory)
+                         AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
+                         AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory)
         {
             this.view = view;
             this.model = model;

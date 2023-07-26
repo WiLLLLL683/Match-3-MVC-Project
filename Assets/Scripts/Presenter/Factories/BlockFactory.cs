@@ -6,7 +6,7 @@ using AYellowpaper;
 
 namespace Presenter
 {
-    public class BlockFactory : FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter>
+    public class BlockFactory : AFactory<IBlock_Readonly, IBlockView, IBlockPresenter>
     {
         public BlockFactory(IBlockView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {

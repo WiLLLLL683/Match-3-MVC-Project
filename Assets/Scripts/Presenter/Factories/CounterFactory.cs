@@ -6,7 +6,7 @@ using View;
 
 namespace Presenter
 {
-    public class CounterFactory : FactoryBase<Counter, ICounterView, ICounterPresenter>
+    public class CounterFactory : AFactory<Counter, ICounterView, ICounterPresenter>
     {
         public CounterFactory(ICounterView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {

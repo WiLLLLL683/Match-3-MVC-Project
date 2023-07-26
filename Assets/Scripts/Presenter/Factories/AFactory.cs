@@ -8,15 +8,15 @@ using View;
 
 namespace Presenter
 {
-    public abstract class FactoryBase<TModel, TView, TPresenter>
+    public abstract class AFactory<TModel, TView, TPresenter>
         where TView : MonoBehaviour
         where TPresenter : IPresenter
     {
         protected Transform parent;
         protected TView viewPrefab;
-        protected List<TPresenter> allPresenters = new();
+        protected List<IPresenter> allPresenters = new();
 
-        protected FactoryBase(TView viewPrefab, Transform parent = null)
+        protected AFactory(TView viewPrefab, Transform parent = null)
         {
             this.viewPrefab = viewPrefab;
             this.parent = parent;

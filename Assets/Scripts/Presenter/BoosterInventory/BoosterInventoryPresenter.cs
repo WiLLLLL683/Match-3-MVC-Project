@@ -11,13 +11,13 @@ namespace Presenter
     /// </summary>
     public class BoosterInventoryPresenter : IBoosterInventoryPresenter
     {
-        private BoosterInventoryViewBase view;
+        private ABoosterInventoryView view;
         private BoosterInventory model;
-        private FactoryBase<IBooster, IBoosterView, IBoosterPresenter> factory;
+        private AFactory<IBooster, IBoosterView, IBoosterPresenter> factory;
 
         public BoosterInventoryPresenter(BoosterInventory model, 
-            BoosterInventoryViewBase view, 
-            FactoryBase<IBooster, IBoosterView, IBoosterPresenter> factory)
+            ABoosterInventoryView view, 
+            AFactory<IBooster, IBoosterView, IBoosterPresenter> factory)
         {
             this.view = view;
             this.model = model;

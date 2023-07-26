@@ -5,7 +5,7 @@ using View;
 
 namespace Presenter
 {
-    public class BoosterFactory : FactoryBase<IBooster, IBoosterView, IBoosterPresenter>
+    public class BoosterFactory : AFactory<IBooster, IBoosterView, IBoosterPresenter>
     {
         public BoosterFactory(IBoosterView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {
