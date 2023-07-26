@@ -14,6 +14,7 @@ namespace Model.Infrastructure
     /// </summary>
     public class Game
     {
+        public LevelSelection LevelSelection { get; private set; }
         public Level Level { get; private set; }
         public CurrencyInventory CurrencyInventory { get; private set; }
         public BoosterInventory BoosterInventory { get; private set; }
@@ -21,10 +22,11 @@ namespace Model.Infrastructure
         private StateMachine stateMachine;
         private AllSystems systems;
 
-        public Game()
+        public Game(LevelData[] allLevels, int currentLevelIndex)
         {
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
+            LevelSelection = new LevelSelection(allLevels, currentLevelIndex);
 
             systems = new AllSystems();
             systems.AddSystem<ISpawnSystem>(new SpawnSystem());

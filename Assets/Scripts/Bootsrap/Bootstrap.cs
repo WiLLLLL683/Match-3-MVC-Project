@@ -12,6 +12,7 @@ public class Bootstrap : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField] private PrefabConfig prefabs;
+    [SerializeField] private LevelData[] allLevels;
     [Header("Current State")]
     [SerializeField] private LevelData selectedLevel;
     public LevelData SelectedLevel => selectedLevel;
@@ -21,7 +22,7 @@ public class Bootstrap : MonoBehaviour
 
     private void Awake()
     {
-        game = new();
+        game = new(allLevels, 0); //TODO загрузка сохранения
         stateMachine = new();
         stateMachine.AddState(new MetaGameState(game, prefabs, this));
         stateMachine.AddState(new CoreGameState(game, prefabs, this));

@@ -1068,9 +1068,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3696925756734983331}
-        m_TargetAssemblyTypeName: Controller.LevelSelectionController, GameAssembly
-        m_MethodName: SelectPreviousLevel
+      - m_Target: {fileID: 3551346100761327885}
+        m_TargetAssemblyTypeName: View.LevelSelectionView, GameAssembly
+        m_MethodName: Input_Previous
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1405,9 +1405,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3696925756734983331}
-        m_TargetAssemblyTypeName: Controller.LevelSelectionController, GameAssembly
-        m_MethodName: SelectNextLevel
+      - m_Target: {fileID: 3551346100761327885}
+        m_TargetAssemblyTypeName: View.LevelSelectionView, GameAssembly
+        m_MethodName: Input_Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1434,7 +1434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3696925756734983328}
-  - component: {fileID: 3696925756734983331}
+  - component: {fileID: 3551346100761327885}
   - component: {fileID: 3696925756734983330}
   - component: {fileID: 3696925756734983341}
   - component: {fileID: 3696925756734983340}
@@ -1469,7 +1469,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &3696925756734983331
+--- !u!114 &3551346100761327885
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1478,7 +1478,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3696925756734983343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45ba597a05422dc4e94c3b4840b6de66, type: 3}
+  m_Script: {fileID: 11500000, guid: 98604cfa8ac273644880da419bf3a1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!223 &3696925756734983330
@@ -1564,18 +1564,18 @@ PrefabInstance:
     - target: {fileID: 2499065889745935589, guid: 43dfd6c903fdfb24ebe79dcc4db1229d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3696925756734983331}
+      objectReference: {fileID: 3551346100761327885}
     - target: {fileID: 2499065889745935589, guid: 43dfd6c903fdfb24ebe79dcc4db1229d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2499065889745935589, guid: 43dfd6c903fdfb24ebe79dcc4db1229d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartSelectedLevel
+      value: Input_Start
       objectReference: {fileID: 0}
     - target: {fileID: 2499065889745935589, guid: 43dfd6c903fdfb24ebe79dcc4db1229d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Controller.LevelSelectionController, GameAssembly
+      value: View.LevelSelectionView, GameAssembly
       objectReference: {fileID: 0}
     - target: {fileID: 2499065889745935589, guid: 43dfd6c903fdfb24ebe79dcc4db1229d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

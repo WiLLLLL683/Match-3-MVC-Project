@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace Presenter
 {
-    public interface ILevelSelectionController : IPresenter
+    public interface ILevelSelectionPresenter : IPresenter
     {
-        public GameObject gameObject { get; }
-
-        void Init(Game game, Bootstrap bootstrap);
         void SelectNextLevel();
         void SelectPreviousLevel();
         void StartSelectedLevel();

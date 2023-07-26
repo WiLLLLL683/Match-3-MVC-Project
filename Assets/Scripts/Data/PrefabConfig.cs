@@ -12,7 +12,7 @@ namespace Data
     public class PrefabConfig : ScriptableObject
     {
         [Header("Meta Game Screens")]
-        public InterfaceReference<ILevelSelectionController, MonoBehaviour> levelSelectionPrefab;
+        public ALevelSelectionView levelSelectionPrefab;
         public Canvas backgroundPrefab;
         public Canvas headerPrefab;
         [Header("Core Game Screens")]

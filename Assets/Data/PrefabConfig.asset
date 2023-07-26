@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595038e7edbfaf24b8a50aa3fb25b703, type: 3}
   m_Name: PrefabConfig
   m_EditorClassIdentifier: 
-  levelSelectionPrefab:
-    _underlyingValue: {fileID: 3696925756734983331, guid: fe6268b5c759c7349b3f2f0dbf06b362, type: 3}
+  levelSelectionPrefab: {fileID: 3551346100761327885, guid: fe6268b5c759c7349b3f2f0dbf06b362, type: 3}
   backgroundPrefab: {fileID: 714966426420018354, guid: 594244e0d6efa6744804b1e21ffc8f78, type: 3}
   headerPrefab: {fileID: 2115648654558851451, guid: 9413e9376c9d00d409988275c8911050, type: 3}
   hudPrefab: {fileID: 8529698613963487530, guid: da23743b13a17bb4d879b4be4ab3ac0a, type: 3}

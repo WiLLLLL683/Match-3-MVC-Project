@@ -10,9 +10,10 @@ public class MetaGameState : IState
     private PrefabConfig prefabs;
     private Bootstrap bootstrap;
 
-    private ILevelSelectionController levelSelection;
+    private ILevelSelectionPresenter levelSelection;
     private Canvas background;
     private Canvas header;
+    private LevelSelectionFactory levelSelectionFactory;
 
     public MetaGameState(Game game, PrefabConfig prefabs, Bootstrap bootstrap)
     {
@@ -23,19 +24,18 @@ public class MetaGameState : IState
 
     public void OnStart()
     {
+        levelSelectionFactory = new LevelSelectionFactory(prefabs.levelSelectionPrefab, bootstrap);
+
         //создание окон вью
-        levelSelection = (ILevelSelectionController)GameObject.Instantiate(prefabs.levelSelectionPrefab.UnderlyingValue);
+        levelSelectionFactory.Create(game.LevelSelection, out levelSelection);
         background = GameObject.Instantiate(prefabs.backgroundPrefab);
         header = GameObject.Instantiate(prefabs.headerPrefab);
+
         //TODO game.StartMetaGame();
-        //инициализация
-        levelSelection.Init(game, bootstrap);
-        levelSelection.Enable();
     }
     public void OnEnd()
     {
-        levelSelection.Disable();
-        GameObject.Destroy(levelSelection.gameObject);
+        levelSelectionFactory.Clear();
         GameObject.Destroy(background.gameObject);
         GameObject.Destroy(header.gameObject);
     }
