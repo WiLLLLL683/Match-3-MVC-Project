@@ -8,8 +8,6 @@ namespace Presenter
 {
     public class BlockFactory : FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter>
     {
-        private List<IBlockPresenter> allBlocks = new();
-
         public BlockFactory(IBlockView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {
         }
@@ -20,17 +18,8 @@ namespace Presenter
             presenter = new BlockPresenter(model, view);
             presenter.Enable();
             view.Init(model.Type, model.Position);
-            allBlocks.Add(presenter);
+            allPresenters.Add(presenter);
             return view;
-        }
-        public override void Clear()
-        {
-            for (int i = 0; i < allBlocks.Count; i++)
-            {
-                allBlocks[i].Destroy(null);
-            }
-
-            allBlocks.Clear();
         }
     }
 }

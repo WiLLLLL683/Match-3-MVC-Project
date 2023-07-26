@@ -8,8 +8,6 @@ namespace Presenter
 {
     public class CounterFactory : FactoryBase<Counter, ICounterView, ICounterPresenter>
     {
-        private List<ICounterPresenter> allCounters = new();
-
         public CounterFactory(ICounterView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
         {
         }
@@ -20,17 +18,8 @@ namespace Presenter
             presenter = new CounterPresenter();
             presenter.Enable();
             view.Init(model.Target.Icon, model.Count);
-            allCounters.Add(presenter);
+            allPresenters.Add(presenter);
             return view;
-        }
-        public override void Clear()
-        {
-            for (int i = 0; i < allCounters.Count; i++)
-            {
-                allCounters[i].Destroy();
-            }
-
-            allCounters.Clear();
         }
     }
 }

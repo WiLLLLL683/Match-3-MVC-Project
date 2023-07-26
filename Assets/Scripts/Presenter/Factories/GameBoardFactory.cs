@@ -7,7 +7,6 @@ using View;
 
 public class GameBoardFactory : FactoryBase<IGameBoard_Readonly, IGameBoardView, IGameBoardPresenter>
 {
-    private IGameBoardPresenter presenter;
     private readonly FactoryBase<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
     private readonly FactoryBase<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
 
@@ -24,12 +23,9 @@ public class GameBoardFactory : FactoryBase<IGameBoard_Readonly, IGameBoardView,
     public override IGameBoardView Create(IGameBoard_Readonly model, out IGameBoardPresenter presenter)
     {
         IGameBoardView view = GameObject.Instantiate(viewPrefab, parent);
-        this.presenter = presenter = new GameBoardPresenter(model, view, blockFactory, cellFactory);
+        presenter = new GameBoardPresenter(model, view, blockFactory, cellFactory);
         presenter.Enable();
+        allPresenters.Add(presenter);
         return view;
-    }
-    public override void Clear()
-    {
-        presenter.Destroy();
     }
 }

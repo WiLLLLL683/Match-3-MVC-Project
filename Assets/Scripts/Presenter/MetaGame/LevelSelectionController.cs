@@ -27,6 +27,10 @@ namespace Presenter
         {
 
         }
+        public void Destroy()
+        {
+            Disable();
+        }
 
         public void SelectPreviousLevel()
         {

@@ -1,15 +1,20 @@
 ﻿using AYellowpaper;
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using View;
 
 namespace Presenter
 {
-    public abstract class FactoryBase<TModel, TView, TPresenter> where TView : MonoBehaviour
+    public abstract class FactoryBase<TModel, TView, TPresenter>
+        where TView : MonoBehaviour
+        where TPresenter : IPresenter
     {
         protected Transform parent;
         protected TView viewPrefab;
+        protected List<TPresenter> allPresenters = new();
 
         protected FactoryBase(TView viewPrefab, Transform parent = null)
         {
@@ -18,10 +23,18 @@ namespace Presenter
         }
 
         public abstract TView Create(TModel model, out TPresenter presenter);
-        public abstract void Clear();
 
         public TView Create(TModel model) => Create(model, out _);
         public void SetParent(Transform parent) => this.parent = parent;
+        public void Clear()
+        {
+            for (int i = 0; i < allPresenters.Count; i++)
+            {
+                allPresenters[i].Destroy();
+            }
+
+            allPresenters.Clear();
+        }
         public void ClearParent()
         {
             if (parent == null)

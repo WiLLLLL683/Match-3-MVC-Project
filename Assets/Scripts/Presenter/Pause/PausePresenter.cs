@@ -26,6 +26,10 @@ namespace Presenter
         {
 
         }
+        public void Destroy()
+        {
+            Disable();
+        }
 
         //функционал кнопок
         public void ShowPauseMenu()

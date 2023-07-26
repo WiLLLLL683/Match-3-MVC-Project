@@ -27,14 +27,15 @@ namespace Presenter
             model.OnEmpty -= Empty;
             model.OnTypeChange -= ChangeType;
         }
-        public void Destroy(ICell_Readonly cell)
+        public void Destroy() => Destroy(model);
+
+
+
+        private void Destroy(ICell_Readonly cell)
         {
             Disable();
             view.PlayDestroyEffect();
         }
-
-
-
         private void ChangeType(ACellType type) => view.ChangeType(type);
         private void Empty(ICell_Readonly cell) => view.PlayEmptyEffect();
     }

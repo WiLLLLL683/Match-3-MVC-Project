@@ -12,7 +12,6 @@ namespace Presenter
     /// </summary>
     public interface IGameBoardPresenter : IPresenter
     {
-        public void Destroy();
         public void SpawnBlocks();
         public void SpawnCells();
         public IBlockView GetBlockView(Vector2Int modelPosition);

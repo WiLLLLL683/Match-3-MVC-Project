@@ -4,6 +4,5 @@ using UnityEngine;
 
 public interface ICounterPresenter : IPresenter
 {
-    public void Destroy();
 
 }

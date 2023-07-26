@@ -34,12 +34,7 @@ namespace Presenter
             model.OnPositionChange -= SyncPosition;
             model.OnTypeChange -= ChangeType;
         }
-        public void Destroy(IBlock_Readonly block)
-        {
-            Disable();
-            view.PlayDestroyEffect();
-            GameObject.Destroy(view.gameObject);
-        }
+        public void Destroy() => Destroy(model);
         public void Move(Directions direction)
         {
             Debug.Log("Move");
@@ -55,5 +50,11 @@ namespace Presenter
 
         private void SyncPosition(Vector2Int modelPosition) => view.ChangeModelPosition(modelPosition);
         private void ChangeType(ABlockType type) => view.ChangeType(type);
+        private void Destroy(IBlock_Readonly block)
+        {
+            Disable();
+            view.PlayDestroyEffect();
+            GameObject.Destroy(view.gameObject);
+        }
     }
 }

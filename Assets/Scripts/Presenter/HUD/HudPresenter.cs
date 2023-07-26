@@ -35,5 +35,9 @@ namespace Presenter
         {
 
         }
+        public void Destroy()
+        {
+            Disable();
+        }
     }
 }
