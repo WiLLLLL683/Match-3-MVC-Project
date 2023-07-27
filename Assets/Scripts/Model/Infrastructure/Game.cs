@@ -18,7 +18,8 @@ namespace Model.Infrastructure
         public Level Level { get; private set; }
         public CurrencyInventory CurrencyInventory { get; private set; }
         public BoosterInventory BoosterInventory { get; private set; }
-        
+        public PlayerSettings PlayerSettings { get; private set; }
+
         private StateMachine stateMachine;
         private AllSystems systems;
 
