@@ -2,6 +2,7 @@
 using Model.Infrastructure;
 using Model.Readonly;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -11,6 +12,27 @@ namespace Presenter
     /// </summary>
     public class LevelSelectorPresenter : ISelectorPresenter
     {
+        /// <summary>
+        /// Реализация фабрики использующая класс презентера в котором находится.
+        /// </summary>
+        public class Factory : AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter>
+        {
+            private readonly Bootstrap bootstrap;
+            public Factory(ASelectorView viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab, parent)
+            {
+                this.bootstrap = bootstrap;
+            }
+
+            public override ISelectorPresenter Connect(ASelectorView existingView, ILevelSelection_Readonly model)
+            {
+                var presenter = new LevelSelectorPresenter(model, existingView, bootstrap);
+                presenter.Enable();
+                existingView.Init(model.CurrentLevelData.Icon, model.CurrentLevelData.LevelName);
+                allPresenters.Add(presenter);
+                return presenter;
+            }
+        }
+        
         private ILevelSelection_Readonly model;
         private ASelectorView view;
         private Bootstrap bootstrap;

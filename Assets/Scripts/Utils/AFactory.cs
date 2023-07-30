@@ -6,14 +6,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using View;
 
-namespace Presenter
+namespace Utils
 {
     /// <summary>
     /// Фабрика для создания вью, презентеров и связывания их с моделью
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
-    /// <typeparam name="TView"></typeparam>
-    /// <typeparam name="TPresenter"></typeparam>
     public abstract class AFactory<TModel, TView, TPresenter>
         where TView : MonoBehaviour
         where TPresenter : IPresenter
@@ -29,16 +26,21 @@ namespace Presenter
         }
 
         /// <summary>
-        /// Создать новый объект вью, создать презентер и соединить их с моделью
-        /// Возвращает новый вью и новый презентер
-        /// </summary>
-        public abstract TView CreateView(TModel model, out TPresenter presenter);
-
-        /// <summary>
         /// Связать существующий объект вью с моделью
         /// Возвращает новый презентер
         /// </summary>
         public abstract TPresenter Connect(TView existingView, TModel model);
+
+        /// <summary>
+        /// Создать новый объект вью, создать презентер и соединить их с моделью
+        /// Возвращает новый вью и новый презентер
+        /// </summary>
+        public virtual TView CreateView(TModel model, out TPresenter presenter)
+        {
+            var view = GameObject.Instantiate(viewPrefab, parent);
+            presenter = Connect(view, model);
+            return view;
+        }
 
         /// <summary>
         /// Создать новый объект вью, создать презентер и соединить их с моделью

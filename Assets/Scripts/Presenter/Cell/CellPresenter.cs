@@ -2,11 +2,31 @@
 using View;
 using Data;
 using UnityEngine;
+using Utils;
 
 namespace Presenter
 {
     public class CellPresenter : ICellPresenter
     {
+        /// <summary>
+        /// Реализация фабрики использующая класс презентера в котором находится.
+        /// </summary>
+        public class Factory : AFactory<ICell_Readonly, ICellView, ICellPresenter>
+        {
+            public Factory(ICellView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
+            {
+            }
+
+            public override ICellPresenter Connect(ICellView existingView, ICell_Readonly model)
+            {
+                var presenter = new CellPresenter(model, existingView);
+                existingView.Init(model.Position, model.Type);
+                allPresenters.Add(presenter);
+                presenter.Enable();
+                return presenter;
+            }
+        }
+        
         private ICell_Readonly model;
         private ICellView view;
 

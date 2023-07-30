@@ -2,11 +2,31 @@
 using View;
 using Data;
 using Model.Readonly;
+using Utils;
 
 namespace Presenter
 {
     public class BlockPresenter : IBlockPresenter
     {
+        /// <summary>
+        /// Реализация фабрики использующая класс презентера в котором находится.
+        /// </summary>
+        public class Factory : AFactory<IBlock_Readonly, IBlockView, IBlockPresenter>
+        {
+            public Factory(IBlockView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
+            {
+            }
+
+            public override IBlockPresenter Connect(IBlockView existingView, IBlock_Readonly model)
+            {
+                var presenter = new BlockPresenter(model, existingView);
+                presenter.Enable();
+                existingView.Init(model.Type, model.Position);
+                allPresenters.Add(presenter);
+                return presenter;
+            }
+        }
+        
         private IBlock_Readonly model;
         private IBlockView view;
 

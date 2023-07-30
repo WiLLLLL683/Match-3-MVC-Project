@@ -10,9 +10,9 @@ using View;
 public class CoreGameState : IState
 {
     //зависимости
-    private Game game;
-    private PrefabConfig prefabs;
-    private Bootstrap bootstrap;
+    private readonly Game game;
+    private readonly PrefabConfig prefabs;
+    private readonly Bootstrap bootstrap;
 
     //экраны
     private AGameBoardScreen gameBoardScreen;
@@ -23,11 +23,11 @@ public class CoreGameState : IState
     private AEndGameScreen endGameScreen;
 
     //фабрики игровых элементов
-    private BlockFactory blockFactory;
-    private CellFactory cellFactory;
-    private CounterFactory goalFactory;
-    private CounterFactory restrictionFactory;
-    private BoosterFactory boosterFactory;
+    private AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
+    private AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
+    private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory;
+    private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory;
+    private AFactory<IBooster, IBoosterView, IBoosterPresenter> boosterFactory;
 
     public CoreGameState(Game game, PrefabConfig prefabs, Bootstrap bootstrap)
     {
@@ -42,11 +42,11 @@ public class CoreGameState : IState
         game.StartCoreGame(bootstrap.SelectedLevel);
 
         //создание фабрик игровых элементов
-        blockFactory = new BlockFactory(prefabs.blockPrefab);
-        cellFactory = new CellFactory(prefabs.cellPrefab);
-        goalFactory = new CounterFactory(prefabs.goalCounterPrefab);
-        restrictionFactory = new CounterFactory(prefabs.restrictionCounterPrefab);
-        boosterFactory = new BoosterFactory(prefabs.boosterPrefab);
+        blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab);
+        cellFactory = new CellPresenter.Factory(prefabs.cellPrefab);
+        goalFactory = new CounterPresenter.Factory(prefabs.goalCounterPrefab);
+        restrictionFactory = new CounterPresenter.Factory(prefabs.restrictionCounterPrefab);
+        boosterFactory = new BoosterPresenter.Factory(prefabs.boosterPrefab);
 
         //создание экранов и инпута
         gameBoardScreen = AGameBoardScreen.Create(prefabs.gameBoardPrefab, game.Level.gameBoard, blockFactory, cellFactory);

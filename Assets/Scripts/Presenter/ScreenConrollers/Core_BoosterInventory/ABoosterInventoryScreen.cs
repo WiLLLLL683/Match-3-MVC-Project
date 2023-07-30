@@ -3,6 +3,7 @@ using Model.Infrastructure;
 using Model.Objects;
 using UnityEngine;
 using View;
+using Utils;
 
 namespace Presenter
 {
@@ -18,7 +19,7 @@ namespace Presenter
         /// </summary>
         public static ABoosterInventoryScreen Create(ABoosterInventoryScreen prefab,
             BoosterInventory model,
-            BoosterFactory factory)
+            AFactory<IBooster, IBoosterView, IBoosterPresenter> factory)
         {
             var screen = GameObject.Instantiate(prefab);
             screen.Init(model, factory);

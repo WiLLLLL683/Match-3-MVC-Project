@@ -9,14 +9,17 @@ using View;
 
 public class MetaGameState : IState
 {
-    private Game game;
-    private PrefabConfig prefabs;
-    private Bootstrap bootstrap;
+    //зависимости
+    private readonly Game game;
+    private readonly PrefabConfig prefabs;
+    private readonly Bootstrap bootstrap;
 
+    //экраны
     private ALevelSelectionScreen levelSelectionScreen;
     private ABackgroundScreen backgroundScreen;
     private AHeaderScreen headerScreen;
 
+    //фабрики игровых элементов
     private AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> scoreFactory;
     private AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter> selectorFactory;
 
@@ -32,10 +35,10 @@ public class MetaGameState : IState
         //TODO game.StartMetaGame();
 
         //создание фабрик игровых элементов
-        scoreFactory = new CurrencyFactory(prefabs.scorePrefab);
-        selectorFactory = new LevelSelectorFactory(prefabs.selectorPrefab, bootstrap);
+        scoreFactory = new CurrencyPresenter.Factory(prefabs.scorePrefab);
+        selectorFactory = new LevelSelectorPresenter.Factory(prefabs.selectorPrefab, bootstrap);
 
-        //создание окон вью
+        //создание экранов
         levelSelectionScreen = ALevelSelectionScreen.Create(prefabs.levelSelectionPrefab, game.LevelSelection, selectorFactory);
         headerScreen = AHeaderScreen.Create(prefabs.headerPrefab, game.CurrencyInventory, scoreFactory);
         backgroundScreen = ABackgroundScreen.Create(prefabs.backgroundPrefab);
