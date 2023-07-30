@@ -13,12 +13,12 @@ namespace Data
     {
         [Header("Meta Game Screens")]
         public ALevelSelectionScreen levelSelectionPrefab;
-        public Canvas backgroundPrefab;
+        public ABackgroundScreen backgroundPrefab;
         public AHeaderScreen headerPrefab;
         [Header("Core Game Screens")]
         public AHudScreen hudPrefab;
         public AGameBoardScreen gameBoardPrefab;
-        public InterfaceReference<IInput, MonoBehaviour> inputPrefab;
+        public AInput inputPrefab;
         public ABoosterInventoryScreen boosterInventoryPrefab;
         public APauseScreen pausePrefab;
         public AEndGameScreen endGamePrefab;

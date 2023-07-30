@@ -10,9 +10,9 @@ namespace Presenter
         [SerializeField] private AEndGamePopUp defeatPopUp;
 
         private Game game;
-        private IInput input;
+        private AInput input;
 
-        public override void Init(Game game, IInput input)
+        public override void Init(Game game, AInput input)
         {
             this.game = game;
             this.input = input;

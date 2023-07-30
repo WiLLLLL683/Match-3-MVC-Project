@@ -10,10 +10,10 @@ namespace Presenter
         [SerializeField] private APausePopUp pausePopUp;
 
         private PlayerSettings settings;
-        private IInput input;
+        private AInput input;
         private Bootstrap bootstrap;
 
-        public override void Init(PlayerSettings settings, IInput input, Bootstrap bootstrap)
+        public override void Init(PlayerSettings settings, AInput input, Bootstrap bootstrap)
         {
             this.settings = settings;
             this.input = input;

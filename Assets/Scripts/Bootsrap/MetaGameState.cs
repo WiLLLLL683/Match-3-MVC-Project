@@ -14,7 +14,7 @@ public class MetaGameState : IState
     private Bootstrap bootstrap;
 
     private ALevelSelectionScreen levelSelectionScreen;
-    private Canvas backgroundScreen;
+    private ABackgroundScreen backgroundScreen;
     private AHeaderScreen headerScreen;
 
     private AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> scoreFactory;
@@ -29,39 +29,16 @@ public class MetaGameState : IState
 
     public void OnStart()
     {
+        //TODO game.StartMetaGame();
+
         //создание фабрик игровых элементов
         scoreFactory = new CurrencyFactory(prefabs.scorePrefab);
         selectorFactory = new LevelSelectorFactory(prefabs.selectorPrefab, bootstrap);
 
         //создание окон вью
-        levelSelectionScreen = CreateLevelSelectionScreen(game.LevelSelection, selectorFactory);
-        headerScreen = CreateHeaderScreen(game.CurrencyInventory, scoreFactory);
-        backgroundScreen = CreateBackgroundScreen();
-
-        //TODO game.StartMetaGame();
-    }
-
-    private Canvas CreateBackgroundScreen()
-    {
-        var backgroundScreen = GameObject.Instantiate(prefabs.backgroundPrefab);
-        backgroundScreen.gameObject.SetActive(true);
-        return backgroundScreen;
-    }
-
-    private AHeaderScreen CreateHeaderScreen(CurrencyInventory currencyInventory, AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> scoreFactory)
-    {
-        var headerScreen = GameObject.Instantiate(prefabs.headerPrefab);
-        headerScreen.Init(currencyInventory, scoreFactory);
-        headerScreen.Enable();
-        return headerScreen;
-    }
-
-    private ALevelSelectionScreen CreateLevelSelectionScreen(LevelSelection levelSelection, AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter> selectorFactory)
-    {
-        var levelSelectionScreen = GameObject.Instantiate(prefabs.levelSelectionPrefab);
-        levelSelectionScreen.Init(levelSelection, selectorFactory);
-        levelSelectionScreen.Enable();
-        return levelSelectionScreen;
+        levelSelectionScreen = ALevelSelectionScreen.Create(prefabs.levelSelectionPrefab, game.LevelSelection, selectorFactory);
+        headerScreen = AHeaderScreen.Create(prefabs.headerPrefab, game.CurrencyInventory, scoreFactory);
+        backgroundScreen = ABackgroundScreen.Create(prefabs.backgroundPrefab);
     }
 
     public void OnEnd()

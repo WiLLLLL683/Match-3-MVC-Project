@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: PrefabConfig
   m_EditorClassIdentifier: 
   levelSelectionPrefab: {fileID: -6381335513983084413, guid: fe6268b5c759c7349b3f2f0dbf06b362, type: 3}
-  backgroundPrefab: {fileID: 714966426420018354, guid: 594244e0d6efa6744804b1e21ffc8f78, type: 3}
+  backgroundPrefab: {fileID: 3684543264985260242, guid: 594244e0d6efa6744804b1e21ffc8f78, type: 3}
   headerPrefab: {fileID: 3803329611395331382, guid: 9413e9376c9d00d409988275c8911050, type: 3}
   hudPrefab: {fileID: 8184376648391503080, guid: da23743b13a17bb4d879b4be4ab3ac0a, type: 3}
   gameBoardPrefab: {fileID: 7606719982679021896, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
-  inputPrefab:
-    _underlyingValue: {fileID: 879022936496586446, guid: 2727a4abd4d283240a0410e268d3f2a0, type: 3}
+  inputPrefab: {fileID: 879022936496586446, guid: 2727a4abd4d283240a0410e268d3f2a0, type: 3}
   boosterInventoryPrefab: {fileID: 398985018832180286, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
   pausePrefab: {fileID: 2011612834500659584, guid: f8e5d33a0fc616348be38b6903bc52ee, type: 3}
   endGamePrefab: {fileID: 4541353517702387544, guid: b6b485faab3daa045b795bf70f50446e, type: 3}

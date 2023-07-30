@@ -10,5 +10,20 @@ namespace Presenter
     {
         public abstract void Init(BoosterInventory model,
             AFactory<IBooster, IBoosterView, IBoosterPresenter> factory);
+
+        /// <summary>
+        /// Factory-method
+        /// Находится здесь, так как нет необходимости передавать объект фабрики как зависимость.
+        /// Экран создается только из Bootstrap.
+        /// </summary>
+        public static ABoosterInventoryScreen Create(ABoosterInventoryScreen prefab,
+            BoosterInventory model,
+            BoosterFactory factory)
+        {
+            var screen = GameObject.Instantiate(prefab);
+            screen.Init(model, factory);
+            screen.Enable();
+            return screen;
+        }
     }
 }

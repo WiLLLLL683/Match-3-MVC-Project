@@ -8,7 +8,7 @@ namespace View
     /// Перетаскивает вью блоков при свайпе по экрану, вызывает соответствующий метод инпута во вью блока при отпускании.<br/>
     /// Нажатия на экран отслеживаются в Update, выделение блока происходит через raycast, противоположный блок получается из IGameBoardPresenter
     /// </summary>
-    public class Input_Touch : MonoBehaviour, IInput
+    public class Input_Touch : AInput
     {
         [SerializeField] private Camera mainCamera;
         [SerializeField] private float minSwipeDistance = 0.6f;
@@ -24,7 +24,7 @@ namespace View
         private float timer;
         private AGameBoardScreen gameBoardPresenter;
 
-        public void Init(AGameBoardScreen gameBoardPresenter)
+        public override void Init(AGameBoardScreen gameBoardPresenter)
         {
             mainCamera = Camera.main;
             this.gameBoardPresenter = gameBoardPresenter;
@@ -67,8 +67,8 @@ namespace View
                 ClearSelection();
             }
         }
-        public void Enable() => enabled = true;
-        public void Disable() => enabled = false;
+        public override void Enable() => enabled = true;
+        public override void Disable() => enabled = false;
 
 
 
