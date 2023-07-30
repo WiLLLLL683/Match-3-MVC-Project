@@ -4,6 +4,7 @@ using UnityEngine;
 using Data;
 using Model.Systems;
 using Model.Readonly;
+using System;
 
 namespace Model.Objects
 {
@@ -21,6 +22,9 @@ namespace Model.Objects
         public Balance balance { get; private set; }
         public Pattern[] matchPatterns { get; private set; }
         public HintPattern[] hintPatterns { get; private set; }
+
+        public event Action OnWin;
+        public event Action OnLose;
 
         /// <summary>
         /// Создание уровня исходя из данных с пустым игровым полем
@@ -77,6 +81,7 @@ namespace Model.Objects
                     return false;
             }
 
+            OnWin?.Invoke();
             return true;
         }
 
@@ -88,7 +93,10 @@ namespace Model.Objects
             for (int i = 0; i < restrictions.Length; i++)
             {
                 if (restrictions[i].isCompleted)
+                {
+                    OnLose?.Invoke();
                     return true;
+                }
             }
 
             return false;

@@ -31,5 +31,6 @@ namespace Data
         public ICounterView scorePrefab;
         public ASelectorView selectorPrefab;
         public APausePopUp pausePopUpPrefab;
+        public AEndGamePopUp endGamePopUpPrefab;
     }
 }

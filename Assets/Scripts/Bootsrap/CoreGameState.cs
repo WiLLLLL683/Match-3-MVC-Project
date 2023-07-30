@@ -29,6 +29,7 @@ public class CoreGameState : IState
     private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory;
     private AFactory<IBooster, IBoosterView, IBoosterPresenter> boosterFactory;
     private AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> pausePopUpFactory;
+    private AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> endGamePopUpFactory;
 
     public CoreGameState(Game game, PrefabConfig prefabs, Bootstrap bootstrap)
     {
@@ -49,6 +50,7 @@ public class CoreGameState : IState
         restrictionFactory = new CounterPresenter.Factory(prefabs.restrictionCounterPrefab);
         boosterFactory = new BoosterPresenter.Factory(prefabs.boosterPrefab);
         pausePopUpFactory = new PausePopUpPresenter.Factory(prefabs.pausePopUpPrefab, bootstrap);
+        endGamePopUpFactory = new EndGamePopUpPresenter.Factory(prefabs.endGamePopUpPrefab, bootstrap);
 
         //создание экранов и инпута
         gameBoardScreen = AGameBoardScreen.Create(prefabs.gameBoardPrefab, game.Level.gameBoard, blockFactory, cellFactory);
@@ -56,7 +58,7 @@ public class CoreGameState : IState
         hudScreen = AHudScreen.Create(prefabs.hudPrefab, game.Level, goalFactory, restrictionFactory);
         boosterInventoryScreen = ABoosterInventoryScreen.Create(prefabs.boosterInventoryPrefab, game.BoosterInventory, boosterFactory);
         pauseScreen = APauseScreen.Create(prefabs.pausePrefab, game.PlayerSettings, game, pausePopUpFactory, input);
-        endGameScreen = AEndGameScreen.Create(prefabs.endGamePrefab, game, input);
+        endGameScreen = AEndGameScreen.Create(prefabs.endGamePrefab, game.Level, input, endGamePopUpFactory);
     }
     public void OnEnd()
     {

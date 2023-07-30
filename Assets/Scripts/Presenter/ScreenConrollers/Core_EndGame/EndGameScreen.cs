@@ -1,5 +1,7 @@
 ﻿using Model.Infrastructure;
+using Model.Readonly;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -9,39 +11,45 @@ namespace Presenter
         [SerializeField] private AEndGamePopUp completePopUp;
         [SerializeField] private AEndGamePopUp defeatPopUp;
 
-        private Game game;
+        private ILevel_Readonly model;
         private AInput input;
+        private AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> factory;
 
-        public override void Init(Game game, AInput input)
+        public override void Init(ILevel_Readonly model, AInput input, AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> factory)
         {
-            this.game = game;
+            this.model = model;
             this.input = input;
+            this.factory = factory;
         }
         public override void Enable()
         {
-            //TODO
+            factory.Connect(completePopUp, model);
+            factory.Connect(defeatPopUp, model);
+            model.OnLose += ShowDefeatPopUp;
+            model.OnWin += ShowCompletePopUp;
+
             Debug.Log($"{this} enabled", this);
         }
         public override void Disable()
         {
-            //TODO
+            model.OnLose -= ShowDefeatPopUp;
+            model.OnWin -= ShowCompletePopUp;
+            
             Debug.Log($"{this} disabled", this);
         }
 
-        public override void OnLevelComplete()
+        public override void ShowCompletePopUp()
         {
             input.Disable();
 
             defeatPopUp.Hide();
-            completePopUp.UpdateScore(4221, 3); //TODO брать счет из модели
             completePopUp.Show();
         }
-        public override void OnDefeat()
+        public override void ShowDefeatPopUp()
         {
             input.Disable();
 
             completePopUp.Hide();
-            defeatPopUp.UpdateScore(42); //TODO брать счет из модели
             defeatPopUp.Show();
         }
     }
