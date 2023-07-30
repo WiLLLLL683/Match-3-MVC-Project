@@ -11,13 +11,19 @@ namespace Presenter
         {
         }
 
-        public override IBoosterView Create(IBooster model, out IBoosterPresenter presenter)
+        public override IBoosterPresenter Connect(IBoosterView existingView, IBooster model)
         {
-            IBoosterView view = GameObject.Instantiate(viewPrefab, parent);
-            presenter = new BoosterPresenter(view, model);
-            view.Init(model.Icon, model.Amount);
+            var presenter = new BoosterPresenter(existingView, model);
+            existingView.Init(model.Icon, model.Amount);
             allPresenters.Add(presenter);
             presenter.Enable();
+            return presenter;
+        }
+
+        public override IBoosterView CreateView(IBooster model, out IBoosterPresenter presenter)
+        {
+            var view = GameObject.Instantiate(viewPrefab, parent);
+            presenter = Connect(view, model);
             return view;
         }
     }

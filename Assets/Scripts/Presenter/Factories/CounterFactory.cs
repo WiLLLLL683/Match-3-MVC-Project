@@ -11,13 +11,19 @@ namespace Presenter
         {
         }
 
-        public override ICounterView Create(ICounter_Readonly model, out ICounterPresenter presenter)
+        public override ICounterPresenter Connect(ICounterView existingView, ICounter_Readonly model)
+        {
+            var presenter = new CounterPresenter();
+            presenter.Enable();
+            existingView.Init(model.Target.Icon, model.Count);
+            allPresenters.Add(presenter);
+            return presenter;
+        }
+
+        public override ICounterView CreateView(ICounter_Readonly model, out ICounterPresenter presenter)
         {
             ICounterView view = GameObject.Instantiate(viewPrefab, parent);
-            presenter = new CounterPresenter();
-            presenter.Enable();
-            view.Init(model.Target.Icon, model.Count);
-            allPresenters.Add(presenter);
+            presenter = Connect(view, model);
             return view;
         }
     }

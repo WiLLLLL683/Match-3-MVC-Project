@@ -19,14 +19,19 @@ namespace Data
         public Balance Balance => balance.Clone();
         public Pattern[] MatchPatterns => (Pattern[])matchPatterns.Clone();
         public HintPattern[] HintPatterns => (HintPattern[])hintPatterns.Clone();
-        [SerializeReference] public ACellType[] cellTypes;
+        public Sprite Icon => icon;
+        public string LevelName => levelName;
 
+
+        [SerializeReference] public ACellType[] cellTypes;
         [SerializeField] private Array2DCellTypeEnum gameBoard;
         [SerializeField] private Model.Objects.Counter[] goals;
         [SerializeField] private Model.Objects.Counter[] restrictions;
         [SerializeField] private Balance balance;
         [SerializeField] private Pattern[] matchPatterns;
         [SerializeField] private HintPattern[] hintPatterns;
+        [SerializeField] private Sprite icon;
+        [SerializeField] private string levelName;
 
         private GameBoard GetGameboardData()
         {

@@ -12,21 +12,23 @@ namespace Data
     public class PrefabConfig : ScriptableObject
     {
         [Header("Meta Game Screens")]
-        public ALevelSelectionView levelSelectionPrefab;
+        public ALevelSelectionScreen levelSelectionPrefab;
         public Canvas backgroundPrefab;
-        public Canvas headerPrefab;
+        public AHeaderScreen headerPrefab;
         [Header("Core Game Screens")]
-        public AHudView hudPrefab;
-        public AGameBoardView gameBoardPrefab;
+        public AHudScreen hudPrefab;
+        public AGameBoardScreen gameBoardPrefab;
         public InterfaceReference<IInput, MonoBehaviour> inputPrefab;
-        public ABoosterInventoryView boosterInventoryPrefab;
-        public InterfaceReference<IPausePresenter, MonoBehaviour> pausePrefab;
-        public AEndGameView endGamePrefab;
+        public ABoosterInventoryScreen boosterInventoryPrefab;
+        public APauseScreen pausePrefab;
+        public AEndGameScreen endGamePrefab;
         [Header("Elements")]
         public IBlockView blockPrefab;
         public ICellView cellPrefab;
         public IBoosterView boosterPrefab;
         public ICounterView goalCounterPrefab;
         public ICounterView restrictionCounterPrefab;
+        public ICounterView scorePrefab;
+        public ASelectorView selectorPrefab;
     }
 }

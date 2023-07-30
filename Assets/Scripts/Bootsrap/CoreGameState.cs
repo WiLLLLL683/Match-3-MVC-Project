@@ -1,5 +1,7 @@
 ﻿using Data;
 using Model.Infrastructure;
+using Model.Objects;
+using Model.Readonly;
 using Presenter;
 using UnityEngine;
 using Utils;
@@ -11,22 +13,18 @@ public class CoreGameState : IState
     private PrefabConfig prefabs;
     private Bootstrap bootstrap;
 
-    private IHudPresenter hud;
-    private IGameBoardPresenter gameBoard;
     private IInput input;
-    private IBoosterInventoryPresenter boosterInventory;
-    private IPausePresenter pause;
-    private IEndGamePresenter endGame;
+    private AHudScreen hudScreen;
+    private AGameBoardScreen gameBoardScreen;
+    private ABoosterInventoryScreen boosterInventoryScreen;
+    private APauseScreen pauseScreen;
+    private AEndGameScreen endGameScreen;
 
     private BlockFactory blockFactory;
     private CellFactory cellFactory;
     private CounterFactory goalFactory;
     private CounterFactory restrictionFactory;
     private BoosterFactory boosterFactory;
-    private BoosterInventoryFactory boosterInventoryFactory;
-    private GameBoardFactory gameBoardFactory;
-    private EndGameFactory endGameFactory;
-    private HudFactory hudFactory;
 
     public CoreGameState(Game game, PrefabConfig prefabs, Bootstrap bootstrap)
     {
@@ -47,40 +45,79 @@ public class CoreGameState : IState
         restrictionFactory = new CounterFactory(prefabs.restrictionCounterPrefab);
         boosterFactory = new BoosterFactory(prefabs.boosterPrefab);
 
-        //создание фабрик экранов
-        boosterInventoryFactory = new BoosterInventoryFactory(prefabs.boosterInventoryPrefab, boosterFactory);
-        gameBoardFactory = new GameBoardFactory(prefabs.gameBoardPrefab, blockFactory, cellFactory);
-        endGameFactory = new EndGameFactory(prefabs.endGamePrefab, input, bootstrap);
-        hudFactory = new HudFactory(prefabs.hudPrefab, goalFactory, restrictionFactory);
-
         //создание экранов
-        boosterInventoryFactory.Create(game.BoosterInventory, out boosterInventory);
-        gameBoardFactory.Create(game.Level.gameBoard, out gameBoard);
-        endGameFactory.Create(game, out endGame);
-        hudFactory.Create(game.Level, out hud);
-
-        input = (IInput)GameObject.Instantiate(prefabs.inputPrefab.UnderlyingValue);
-        pause = (IPausePresenter)GameObject.Instantiate(prefabs.pausePrefab.UnderlyingValue);
-        //инициализация
-        input.Init(gameBoard);
-        pause.Init(game, input, bootstrap);
-        //запуск
-        input.Enable();
-        pause.Enable();
-        //создание игровых элементов
-        gameBoard.SpawnCells();
-        gameBoard.SpawnBlocks();
+        gameBoardScreen = CreateGameBoardScreen(game.Level.gameBoard, blockFactory, cellFactory);
+        input = CreateInput(gameBoardScreen);
+        hudScreen = CreateHUDScreen(game.Level, goalFactory, restrictionFactory);
+        boosterInventoryScreen = CreateBoosterInvScreen(game.BoosterInventory, boosterFactory);
+        pauseScreen = CreatePauseScreen(game.PlayerSettings, input, bootstrap);
+        endGameScreen = CreateEndGameScreen(game, input);
     }
     public void OnEnd()
     {
-        gameBoardFactory.Clear();
-        boosterInventoryFactory.Clear();
-        endGameFactory.Clear();
-        hudFactory.Clear();
+        //gameBoard.Disable();
+        //boosterInventory.Disable();
+        //input.Disable();
+        //pause.Disable();
+        //hud.Disable();
+        //GameObject.Destroy(input.gameObject);
+        //GameObject.Destroy(pause.gameObject);
 
-        input.Disable();
-        pause.Disable();
+        //уничтожение экранов
+        GameObject.Destroy(hudScreen.gameObject);
+        GameObject.Destroy(gameBoardScreen.gameObject);
         GameObject.Destroy(input.gameObject);
-        GameObject.Destroy(pause.gameObject);
+        GameObject.Destroy(boosterInventoryScreen.gameObject);
+        GameObject.Destroy(pauseScreen.gameObject);
+        GameObject.Destroy(endGameScreen.gameObject);
+    }
+
+
+
+    private IInput CreateInput(AGameBoardScreen gameBoardScreen)
+    {
+        var input = (IInput)GameObject.Instantiate(prefabs.inputPrefab.UnderlyingValue);
+        input.Init(gameBoardScreen);
+        input.Enable();
+        return input;
+    }
+    private AEndGameScreen CreateEndGameScreen(Game game, IInput input)
+    {
+        var endGameScreen = GameObject.Instantiate(prefabs.endGamePrefab);
+        endGameScreen.Init(game, input);
+        endGameScreen.Enable();
+        return endGameScreen;
+    }
+    private APauseScreen CreatePauseScreen(PlayerSettings playerSettings, IInput input, Bootstrap bootstrap)
+    {
+        var pauseScreen = GameObject.Instantiate(prefabs.pausePrefab);
+        pauseScreen.Init(playerSettings, input, bootstrap);
+        pauseScreen.Enable();
+        return pauseScreen;
+    }
+    private ABoosterInventoryScreen CreateBoosterInvScreen(BoosterInventory boosterInventory, BoosterFactory boosterFactory)
+    {
+        var boosterInventoryScreen = GameObject.Instantiate(prefabs.boosterInventoryPrefab);
+        boosterInventoryScreen.Init(boosterInventory, boosterFactory);
+        boosterInventoryScreen.Enable();
+        return boosterInventoryScreen;
+    }
+    private AGameBoardScreen CreateGameBoardScreen(IGameBoard_Readonly gameboardModel,
+                 AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
+                 AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory)
+    {
+        var gameBoardScreen = GameObject.Instantiate(prefabs.gameBoardPrefab);
+        gameBoardScreen.Init(gameboardModel, blockFactory, cellFactory);
+        gameBoardScreen.Enable();
+        return gameBoardScreen;
+    }
+    private AHudScreen CreateHUDScreen(ILevel_Readonly levelModel,
+            AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory,
+            AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory)
+    {
+        var hudScreen = GameObject.Instantiate(prefabs.hudPrefab);
+        hudScreen.Init(levelModel, goalFactory, restrictionFactory);
+        hudScreen.Enable();
+        return hudScreen;
     }
 }

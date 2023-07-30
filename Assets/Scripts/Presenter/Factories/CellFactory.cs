@@ -12,13 +12,19 @@ namespace Presenter
         {
         }
 
-        public override ICellView Create(ICell_Readonly model, out ICellPresenter presenter)
+        public override ICellPresenter Connect(ICellView existingView, ICell_Readonly model)
         {
-            ICellView view = GameObject.Instantiate(viewPrefab, parent);
-            presenter = new CellPresenter(model, view);
-            view.Init(model.Position, model.Type);
+            var presenter = new CellPresenter(model, existingView);
+            existingView.Init(model.Position, model.Type);
             allPresenters.Add(presenter);
             presenter.Enable();
+            return presenter;
+        }
+
+        public override ICellView CreateView(ICell_Readonly model, out ICellPresenter presenter)
+        {
+            var view = GameObject.Instantiate(viewPrefab, parent);
+            presenter = Connect(view, model);
             return view;
         }
     }

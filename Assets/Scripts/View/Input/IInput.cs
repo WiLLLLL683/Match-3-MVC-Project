@@ -10,7 +10,7 @@ namespace View
     {
         GameObject gameObject { get; }
 
-        void Init(IGameBoardPresenter gameBoardPresenter);
+        void Init(AGameBoardScreen gameBoardPresenter);
         public abstract void Enable();
         public abstract void Disable();
     }

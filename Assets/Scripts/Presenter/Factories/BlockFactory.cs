@@ -12,13 +12,19 @@ namespace Presenter
         {
         }
 
-        public override IBlockView Create(IBlock_Readonly model, out IBlockPresenter presenter)
+        public override IBlockPresenter Connect(IBlockView existingView, IBlock_Readonly model)
         {
-            IBlockView view = GameObject.Instantiate(viewPrefab, parent);
-            presenter = new BlockPresenter(model, view);
+            var presenter = new BlockPresenter(model, existingView);
             presenter.Enable();
-            view.Init(model.Type, model.Position);
+            existingView.Init(model.Type, model.Position);
             allPresenters.Add(presenter);
+            return presenter;
+        }
+
+        public override IBlockView CreateView(IBlock_Readonly model, out IBlockPresenter presenter)
+        {
+            var view = GameObject.Instantiate(viewPrefab, parent);
+            presenter = Connect(view, model);
             return view;
         }
     }

@@ -22,9 +22,9 @@ namespace View
         private Vector2 deltaWorldPositionClamped;
         private Directions swipeDirection;
         private float timer;
-        private IGameBoardPresenter gameBoardPresenter;
+        private AGameBoardScreen gameBoardPresenter;
 
-        public void Init(IGameBoardPresenter gameBoardPresenter)
+        public void Init(AGameBoardScreen gameBoardPresenter)
         {
             mainCamera = Camera.main;
             this.gameBoardPresenter = gameBoardPresenter;

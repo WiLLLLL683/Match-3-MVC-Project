@@ -14,9 +14,11 @@ namespace Model.Infrastructure
     /// </summary>
     public class Game
     {
+        //meta game
         public LevelSelection LevelSelection { get; private set; }
-        public Level Level { get; private set; }
         public CurrencyInventory CurrencyInventory { get; private set; }
+        //core game
+        public Level Level { get; private set; }
         public BoosterInventory BoosterInventory { get; private set; }
         public PlayerSettings PlayerSettings { get; private set; }
 
@@ -28,6 +30,7 @@ namespace Model.Infrastructure
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
             LevelSelection = new LevelSelection(allLevels, currentLevelIndex);
+            PlayerSettings = new(true, false); //TODO загрузка из сохранения
 
             systems = new AllSystems();
             systems.AddSystem<ISpawnSystem>(new SpawnSystem());

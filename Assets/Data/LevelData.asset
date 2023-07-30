@@ -43,6 +43,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
   hintPatterns:
   - {fileID: 11400000, guid: 2271e9eec7997984e98d096ddceb24f7, type: 2}
+  icon: {fileID: 21300000, guid: c1d5a6c1ade19d340922e895b71ec629, type: 3}
+  levelName: Test Level
   references:
     version: 2
     RefIds:
