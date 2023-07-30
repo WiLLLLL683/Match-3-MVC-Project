@@ -28,3 +28,4 @@ MonoBehaviour:
   restrictionCounterPrefab: {fileID: 352177093698865892, guid: eab474ff57b958f4192975662f8a0db1, type: 3}
   scorePrefab: {fileID: 6408763980575542322, guid: 2020f896b9bd69a4d86fade5003e9572, type: 3}
   selectorPrefab: {fileID: 3844667822040187647, guid: eacef231177cd0f41aee50476c9740a1, type: 3}
+  pausePopUpPrefab: {fileID: 8587031338943148967, guid: 23fc5a063bf1f5944a635c0281e062ab, type: 3}

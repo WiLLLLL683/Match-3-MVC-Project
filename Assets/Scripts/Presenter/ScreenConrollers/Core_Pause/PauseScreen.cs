@@ -1,6 +1,7 @@
 ﻿using Model.Infrastructure;
 using System;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -10,53 +11,39 @@ namespace Presenter
         [SerializeField] private APausePopUp pausePopUp;
 
         private PlayerSettings settings;
+        private Game game;
+        private AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> popUpFactory;
         private AInput input;
-        private Bootstrap bootstrap;
+        private IPopUpPresenter presenter;
 
-        public override void Init(PlayerSettings settings, AInput input, Bootstrap bootstrap)
+        public override void Init(PlayerSettings settings, Game game, AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> popUpFactory, AInput input)
         {
             this.settings = settings;
+            this.game = game;
+            this.popUpFactory = popUpFactory;
             this.input = input;
-            this.bootstrap = bootstrap;
-
-            pausePopUp.Init(this.settings.IsSoundOn, this.settings.IsVibrationOn);
         }
+
         public override void Enable()
         {
+            presenter = popUpFactory.Connect(pausePopUp, settings);
+
             pausePopUp.OnShow += DisableInput;
             pausePopUp.OnHide += EnableInput;
-            pausePopUp.OnNextLevelInput += LoadNextLevel;
-            pausePopUp.OnReplayInput += Replay;
-            pausePopUp.OnQuitInput += Quit;
-            Debug.Log($"{this} enabled", this);
+
+            Debug.Log($"{this.GetType().Name} enabled", this);
         }
+
         public override void Disable()
         {
             pausePopUp.OnShow -= DisableInput;
             pausePopUp.OnHide -= EnableInput;
-            pausePopUp.OnNextLevelInput -= LoadNextLevel;
-            pausePopUp.OnReplayInput -= Replay;
-            pausePopUp.OnQuitInput -= Quit;
-            Debug.Log($"{this} disabled", this);
+
+            presenter.Disable();
+            Debug.Log($"{this.GetType().Name} disabled", this);
         }
-        //public void Destroy()
-        //{
-        //    Disable();
-        //    Destroy(gameObject);
-        //}
 
         private void EnableInput() => input.Enable();
         private void DisableInput() => input.Disable();
-        private void LoadNextLevel()
-        {
-            //TODO next level
-            Debug.Log("Next Level");
-        }
-        private void Quit() => bootstrap.LoadMetaGame();
-        private void Replay()
-        {
-            //TODO replay
-            Debug.Log("Replay");
-        }
     }
 }
