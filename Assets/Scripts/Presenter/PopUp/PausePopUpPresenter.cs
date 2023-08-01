@@ -16,7 +16,7 @@ namespace Presenter
         public class Factory : AFactory<PlayerSettings, APausePopUp, IPopUpPresenter>
         {
             private readonly Bootstrap bootstrap;
-            public Factory(APausePopUp viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab, parent)
+            public Factory(APausePopUp viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab)
             {
                 this.bootstrap = bootstrap;
             }

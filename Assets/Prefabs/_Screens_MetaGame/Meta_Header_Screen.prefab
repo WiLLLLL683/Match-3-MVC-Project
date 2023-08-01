@@ -122,7 +122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2115648654558851449}
-  - component: {fileID: 3803329611395331382}
+  - component: {fileID: 1854705859998344556}
   - component: {fileID: 2115648654558851451}
   - component: {fileID: 2115648654558851450}
   - component: {fileID: 2115648654558851453}
@@ -155,7 +155,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &3803329611395331382
+--- !u!114 &1854705859998344556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,10 +164,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2115648654558851452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea9b53c927f77a48b9e6f7c838c9853, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cdcf3db23d7dfa4baf0c28a101e641f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currencyParent: {fileID: 2115648653737930802}
+  scoreParent: {fileID: 2115648653737930802}
 --- !u!223 &2115648654558851451
 Canvas:
   m_ObjectHideFlags: 0

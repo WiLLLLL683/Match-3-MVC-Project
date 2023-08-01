@@ -15,12 +15,12 @@ public class CoreGameState : IState
     private readonly Bootstrap bootstrap;
 
     //экраны
-    private AGameBoardScreen gameBoardScreen;
+    private IGameBoardPresenter gameBoardScreen;
     private AInput input;
-    private AHudScreen hudScreen;
-    private ABoosterInventoryScreen boosterInventoryScreen;
-    private APauseScreen pauseScreen;
-    private AEndGameScreen endGameScreen;
+    private IHudPresenter hudScreen;
+    private IBoosterInventoryPresenter boosterScreen;
+    private IPausePresenter pauseScreen;
+    private IEndGamePresenter endGameScreen;
 
     //фабрики игровых элементов
     private AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
@@ -52,30 +52,39 @@ public class CoreGameState : IState
         pausePopUpFactory = new PausePopUpPresenter.Factory(prefabs.pausePopUpPrefab, bootstrap);
         endGamePopUpFactory = new EndGamePopUpPresenter.Factory(prefabs.endGamePopUpPrefab, bootstrap);
 
+        //создание инпута
+        input = GameObject.Instantiate(prefabs.inputPrefab);
+
+        //создание фабрик экранов
+        var gameboardFactory = new GameBoardPresenter.Factory(prefabs.gameBoardPrefab, blockFactory, cellFactory);
+        var boosterInventoryFactory = new BoosterInventoryPresenter.Factory(prefabs.boosterInventoryPrefab, boosterFactory);
+        var endGameFactory = new EndGamePresenter.Factory(prefabs.endGamePrefab, input, endGamePopUpFactory);
+        var hudFactory = new HudPresenter.Factory(prefabs.hudPrefab, goalFactory, restrictionFactory);
+        var pauseFactory = new PausePresenter.Factory(prefabs.pausePrefab, pausePopUpFactory, input);
+
         //создание экранов и инпута
-        gameBoardScreen = AGameBoardScreen.Create(prefabs.gameBoardPrefab, game.Level.gameBoard, blockFactory, cellFactory);
-        input = AInput.Create(prefabs.inputPrefab, gameBoardScreen);
-        hudScreen = AHudScreen.Create(prefabs.hudPrefab, game.Level, goalFactory, restrictionFactory);
-        boosterInventoryScreen = ABoosterInventoryScreen.Create(prefabs.boosterInventoryPrefab, game.BoosterInventory, boosterFactory);
-        pauseScreen = APauseScreen.Create(prefabs.pausePrefab, game.PlayerSettings, game, pausePopUpFactory, input);
-        endGameScreen = AEndGameScreen.Create(prefabs.endGamePrefab, game.Level, input, endGamePopUpFactory);
+        gameBoardScreen = gameboardFactory.Create(game.Level.gameBoard).Presenter;
+        input.Init(gameBoardScreen).Enable();
+        hudScreen = hudFactory.Create(game.Level).Presenter;
+        boosterScreen = boosterInventoryFactory.Create(game.BoosterInventory).Presenter;
+        pauseScreen = pauseFactory.Create(game.PlayerSettings).Presenter;
+        endGameScreen = endGameFactory.Create(game.Level).Presenter;
     }
     public void OnEnd()
     {
-        //gameBoard.Disable();
-        //boosterInventory.Disable();
-        //input.Disable();
-        //pause.Disable();
-        //hud.Disable();
-        //GameObject.Destroy(input.gameObject);
-        //GameObject.Destroy(pause.gameObject);
+        gameBoardScreen.Destroy();
+        hudScreen.Destroy();
+        boosterScreen.Destroy();
+        pauseScreen.Destroy();
+        endGameScreen.Destroy();
+        GameObject.Destroy(input.gameObject);
 
         //уничтожение экранов
-        GameObject.Destroy(hudScreen.gameObject);
-        GameObject.Destroy(gameBoardScreen.gameObject);
-        GameObject.Destroy(input.gameObject);
-        GameObject.Destroy(boosterInventoryScreen.gameObject);
-        GameObject.Destroy(pauseScreen.gameObject);
-        GameObject.Destroy(endGameScreen.gameObject);
+        //GameObject.Destroy(hudScreen.gameObject);
+        //GameObject.Destroy(gameBoardScreen.gameObject);
+        //GameObject.Destroy(input.gameObject);
+        //GameObject.Destroy(boosterInventoryScreen.gameObject);
+        //GameObject.Destroy(pauseScreen.gameObject);
+        //GameObject.Destroy(endGameScreen.gameObject);
     }
 }

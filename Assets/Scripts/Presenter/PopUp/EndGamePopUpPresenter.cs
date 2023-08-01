@@ -16,7 +16,7 @@ namespace Presenter
         public class Factory : AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter>
         {
             private readonly Bootstrap bootstrap;
-            public Factory(AEndGamePopUp viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab, parent)
+            public Factory(AEndGamePopUp viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab)
             {
                 this.bootstrap = bootstrap;
             }

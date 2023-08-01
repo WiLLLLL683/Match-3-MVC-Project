@@ -22,12 +22,13 @@ namespace View
         private Vector2 deltaWorldPositionClamped;
         private Directions swipeDirection;
         private float timer;
-        private AGameBoardScreen gameBoardPresenter;
+        private IGameBoardPresenter gameBoardPresenter;
 
-        public override void Init(AGameBoardScreen gameBoardPresenter)
+        public override AInput Init(IGameBoardPresenter gameBoardPresenter)
         {
             mainCamera = Camera.main;
             this.gameBoardPresenter = gameBoardPresenter;
+            return this;
         }
         private void Update()
         {
@@ -67,8 +68,16 @@ namespace View
                 ClearSelection();
             }
         }
-        public override void Enable() => enabled = true;
-        public override void Disable() => enabled = false;
+        public override AInput Enable()
+        {
+            enabled = true;
+            return this;
+        }
+        public override AInput Disable()
+        {
+            enabled = false;
+            return this;
+        }
 
 
 

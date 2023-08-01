@@ -13,7 +13,7 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<ICell_Readonly, ICellView, ICellPresenter>
         {
-            public Factory(ICellView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
+            public Factory(ICellView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 

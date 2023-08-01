@@ -13,7 +13,7 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<IBlock_Readonly, IBlockView, IBlockPresenter>
         {
-            public Factory(IBlockView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
+            public Factory(IBlockView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 

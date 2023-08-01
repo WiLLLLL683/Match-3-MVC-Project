@@ -15,9 +15,9 @@ public class MetaGameState : IState
     private readonly Bootstrap bootstrap;
 
     //экраны
-    private ALevelSelectionScreen levelSelectionScreen;
-    private ABackgroundScreen backgroundScreen;
-    private AHeaderScreen headerScreen;
+    private ILevelSelectionPresenter levelSelectionScreen;
+    private Canvas backgroundScreen;
+    private IHeaderPresenter headerScreen;
 
     //фабрики игровых элементов
     private AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> scoreFactory;
@@ -38,20 +38,24 @@ public class MetaGameState : IState
         scoreFactory = new CurrencyPresenter.Factory(prefabs.scorePrefab);
         selectorFactory = new LevelSelectorPresenter.Factory(prefabs.selectorPrefab, bootstrap);
 
+        //создание фабрик экранов
+        var headerFactory = new HeaderPresenter.Factory(prefabs.headerPrefab, scoreFactory);
+        var levelSelectionFactory = new LevelSelectionPresenter.Factory(prefabs.levelSelectionPrefab, selectorFactory);
+        
         //создание экранов
-        levelSelectionScreen = ALevelSelectionScreen.Create(prefabs.levelSelectionPrefab, game.LevelSelection, selectorFactory);
-        headerScreen = AHeaderScreen.Create(prefabs.headerPrefab, game.CurrencyInventory, scoreFactory);
-        backgroundScreen = ABackgroundScreen.Create(prefabs.backgroundPrefab);
+        levelSelectionScreen = levelSelectionFactory.Create(game.LevelSelection).Presenter;
+        headerScreen = headerFactory.Create(game.CurrencyInventory).Presenter;
+        backgroundScreen = GameObject.Instantiate(prefabs.backgroundPrefab);
     }
 
     public void OnEnd()
     {
-        //levelSelectionScreen.Disable();
-        //headerScreen.Disable();
-        //backgroundScreen.gameObject.SetActive(false);
-
-        GameObject.Destroy(levelSelectionScreen.gameObject);
+        levelSelectionScreen.Destroy();
+        headerScreen.Destroy();
         GameObject.Destroy(backgroundScreen.gameObject);
-        GameObject.Destroy(headerScreen.gameObject);
+
+        //GameObject.Destroy(levelSelectionScreen.gameObject);
+        //GameObject.Destroy(backgroundScreen.gameObject);
+        //GameObject.Destroy(headerScreen.gameObject);
     }
 }

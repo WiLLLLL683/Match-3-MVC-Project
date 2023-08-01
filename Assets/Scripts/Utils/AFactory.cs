@@ -15,14 +15,30 @@ namespace Utils
         where TView : MonoBehaviour
         where TPresenter : IPresenter
     {
+        /// <summary>
+        /// Вспомогательный объект представляющий связку из связанных модели, вью и презентера
+        /// </summary>
+        public class MVPContainer
+        {
+            public TModel Model { get; private set; }
+            public TView View { get; private set; }
+            public TPresenter Presenter { get; private set; }
+
+            public MVPContainer(TModel model, TView view, TPresenter presenter)
+            {
+                this.Model = model;
+                this.View = view;
+                this.Presenter = presenter;
+            }
+        }
+
         protected Transform parent;
         protected TView viewPrefab;
         protected List<IPresenter> allPresenters = new();
 
-        protected AFactory(TView viewPrefab, Transform parent = null)
+        protected AFactory(TView viewPrefab)
         {
             this.viewPrefab = viewPrefab;
-            this.parent = parent;
         }
 
         /// <summary>
@@ -33,20 +49,14 @@ namespace Utils
 
         /// <summary>
         /// Создать новый объект вью, создать презентер и соединить их с моделью
-        /// Возвращает новый вью и новый презентер
+        /// Возвращает новый презентер
         /// </summary>
-        public virtual TView CreateView(TModel model, out TPresenter presenter)
+        public MVPContainer Create(TModel model)
         {
             var view = GameObject.Instantiate(viewPrefab, parent);
-            presenter = Connect(view, model);
-            return view;
+            var presenter = Connect(view, model);
+            return new MVPContainer(model, view, presenter);
         }
-
-        /// <summary>
-        /// Создать новый объект вью, создать презентер и соединить их с моделью
-        /// Возвращает новый вью
-        /// </summary>
-        public TView CreateView(TModel model) => CreateView(model, out _);
 
         /// <summary>
         /// Задать родительский объект для создания в нем вью

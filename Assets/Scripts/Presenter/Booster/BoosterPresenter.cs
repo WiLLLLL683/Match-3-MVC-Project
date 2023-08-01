@@ -12,7 +12,7 @@ public class BoosterPresenter : IBoosterPresenter
     /// </summary>
     public class Factory : AFactory<IBooster, IBoosterView, IBoosterPresenter>
     {
-        public Factory(IBoosterView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
+        public Factory(IBoosterView viewPrefab, Transform parent = null) : base(viewPrefab)
         {
         }
 

@@ -17,7 +17,7 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter>
         {
-            public Factory(ICounterView viewPrefab, Transform parent = null) : base(viewPrefab, parent)
+            public Factory(ICounterView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 

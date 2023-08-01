@@ -18,7 +18,7 @@ namespace Presenter
         public class Factory : AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter>
         {
             private readonly Bootstrap bootstrap;
-            public Factory(ASelectorView viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab, parent)
+            public Factory(ASelectorView viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab)
             {
                 this.bootstrap = bootstrap;
             }

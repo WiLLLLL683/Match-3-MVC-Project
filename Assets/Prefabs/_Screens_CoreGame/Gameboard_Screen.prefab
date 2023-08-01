@@ -250,7 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3793116412616789870}
-  - component: {fileID: 7606719982679021896}
+  - component: {fileID: 7157040228301865807}
   m_Layer: 0
   m_Name: Gameboard_Screen
   m_TagString: Untagged
@@ -276,7 +276,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7606719982679021896
+--- !u!114 &7157040228301865807
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3793116412616789871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 925016bdf19321f42ba83630ff0bf7f6, type: 3}
+  m_Script: {fileID: 11500000, guid: a62e66b667567164d8b9f66300adb1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   blocksParent: {fileID: 3793116412450444409}

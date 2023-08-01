@@ -12,16 +12,16 @@ namespace Data
     public class PrefabConfig : ScriptableObject
     {
         [Header("Meta Game Screens")]
-        public ALevelSelectionScreen levelSelectionPrefab;
-        public ABackgroundScreen backgroundPrefab;
-        public AHeaderScreen headerPrefab;
+        public ALevelSelectionView levelSelectionPrefab;
+        public Canvas backgroundPrefab;
+        public AHeaderView headerPrefab;
         [Header("Core Game Screens")]
-        public AHudScreen hudPrefab;
-        public AGameBoardScreen gameBoardPrefab;
+        public AHudView hudPrefab;
+        public AGameBoardView gameBoardPrefab;
         public AInput inputPrefab;
-        public ABoosterInventoryScreen boosterInventoryPrefab;
-        public APauseScreen pausePrefab;
-        public AEndGameScreen endGamePrefab;
+        public ABoosterInventoryView boosterInventoryPrefab;
+        public APauseView pausePrefab;
+        public AEndGameView endGamePrefab;
         [Header("Elements")]
         public IBlockView blockPrefab;
         public ICellView cellPrefab;

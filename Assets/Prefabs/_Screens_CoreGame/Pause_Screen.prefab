@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2011612834500659587}
-  - component: {fileID: 2011612834500659584}
+  - component: {fileID: 6566920151619082946}
   - component: {fileID: 2011612834500659585}
   - component: {fileID: 2011612834500659598}
   - component: {fileID: 2011612834500659599}
@@ -42,7 +42,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2011612834500659584
+--- !u!114 &6566920151619082946
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2011612834500659596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44ce47ac7cc87d6469ac33caba5b9cab, type: 3}
+  m_Script: {fileID: 11500000, guid: cc03bb1f80d3c6049a98182a30794f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pausePopUp: {fileID: 2203585925912762222}
@@ -323,7 +323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4801903508065417987, guid: 23fc5a063bf1f5944a635c0281e062ab, type: 3}
       propertyPath: m_Name
-      value: PauseMenu
+      value: Pause_PopUp
       objectReference: {fileID: 0}
     - target: {fileID: 4801903508144055541, guid: 23fc5a063bf1f5944a635c0281e062ab, type: 3}
       propertyPath: m_AnchorMax.y

@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595038e7edbfaf24b8a50aa3fb25b703, type: 3}
   m_Name: PrefabConfig
   m_EditorClassIdentifier: 
-  levelSelectionPrefab: {fileID: -6381335513983084413, guid: fe6268b5c759c7349b3f2f0dbf06b362, type: 3}
-  backgroundPrefab: {fileID: 3684543264985260242, guid: 594244e0d6efa6744804b1e21ffc8f78, type: 3}
-  headerPrefab: {fileID: 3803329611395331382, guid: 9413e9376c9d00d409988275c8911050, type: 3}
-  hudPrefab: {fileID: 8184376648391503080, guid: da23743b13a17bb4d879b4be4ab3ac0a, type: 3}
-  gameBoardPrefab: {fileID: 7606719982679021896, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
+  levelSelectionPrefab: {fileID: 265138459040029821, guid: fe6268b5c759c7349b3f2f0dbf06b362, type: 3}
+  backgroundPrefab: {fileID: 714966426420018354, guid: 594244e0d6efa6744804b1e21ffc8f78, type: 3}
+  headerPrefab: {fileID: 1854705859998344556, guid: 9413e9376c9d00d409988275c8911050, type: 3}
+  hudPrefab: {fileID: 8439834798692621749, guid: da23743b13a17bb4d879b4be4ab3ac0a, type: 3}
+  gameBoardPrefab: {fileID: 7157040228301865807, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
   inputPrefab: {fileID: 879022936496586446, guid: 2727a4abd4d283240a0410e268d3f2a0, type: 3}
-  boosterInventoryPrefab: {fileID: 398985018832180286, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
-  pausePrefab: {fileID: 2011612834500659584, guid: f8e5d33a0fc616348be38b6903bc52ee, type: 3}
-  endGamePrefab: {fileID: 4541353517702387544, guid: b6b485faab3daa045b795bf70f50446e, type: 3}
+  boosterInventoryPrefab: {fileID: 7469970216636767823, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
+  pausePrefab: {fileID: 6566920151619082946, guid: f8e5d33a0fc616348be38b6903bc52ee, type: 3}
+  endGamePrefab: {fileID: 8350666380595576133, guid: b6b485faab3daa045b795bf70f50446e, type: 3}
   blockPrefab: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}
   cellPrefab: {fileID: 5919296878604722895, guid: 8213a8f6c326f5a4797bde3812823299, type: 3}
   boosterPrefab: {fileID: 4633542665250583476, guid: 54af3666ffa5db6428dc8595493f1420, type: 3}
@@ -29,3 +29,4 @@ MonoBehaviour:
   scorePrefab: {fileID: 6408763980575542322, guid: 2020f896b9bd69a4d86fade5003e9572, type: 3}
   selectorPrefab: {fileID: 3844667822040187647, guid: eacef231177cd0f41aee50476c9740a1, type: 3}
   pausePopUpPrefab: {fileID: 8587031338943148967, guid: 23fc5a063bf1f5944a635c0281e062ab, type: 3}
+  endGamePopUpPrefab: {fileID: 8344517982601843592, guid: 462951a7e0936e6448f1f2733fd5f818, type: 3}
