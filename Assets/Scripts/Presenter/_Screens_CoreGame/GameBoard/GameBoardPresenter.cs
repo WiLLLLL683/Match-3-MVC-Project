@@ -16,11 +16,11 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<IGameBoard_Readonly, AGameBoardView, IGameBoardPresenter>
         {
-            private readonly AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
-            private readonly AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
+            private readonly AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
+            private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
             public Factory(AGameBoardView viewPrefab,
-                AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
-                AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory) : base(viewPrefab)
+                AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory,
+                AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory) : base(viewPrefab)
             {
                 this.blockFactory = blockFactory;
                 this.cellFactory = cellFactory;
@@ -37,15 +37,15 @@ namespace Presenter
 
         private readonly IGameBoard_Readonly model;
         private readonly AGameBoardView view;
-        private readonly AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
-        private readonly AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
+        private readonly AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
+        private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
 
-        private Dictionary<ICell_Readonly, ICellView> cells = new();
-        private Dictionary<IBlock_Readonly, IBlockView> blocks = new();
+        private Dictionary<ICell_Readonly, ACellView> cells = new();
+        private Dictionary<IBlock_Readonly, ABlockView> blocks = new();
 
         public GameBoardPresenter(IGameBoard_Readonly model, AGameBoardView view,
-            AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory,
-            AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory)
+            AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory,
+            AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory)
         {
             this.model = model;
             this.view = view;
@@ -74,12 +74,12 @@ namespace Presenter
             Disable();
             GameObject.Destroy(view.gameObject);
         }
-        public ICellView GetCellView(Vector2Int modelPosition)
+        public ACellView GetCellView(Vector2Int modelPosition)
         {
             ICell_Readonly cellModel = model.Cells_Readonly[modelPosition.x, modelPosition.y];
             return cells[cellModel];
         }
-        public IBlockView GetBlockView(Vector2Int modelPosition)
+        public ABlockView GetBlockView(Vector2Int modelPosition)
         {
             IBlock_Readonly blockModel = model.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
             if (blockModel != null && blocks.ContainsKey(blockModel))

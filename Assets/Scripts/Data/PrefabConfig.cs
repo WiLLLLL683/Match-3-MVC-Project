@@ -23,12 +23,12 @@ namespace Data
         public APauseView pausePrefab;
         public AEndGameView endGamePrefab;
         [Header("Elements")]
-        public IBlockView blockPrefab;
-        public ICellView cellPrefab;
-        public IBoosterView boosterPrefab;
-        public ICounterView goalCounterPrefab;
-        public ICounterView restrictionCounterPrefab;
-        public ICounterView scorePrefab;
+        public ABlockView blockPrefab;
+        public ACellView cellPrefab;
+        public ABoosterView boosterPrefab;
+        public ACounterView goalCounterPrefab;
+        public ACounterView restrictionCounterPrefab;
+        public ACounterView scorePrefab;
         public ASelectorView selectorPrefab;
         public APausePopUp pausePopUpPrefab;
         public AEndGamePopUp endGamePopUpPrefab;

@@ -15,13 +15,13 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<ICounter_Readonly, ICounterView, ICounterPresenter>
+        public class Factory : AFactory<ICounter_Readonly, ACounterView, ICounterPresenter>
         {
-            public Factory(ICounterView viewPrefab, Transform parent = null) : base(viewPrefab)
+            public Factory(ACounterView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 
-            public override ICounterPresenter Connect(ICounterView existingView, ICounter_Readonly model)
+            public override ICounterPresenter Connect(ACounterView existingView, ICounter_Readonly model)
             {
                 var presenter = new CounterPresenter();
                 presenter.Enable();

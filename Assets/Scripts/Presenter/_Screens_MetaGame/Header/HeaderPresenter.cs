@@ -16,8 +16,8 @@ namespace Presenter
     {
         public class Factory : AFactory<CurrencyInventory, AHeaderView, IHeaderPresenter>
         {
-            private readonly AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> currencyFactory;
-            public Factory(AHeaderView viewPrefab, AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> currencyFactory) : base(viewPrefab)
+            private readonly AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> currencyFactory;
+            public Factory(AHeaderView viewPrefab, AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> currencyFactory) : base(viewPrefab)
             {
                 this.currencyFactory = currencyFactory;
             }
@@ -33,9 +33,9 @@ namespace Presenter
 
         private CurrencyInventory model;
         private AHeaderView view;
-        private AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> scoreFactory;
+        private AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> scoreFactory;
 
-        public HeaderPresenter(CurrencyInventory model, AHeaderView view, AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> scoreFactory)
+        public HeaderPresenter(CurrencyInventory model, AHeaderView view, AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> scoreFactory)
         {
             this.model = model;
             this.view = view;

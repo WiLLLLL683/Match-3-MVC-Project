@@ -14,11 +14,11 @@ namespace Presenter
     {
         public class Factory : AFactory<ILevel_Readonly, AHudView, IHudPresenter>
         {
-            private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory;
-            private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory;
+            private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
+            private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
             public Factory(AHudView viewPrefab,
-                AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory,
-                AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory) : base(viewPrefab)
+                AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory,
+                AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory) : base(viewPrefab)
             {
                 this.goalFactory = goalFactory;
                 this.restrictionFactory = restrictionFactory;
@@ -35,13 +35,13 @@ namespace Presenter
         
         private readonly ILevel_Readonly model;
         private readonly AHudView view;
-        private readonly AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory;
-        private readonly AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory;
+        private readonly AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
+        private readonly AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
 
         public HudPresenter(ILevel_Readonly model,
             AHudView view,
-            AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory,
-            AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory)
+            AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory,
+            AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory)
         {
             this.model = model;
             this.view = view;

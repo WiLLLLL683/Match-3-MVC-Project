@@ -6,7 +6,7 @@ namespace View
     /// <summary>
     /// Визуальный элемент бустера, вызывается в IBoosterPresenter.
     /// </summary>
-    public abstract class IBoosterView : MonoBehaviour
+    public abstract class ABoosterView : MonoBehaviour
     {
         public abstract event Action OnActivate;
 

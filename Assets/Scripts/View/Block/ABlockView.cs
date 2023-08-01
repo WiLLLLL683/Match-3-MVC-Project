@@ -8,7 +8,7 @@ namespace View
     /// <summary>
     /// Визуальный элемент блока, вызывается из IBlockPresenter
     /// </summary>
-    public abstract class IBlockView : MonoBehaviour
+    public abstract class ABlockView : MonoBehaviour
     {
         //public GameObject gameObject { get; }
 

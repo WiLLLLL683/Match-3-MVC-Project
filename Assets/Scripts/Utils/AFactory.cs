@@ -16,7 +16,7 @@ namespace Utils
         where TPresenter : IPresenter
     {
         /// <summary>
-        /// Вспомогательный объект представляющий связку из связанных модели, вью и презентера
+        /// Вспомогательный объект представляющий связку из модели, вью и презентера
         /// </summary>
         public class MVPContainer
         {

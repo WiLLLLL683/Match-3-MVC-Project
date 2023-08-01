@@ -11,13 +11,13 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<IBlock_Readonly, IBlockView, IBlockPresenter>
+        public class Factory : AFactory<IBlock_Readonly, ABlockView, IBlockPresenter>
         {
-            public Factory(IBlockView viewPrefab, Transform parent = null) : base(viewPrefab)
+            public Factory(ABlockView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 
-            public override IBlockPresenter Connect(IBlockView existingView, IBlock_Readonly model)
+            public override IBlockPresenter Connect(ABlockView existingView, IBlock_Readonly model)
             {
                 var presenter = new BlockPresenter(model, existingView);
                 presenter.Enable();
@@ -28,9 +28,9 @@ namespace Presenter
         }
         
         private IBlock_Readonly model;
-        private IBlockView view;
+        private ABlockView view;
 
-        public BlockPresenter(IBlock_Readonly model, IBlockView view)
+        public BlockPresenter(IBlock_Readonly model, ABlockView view)
         {
             this.model = model;
             this.view = view;

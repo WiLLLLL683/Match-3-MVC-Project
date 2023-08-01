@@ -10,13 +10,13 @@ public class BoosterPresenter : IBoosterPresenter
     /// <summary>
     /// Реализация фабрики использующая класс презентера в котором находится.
     /// </summary>
-    public class Factory : AFactory<IBooster, IBoosterView, IBoosterPresenter>
+    public class Factory : AFactory<IBooster, ABoosterView, IBoosterPresenter>
     {
-        public Factory(IBoosterView viewPrefab, Transform parent = null) : base(viewPrefab)
+        public Factory(ABoosterView viewPrefab, Transform parent = null) : base(viewPrefab)
         {
         }
 
-        public override IBoosterPresenter Connect(IBoosterView existingView, IBooster model)
+        public override IBoosterPresenter Connect(ABoosterView existingView, IBooster model)
         {
             var presenter = new BoosterPresenter(existingView, model);
             existingView.Init(model.Icon, model.Amount);
@@ -26,10 +26,10 @@ public class BoosterPresenter : IBoosterPresenter
         }
     }
     
-    private IBoosterView view;
+    private ABoosterView view;
     private IBooster model;
 
-    public BoosterPresenter(IBoosterView view, IBooster model)
+    public BoosterPresenter(ABoosterView view, IBooster model)
     {
         this.view = view;
         this.model = model;

@@ -14,10 +14,10 @@ namespace Presenter
     {
         public class Factory : AFactory<BoosterInventory, ABoosterInventoryView, IBoosterInventoryPresenter>
         {
-            private AFactory<IBooster, IBoosterView, IBoosterPresenter> boosterFactory;
+            private AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory;
 
             public Factory(ABoosterInventoryView viewPrefab,
-                AFactory<IBooster, IBoosterView, IBoosterPresenter> boosterFactory) : base(viewPrefab)
+                AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory) : base(viewPrefab)
             {
                 this.boosterFactory = boosterFactory;
             }
@@ -33,11 +33,11 @@ namespace Presenter
 
         private BoosterInventory model;
         private ABoosterInventoryView view;
-        private AFactory<IBooster, IBoosterView, IBoosterPresenter> factory;
+        private AFactory<IBooster, ABoosterView, IBoosterPresenter> factory;
 
         public BoosterInventoryPresenter(BoosterInventory model,
             ABoosterInventoryView view,
-            AFactory<IBooster, IBoosterView, IBoosterPresenter> factory)
+            AFactory<IBooster, ABoosterView, IBoosterPresenter> factory)
         {
             this.model = model;
             this.view = view;

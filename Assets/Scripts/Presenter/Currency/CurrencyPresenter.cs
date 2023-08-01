@@ -15,13 +15,13 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter>
+        public class Factory : AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter>
         {
-            public Factory(ICounterView viewPrefab, Transform parent = null) : base(viewPrefab)
+            public Factory(ACounterView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 
-            public override ICurrencyPresenter Connect(ICounterView existingView, CurrencyInventory model)
+            public override ICurrencyPresenter Connect(ACounterView existingView, CurrencyInventory model)
             {
                 throw new NotImplementedException();
             }

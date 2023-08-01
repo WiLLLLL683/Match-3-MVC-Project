@@ -14,20 +14,22 @@ public class CoreGameState : IState
     private readonly PrefabConfig prefabs;
     private readonly Bootstrap bootstrap;
 
+    //инпут
+    private AInput input;
+
     //экраны
     private IGameBoardPresenter gameBoardScreen;
-    private AInput input;
     private IHudPresenter hudScreen;
     private IBoosterInventoryPresenter boosterScreen;
     private IPausePresenter pauseScreen;
     private IEndGamePresenter endGameScreen;
 
     //фабрики игровых элементов
-    private AFactory<IBlock_Readonly, IBlockView, IBlockPresenter> blockFactory;
-    private AFactory<ICell_Readonly, ICellView, ICellPresenter> cellFactory;
-    private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> goalFactory;
-    private AFactory<ICounter_Readonly, ICounterView, ICounterPresenter> restrictionFactory;
-    private AFactory<IBooster, IBoosterView, IBoosterPresenter> boosterFactory;
+    private AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
+    private AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
+    private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
+    private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
+    private AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory;
     private AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> pausePopUpFactory;
     private AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> endGamePopUpFactory;
 

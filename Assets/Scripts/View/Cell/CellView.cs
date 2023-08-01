@@ -8,7 +8,7 @@ namespace View
     /// При инициализации выбирает цвет своей заливки для создания шахматного рисунка игрового поля.
     /// Может изменять свой тип и проигрывать эффекты.
     /// </summary>
-    public class CellView : ICellView
+    public class CellView : ACellView
     {
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private SpriteRenderer fill;

@@ -20,7 +20,7 @@ public class MetaGameState : IState
     private IHeaderPresenter headerScreen;
 
     //фабрики игровых элементов
-    private AFactory<CurrencyInventory, ICounterView, ICurrencyPresenter> scoreFactory;
+    private AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> scoreFactory;
     private AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter> selectorFactory;
 
     public MetaGameState(Game game, PrefabConfig prefabs, Bootstrap bootstrap)

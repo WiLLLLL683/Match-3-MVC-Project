@@ -10,7 +10,7 @@ namespace View
     /// Может изменять иконку и текст с количеством бустеров, включать/выключать кнопку.
     /// Передает инпут активации бустера.
     /// </summary>
-    public class BoosterView : IBoosterView, IBoosterInput
+    public class BoosterView : ABoosterView, IBoosterInput
     {
         [SerializeField] private TMP_Text ammountText;
         [SerializeField] private Image icon;
@@ -18,10 +18,10 @@ namespace View
 
         public override event Action OnActivate;
 
-        public override void Init(Sprite iconSprite, int initialNumber)
+        public override void Init(Sprite iconSprite, int initialAmmount)
         {
             ChangeIcon(iconSprite);
-            ChangeAmount(initialNumber);
+            ChangeAmount(initialAmmount);
         }
         public override void ChangeAmount(int boosterAmmount) => ammountText.text = boosterAmmount.ToString();
         public override void ChangeIcon(Sprite iconSprite)

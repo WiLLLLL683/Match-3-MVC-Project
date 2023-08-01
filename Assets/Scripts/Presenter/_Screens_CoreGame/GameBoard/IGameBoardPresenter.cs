@@ -13,7 +13,7 @@ namespace Presenter
     /// </summary>
     public interface IGameBoardPresenter : IPresenter
     {
-        public abstract IBlockView GetBlockView(Vector2Int modelPosition);
-        public abstract ICellView GetCellView(Vector2Int modelPosition);
+        public abstract ABlockView GetBlockView(Vector2Int modelPosition);
+        public abstract ACellView GetCellView(Vector2Int modelPosition);
     }
 }

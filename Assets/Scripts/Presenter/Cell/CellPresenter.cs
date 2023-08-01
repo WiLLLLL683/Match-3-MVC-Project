@@ -11,13 +11,13 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<ICell_Readonly, ICellView, ICellPresenter>
+        public class Factory : AFactory<ICell_Readonly, ACellView, ICellPresenter>
         {
-            public Factory(ICellView viewPrefab, Transform parent = null) : base(viewPrefab)
+            public Factory(ACellView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 
-            public override ICellPresenter Connect(ICellView existingView, ICell_Readonly model)
+            public override ICellPresenter Connect(ACellView existingView, ICell_Readonly model)
             {
                 var presenter = new CellPresenter(model, existingView);
                 existingView.Init(model.Position, model.Type);
@@ -28,9 +28,9 @@ namespace Presenter
         }
         
         private ICell_Readonly model;
-        private ICellView view;
+        private ACellView view;
 
-        public CellPresenter(ICell_Readonly model, ICellView view)
+        public CellPresenter(ICell_Readonly model, ACellView view)
         {
             this.model = model;
             this.view = view;
