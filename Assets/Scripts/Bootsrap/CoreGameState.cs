@@ -43,14 +43,14 @@ public class CoreGameState : IState
     public void OnStart()
     {
         //запуск модели
-        game.StartCoreGame(bootstrap.SelectedLevel);
+        game.StartLevel(bootstrap.SelectedLevel);
 
         //создание фабрик игровых элементов
-        blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab);
+        blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab, game);
         cellFactory = new CellPresenter.Factory(prefabs.cellPrefab);
         goalFactory = new CounterPresenter.Factory(prefabs.goalCounterPrefab);
         restrictionFactory = new CounterPresenter.Factory(prefabs.restrictionCounterPrefab);
-        boosterFactory = new BoosterPresenter.Factory(prefabs.boosterPrefab);
+        boosterFactory = new BoosterPresenter.Factory(prefabs.boosterPrefab, game);
         pausePopUpFactory = new PausePopUpPresenter.Factory(prefabs.pausePopUpPrefab, bootstrap);
         endGamePopUpFactory = new EndGamePopUpPresenter.Factory(prefabs.endGamePopUpPrefab, bootstrap);
 
@@ -65,12 +65,12 @@ public class CoreGameState : IState
         var pauseFactory = new PausePresenter.Factory(prefabs.pausePrefab, pausePopUpFactory, input);
 
         //создание экранов и инпута
-        gameBoardScreen = gameboardFactory.Create(game.Level.gameBoard).Presenter;
+        gameBoardScreen = gameboardFactory.Create(game.CurrentLevel.gameBoard).Presenter;
         input.Init(gameBoardScreen).Enable();
-        hudScreen = hudFactory.Create(game.Level).Presenter;
+        hudScreen = hudFactory.Create(game.CurrentLevel).Presenter;
         boosterScreen = boosterInventoryFactory.Create(game.BoosterInventory).Presenter;
         pauseScreen = pauseFactory.Create(game.PlayerSettings).Presenter;
-        endGameScreen = endGameFactory.Create(game.Level).Presenter;
+        endGameScreen = endGameFactory.Create(game.CurrentLevel).Presenter;
     }
     public void OnEnd()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 using Model.Objects;
 using View;
 using Utils;
+using Model.Infrastructure;
 
 public class BoosterPresenter : IBoosterPresenter
 {
@@ -12,13 +13,15 @@ public class BoosterPresenter : IBoosterPresenter
     /// </summary>
     public class Factory : AFactory<IBooster, ABoosterView, IBoosterPresenter>
     {
-        public Factory(ABoosterView viewPrefab, Transform parent = null) : base(viewPrefab)
+        private readonly IGame game;
+        public Factory(ABoosterView viewPrefab, IGame game, Transform parent = null) : base(viewPrefab)
         {
+            this.game = game;
         }
 
         public override IBoosterPresenter Connect(ABoosterView existingView, IBooster model)
         {
-            var presenter = new BoosterPresenter(existingView, model);
+            var presenter = new BoosterPresenter(existingView, model, game);
             existingView.Init(model.Icon, model.Amount);
             allPresenters.Add(presenter);
             presenter.Enable();
@@ -28,19 +31,21 @@ public class BoosterPresenter : IBoosterPresenter
     
     private ABoosterView view;
     private IBooster model;
+    private readonly IGame game;
 
-    public BoosterPresenter(ABoosterView view, IBooster model)
+    public BoosterPresenter(ABoosterView view, IBooster model, IGame game)
     {
         this.view = view;
         this.model = model;
+        this.game = game;
     }
     public void Enable()
     {
-
+        view.OnActivate += ActivateBooster;
     }
     public void Disable()
     {
-
+        view.OnActivate -= ActivateBooster;
     }
     public void Destroy()
     {
@@ -60,8 +65,5 @@ public class BoosterPresenter : IBoosterPresenter
         view.ChangeAmount(amount);
     }
     private void ChangeIcon(Sprite icon) => view.ChangeIcon(icon);
-    private void ActivateBooster()
-    {
-        //TODO call model
-    }
+    private void ActivateBooster() => game.ActivateBooster(model);
 }

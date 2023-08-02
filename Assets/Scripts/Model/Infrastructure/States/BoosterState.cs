@@ -7,16 +7,16 @@ using Utils;
 
 namespace Model.Infrastructure
 {
-    public class BoosterState : IState
+    public class BoosterState : AModelState
     {
         private Game game;
         private Level level;
-        private StateMachine stateMachine;
+        private StateMachine<AModelState> stateMachine;
         private BoosterInventory boosterInventory;
 
         private IBooster booster;
 
-        public BoosterState(Game _game, StateMachine _stateMachine, AllSystems _systems, BoosterInventory _boosterInventory)
+        public BoosterState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems, BoosterInventory _boosterInventory)
         {
             game = _game;
             stateMachine = _stateMachine;
@@ -28,9 +28,9 @@ namespace Model.Infrastructure
             booster = _booster;
         }
 
-        public void OnStart()
+        public override void OnStart()
         {
-            level = game.Level;
+            level = game.CurrentLevel;
             if (true)
             {
 
@@ -39,7 +39,7 @@ namespace Model.Infrastructure
             SucsessfullTurn();
         }
 
-        public void OnEnd()
+        public override void OnEnd()
         {
 
         }

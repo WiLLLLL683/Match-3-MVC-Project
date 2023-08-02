@@ -18,7 +18,7 @@ namespace Model.Infrastructure.FunctionalTests
 
         public void OnStart()
         {
-            level = game.Level;
+            level = game.CurrentLevel;
         }
 
         public void OnEnd()

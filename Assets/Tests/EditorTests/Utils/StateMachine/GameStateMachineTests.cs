@@ -12,7 +12,7 @@ namespace Model.Utils.UnitTests
         [Test]
         public void SetState_NullToLoadState_CurrentStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
+            StateMachine<IState> stateMachine = new StateMachine<IState>(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState()
@@ -26,7 +26,7 @@ namespace Model.Utils.UnitTests
         [Test]
         public void SetState_LoadStateToWaitState_PreviousStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
+            StateMachine<IState> stateMachine = new StateMachine<IState>(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState(),
@@ -43,7 +43,7 @@ namespace Model.Utils.UnitTests
         [Test]
         public void SetPreviousState_NullToLoadStateToNull_CurrentStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
+            StateMachine<IState> stateMachine = new StateMachine<IState>(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState()
@@ -58,7 +58,7 @@ namespace Model.Utils.UnitTests
         [Test]
         public void SetPreviousState_LoadStateToWaitStateToLoadState_CurrentStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
+            StateMachine<IState> stateMachine = new StateMachine<IState>(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState(),
@@ -75,7 +75,7 @@ namespace Model.Utils.UnitTests
         public void GetState_ValidState_ReferenceToValidState()
         {
             IState state = new TestState();
-            StateMachine stateMachine = new StateMachine(
+            StateMachine<IState> stateMachine = new StateMachine<IState>(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = state
@@ -88,7 +88,7 @@ namespace Model.Utils.UnitTests
         [Test]
         public void GetState_InValidState_Error()
         {
-            StateMachine stateMachine = new StateMachine(new Dictionary<System.Type, IState>());
+            StateMachine<IState> stateMachine = new StateMachine<IState>(new Dictionary<System.Type, IState>());
 
             IState receivedState = stateMachine.GetState<TestState>();
 
@@ -98,7 +98,7 @@ namespace Model.Utils.UnitTests
         public void AddState_NewState_StateAdded()
         {
             IState state = new TestState();
-            StateMachine stateMachine = new StateMachine();
+            StateMachine<IState> stateMachine = new StateMachine<IState>();
 
             stateMachine.AddState(state);
 
@@ -113,7 +113,7 @@ namespace Model.Utils.UnitTests
             state.testString = "state";
             TestState state2 = new TestState();
             state2.testString = "state2";
-            StateMachine stateMachine = new StateMachine(
+            StateMachine<IState> stateMachine = new StateMachine<IState>(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = state

@@ -7,18 +7,18 @@ using Utils;
 
 namespace Model.Infrastructure
 {
-    public class TurnState : IState
+    public class TurnState : AModelState
     {
         private Game game;
         private Level level;
-        private StateMachine stateMachine;
+        private StateMachine<AModelState> stateMachine;
         private IMoveSystem moveSystem;
         private IMatchSystem matchSystem;
 
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game _game, StateMachine _stateMachine, AllSystems _systems)
+        public TurnState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
         {
             game = _game;
             stateMachine = _stateMachine;
@@ -32,9 +32,9 @@ namespace Model.Infrastructure
             direction = _direction;
         }
 
-        public void OnStart()
+        public override void OnStart()
         {
-            level = game.Level;
+            level = game.CurrentLevel;
 
             if (direction == Directions.Zero)
             {
@@ -46,7 +46,7 @@ namespace Model.Infrastructure
             }
         }
 
-        public void OnEnd()
+        public override void OnEnd()
         {
 
         }

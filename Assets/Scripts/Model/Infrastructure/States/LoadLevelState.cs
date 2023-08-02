@@ -8,10 +8,10 @@ using Utils;
 
 namespace Model.Infrastructure
 {
-    public class LoadLevelState : IState
+    public class LoadLevelState : AModelState
     {
         private Game game;
-        private StateMachine stateMachine;
+        private StateMachine<AModelState> stateMachine;
         private AllSystems systems;
         private IMatchSystem matchSystem;
 
@@ -20,7 +20,7 @@ namespace Model.Infrastructure
 
         private const int MATCH_CHECK_ITERATIONS = 3; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game _game, StateMachine _stateMachine, AllSystems _systems)
+        public LoadLevelState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
         {
             game = _game;
             stateMachine = _stateMachine;
@@ -33,24 +33,24 @@ namespace Model.Infrastructure
             levelData = _levelData;
         }
 
-        public void OnStart()
+        public override void OnStart()
         {
             if (levelData == null)
             {
                 Debug.LogError("Invalid LevelData");
-                stateMachine.SetState<MetaGameState>();
+                //stateMachine.SetState<MetaGameState>();
                 return;
             }
 
             LoadLevel();
             SpawnBlocks();
-            //SwapMatchedBlocks();
+            //SwapMatchedBlocks(); //TODO
 
             Debug.Log("Core Game Started");
-            //stateMachine.SetState<WaitState>();
+            stateMachine.SetState<WaitState>();
         }
 
-        public void OnEnd()
+        public override void OnEnd()
         {
 
         }
@@ -60,7 +60,7 @@ namespace Model.Infrastructure
         private void LoadLevel()
         {
             level = new Level(levelData);
-            game.SetLevel(level);
+            game.SetCurrentLevel(level);
             systems.SetLevel(level);
         }
 

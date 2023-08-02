@@ -6,20 +6,20 @@ using UnityEngine;
 namespace Utils
 {
     /// <summary>
-    /// Стейт-машина, хранящая по одному экземпляру добавленных в нее стейтов
+    /// Стейт-машина, хранящая по одному экземпляру добавленных в нее стейтов типа TState
     /// </summary>
-    public class StateMachine
+    public class StateMachine<TState> where TState : IState
     {
-        public IState PreviousState { get; private set; }
-        public IState CurrentState { get; private set; }
+        public TState PreviousState { get; private set; }
+        public TState CurrentState { get; private set; }
         
-        private Dictionary<Type, IState> states;
+        private Dictionary<Type, TState> states;
 
         public StateMachine()
         {
             states = new();
         }
-        public StateMachine(Dictionary<Type, IState> _states)
+        public StateMachine(Dictionary<Type, TState> _states)
         {
             states = _states;
         }
@@ -27,7 +27,7 @@ namespace Utils
         /// <summary>
         /// Задать текущий стейт
         /// </summary>
-        public void SetState<T>() where T:IState
+        public void SetState<T>() where T: TState
         {
             if (!states.ContainsKey(typeof(T)))
             {
@@ -53,7 +53,7 @@ namespace Utils
         /// <summary>
         /// Получить экземпляр стейта определенного типа
         /// </summary>
-        public T GetState<T>() where T : IState
+        public T GetState<T>() where T : TState
         {
             if (!states.ContainsKey(typeof(T)))
             {
@@ -66,7 +66,7 @@ namespace Utils
         /// <summary>
         /// Добавить новый стейт в стейт-машину
         /// </summary>
-        public void AddState(IState _state)
+        public void AddState(TState _state)
         {
             Type type = _state.GetType();
 
@@ -81,7 +81,7 @@ namespace Utils
         }
 
 
-        private void ChangeState(IState _state)
+        private void ChangeState(TState _state)
         {
             if (_state == null)
             {

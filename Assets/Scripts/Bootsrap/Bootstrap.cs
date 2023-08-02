@@ -16,9 +16,10 @@ public class Bootstrap : MonoBehaviour
     [Header("Current State")]
     [SerializeField] private LevelData selectedLevel;
     public LevelData SelectedLevel => selectedLevel;
+    [NaughtyAttributes.ShowNativeProperty()] public string gameModelState => game?.CurrentStateName;
 
     private Game game;
-    private StateMachine stateMachine;
+    private StateMachine<IState> stateMachine;
 
     private void Awake()
     {

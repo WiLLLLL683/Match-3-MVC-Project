@@ -7,18 +7,18 @@ using Utils;
 
 namespace Model.Infrastructure
 {
-    public class SpawnState : IState
+    public class SpawnState : AModelState
     {
         private Game game;
         private Level level;
-        private StateMachine stateMachine;
+        private StateMachine<AModelState> stateMachine;
         private IGravitySystem gravitySystem;
         private IMatchSystem matchSystem;
         private ISpawnSystem spawnSystem;
 
         private int maxIterations = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game _game, StateMachine _stateMachine, AllSystems _systems)
+        public SpawnState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
         {
             game = _game;
             stateMachine = _stateMachine;
@@ -27,9 +27,9 @@ namespace Model.Infrastructure
             spawnSystem = _systems.GetSystem<ISpawnSystem>();
         }
 
-        public void OnStart()
+        public override void OnStart()
         {
-            level = game.Level;
+            level = game.CurrentLevel;
 
             for (int i = 0; i < maxIterations; i++)
             {
@@ -56,7 +56,7 @@ namespace Model.Infrastructure
             stateMachine.SetState<WaitState>();
         }
 
-        public void OnEnd()
+        public override void OnEnd()
         {
 
         }

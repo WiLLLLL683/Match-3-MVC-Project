@@ -76,14 +76,14 @@ namespace Model.Objects
             //играбельна ли клетка?
             if (!Cells[position.x, position.y].IsPlayable)
             {
-                Debug.LogError("Tried to get Block but Cell was notPlayable");
+                Debug.LogWarning("Tried to get Block but Cell was notPlayable");
                 return false;
             }
 
             //есть ли блок в клетке?
             if (Cells[position.x, position.y].IsEmpty)
             {
-                Debug.LogError("Tried to get Block but Cell was empty");
+                Debug.LogWarning("Tried to get Block but Cell was empty");
                 return false;
             }
 

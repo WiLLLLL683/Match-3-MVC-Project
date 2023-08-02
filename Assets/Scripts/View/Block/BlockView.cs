@@ -42,21 +42,9 @@ namespace View
         }
 
         //Input
-        public void Input_MoveBlock(Directions direction)
-        {
-            Debug.Log(this + " moved " + direction);
-            OnMove?.Invoke(direction);
-        }
-        public void Input_ActivateBlock()
-        {
-            Debug.Log(this + " activated");
-            OnActivate?.Invoke();
-        }
-        public void Input_Drag(Directions direction, Vector2 deltaPosition)
-        {
-            Debug.Log(this + " grabbed");
-            targetPosition = modelPosition.ToViewPos() + deltaPosition;
-        }
+        public void Input_MoveBlock(Directions direction) => OnMove?.Invoke(direction);
+        public void Input_ActivateBlock() => OnActivate?.Invoke();
+        public void Input_Drag(Directions direction, Vector2 deltaPosition) => targetPosition = modelPosition.ToViewPos() + deltaPosition;
         public void Input_Release() => targetPosition = modelPosition.ToViewPos();
         //View
         public override void ChangeModelPosition(Vector2Int modelPosition)

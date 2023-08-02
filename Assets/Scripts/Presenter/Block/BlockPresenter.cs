@@ -3,6 +3,7 @@ using View;
 using Data;
 using Model.Readonly;
 using Utils;
+using Model.Infrastructure;
 
 namespace Presenter
 {
@@ -13,13 +14,15 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<IBlock_Readonly, ABlockView, IBlockPresenter>
         {
-            public Factory(ABlockView viewPrefab, Transform parent = null) : base(viewPrefab)
+            private readonly IGame game;
+            public Factory(ABlockView viewPrefab, IGame game) : base(viewPrefab)
             {
+                this.game = game;
             }
 
             public override IBlockPresenter Connect(ABlockView existingView, IBlock_Readonly model)
             {
-                var presenter = new BlockPresenter(model, existingView);
+                var presenter = new BlockPresenter(model, existingView, game);
                 presenter.Enable();
                 existingView.Init(model.Type, model.Position);
                 allPresenters.Add(presenter);
@@ -29,11 +32,13 @@ namespace Presenter
         
         private IBlock_Readonly model;
         private ABlockView view;
+        private readonly IGame game;
 
-        public BlockPresenter(IBlock_Readonly model, ABlockView view)
+        public BlockPresenter(IBlock_Readonly model, ABlockView view, IGame game)
         {
             this.model = model;
             this.view = view;
+            this.game = game;
         }
 
         public void Enable()
@@ -55,17 +60,12 @@ namespace Presenter
             model.OnTypeChange -= ChangeType;
         }
         public void Destroy() => Destroy(model);
-        public void Move(Directions direction)
-        {
-            Debug.Log("Move");
-            //TODO обращение к модели для запуска систем
-        }
+        public void Move(Directions direction) => game.MoveBlock(model.Position, direction);
         public void Activate()
         {
             Debug.Log("Activate");
             view.PlayClickAnimation();
-            //TODO обращение к модели для запуска систем
-            //model.Activate();
+            game.ActivateBlock(model.Position);
         }
 
         private void SyncPosition(Vector2Int modelPosition) => view.ChangeModelPosition(modelPosition);

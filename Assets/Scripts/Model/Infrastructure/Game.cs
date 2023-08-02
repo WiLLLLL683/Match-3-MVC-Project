@@ -1,5 +1,6 @@
 using Data;
 using Model.Objects;
+using Model.Readonly;
 using Model.Systems;
 using System;
 using System.Collections;
@@ -12,17 +13,18 @@ namespace Model.Infrastructure
     /// <summary>
     /// Основной объект модели игры
     /// </summary>
-    public class Game
+    public class Game : IGame
     {
         //meta game
         public LevelSelection LevelSelection { get; private set; }
         public CurrencyInventory CurrencyInventory { get; private set; }
         //core game
-        public Level Level { get; private set; }
+        public Level CurrentLevel { get; private set; }
         public BoosterInventory BoosterInventory { get; private set; }
         public PlayerSettings PlayerSettings { get; private set; }
+        public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name;
 
-        private StateMachine stateMachine;
+        private StateMachine<AModelState> stateMachine;
         private AllSystems systems;
 
         public Game(LevelData[] allLevels, int currentLevelIndex)
@@ -38,11 +40,9 @@ namespace Model.Infrastructure
             systems.AddSystem<IGravitySystem>(new GravitySystem());
             systems.AddSystem<IMoveSystem>(new MoveSystem());
 
-            stateMachine = new StateMachine();
-            stateMachine.AddState(new LoadGameState(this, stateMachine));
-            stateMachine.AddState(new MetaGameState());
+            stateMachine = new();
             stateMachine.AddState(new LoadLevelState(this, stateMachine, systems));
-            stateMachine.AddState(new WaitState(this, stateMachine, systems)); //TODO нужна ссылка на инпут/контроллер, для подписки на события
+            stateMachine.AddState(new WaitState(this, stateMachine, systems));
             stateMachine.AddState(new TurnState(this, stateMachine, systems));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
             stateMachine.AddState(new SpawnState(this, stateMachine, systems));
@@ -54,17 +54,9 @@ namespace Model.Infrastructure
         }
 
         /// <summary>
-        /// Загрузка игры
-        /// </summary>
-        public void LoadGame() => stateMachine.SetState<LoadGameState>();
-        /// <summary>
-        /// Запуск мета-игры
-        /// </summary>
-        public void StartMetaGame() => stateMachine.SetState<MetaGameState>();
-        /// <summary>
         /// Запуск выбранного уровня кор-игры
         /// </summary>
-        public void StartCoreGame(LevelData levelData)
+        public void StartLevel(LevelData levelData)
         {
             stateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
             stateMachine.SetState<LoadLevelState>();
@@ -72,6 +64,10 @@ namespace Model.Infrastructure
         /// <summary>
         /// Обновить данные об уровне
         /// </summary>
-        public void SetLevel(Level _level) => Level = _level;
+        public void SetCurrentLevel(Level _level) => CurrentLevel = _level;
+
+        public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
+        public void ActivateBooster(IBooster booster) => stateMachine.CurrentState.OnInputBooster(booster);
+        public void ActivateBlock(Vector2Int blockPosition) => stateMachine.CurrentState.OnInputActivateBlock(blockPosition);
     }
 }
