@@ -91,7 +91,7 @@ namespace Model.Objects
         }
 
         /// <summary>
-        /// Проверка наличия клетки в границах игрового поля
+        /// Проверка наличия клетки в границах игрового поля и играбельна ли она
         /// </summary>
         public bool CheckValidCellByPosition(Vector2Int position)
         {
@@ -99,13 +99,14 @@ namespace Model.Objects
             if (position.x >= 0 &&
                 position.y >= 0 &&
                 position.x < Cells.GetLength(0) &&
-                position.y < Cells.GetLength(1))
+                position.y < Cells.GetLength(1) &&
+                Cells[position.x, position.y].IsPlayable)
             {
                 return true;
             }
             else
             {
-                Debug.LogError("Cell position out of GameBoards range");
+                Debug.LogWarning("Cell position out of GameBoards range");
                 return false;
             }
         }

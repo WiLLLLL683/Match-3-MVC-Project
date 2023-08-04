@@ -11,12 +11,12 @@ public static class Extensions
     {
         return direction switch
         {
-            Directions.Up => new Vector2Int(0, 1),
-            Directions.Down => new Vector2Int(0, -1),
-            Directions.Left => new Vector2Int(-1, 0),
-            Directions.Right => new Vector2Int(1, 0),
-            Directions.Zero => new Vector2Int(0, 0),
-            _ => new Vector2Int(0, 0),
+            Directions.Up => Vector2Int.up,
+            Directions.Down => Vector2Int.down,
+            Directions.Left => Vector2Int.left,
+            Directions.Right => Vector2Int.right,
+            Directions.Zero => Vector2Int.zero,
+            _ => Vector2Int.zero,
         };
     }
     /// <summary>
