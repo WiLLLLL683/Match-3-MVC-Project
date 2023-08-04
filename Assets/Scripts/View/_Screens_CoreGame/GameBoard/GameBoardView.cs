@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-using View;
+﻿using UnityEngine;
 
 namespace View
 {

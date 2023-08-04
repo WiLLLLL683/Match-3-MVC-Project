@@ -19,7 +19,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.AddCurrency(type, 100);
 
-            Assert.AreEqual(100, inventory.GetAmmount(type));
+            Assert.AreEqual(100, inventory.GetAmount(type));
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.AddCurrency(type, 0);
 
-            Assert.AreEqual(0, inventory.GetAmmount(type));
+            Assert.AreEqual(0, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Can't add negative ammount of " + type);
         }
 
@@ -42,7 +42,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.AddCurrency(type, -555);
 
-            Assert.AreEqual(0, inventory.GetAmmount(type));
+            Assert.AreEqual(0, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Can't add negative ammount of " + type);
         }
 
@@ -55,7 +55,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.TakeCurrency(type, 10);
 
-            Assert.AreEqual(90, inventory.GetAmmount(type));
+            Assert.AreEqual(90, inventory.GetAmount(type));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.TakeCurrency(type, 10);
 
-            Assert.AreEqual(0, inventory.GetAmmount(type));
+            Assert.AreEqual(0, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Not enough " + type);
         }
 
@@ -79,7 +79,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.TakeCurrency(type, 0);
 
-            Assert.AreEqual(100, inventory.GetAmmount(type));
+            Assert.AreEqual(100, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Can't remove negative ammount of " + type);
         }
 
@@ -92,7 +92,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.TakeCurrency(type, -10);
 
-            Assert.AreEqual(100, inventory.GetAmmount(type));
+            Assert.AreEqual(100, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Can't remove negative ammount of " + type);
         }
 
@@ -104,7 +104,7 @@ namespace Model.Infrastructure.UnitTests
 
             inventory.TakeCurrency(type, 10);
 
-            Assert.AreEqual(0, inventory.GetAmmount(type));
+            Assert.AreEqual(0, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "You have no " + type);
             LogAssert.Expect(LogType.Error, "You have no " + type);
         }
@@ -116,7 +116,7 @@ namespace Model.Infrastructure.UnitTests
             CurrencyInventory inventory = new(type);
             inventory.AddCurrency(type, 100);
 
-            int ammount = inventory.GetAmmount(type);
+            int ammount = inventory.GetAmount(type);
 
             Assert.AreEqual(100, ammount);
         }
@@ -127,7 +127,7 @@ namespace Model.Infrastructure.UnitTests
             CurrencyType type = CurrencyType.Gold;
             CurrencyInventory inventory = new();
 
-            int ammount = inventory.GetAmmount(type);
+            int ammount = inventory.GetAmount(type);
 
             Assert.AreEqual(0, ammount);
             LogAssert.Expect(LogType.Error, "You have no " + type);

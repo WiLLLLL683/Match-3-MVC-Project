@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-
-public interface IPopUpPresenter : IPresenter
+﻿
+namespace Presenter
 {
+    public interface IPopUpPresenter : IPresenter
+    {
 
+    }
 }

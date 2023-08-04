@@ -1,7 +1,5 @@
-﻿using Data;
-using Model.Infrastructure;
-using Model.Objects;
-using UnityEngine;
+﻿using UnityEngine;
+using Model.Readonly;
 using View;
 using Utils;
 
@@ -12,17 +10,17 @@ namespace Presenter
     /// </summary>
     public class BoosterInventoryPresenter : IBoosterInventoryPresenter
     {
-        public class Factory : AFactory<BoosterInventory, ABoosterInventoryView, IBoosterInventoryPresenter>
+        public class Factory : AFactory<IBoosterInventory_Readonly, ABoosterInventoryView, IBoosterInventoryPresenter>
         {
-            private AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory;
+            private readonly AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> boosterFactory;
 
             public Factory(ABoosterInventoryView viewPrefab,
-                AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory) : base(viewPrefab)
+                AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> boosterFactory) : base(viewPrefab)
             {
                 this.boosterFactory = boosterFactory;
             }
 
-            public override IBoosterInventoryPresenter Connect(ABoosterInventoryView existingView, BoosterInventory model)
+            public override IBoosterInventoryPresenter Connect(ABoosterInventoryView existingView, IBoosterInventory_Readonly model)
             {
                 var presenter = new BoosterInventoryPresenter(model, existingView, boosterFactory);
                 presenter.Enable();
@@ -31,13 +29,13 @@ namespace Presenter
             }
         }
 
-        private BoosterInventory model;
-        private ABoosterInventoryView view;
-        private AFactory<IBooster, ABoosterView, IBoosterPresenter> factory;
+        private readonly IBoosterInventory_Readonly model;
+        private readonly ABoosterInventoryView view;
+        private readonly AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> factory;
 
-        public BoosterInventoryPresenter(BoosterInventory model,
+        public BoosterInventoryPresenter(IBoosterInventory_Readonly model,
             ABoosterInventoryView view,
-            AFactory<IBooster, ABoosterView, IBoosterPresenter> factory)
+            AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> factory)
         {
             this.model = model;
             this.view = view;

@@ -1,6 +1,4 @@
-﻿using Model.Infrastructure;
-using Model.Objects;
-using Model.Readonly;
+﻿using Model.Readonly;
 using UnityEngine;
 using View;
 using Utils;

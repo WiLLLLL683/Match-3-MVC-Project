@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using Data;
-using Presenter;
 
 namespace View
 {

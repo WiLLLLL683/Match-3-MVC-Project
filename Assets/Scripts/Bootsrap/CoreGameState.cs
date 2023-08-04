@@ -29,7 +29,7 @@ public class CoreGameState : IState
     private AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
     private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
     private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
-    private AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory;
+    private AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> boosterFactory;
     private AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> pausePopUpFactory;
     private AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> endGamePopUpFactory;
 

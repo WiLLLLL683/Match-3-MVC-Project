@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using Data;
-using Presenter;
 
 namespace View
 {

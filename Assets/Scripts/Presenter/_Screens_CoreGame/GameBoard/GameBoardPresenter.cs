@@ -1,10 +1,8 @@
-﻿using NaughtyAttributes;
+﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
-using Model.Infrastructure;
 using Model.Readonly;
 using View;
-using System.Collections.Generic;
-using Data;
 using Utils;
 
 namespace Presenter
@@ -40,8 +38,8 @@ namespace Presenter
         private readonly AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
         private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
 
-        private Dictionary<ICell_Readonly, ACellView> cells = new();
-        private Dictionary<IBlock_Readonly, ABlockView> blocks = new();
+        private readonly Dictionary<ICell_Readonly, ACellView> cells = new();
+        private readonly Dictionary<IBlock_Readonly, ABlockView> blocks = new();
 
         public GameBoardPresenter(IGameBoard_Readonly model, AGameBoardView view,
             AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory,

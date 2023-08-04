@@ -73,7 +73,7 @@ namespace Model.Objects
             currencies[type] -= ammount;
         }
 
-        public int GetAmmount(CurrencyType type)
+        public int GetAmount(CurrencyType type)
         {
             if (!currencies.ContainsKey(type))
             {

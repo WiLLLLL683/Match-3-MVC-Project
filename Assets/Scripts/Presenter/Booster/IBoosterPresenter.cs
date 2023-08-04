@@ -1,3 +1,7 @@
-﻿public interface IBoosterPresenter : IPresenter
+﻿
+namespace Presenter
 {
+    public interface IBoosterPresenter : IPresenter
+    {
+    }
 }

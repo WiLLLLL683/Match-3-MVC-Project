@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Readonly;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Model.Objects
     /// <summary>
     /// Инвентарь для хранения бустеров
     /// </summary>
-    public class BoosterInventory
+    public class BoosterInventory : IBoosterInventory_Readonly
     {
         private Dictionary<Type, int> boosters = new();
 

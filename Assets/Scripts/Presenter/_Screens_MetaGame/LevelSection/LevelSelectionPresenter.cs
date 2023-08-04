@@ -1,8 +1,6 @@
-﻿using Model.Readonly;
+﻿using UnityEngine;
+using Model.Readonly;
 using Presenter;
-using System;
-using System.Collections;
-using UnityEngine;
 using View;
 using Utils;
 

@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace View
 {
     public interface ISelector_Input

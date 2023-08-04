@@ -67,7 +67,7 @@ namespace Model.Infrastructure
         public void SetCurrentLevel(Level _level) => CurrentLevel = _level;
 
         public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
-        public void ActivateBooster(IBooster booster) => stateMachine.CurrentState.OnInputBooster(booster);
+        public void ActivateBooster(IBooster_Readonly booster) => stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
         public void ActivateBlock(Vector2Int blockPosition) => stateMachine.CurrentState.OnInputActivateBlock(blockPosition);
     }
 }

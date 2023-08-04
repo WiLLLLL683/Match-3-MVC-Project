@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-
-public interface ICounterPresenter : IPresenter
+﻿namespace Presenter
 {
+    public interface ICounterPresenter : IPresenter
+    {
 
+    }
 }

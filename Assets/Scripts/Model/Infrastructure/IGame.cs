@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using Model.Readonly;
 using UnityEngine;
 
 namespace Model.Infrastructure
@@ -7,6 +8,6 @@ namespace Model.Infrastructure
     {
         void ActivateBlock(Vector2Int blockPosition);
         void MoveBlock(Vector2Int blockPosition, Directions direction);
-        void ActivateBooster(IBooster booster);
+        void ActivateBooster(IBooster_Readonly booster);
     }
 }

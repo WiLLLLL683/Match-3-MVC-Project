@@ -1,9 +1,5 @@
-﻿using Model.Infrastructure;
-using Model.Readonly;
-using UnityEngine;
-using Data;
+﻿using UnityEngine;
 using View;
-using Utils;
 
 namespace Presenter
 {

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-
-public interface IPresenter
+﻿namespace Presenter
 {
-    public void Enable();
-    public void Disable();
-    public void Destroy();
+    public interface IPresenter
+    {
+        public void Enable();
+        public void Disable();
+        public void Destroy();
+    }
 }

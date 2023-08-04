@@ -1,7 +1,6 @@
-﻿using Model.Objects;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using Model.Objects;
 using Utils;
 using View;
 

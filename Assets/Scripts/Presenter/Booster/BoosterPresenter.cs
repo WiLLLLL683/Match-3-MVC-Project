@@ -1,69 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Model.Objects;
+﻿using UnityEngine;
+using Model.Infrastructure;
+using Model.Readonly;
 using View;
 using Utils;
-using Model.Infrastructure;
 
-public class BoosterPresenter : IBoosterPresenter
+namespace Presenter
 {
-    /// <summary>
-    /// Реализация фабрики использующая класс презентера в котором находится.
-    /// </summary>
-    public class Factory : AFactory<IBooster, ABoosterView, IBoosterPresenter>
+    public class BoosterPresenter : IBoosterPresenter
     {
-        private readonly IGame game;
-        public Factory(ABoosterView viewPrefab, IGame game, Transform parent = null) : base(viewPrefab)
+        /// <summary>
+        /// Реализация фабрики использующая класс презентера в котором находится.
+        /// </summary>
+        public class Factory : AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter>
         {
+            private readonly IGame game;
+            public Factory(ABoosterView viewPrefab, IGame game, Transform parent = null) : base(viewPrefab)
+            {
+                this.game = game;
+            }
+
+            public override IBoosterPresenter Connect(ABoosterView existingView, IBooster_Readonly model)
+            {
+                var presenter = new BoosterPresenter(existingView, model, game);
+                existingView.Init(model.Icon, model.Amount);
+                allPresenters.Add(presenter);
+                presenter.Enable();
+                return presenter;
+            }
+        }
+
+        private ABoosterView view;
+        private IBooster_Readonly model;
+        private readonly IGame game;
+
+        public BoosterPresenter(ABoosterView view, IBooster_Readonly model, IGame game)
+        {
+            this.view = view;
+            this.model = model;
             this.game = game;
         }
-
-        public override IBoosterPresenter Connect(ABoosterView existingView, IBooster model)
+        public void Enable()
         {
-            var presenter = new BoosterPresenter(existingView, model, game);
-            existingView.Init(model.Icon, model.Amount);
-            allPresenters.Add(presenter);
-            presenter.Enable();
-            return presenter;
+            view.OnActivate += ActivateBooster;
         }
-    }
-    
-    private ABoosterView view;
-    private IBooster model;
-    private readonly IGame game;
-
-    public BoosterPresenter(ABoosterView view, IBooster model, IGame game)
-    {
-        this.view = view;
-        this.model = model;
-        this.game = game;
-    }
-    public void Enable()
-    {
-        view.OnActivate += ActivateBooster;
-    }
-    public void Disable()
-    {
-        view.OnActivate -= ActivateBooster;
-    }
-    public void Destroy()
-    {
-        Disable();
-        GameObject.Destroy(view.gameObject);
-    }
+        public void Disable()
+        {
+            view.OnActivate -= ActivateBooster;
+        }
+        public void Destroy()
+        {
+            Disable();
+            GameObject.Destroy(view.gameObject);
+        }
 
 
 
-    private void ChangeAmount(int amount)
-    {
-        if (amount > 0)
-            view.EnableButton();
-        else
-            view.DisableButton();
+        private void ChangeAmount(int amount)
+        {
+            if (amount > 0)
+                view.EnableButton();
+            else
+                view.DisableButton();
 
-        view.ChangeAmount(amount);
+            view.ChangeAmount(amount);
+        }
+        private void ChangeIcon(Sprite icon) => view.ChangeIcon(icon);
+        private void ActivateBooster() => game.ActivateBooster(model);
     }
-    private void ChangeIcon(Sprite icon) => view.ChangeIcon(icon);
-    private void ActivateBooster() => game.ActivateBooster(model);
 }

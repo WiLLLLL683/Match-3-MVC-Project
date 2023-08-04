@@ -1,7 +1,6 @@
-﻿using Model.Readonly;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using Model.Readonly;
 using Utils;
 using View;
 

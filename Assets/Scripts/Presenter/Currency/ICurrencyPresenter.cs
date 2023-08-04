@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-
-public interface ICurrencyPresenter : IPresenter
+﻿
+namespace Presenter
 {
+    public interface ICurrencyPresenter : IPresenter
+    {
 
+    }
 }
