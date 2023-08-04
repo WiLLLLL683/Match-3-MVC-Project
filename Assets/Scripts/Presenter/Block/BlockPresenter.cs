@@ -60,7 +60,11 @@ namespace Presenter
             model.OnTypeChange -= ChangeType;
         }
         public void Destroy() => Destroy(model);
-        public void Move(Directions direction) => game.MoveBlock(model.Position, direction);
+        public void Move(Directions direction)
+        {
+            direction = direction.InvertUpDown();
+            game.MoveBlock(model.Position, direction);
+        }
         public void Activate()
         {
             Debug.Log("Activate");

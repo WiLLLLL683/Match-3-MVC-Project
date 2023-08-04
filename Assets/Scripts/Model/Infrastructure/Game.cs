@@ -46,7 +46,6 @@ namespace Model.Infrastructure
             stateMachine.AddState(new TurnState(this, stateMachine, systems));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
             stateMachine.AddState(new SpawnState(this, stateMachine, systems));
-            stateMachine.AddState(new HintState(stateMachine, systems));
             stateMachine.AddState(new LoseState(stateMachine, systems));
             stateMachine.AddState(new WinState(stateMachine, systems));
             stateMachine.AddState(new BonusState(stateMachine, systems));

@@ -58,21 +58,24 @@ namespace Model.Infrastructure
             swapAction.Execute();
 
             //проверка на результативность хода
-            List<Cell> matches = matchSystem.FindMatches();
-            if (matches.Count > 0)
-            {
-                for (int i = 0; i < matches.Count; i++)
-                {
-                    level.UpdateGoals(matches[i].Block.Type);
-                    matches[i].DestroyBlock();
-                }
-                SucsessfullTurn();
-            }
-            else
-            {
-                swapAction.Undo();
-                stateMachine.SetPreviousState();
-            }
+            //List<Cell> matches = matchSystem.FindMatches();
+            //if (matches.Count > 0)
+            //{
+            //    for (int i = 0; i < matches.Count; i++)
+            //    {
+            //        level.UpdateGoals(matches[i].Block.Type);
+            //        matches[i].DestroyBlock();
+            //    }
+            //    SucsessfullTurn();
+            //}
+            //else
+            //{
+            //    swapAction.Undo();
+            //    stateMachine.SetPreviousState();
+            //}
+
+            //!!!TEST!!!
+            stateMachine.SetState<WaitState>();
         }
 
         private void PressBlock()

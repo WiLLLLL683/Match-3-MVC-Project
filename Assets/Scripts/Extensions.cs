@@ -35,6 +35,21 @@ public static class Extensions
         };
     }
     /// <summary>
+    /// Преобразовать направление из координат модели в координаты вью и наоборот, инвертировав верх и низ
+    /// </summary>
+    public static Directions InvertUpDown(this Directions direction)
+    {
+        return direction switch
+        {
+            Directions.Up => Directions.Down,
+            Directions.Down => Directions.Up,
+            Directions.Left => Directions.Left,
+            Directions.Right => Directions.Right,
+            Directions.Zero => Directions.Zero,
+            _ => Directions.Zero,
+        };
+    }
+    /// <summary>
     /// Преобразовать положение из координат модели в координаты вью
     /// </summary>
     public static Vector2Int ToViewPos(this Vector2Int modelPosition)
