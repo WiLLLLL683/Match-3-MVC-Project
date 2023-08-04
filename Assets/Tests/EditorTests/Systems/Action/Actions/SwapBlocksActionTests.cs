@@ -32,8 +32,8 @@ namespace Model.Systems.UnitTests
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
             Block blockB = cellB.SpawnBlock(new RedBlockType());
             int eventCount = 0;
-            cellA.OnEmpty += (cell, eventArgs) => eventCount += 1;
-            cellB.OnEmpty += (cell, eventArgs) => eventCount += 1;
+            cellA.OnEmpty += (cell) => eventCount += 1;
+            cellB.OnEmpty += (cell) => eventCount += 1;
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
@@ -49,8 +49,8 @@ namespace Model.Systems.UnitTests
             Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
             int eventCount = 0;
-            cellA.OnEmpty += (cell, eventArgs) => eventCount += 1;
-            cellB.OnEmpty += (cell, eventArgs) => eventCount += 1;
+            cellA.OnEmpty += (cell) => eventCount += 1;
+            cellB.OnEmpty += (cell) => eventCount += 1;
 
             SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();

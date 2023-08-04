@@ -1,9 +1,5 @@
-﻿using Data;
+﻿using Model.Readonly;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Model.Objects
@@ -12,7 +8,7 @@ namespace Model.Objects
     /// Счетчик целей заданного типа
     /// </summary>
     [Serializable]
-    public class Counter
+    public class Counter : ICounter_Readonly
     {
         public ICounterTarget Target => target;
         [SerializeReference, SubclassSelector] private ICounterTarget target;
@@ -23,7 +19,7 @@ namespace Model.Objects
         public event GoalDelegate OnUpdateEvent;
         public event GoalDelegate OnCompleteEvent;
 
-        public Counter(ICounterTarget _target,int _count)
+        public Counter(ICounterTarget _target, int _count)
         {
             target = _target;
             count = _count;

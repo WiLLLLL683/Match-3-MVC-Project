@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Model.Infrastructure.FunctionalTests
 {
@@ -17,7 +18,7 @@ namespace Model.Infrastructure.FunctionalTests
 
         public void OnStart()
         {
-            level = game.Level;
+            level = game.CurrentLevel;
         }
 
         public void OnEnd()

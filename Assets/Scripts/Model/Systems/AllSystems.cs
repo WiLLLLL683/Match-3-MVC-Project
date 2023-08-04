@@ -16,12 +16,6 @@ namespace Model.Systems
         {
             Type type = typeof(T);
 
-            Debug.Log(type);
-            foreach (var item in systems)
-            {
-                Debug.Log(item.Value.GetType());
-            }
-
             if (!systems.ContainsKey(type))
             {
                 Debug.LogError("There is no " + typeof(T) + " registered");
@@ -35,14 +29,7 @@ namespace Model.Systems
         {
             Type type = typeof(T);
 
-            if (systems.ContainsKey(type))
-            {
-                systems[type] = _system;
-            }
-            else
-            {
-                systems.Add(type, _system);
-            }
+            systems[type] = _system;
         }
 
         public void SetLevel(Level _level)

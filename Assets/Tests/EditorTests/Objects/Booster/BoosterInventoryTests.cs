@@ -14,11 +14,11 @@ namespace Model.Objects.UnitTests
         {
             BoosterInventory inventory = new();
 
-            Assert.AreEqual(0, inventory.GetBoosterAmmount<TestBooster1>());
+            Assert.AreEqual(0, inventory.GetBoosterAmount<TestBooster1>());
 
             inventory.AddBooster<TestBooster1>(1);
 
-            Assert.AreEqual(1, inventory.GetBoosterAmmount<TestBooster1>());
+            Assert.AreEqual(1, inventory.GetBoosterAmount<TestBooster1>());
         }
 
         [Test]
@@ -27,11 +27,11 @@ namespace Model.Objects.UnitTests
             BoosterInventory inventory = new();
             inventory.AddBooster<TestBooster1>(1);
 
-            Assert.AreEqual(1, inventory.GetBoosterAmmount<TestBooster1>());
+            Assert.AreEqual(1, inventory.GetBoosterAmount<TestBooster1>());
 
             inventory.AddBooster<TestBooster1>(1);
 
-            Assert.AreEqual(2, inventory.GetBoosterAmmount<TestBooster1>());
+            Assert.AreEqual(2, inventory.GetBoosterAmount<TestBooster1>());
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Model.Objects.UnitTests
 
             inventory.TakeBooster<TestBooster1>();
 
-            Assert.AreEqual(1, inventory.GetBoosterAmmount<TestBooster1>());
+            Assert.AreEqual(1, inventory.GetBoosterAmount<TestBooster1>());
         }
 
         [Test]

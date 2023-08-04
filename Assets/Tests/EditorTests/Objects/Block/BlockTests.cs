@@ -62,7 +62,7 @@ namespace Model.Objects.UnitTests
         {
             Block block = CreateBlock();
             Block test = CreateBlock();
-            void TestFunc(Block sender, EventArgs eventArgs)
+            void TestFunc(Block sender)
             {
                 test = sender;
             }

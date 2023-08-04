@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using Model.Readonly;
 
 namespace Model.Objects
 {
-    public interface IBooster
+    public interface IBooster : IBooster_Readonly
     {
-        public Sprite Icon { get; }
-        public int Ammount { get; }
+        //TODO
     }
 }
