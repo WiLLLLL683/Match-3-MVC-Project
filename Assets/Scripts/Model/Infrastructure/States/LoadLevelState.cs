@@ -79,11 +79,11 @@ namespace Model.Infrastructure
         {
             for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
             {
-                List<Cell> matches = matchSystem.FindMatches();
-                for (int j = 0; j < matches.Count; j++)
+                HashSet<Cell> matches = matchSystem.FindMatches();
+                foreach (Cell match in matches)
                 {
-                    matches[j].DestroyBlock();
-                    SpawnRandomBlock(level, matches[j]);
+                    match.DestroyBlock();
+                    SpawnRandomBlock(level, match);
                 }
             }
         }

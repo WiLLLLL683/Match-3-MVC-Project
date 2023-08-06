@@ -40,7 +40,7 @@ namespace Model.Systems.UnitTests
             if (action != null)
                 action.Execute();
 
-            LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
+            LogAssert.Expect(LogType.Warning, "Cell position out of GameBoards range");
             Assert.AreSame(blockA, level.gameBoard.Cells[0,0].Block);
             Assert.AreSame(blockB, level.gameBoard.Cells[1,0].Block);
         }
@@ -58,7 +58,7 @@ namespace Model.Systems.UnitTests
             if (action != null)
                 action.Execute();
 
-            LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
+            LogAssert.Expect(LogType.Warning, "Cell position out of GameBoards range");
             Assert.AreSame(blockA, level.gameBoard.Cells[0,0].Block);
             Assert.AreSame(blockB, level.gameBoard.Cells[1,0].Block);
         }

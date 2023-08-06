@@ -42,23 +42,23 @@ namespace Data
         /// <summary>
         /// Найти клетки совпадающие с данным паттерном
         /// </summary>
-        public List<Cell> Match(GameBoard _gameBoard, Vector2Int _startPosition)
+        public HashSet<Cell> Match(GameBoard _gameBoard, Vector2Int _startPosition)
         {
             //пуст ли паттерн?
             if (totalSum == 0)
-                return new List<Cell>();
+                return new HashSet<Cell>();
 
-            Vector2Int originPosOnGameboard = new Vector2Int(originPosition.x + _startPosition.x, originPosition.y + _startPosition.y);
+            Vector2Int originPosOnGameboard = new(originPosition.x + _startPosition.x, originPosition.y + _startPosition.y);
 
-            //есть ли блок?
+            //есть ли блок в начальной позиции?
             if (!_gameBoard.CheckValidBlockByPosition(originPosOnGameboard))
-                return new List<Cell>();
+                return new HashSet<Cell>();
 
             //взять тип оригинального блока
             originType = _gameBoard.Cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.GetType();
 
             int sum = 0;
-            List<Cell> matchedCells = new List<Cell>();
+            HashSet<Cell> matchedCells = new();
 
             //проверить и подсчитать совпадения, пройдя по координатам паттерна
             for (int x = 0; x < grid.GetLength(0); x++)
@@ -67,11 +67,11 @@ namespace Data
                 {
                     Vector2Int posOnGameboard = new Vector2Int(x + _startPosition.x, y + _startPosition.y);
 
-                    //помечена ли клетка?
+                    //помечена ли клетка в паттерне?
                     if (grid[x, y] == false)
                         continue;
 
-                    //есть ли блок?
+                    //есть ли блок в клетке?
                     if (!_gameBoard.CheckValidBlockByPosition(posOnGameboard))
                         continue;
 
@@ -88,7 +88,7 @@ namespace Data
             if (sum == totalSum)
                 return matchedCells;
             else
-                return new List<Cell>();
+                return new HashSet<Cell>();
         }
 
 

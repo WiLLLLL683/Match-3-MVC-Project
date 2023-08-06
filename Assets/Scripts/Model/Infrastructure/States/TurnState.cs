@@ -58,24 +58,22 @@ namespace Model.Infrastructure
             swapAction?.Execute();
 
             //проверка на результативность хода
-            //List<Cell> matches = matchSystem.FindMatches();
-            //if (matches.Count > 0)
-            //{
-            //    for (int i = 0; i < matches.Count; i++)
-            //    {
-            //        level.UpdateGoals(matches[i].Block.Type);
-            //        matches[i].DestroyBlock();
-            //    }
-            //    SucsessfullTurn();
-            //}
-            //else
-            //{
-            //    swapAction.Undo();
-            //    stateMachine.SetPreviousState();
-            //}
+            HashSet<Cell> matches = matchSystem.FindMatches();
+            if (matches.Count > 0)
+            {
+                foreach (Cell match in matches)
+                {
+                    //level.UpdateGoals(matches[i].Block.Type);
+                    match.DestroyBlock();
+                }
 
-            //!!!TEST!!!
-            stateMachine.SetState<WaitState>();
+                SucsessfullTurn();
+            }
+            else
+            {
+                swapAction.Undo();
+                stateMachine.SetPreviousState();
+            }
         }
 
         private void PressBlock()
@@ -96,7 +94,10 @@ namespace Model.Infrastructure
         {
             //TODO засчитать ход в логгер
             //TODO обновить счетчики
-            stateMachine.SetState<SpawnState>();
+            //stateMachine.SetState<SpawnState>();
+
+            //!!!TEST!!!
+            stateMachine.SetState<WaitState>();
         }
     }
 }

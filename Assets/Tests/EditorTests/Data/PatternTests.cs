@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Model.Objects;
 using NUnit.Framework;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Data.UnitTests
             grid[0,0] = true;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0));
+            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0)).ToList();
 
             Assert.AreEqual(1, cells.Count);
             Assert.AreEqual(gameBoard.Cells[0,0], cells[0]);
@@ -37,7 +38,7 @@ namespace Data.UnitTests
             grid[1, 0] = true;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0));
+            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0)).ToList();
 
             Assert.AreEqual(2, cells.Count);
             Assert.AreEqual(gameBoard.Cells[0,0], cells[0]);
@@ -57,7 +58,7 @@ namespace Data.UnitTests
             grid[1, 0] = true;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,1));
+            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,1)).ToList();
 
             Assert.AreEqual(2, cells.Count);
             Assert.AreEqual(gameBoard.Cells[0,1], cells[0]);
@@ -77,7 +78,7 @@ namespace Data.UnitTests
             grid[1,0] = true;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0));
+            List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0)).ToList();
 
             Assert.AreEqual(0, cells.Count);
         }
@@ -91,7 +92,7 @@ namespace Data.UnitTests
             grid[0, 0] = false;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0));
+            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0)).ToList();
 
             Assert.AreEqual(0, cells.Count);
         }
@@ -105,10 +106,10 @@ namespace Data.UnitTests
             grid[0, 0] = true;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(10, 10));
+            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(10, 10)).ToList();
 
             Assert.AreEqual(0, cells.Count);
-            LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
+            LogAssert.Expect(LogType.Warning, "Cell position out of GameBoards range");
         }
 
         [Test]
@@ -120,10 +121,10 @@ namespace Data.UnitTests
             grid[0, 0] = true;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0));
+            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0)).ToList();
 
             Assert.AreEqual(0, cells.Count);
-            LogAssert.Expect(LogType.Error, "Tried to get Block but Cell was notPlayable");
+            LogAssert.Expect(LogType.Warning, "Tried to get Block but Cell was notPlayable");
         }
 
         [Test]
@@ -134,10 +135,10 @@ namespace Data.UnitTests
             grid[0, 0] = true;
             Pattern pattern = new Pattern(grid);
 
-            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0));
+            List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0)).ToList();
 
             Assert.AreEqual(0, cells.Count);
-            LogAssert.Expect(LogType.Error, "Tried to get Block but Cell was empty");
+            LogAssert.Expect(LogType.Warning, "Tried to get Block but Cell was empty");
         }
     }
 }

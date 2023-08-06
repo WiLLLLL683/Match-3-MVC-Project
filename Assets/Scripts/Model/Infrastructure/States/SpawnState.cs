@@ -37,13 +37,13 @@ namespace Model.Infrastructure
                 gravitySystem.Execute();
 
                 //проверка на матчи
-                List<Cell> matches = matchSystem.FindMatches();
+                HashSet<Cell> matches = matchSystem.FindMatches();
 
                 //удалить совпадающие блоки
-                for (int j = 0; j < matches.Count; j++)
+                foreach (Cell match in matches)
                 {
-                    level.UpdateGoals(matches[j].Block.Type);
-                    matches[j].DestroyBlock();
+                    level.UpdateGoals(match.Block.Type);
+                    match.DestroyBlock();
                 }
 
                 //спавн верхней полосы
