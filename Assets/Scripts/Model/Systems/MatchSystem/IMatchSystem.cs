@@ -6,6 +6,6 @@ namespace Model.Systems
     public interface IMatchSystem : ISystem
     {
         public HashSet<Cell> FindFirstHint();
-        public HashSet<Cell> FindMatches();
+        public HashSet<Cell> FindAllMatches();
     }
 }

@@ -14,7 +14,7 @@ namespace Model.Systems.UnitTests
         public void Execute_OneBlockOneEmptyCellUnder_BlockMovesDown()
         {
             Level level = new(1,2);
-            Block block = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
+            Block block = level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
             level.gameBoard.Cells[0, 1].SetBlock(null);
             GravitySystem gravitySystem = new GravitySystem();
             gravitySystem.SetLevel(level);
@@ -29,8 +29,8 @@ namespace Model.Systems.UnitTests
         public void Execute_OneBlockNoEmptyCellUnder_NoChange()
         {
             Level level = new(1, 2);
-            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.Cells[0, 1].SpawnBlock(new BlueBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
+            Block blockB = level.gameBoard.Cells[0, 1].SpawnBlock(new BasicBlockType());
             GravitySystem gravitySystem = new GravitySystem();
             gravitySystem.SetLevel(level);
 
@@ -44,8 +44,8 @@ namespace Model.Systems.UnitTests
         public void Execute_TwoBlocksEmptyCellUnder_TwoBlocksMoveDown()
         {
             Level level = new(1, 3);
-            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.Cells[0, 1].SpawnBlock(new BlueBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
+            Block blockB = level.gameBoard.Cells[0, 1].SpawnBlock(new BasicBlockType());
             level.gameBoard.Cells[0, 2].SetBlock(null);
             GravitySystem gravitySystem = new GravitySystem();
             gravitySystem.SetLevel(level);

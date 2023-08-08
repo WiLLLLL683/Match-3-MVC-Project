@@ -37,7 +37,7 @@ namespace Model.Infrastructure
                 gravitySystem.Execute();
 
                 //проверка на матчи
-                HashSet<Cell> matches = matchSystem.FindMatches();
+                HashSet<Cell> matches = matchSystem.FindAllMatches();
 
                 //удалить совпадающие блоки
                 foreach (Cell match in matches)

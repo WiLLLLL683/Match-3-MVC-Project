@@ -10,11 +10,6 @@ namespace Array2DEditor
         ____NotPlayable,
         O___Basic
     }
-    public enum BlockTypeEnum
-    {
-        Blue,
-        Red
-    }
 }
 
 namespace Data
@@ -28,19 +23,6 @@ namespace Data
 
     public static class DataFromEnum 
     {
-        public static ABlockType GetBlockType(BlockTypeEnum _enum)
-        {
-            switch (_enum)
-            {
-                case BlockTypeEnum.Blue:
-                    return new BlueBlockType();
-                case BlockTypeEnum.Red:
-                    return new RedBlockType();
-                default:
-                    return null;
-            }
-        }
-
         public static ACellType GetCellType(CellTypeEnum _enum)
         {
             switch (_enum)
@@ -62,9 +44,9 @@ namespace Data
         //            switch (counterData.blockType)
         //            {
         //                case BlockTypeEnum.Blue:
-        //                    return new BlueBlockType();
+        //                    return new BasicBlockType();
         //                case BlockTypeEnum.Red:
-        //                    return new RedBlockType();
+        //                    return new BasicBlockType();
         //                default:
         //                    return null;
         //            }

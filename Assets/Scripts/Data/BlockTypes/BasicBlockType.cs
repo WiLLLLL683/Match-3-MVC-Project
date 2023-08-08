@@ -7,12 +7,13 @@ namespace Data
     /// <summary>
     /// Базовый тип блока, без действия по активации
     /// </summary>
-    [CreateAssetMenu(fileName = "BasicBlockType", menuName = "BlockTypes/BasicBlockType")]
     public class BasicBlockType : ABlockType
     {
-        public override bool Activate()
+        public BasicBlockType(int id = 0) : base(id)
         {
-            return base.Activate();
+
         }
+
+        public override bool Activate() => false;
     }
 }

@@ -79,7 +79,7 @@ namespace Model.Infrastructure
         {
             for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
             {
-                HashSet<Cell> matches = matchSystem.FindMatches();
+                HashSet<Cell> matches = matchSystem.FindAllMatches();
                 foreach (Cell match in matches)
                 {
                     match.DestroyBlock();

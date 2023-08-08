@@ -26,7 +26,7 @@ namespace Model.Objects.UnitTests
         public void ChangeType_NewType_TypeEqNewType()
         {
             Block block = CreateBlock();
-            ABlockType newType = new BlueBlockType();
+            ABlockType newType = new BasicBlockType();
 
             block.ChangeType(newType);
 

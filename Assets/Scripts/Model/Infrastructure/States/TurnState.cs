@@ -58,7 +58,7 @@ namespace Model.Infrastructure
             swapAction?.Execute();
 
             //проверка на результативность хода
-            HashSet<Cell> matches = matchSystem.FindMatches();
+            HashSet<Cell> matches = matchSystem.FindAllMatches();
             if (matches.Count > 0)
             {
                 foreach (Cell match in matches)

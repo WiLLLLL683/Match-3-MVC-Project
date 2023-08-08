@@ -34,7 +34,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UpdateGoal_IncorrectTarget_CountSame()
         {
-            Counter goal = new Counter(new RedBlockType(),10);
+            Counter goal = new Counter(new BasicBlockType(),10);
             Block target = CreateBlock();
 
             goal.UpdateGoal(target.Type);

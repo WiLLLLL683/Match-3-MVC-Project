@@ -65,13 +65,11 @@ namespace Model.Objects
         /// <summary>
         /// Проверка наличия блока в заданной позиции
         /// </summary>
-        public bool CheckValidBlockByPosition(Vector2Int position)
+        public bool ValidateBlockAt(Vector2Int position)
         {
             //позиция вне границ игрового поля?
-            if (!CheckValidCellByPosition(position))
-            {
+            if (!ValidateCellAt(position))
                 return false;
-            }
 
             //играбельна ли клетка?
             if (!Cells[position.x, position.y].IsPlayable)
@@ -90,17 +88,15 @@ namespace Model.Objects
             return true;
         }
 
-        /// <summary>
-        /// Проверка наличия клетки в границах игрового поля и играбельна ли она
-        /// </summary>
-        public bool CheckValidCellByPosition(Vector2Int position)
+
+
+        private bool ValidateCellAt(Vector2Int position)
         {
             //позиция в границах игрового поля?
             if (position.x >= 0 &&
                 position.y >= 0 &&
                 position.x < Cells.GetLength(0) &&
-                position.y < Cells.GetLength(1) &&
-                Cells[position.x, position.y].IsPlayable)
+                position.y < Cells.GetLength(1))
             {
                 return true;
             }
@@ -110,9 +106,6 @@ namespace Model.Objects
                 return false;
             }
         }
-
-
-
         private void UnRegisterBlock(Block block) => Blocks.Remove(block);
     }
 }

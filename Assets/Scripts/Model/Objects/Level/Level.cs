@@ -46,7 +46,7 @@ namespace Model.Objects
         {
             gameBoard = new GameBoard(xLength, yLength);
             goals = new Counter[1];
-            goals[0] = new Counter(new BasicBlockType(), 2);
+            goals[0] = new Counter(new BasicBlockType(0), 2);
             restrictions = new Counter[1];
             restrictions[0] = new Counter(new Turn(), 2);
             matchPatterns = new Pattern[1];
@@ -56,9 +56,9 @@ namespace Model.Objects
 
 
             List<BlockType_Weight> balanceDictionary = new();
-            balanceDictionary.Add(new BlockType_Weight(new BlueBlockType(), 50));
-            balanceDictionary.Add(new BlockType_Weight(new RedBlockType(), 50));
-            balance = new Balance(balanceDictionary);
+            balanceDictionary.Add(new BlockType_Weight(new BasicBlockType(0), 50));
+            balanceDictionary.Add(new BlockType_Weight(new BasicBlockType(1), 50));
+            balance = new Balance(balanceDictionary, new BasicBlockType(0));
         }
 
         /// <summary>

@@ -24,10 +24,11 @@ namespace Model.Systems
         /// <summary>
         /// Найти все совпадения по всем паттернам для уничтожения
         /// </summary>
-        public HashSet<Cell> FindMatches()
+        public HashSet<Cell> FindAllMatches()
         {
             HashSet<Cell> matchedCells = new();
 
+            //Проверка всех паттернов
             for (int i = 0; i < level.matchPatterns.Length; i++)
             {
                 HashSet<Cell> cellsAtPattern = CheckPattern(level.matchPatterns[i]);
@@ -38,7 +39,7 @@ namespace Model.Systems
         }
 
         /// <summary>
-        /// Найти первый попавшийся паттерн для подсказки 
+        /// Найти первый попавшийся паттерн для подсказки
         /// </summary>
         public HashSet<Cell> FindFirstHint()
         {

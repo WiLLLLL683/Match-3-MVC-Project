@@ -29,21 +29,12 @@ namespace Model.Systems
             //вычислить конечную позицию
             Vector2Int targetPosition = startPosition + direction.ToVector2Int();
 
-            //проверка: начальная позиция внутри поля?
-            if (!level.gameBoard.CheckValidCellByPosition(startPosition))
+            //проверка: есть ли в начальной и конечной позициях блоки?
+            if (!level.gameBoard.ValidateBlockAt(targetPosition) ||
+                !level.gameBoard.ValidateBlockAt(startPosition))
+            {
                 return null;
-
-            //проверка: в начальной позиции есть блок?
-            if (!level.gameBoard.CheckValidBlockByPosition(startPosition))
-                return null;
-
-            //проверка: конечная позиция внутри поля?
-            if (!level.gameBoard.CheckValidCellByPosition(targetPosition))
-                return null;
-
-            //проверка: в конечной позиции есть блок?
-            if (!level.gameBoard.CheckValidBlockByPosition(startPosition))
-                return null;
+            }
 
             //возврат действия по смене блоков местами
             return new SwapBlocksAction(level.gameBoard.Cells[startPosition.x, startPosition.y], level.gameBoard.Cells[targetPosition.x, targetPosition.y]);

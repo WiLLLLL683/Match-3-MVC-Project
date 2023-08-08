@@ -10,13 +10,16 @@ namespace Data
     [Serializable]
     public class BlockType_Weight
     {
-        public ABlockType blockType = new BlueBlockType();
+        public BlockTypeSO blockTypeSO;
+        public ABlockType blockType;
         public int weight;
 
-        public BlockType_Weight(ABlockType _blockType, int _weight = 0)
+        public BlockType_Weight(ABlockType blockType, int weight = 0)
         {
-            blockType = _blockType;
-            weight = _weight;
+            this.blockType = blockType;
+            this.weight = weight;
         }
+
+        public void LinkBlockTypeToSO() => blockType = blockTypeSO.blockType;
     }
 }

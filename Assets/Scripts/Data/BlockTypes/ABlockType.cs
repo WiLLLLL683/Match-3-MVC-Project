@@ -9,19 +9,21 @@ namespace Data
     /// Тип блока с возможностью активации
     /// </summary>
     [Serializable]
-    public abstract class ABlockType : ScriptableObject, ICounterTarget
+    public abstract class ABlockType : ICounterTarget
     {
+        public int id;
         public Sprite Sprite;
         public ParticleSystem DestroyEffect;
-
         public Sprite Icon => Sprite;
+
+        protected ABlockType(int id)
+        {
+            this.id = id;
+        }
 
         /// <summary>
         /// Возвращает успешен ли был ход
         /// </summary>
-        public virtual bool Activate()
-        {
-            return false;
-        }
+        public abstract bool Activate();
     }
 }

@@ -66,23 +66,23 @@ namespace Model.Systems.UnitTests
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
-            spawnSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.Cells[0,0]);
+            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.Cells[0,0]);
 
             Assert.IsFalse(level.gameBoard.Cells[0,0].IsEmpty);
-            Assert.That(level.gameBoard.Cells[0, 0].Block.Type is BlueBlockType);
+            Assert.That(level.gameBoard.Cells[0, 0].Block.Type is BasicBlockType);
         }
 
         [Test]
         public void SpawnBonusBlock_FullCell_BlockTypeChanged()
         {
             Level level = new Level(1, 1);
-            level.gameBoard.Cells[0, 0].SpawnBlock(new RedBlockType());
+            level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
-            spawnSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.Cells[0, 0]);
+            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.Cells[0, 0]);
 
-            Assert.That(level.gameBoard.Cells[0, 0].Block.Type is BlueBlockType);
+            Assert.That(level.gameBoard.Cells[0, 0].Block.Type is BasicBlockType);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Model.Systems.UnitTests
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
-            spawnSystem.SpawnBonusBlock(new BlueBlockType(), level.gameBoard.Cells[0, 0]);
+            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.Cells[0, 0]);
 
             Assert.IsTrue(level.gameBoard.Cells[0, 0].IsEmpty);
         }
