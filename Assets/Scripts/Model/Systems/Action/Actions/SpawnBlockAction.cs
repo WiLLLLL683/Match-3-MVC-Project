@@ -12,10 +12,10 @@ namespace Model.Systems
     public class SpawnBlockAction : IAction
     {
         private GameBoard gameBoard;
-        private ABlockType type;
+        private IBlockType type;
         private Cell cell;
 
-        public SpawnBlockAction(GameBoard _gameBoard, ABlockType _type, Cell _cell)
+        public SpawnBlockAction(GameBoard _gameBoard, IBlockType _type, Cell _cell)
         {
             gameBoard = _gameBoard;
             type = _type;

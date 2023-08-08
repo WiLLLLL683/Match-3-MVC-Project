@@ -29,7 +29,7 @@ namespace Model.Systems
             const int y = 0; //верхняя линия
             for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
             {
-                ABlockType type = level.balance.GetRandomBlockType();
+                IBlockType type = level.balance.GetRandomBlockType();
                 SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.Cells[x, y]);
                 spawnAction.Execute();
             }
@@ -38,7 +38,7 @@ namespace Model.Systems
         /// <summary>
         /// спавн бонусных блоков
         /// </summary>
-        public void SpawnBonusBlock(ABlockType _type, Cell _cell)
+        public void SpawnBonusBlock(IBlockType _type, Cell _cell)
         {
             if (_cell.IsEmpty)
             {

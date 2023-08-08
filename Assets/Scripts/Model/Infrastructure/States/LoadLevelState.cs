@@ -90,7 +90,7 @@ namespace Model.Infrastructure
 
         private static void SpawnRandomBlock(Level _level, Cell _cell)
         {
-            ABlockType blockType = _level.balance.GetRandomBlockType();
+            IBlockType blockType = _level.balance.GetRandomBlockType();
             new SpawnBlockAction(_level.gameBoard, blockType, _cell).Execute();
         }
     }

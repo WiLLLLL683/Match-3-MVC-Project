@@ -73,7 +73,7 @@ namespace Presenter
         }
 
         private void SyncPosition(Vector2Int modelPosition) => view.ChangeModelPosition(modelPosition);
-        private void ChangeType(ABlockType type) => view.ChangeType(type);
+        private void ChangeType(IBlockType type) => view.ChangeType(type);
         private void Destroy(IBlock_Readonly block)
         {
             Disable();

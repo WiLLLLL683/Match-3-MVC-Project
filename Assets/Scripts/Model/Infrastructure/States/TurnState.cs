@@ -71,7 +71,7 @@ namespace Model.Infrastructure
             }
             else
             {
-                swapAction.Undo();
+                swapAction?.Undo();
                 stateMachine.SetPreviousState();
             }
         }

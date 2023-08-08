@@ -23,12 +23,12 @@ namespace View
         public override event Action<Directions> OnMove;
         public override event Action OnActivate;
 
-        private ABlockType type;
+        private IBlockType type;
         private Vector2 targetPosition;
         private Vector2Int modelPosition;
         private ParticleSystem destroyEffect;
 
-        public override void Init(ABlockType type, Vector2Int modelPosition)
+        public override void Init(IBlockType type, Vector2Int modelPosition)
         {
             ChangeType(type);
             ChangeModelPosition(modelPosition);
@@ -51,14 +51,17 @@ namespace View
             this.modelPosition = modelPosition;
             targetPosition = modelPosition.ToViewPos();
         }
-        public override void ChangeType(ABlockType type)
+        public override void ChangeType(IBlockType type)
         {
             this.type = type;
-            icon.sprite = type.Sprite;
+            icon.sprite = type.Icon;
         }
         public override void PlayClickAnimation() => StartCoroutine(TapAnimation());
         public override void PlayDestroyEffect()
         {
+            if (type.DestroyEffect == null)
+                return;
+
             if (destroyEffect == null)
                 destroyEffect = Instantiate(type.DestroyEffect, transform);
 

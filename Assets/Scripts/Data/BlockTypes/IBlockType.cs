@@ -8,22 +8,15 @@ namespace Data
     /// <summary>
     /// Тип блока с возможностью активации
     /// </summary>
-    [Serializable]
-    public abstract class ABlockType : ICounterTarget
+    public interface IBlockType : ICounterTarget
     {
-        public int id;
-        public Sprite Sprite;
-        public ParticleSystem DestroyEffect;
-        public Sprite Icon => Sprite;
-
-        protected ABlockType(int id)
-        {
-            this.id = id;
-        }
+        int Id { get; }
+        Sprite Icon { get; }
+        ParticleSystem DestroyEffect { get; }
 
         /// <summary>
         /// Возвращает успешен ли был ход
         /// </summary>
-        public abstract bool Activate();
+        public bool Activate();
     }
 }

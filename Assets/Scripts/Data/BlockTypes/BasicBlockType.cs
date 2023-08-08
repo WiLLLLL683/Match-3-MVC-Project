@@ -7,13 +7,27 @@ namespace Data
     /// <summary>
     /// Базовый тип блока, без действия по активации
     /// </summary>
-    public class BasicBlockType : ABlockType
+    [Serializable]
+    public class BasicBlockType : IBlockType
     {
-        public BasicBlockType(int id = 0) : base(id)
+        public int Id => id;
+        [SerializeField] private int id;
+
+        public Sprite Icon => icon;
+        [SerializeField] private Sprite icon;
+
+        public ParticleSystem DestroyEffect => destroyEffect;
+        [SerializeField] private ParticleSystem destroyEffect;
+
+        public BasicBlockType()
         {
 
         }
+        public BasicBlockType(int id = 0)
+        {
+            this.id = id;
+        }
 
-        public override bool Activate() => false;
+        public bool Activate() => false;
     }
 }

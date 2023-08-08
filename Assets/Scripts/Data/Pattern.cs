@@ -49,7 +49,7 @@ namespace Data
                 return new HashSet<Cell>();
 
             //взять тип оригинального блока
-            int originTypeId = gameBoard.Cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.id;
+            int originTypeId = gameBoard.Cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.Id;
 
             //подсчитать совпадения, пройдя по всем координатам паттерна
             int sum = 0;
@@ -73,7 +73,7 @@ namespace Data
                     Block block = cell.Block;
 
                     //совпадают ли типы блоков?
-                    if (block.Type.id == originTypeId)
+                    if (block.Type.Id == originTypeId)
                     {
                         sum++;
                         matchedCells.Add(cell);

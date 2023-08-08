@@ -63,7 +63,7 @@ namespace Model.Objects
         /// <summary>
         /// Заспавнить блок в клетке при возможности
         /// </summary>
-        public Block SpawnBlock(ABlockType _blockType)
+        public Block SpawnBlock(IBlockType _blockType)
         {
             if (IsPlayable && IsEmpty)
             {

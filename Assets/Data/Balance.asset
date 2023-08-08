@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Balance
   m_EditorClassIdentifier: 
   typesWeight:
-  - blockType: {fileID: 11400000, guid: 5296ba99051466549b01125b2cc4e831, type: 2}
+  - blockTypeSO: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
     weight: 15
-  - blockType: {fileID: 11400000, guid: d1ae5d5c14860fe45a51f2c47d242445, type: 2}
+  - blockTypeSO: {fileID: 11400000, guid: a718201386d955f418821abb1599e4d4, type: 2}
     weight: 15
+  defaultBlockType: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}

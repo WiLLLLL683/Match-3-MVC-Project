@@ -18,10 +18,10 @@ namespace Data.UnitTests
             var typesWeight = TestUtils.CreateListOfWeights(TestUtils.RED_BLOCK);
             var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
 
-            ABlockType blockType = balance.GetRandomBlockType();
+            IBlockType blockType = balance.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
-            Assert.AreEqual(blockType.id, TestUtils.RED_BLOCK);
+            Assert.AreEqual(blockType.Id, TestUtils.RED_BLOCK);
         }
 
         [Test]
@@ -30,10 +30,10 @@ namespace Data.UnitTests
             var typesWeight = new List<BlockType_Weight>();
             var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
 
-            ABlockType blockType = balance.GetRandomBlockType();
+            IBlockType blockType = balance.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
-            Assert.AreEqual(blockType.id, TestUtils.DEFAULT_BLOCK);
+            Assert.AreEqual(blockType.Id, TestUtils.DEFAULT_BLOCK);
         }
 
         [Test]
@@ -46,10 +46,10 @@ namespace Data.UnitTests
             int redCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                ABlockType blockType = balance.GetRandomBlockType();
-                if (blockType.id == TestUtils.BLUE_BLOCK)
+                IBlockType blockType = balance.GetRandomBlockType();
+                if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
-                if (blockType.id == TestUtils.RED_BLOCK)
+                if (blockType.Id == TestUtils.RED_BLOCK)
                     redCount++;
             }
 
@@ -75,14 +75,14 @@ namespace Data.UnitTests
             int yellowCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                ABlockType blockType = balance.GetRandomBlockType();
-                if (blockType.id == TestUtils.BLUE_BLOCK)
+                IBlockType blockType = balance.GetRandomBlockType();
+                if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
-                if (blockType.id == TestUtils.RED_BLOCK)
+                if (blockType.Id == TestUtils.RED_BLOCK)
                     redCount++;
-                if (blockType.id == TestUtils.GREEN_BLOCK)
+                if (blockType.Id == TestUtils.GREEN_BLOCK)
                     greenCount++;
-                if (blockType.id == TestUtils.YELLOW_BLOCK)
+                if (blockType.Id == TestUtils.YELLOW_BLOCK)
                     yellowCount++;
             }
 

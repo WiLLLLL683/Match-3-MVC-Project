@@ -32,8 +32,8 @@ MonoBehaviour:
     - row: 00000000010000000000000000000000000000000000000000000000000000000000000000000000
   goals:
   - target:
-      rid: -2
-    count: 1
+      rid: 6504100759048552450
+    count: 5
   restrictions:
   - target:
       rid: 4838321234394480641
@@ -48,7 +48,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 4838321234394480641
       type: {class: Turn, ns: Model.Systems, asm: GameAssembly}
+    - rid: 6504100759048552450
+      type: {class: BasicBlockType, ns: Data, asm: GameAssembly}
+      data:
+        id: 0
+        icon: {fileID: 0}
+        destroyEffect: {fileID: 0}

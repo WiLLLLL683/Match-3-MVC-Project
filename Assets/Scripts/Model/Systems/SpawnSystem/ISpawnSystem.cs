@@ -5,7 +5,7 @@ namespace Model.Systems
 {
     public interface ISpawnSystem : ISystem
     {
-        void SpawnBonusBlock(ABlockType _type, Cell _cell);
+        void SpawnBonusBlock(IBlockType _type, Cell _cell);
         void SpawnTopLine();
     }
 }

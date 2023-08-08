@@ -25,7 +25,7 @@ namespace Data
         /// <summary>
         /// for tests only
         /// </summary>
-        public Balance(List<BlockType_Weight> typesWeight, ABlockType defaultBlockType)
+        public Balance(List<BlockType_Weight> typesWeight, IBlockType defaultBlockType)
         {
             this.typesWeight = typesWeight;
             this.defaultBlockType = new();
@@ -45,7 +45,7 @@ namespace Data
         /// <summary>
         /// Получить рандомный тип блока с заданными вероятностями
         /// </summary>
-        public ABlockType GetRandomBlockType()
+        public IBlockType GetRandomBlockType()
         {
             int weightIndex = new System.Random().Next(0, totalWeight);
 

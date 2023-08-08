@@ -6,6 +6,6 @@ namespace Data
     [CreateAssetMenu(fileName = "BlockType", menuName = "Config/BlockType")]
     public class BlockTypeSO : ScriptableObject
     {
-        [SerializeReference, SubclassSelector] public ABlockType blockType;
+        [SerializeReference, SubclassSelector] public IBlockType blockType;
     }
 }

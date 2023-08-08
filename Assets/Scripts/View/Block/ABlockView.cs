@@ -15,9 +15,9 @@ namespace View
         public abstract event Action OnActivate;
 
         //инициализация
-        public abstract void Init(ABlockType type, Vector2Int modelPosition);
+        public abstract void Init(IBlockType type, Vector2Int modelPosition);
         public abstract void ChangeModelPosition(Vector2Int modelPosition);
-        public abstract void ChangeType(ABlockType blockType);
+        public abstract void ChangeType(IBlockType blockType);
         //визуал
         public abstract void PlayClickAnimation();
         public abstract void PlayDestroyEffect();

@@ -11,10 +11,10 @@ namespace Data
     public class BlockType_Weight
     {
         public BlockTypeSO blockTypeSO;
-        public ABlockType blockType;
+        public IBlockType blockType;
         public int weight;
 
-        public BlockType_Weight(ABlockType blockType, int weight = 0)
+        public BlockType_Weight(IBlockType blockType, int weight = 0)
         {
             this.blockType = blockType;
             this.weight = weight;

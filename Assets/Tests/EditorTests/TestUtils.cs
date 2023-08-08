@@ -16,9 +16,9 @@ namespace UnitTests
         public const int GREEN_BLOCK = 3;
         public const int YELLOW_BLOCK = 4;
 
-        public static ABlockType DefaultBlockType = CreateBasicBlockType(DEFAULT_BLOCK);
+        public static IBlockType DefaultBlockType = CreateBasicBlockType(DEFAULT_BLOCK);
 
-        public static ABlockType CreateBasicBlockType(int typeId) => new BasicBlockType(typeId);
+        public static IBlockType CreateBasicBlockType(int typeId) => new BasicBlockType(typeId);
         public static BlockType_Weight CreateBlockTypeWeight(int typeId, int weight) => new BlockType_Weight(CreateBasicBlockType(typeId), weight);
         public static List<BlockType_Weight> CreateListOfWeights(params int[] typeIds)
         {

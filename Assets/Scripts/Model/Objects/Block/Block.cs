@@ -13,17 +13,17 @@ namespace Model.Objects
     [System.Serializable]
     public class Block : IBlock_Readonly
     {
-        public ABlockType Type { get; private set; }
+        public IBlockType Type { get; private set; }
         public Cell Cell { get; private set; }
         public ICell_Readonly Cell_Readonly => Cell;
         public Vector2Int Position => Cell.Position;
 
         public event Action<Block> OnDestroy;
         public event Action<IBlock_Readonly> OnDestroy_Readonly;
-        public event Action<ABlockType> OnTypeChange;
+        public event Action<IBlockType> OnTypeChange;
         public event Action<Vector2Int> OnPositionChange;
 
-        public Block(ABlockType type, Cell cell)
+        public Block(IBlockType type, Cell cell)
         {
             Type = type;
             Cell = cell;
@@ -41,7 +41,7 @@ namespace Model.Objects
         /// <summary>
         /// Изменить тип блока
         /// </summary>
-        public void ChangeType(ABlockType type)
+        public void ChangeType(IBlockType type)
         {
             Type = type;
             OnTypeChange?.Invoke(type);
