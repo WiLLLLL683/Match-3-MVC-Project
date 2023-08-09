@@ -51,6 +51,8 @@ namespace Model.Infrastructure
 
         }
 
+
+
         private void MoveBlock()
         {
             //попытка хода
@@ -59,15 +61,10 @@ namespace Model.Infrastructure
 
             //проверка на результативность хода
             HashSet<Cell> matches = matchSystem.FindAllMatches();
+
             if (matches.Count > 0)
             {
-                foreach (Cell match in matches)
-                {
-                    //level.UpdateGoals(matches[i].Block.Type);
-                    match.DestroyBlock();
-                }
-
-                SucsessfullTurn();
+                SucsessfullTurn(matches);
             }
             else
             {
@@ -78,11 +75,15 @@ namespace Model.Infrastructure
 
         private void PressBlock()
         {
-            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate();
+            //проверка на результативность хода
+            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
+            
+            //проверка на последующие совпадения
+            HashSet<Cell> matches = matchSystem.FindAllMatches();
 
             if (turnSucsess)
             {
-                SucsessfullTurn();
+                SucsessfullTurn(matches);
             }
             else
             {
@@ -90,14 +91,16 @@ namespace Model.Infrastructure
             }
         }
 
-        private void SucsessfullTurn()
+        private void SucsessfullTurn(HashSet<Cell> matches)
         {
             //TODO засчитать ход в логгер
             //TODO обновить счетчики
-            //stateMachine.SetState<SpawnState>();
-
-            //!!!TEST!!!
-            stateMachine.SetState<WaitState>();
+            foreach (Cell match in matches)
+            {
+                //level.UpdateGoals(matches[i].Block.Type);
+                match.DestroyBlock();
+            }
+            stateMachine.SetState<SpawnState>();
         }
     }
 }

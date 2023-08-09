@@ -44,7 +44,7 @@ namespace Model.Infrastructure
 
             LoadLevel();
             SpawnBlocks();
-            //SwapMatchedBlocks(); //TODO
+            SwapMatchedBlocks(); //TODO
 
             Debug.Log("Core Game Started");
             stateMachine.SetState<WaitState>();

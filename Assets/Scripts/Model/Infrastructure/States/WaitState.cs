@@ -38,7 +38,7 @@ namespace Model.Infrastructure
                 stateMachine.SetState<WinState>();
 
             //поиск блоков для подсказки
-            hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
+            //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
         }
 
         public override void OnEnd()

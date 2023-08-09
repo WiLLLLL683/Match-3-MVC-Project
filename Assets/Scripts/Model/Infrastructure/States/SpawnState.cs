@@ -31,27 +31,31 @@ namespace Model.Infrastructure
         {
             level = game.CurrentLevel;
 
-            for (int i = 0; i < maxIterations; i++)
-            {
-                //гравитация
-                gravitySystem.Execute();
+            //TEST!!!
+            gravitySystem.SetLevel(level);
+            gravitySystem.Execute(level.gameBoard);
 
-                //проверка на матчи
-                HashSet<Cell> matches = matchSystem.FindAllMatches();
+            //for (int i = 0; i < maxIterations; i++)
+            //{
+            //    //гравитация
+            //    gravitySystem.Execute();
 
-                //удалить совпадающие блоки
-                foreach (Cell match in matches)
-                {
-                    level.UpdateGoals(match.Block.Type);
-                    match.DestroyBlock();
-                }
+            //    //проверка на матчи
+            //    HashSet<Cell> matches = matchSystem.FindAllMatches();
 
-                //спавн верхней полосы
-                spawnSystem.SpawnTopLine();
+            //    //удалить совпадающие блоки
+            //    foreach (Cell match in matches)
+            //    {
+            //        level.UpdateGoals(match.Block.Type);
+            //        match.DestroyBlock();
+            //    }
 
-                //TODO если уровень полон - прекратить
+            //    //спавн верхней полосы
+            //    spawnSystem.SpawnTopLine();
 
-            }
+            //    //TODO если уровень полон - прекратить
+
+            //}
 
             stateMachine.SetState<WaitState>();
         }
