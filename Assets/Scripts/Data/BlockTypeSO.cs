@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Model.Objects;
 using UnityEngine;
 
 namespace Data
 {
-    [CreateAssetMenu(fileName = "BlockType", menuName = "Config/BlockType")]
+    [CreateAssetMenu(fileName = "NewBlockType", menuName = "Config/BlockType")]
     public class BlockTypeSO : ScriptableObject
     {
         [SerializeReference, SubclassSelector] public IBlockType blockType;

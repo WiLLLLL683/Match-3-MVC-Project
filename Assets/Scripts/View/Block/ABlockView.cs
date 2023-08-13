@@ -15,9 +15,9 @@ namespace View
         public abstract event Action OnActivate;
 
         //инициализация
-        public abstract void Init(IBlockType type, Vector2Int modelPosition);
+        public abstract void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition);
         public abstract void ChangeModelPosition(Vector2Int modelPosition);
-        public abstract void ChangeType(IBlockType blockType);
+        public abstract void ChangeType(Sprite iconSprite, ParticleSystem destroyEffectPrefab);
         //визуал
         public abstract void PlayClickAnimation();
         public abstract void PlayDestroyEffect();

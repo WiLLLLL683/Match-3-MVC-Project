@@ -11,15 +11,15 @@ namespace Model.Systems
     /// </summary>
     public class ChangeCellTypeAction : IAction
     {
-        private Cell cell;
-        private ACellType targetType;
-        private ACellType previousType;
+        private readonly Cell cell;
+        private readonly ICellType targetType;
+        private readonly ICellType previousType;
 
-        public ChangeCellTypeAction(Cell _cell, ACellType _type)
+        public ChangeCellTypeAction(Cell cell, ICellType targetType)
         {
-            cell = _cell;
-            targetType = _type;
-            previousType = cell.Type;
+            this.cell = cell;
+            this.targetType = targetType;
+            previousType = this.cell.Type;
         }
 
         public void Execute()

@@ -39,11 +39,8 @@ namespace Data.UnitTests
         [Test]
         public void _FindPattern_NotValidCell_Null()
         {
-            GameBoard gameBoard = new GameBoard(1, 1);
-            gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
-            bool[,] grid = new bool[1, 1];
-            grid[0, 0] = true;
-            Pattern pattern = new Pattern(grid);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, TestUtils.RED_BLOCK);
+            var pattern = TestUtils.CreatePattern(1, 1, true);
 
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(10, 10)).ToList();
 
@@ -54,11 +51,9 @@ namespace Data.UnitTests
         [Test]
         public void _FindPattern_NotPlayableCell_Null()
         {
-            GameBoard gameBoard = new GameBoard(1, 1);
-            gameBoard.Cells[0, 0].ChangeType(new NotPlayableCellType());
-            bool[,] grid = new bool[1, 1];
-            grid[0, 0] = true;
-            Pattern pattern = new Pattern(grid);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, TestUtils.RED_BLOCK);
+            gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
+            var pattern = TestUtils.CreatePattern(1, 1, true);
 
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0)).ToList();
 

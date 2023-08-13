@@ -21,30 +21,35 @@ namespace Data
         public HintPattern[] HintPatterns => (HintPattern[])hintPatterns.Clone();
         public Sprite Icon => icon;
         public string LevelName => levelName;
+        public CellTypeSO[] CellTypes => cellTypes;
 
 
-        [SerializeReference] public ACellType[] cellTypes;
-        [SerializeField] private Array2DCellTypeEnum gameBoard;
+        [SerializeField] private Sprite icon;
+        [SerializeField] private string levelName;
+        [SerializeField] private CellTypeSO[] cellTypes;
+        [SerializeField] private Array2DInt gameBoard;
         [SerializeField] private Counter[] goals;
         [SerializeField] private Counter[] restrictions;
         [SerializeField] private Balance balance;
         [SerializeField] private Pattern[] matchPatterns;
         [SerializeField] private HintPattern[] hintPatterns;
-        [SerializeField] private Sprite icon;
-        [SerializeField] private string levelName;
 
         private GameBoard GetGameboardData()
         {
-            ACellType[,] aCellTypes = new ACellType[gameBoard.GridSize.x, gameBoard.GridSize.y];
+            ICellType[,] cellTypesGrid = new BasicCellType[gameBoard.GridSize.x, gameBoard.GridSize.y];
             for (int i = 0; i < gameBoard.GridSize.x; i++)
             {
                 for (int j = 0; j < gameBoard.GridSize.y; j++)
                 {
-                    aCellTypes[i, j] = DataFromEnum.GetCellType(gameBoard.GetCell(i, j));
+                    int cellTypeIndex = gameBoard.GetCell(i, j);
+                    if (cellTypeIndex >= cellTypes.Length)
+                        cellTypeIndex = 0;
+
+                    cellTypesGrid[i, j] = cellTypes[cellTypeIndex].cellType; //DataFromEnum.GetCellType(gameBoard.GetCell(i, j));
                 }
             }
 
-            return new GameBoard(aCellTypes);
+            return new GameBoard(cellTypesGrid);
         }
     }
 }

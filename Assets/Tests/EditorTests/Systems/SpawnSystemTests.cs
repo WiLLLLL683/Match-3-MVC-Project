@@ -4,6 +4,7 @@ using Data;
 using Model.Objects;
 using Model.Systems;
 using NUnit.Framework;
+using UnitTests;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -89,7 +90,7 @@ namespace Model.Systems.UnitTests
         public void SpawnBonusBlock_NotPlayableCell_Nothing()
         {
             Level level = new Level(1, 1);
-            level.gameBoard.Cells[0, 0].ChangeType(new NotPlayableCellType());
+            level.gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 

@@ -1,19 +1,13 @@
-﻿using Model.Objects;
-using System;
-using System.Collections.Generic;
+﻿using Model.Readonly;
 using UnityEngine;
 
-namespace Data
+namespace Model.Objects
 {
     /// <summary>
     /// Тип блока с возможностью активации
     /// </summary>
-    public interface IBlockType : ICounterTarget
+    public interface IBlockType : IBlockType_Readonly, ICounterTarget
     {
-        int Id { get; }
-        Sprite Icon { get; }
-        ParticleSystem DestroyEffect { get; }
-
         /// <summary>
         /// Возвращает успешен ли был ход
         /// </summary>

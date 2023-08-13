@@ -16,57 +16,65 @@ namespace View
         [SerializeField] private Sprite oddSprite;
 
         private Vector2 modelPosition;
-        private ACellType type;
+        private ParticleSystem destroyEffectPrefab;
+        private ParticleSystem emptyEffectPrefab;
         private ParticleSystem destroyEffect;
         private ParticleSystem emptyEffect;
 
-        public override void Init(Vector2 modelPosition, ACellType type)
+        public override void Init(Vector2Int modelPosition, Sprite iconSprite, bool isPlayable, ParticleSystem destroyEffectPrefab, ParticleSystem emptyEffectPrefab)
         {
-            this.modelPosition = modelPosition;
-
-            transform.localPosition = ModelPosToViewPos(modelPosition);
-            ChangeType(type);
+            ChangeModelPosition(modelPosition);
+            ChangeType(iconSprite, isPlayable, destroyEffectPrefab, emptyEffectPrefab);
             SetCheckerBoardPattern();
         }
-        public override void PlayDestroyEffect()
+
+        public override void ChangeType(Sprite iconSprite, bool isPlayable, ParticleSystem destroyEffectPrefab, ParticleSystem emptyEffectPrefab)
         {
-            if (type.DestroyEffect == null)
-                return;
+            this.destroyEffectPrefab = destroyEffectPrefab;
+            this.emptyEffectPrefab = emptyEffectPrefab;
 
-            if (destroyEffect == null)
-                destroyEffect = Instantiate(type.DestroyEffect, transform);
-
-            destroyEffect.Play();
-        }
-        public override void PlayEmptyEffect()
-        {
-            if (type.EmptyEffect == null)
-                return;
-
-            if (emptyEffect == null)
-                emptyEffect = Instantiate(type.EmptyEffect, transform);
-
-            emptyEffect.Play();
-        }
-        public override void ChangeType(ACellType type)
-        {
-            this.type = type;
-
-            if (!type.IsPlayable)
+            if (!isPlayable)
             {
                 gameObject.SetActive(false);
                 return;
             }
 
-            if (type.Sprite != null)
+            if (iconSprite != null)
             {
                 icon.gameObject.SetActive(true);
-                icon.sprite = type.Sprite;
+                icon.sprite = iconSprite;
             }
+        }
+
+        public override void PlayDestroyEffect()
+        {
+            if (destroyEffectPrefab == null)
+                return;
+
+            if (destroyEffect == null)
+                destroyEffect = Instantiate(destroyEffectPrefab, transform);
+
+            destroyEffect.Play();
+        }
+
+        public override void PlayEmptyEffect()
+        {
+            if (emptyEffectPrefab == null)
+                return;
+
+            if (emptyEffect == null)
+                emptyEffect = Instantiate(emptyEffectPrefab, transform);
+
+            emptyEffect.Play();
         }
 
 
 
+        private void ChangeModelPosition(Vector2Int modelPosition)
+        {
+            this.modelPosition = modelPosition;
+            transform.localPosition = (Vector2)modelPosition.ToViewPos();
+        }
         private void SetCheckerBoardPattern()
         {
             if ((modelPosition.x % 2 == 1 && modelPosition.y % 2 == 1) ||
@@ -74,11 +82,6 @@ namespace View
                 fill.sprite = evenSprite;
             else
                 fill.sprite = oddSprite;
-        }
-        private Vector2 ModelPosToViewPos(Vector2 modelPosition)
-        {
-            //строки положения нумеруются сверху вниз, поэтому Position.y отрицательный
-            return new Vector2(modelPosition.x, -modelPosition.y);
         }
     }
 }

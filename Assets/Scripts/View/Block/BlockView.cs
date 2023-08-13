@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Data;
 
 namespace View
 {
@@ -23,14 +22,15 @@ namespace View
         public override event Action<Directions> OnMove;
         public override event Action OnActivate;
 
-        private IBlockType type;
+        private Sprite iconSprite;
+        private ParticleSystem destroyEffectPrefab;
         private Vector2 targetPosition;
         private Vector2Int modelPosition;
         private ParticleSystem destroyEffect;
 
-        public override void Init(IBlockType type, Vector2Int modelPosition)
+        public override void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition)
         {
-            ChangeType(type);
+            ChangeType(iconSprite, destroyEffectPrefab);
             ChangeModelPosition(modelPosition);
 
             transform.localPosition = (Vector2)modelPosition.ToViewPos();
@@ -51,19 +51,20 @@ namespace View
             this.modelPosition = modelPosition;
             targetPosition = modelPosition.ToViewPos();
         }
-        public override void ChangeType(IBlockType type)
+        public override void ChangeType(Sprite iconSprite, ParticleSystem destroyEffectPrefab)
         {
-            this.type = type;
-            icon.sprite = type.Icon;
+            this.iconSprite = iconSprite;
+            this.destroyEffectPrefab = destroyEffectPrefab;
+            icon.sprite = iconSprite;
         }
         public override void PlayClickAnimation() => StartCoroutine(TapAnimation());
         public override void PlayDestroyEffect()
         {
-            if (type.DestroyEffect == null)
+            if (destroyEffectPrefab == null)
                 return;
 
             if (destroyEffect == null)
-                destroyEffect = Instantiate(type.DestroyEffect, transform);
+                destroyEffect = Instantiate(destroyEffectPrefab, transform);
 
             destroyEffect.Play();
         }

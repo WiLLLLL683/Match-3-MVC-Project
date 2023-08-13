@@ -15,41 +15,43 @@ namespace Model.Objects
     {
         public bool IsPlayable => Type.CanContainBlock;
         public bool IsEmpty { get; private set; }
-        public ACellType Type { get; private set; }
-        public Block Block { get; private set; }
-        public IBlock_Readonly Block_Readonly => Block;
+        public ICellType Type { get; private set; }
         public Vector2Int Position { get; private set; }
+        public Block Block { get; private set; }
+
+        public IBlock_Readonly Block_Readonly => Block;
+        public ICellType_Readonly Type_Readonly => Type;
 
         public event Action<ICell_Readonly> OnEmpty;
         public event Action<ICell_Readonly> OnDestroy;
-        public event Action<ACellType> OnTypeChange;
+        public event Action<ICellType> OnTypeChange;
 
-        public Cell(ACellType _type, Vector2Int _position)
+        public Cell(ICellType type, Vector2Int position)
         {
             IsEmpty = true;
-            Type = _type;
-            Position = _position;
+            Type = type;
+            Position = position;
         }
 
         /// <summary>
         /// Изменить тип клетки
         /// </summary>
-        public void ChangeType(ACellType _type)
+        public void ChangeType(ICellType type)
         {
-            Type = _type;
+            Type = type;
             OnTypeChange?.Invoke(Type);
         }
 
         /// <summary>
         /// Поместить блок в клетку при возможности, null для опустошения клетки
         /// </summary>
-        public void SetBlock(Block _block)
+        public void SetBlock(Block block)
         {
             if (IsPlayable)
             {
-                if (_block != null)
+                if (block != null)
                 {
-                    Block = _block;
+                    Block = block;
                     Block.ChangePosition(this);
                     IsEmpty = false;
                 }
@@ -63,11 +65,11 @@ namespace Model.Objects
         /// <summary>
         /// Заспавнить блок в клетке при возможности
         /// </summary>
-        public Block SpawnBlock(IBlockType _blockType)
+        public Block SpawnBlock(IBlockType blockType)
         {
             if (IsPlayable && IsEmpty)
             {
-                Block block = new Block(_blockType, this);
+                Block block = new Block(blockType, this);
                 SetBlock(block);
                 return block;
             }

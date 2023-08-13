@@ -1,4 +1,5 @@
 ﻿using Data;
+using Model.Objects;
 using System;
 using UnityEngine;
 
@@ -13,10 +14,10 @@ namespace Model.Readonly
         public bool IsEmpty { get; }
         public bool IsPlayable { get; }
         public Vector2Int Position { get; }
-        public ACellType Type { get; }
+        public ICellType_Readonly Type_Readonly { get; }
 
         public event Action<ICell_Readonly> OnDestroy;
         public event Action<ICell_Readonly> OnEmpty;
-        public event Action<ACellType> OnTypeChange;
+        public event Action<ICellType> OnTypeChange;
     }
 }

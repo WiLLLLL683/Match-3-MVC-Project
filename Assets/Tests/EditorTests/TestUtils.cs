@@ -17,9 +17,12 @@ namespace UnitTests
         public const int YELLOW_BLOCK = 4;
 
         public static IBlockType DefaultBlockType = CreateBasicBlockType(DEFAULT_BLOCK);
+        public static ICellType BasicCellType = CreateCellType(true, true);
+        public static ICellType NotPlayableCellType = CreateCellType(false, false);
 
-        public static IBlockType CreateBasicBlockType(int typeId) => new BasicBlockType(typeId);
-        public static BlockType_Weight CreateBlockTypeWeight(int typeId, int weight) => new BlockType_Weight(CreateBasicBlockType(typeId), weight);
+        /// <summary>
+        /// Указать размеры и типы блоков построчно
+        /// </summary>
         public static List<BlockType_Weight> CreateListOfWeights(params int[] typeIds)
         {
             List<BlockType_Weight> list = new();
@@ -82,5 +85,11 @@ namespace UnitTests
 
             return new Pattern(grid);
         }
+
+
+
+        private static ICellType CreateCellType(bool isPlayable, bool canContainBlock = true) => new BasicCellType(isPlayable, canContainBlock);
+        private static IBlockType CreateBasicBlockType(int typeId) => new BasicBlockType(typeId);
+        private static BlockType_Weight CreateBlockTypeWeight(int typeId, int weight) => new BlockType_Weight(CreateBasicBlockType(typeId), weight);
     }
 }

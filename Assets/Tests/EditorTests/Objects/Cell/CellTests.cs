@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using Data;
 using Model.Readonly;
+using UnitTests;
 
 namespace Model.Objects.UnitTests
 {
@@ -14,7 +15,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void CellConstructor_CreateCell_CellIsEmpty()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0,0));
+            var cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
 
             Assert.AreEqual(true, cell.IsEmpty);
         }
@@ -22,7 +23,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void CellConstructor_CreatePlayableCell_CellIsPlayable()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0,0));
+            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
 
             Assert.AreEqual(true, cell.IsPlayable);
         }
@@ -30,7 +31,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void CellConstructor_CreateNotPlayableCell_CellIsNotPlayable()
         {
-            Cell cell = new Cell(new NotPlayableCellType(), new Vector2Int(0,0));
+            Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0,0));
 
             Assert.AreEqual(false, cell.IsPlayable);
         }
@@ -38,8 +39,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void SetBlock_Block_CellHasBlock()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0,0));
-            Block block = new Block(new BasicBlockType(),null);
+            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
+            Block block = new Block(TestUtils.DefaultBlockType, null);
 
             cell.SetBlock(block);
 
@@ -49,8 +50,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void SetBlock_Null_EmptyCell()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
-            Block block = new Block(new BasicBlockType(), cell);
+            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
+            Block block = new Block(TestUtils.DefaultBlockType, cell);
             int eventCount = 0;
             cell.OnEmpty += (cell) => eventCount += 1;
 
@@ -65,8 +66,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void SetBlock_NotPlayableCell_Nothing()
         {
-            Cell cell = new Cell(new NotPlayableCellType(), new Vector2Int(0, 0));
-            Block block = new Block(new BasicBlockType(), cell);
+            Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0, 0));
+            Block block = new Block(TestUtils.DefaultBlockType, cell);
 
             cell.SetBlock(block);
 
@@ -76,8 +77,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void DestroyBlock_Block_CellEmpty()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
-            Block block = new Block(new BasicBlockType(), null);
+            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
+            Block block = new Block(TestUtils.DefaultBlockType, null);
 
             cell.SetBlock(block);
             cell.DestroyBlock();
@@ -88,8 +89,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void DestroyBlock_Block_EmptyEvent()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
-            Block block = new Block(new BasicBlockType(), null);
+            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
+            Block block = new Block(TestUtils.DefaultBlockType, null);
             bool test = false;
             void TestFunc(ICell_Readonly cell)
             {
@@ -107,7 +108,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void DestroyBlock_Empty_Nothing()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
+            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
             bool test = false;
             void TestFunc(ICell_Readonly cell)
             {
@@ -124,7 +125,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void DestroyBlock_NotPlayableCell_Nothing()
         {
-            Cell cell = new Cell(new NotPlayableCellType(), new Vector2Int(0, 0));
+            Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0, 0));
             bool test = false;
             void TestFunc(ICell_Readonly cell)
             {
@@ -141,9 +142,9 @@ namespace Model.Objects.UnitTests
         [Test]
         public void DestroyCell_CorrectCell_OnCellDestroyEvent()
         {
-            Cell cell = new Cell(new BasicCellType(), new Vector2Int(0, 0));
+            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
             int eventRised = 0;
-            cell.OnDestroy += (ICell_Readonly cell) => eventRised += 1;
+            cell.OnDestroy += (_) => eventRised += 1;
 
             cell.DestroyCell();
 

@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using Data;
 using System.Linq;
+using UnitTests;
 
 namespace Model.Systems.UnitTests
 {
@@ -46,7 +47,7 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
             Level level = new Level(1,1, matchPatterns);
-            level.gameBoard.Cells[0, 0].ChangeType(new NotPlayableCellType());
+            level.gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
             MatchSystem matchSystem = new MatchSystem();
             matchSystem.SetLevel(level);
 

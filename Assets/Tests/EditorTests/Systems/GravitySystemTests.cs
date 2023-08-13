@@ -42,7 +42,7 @@ namespace Model.Systems.UnitTests
         public void Execute_OneBlockNotPlayableCellUnder_NoChange()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
-            gameBoard.Cells[0, 1].ChangeType(new NotPlayableCellType());
+            gameBoard.Cells[0, 1].ChangeType(TestUtils.NotPlayableCellType);
             var blockA = gameBoard.Cells[0, 0].Block;
             var gravitySystem = new GravitySystem();
 

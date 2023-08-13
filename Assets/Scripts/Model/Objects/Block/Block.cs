@@ -1,8 +1,5 @@
-using Data;
 using Model.Readonly;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Objects
@@ -15,12 +12,14 @@ namespace Model.Objects
     {
         public IBlockType Type { get; private set; }
         public Cell Cell { get; private set; }
+
+        public IBlockType_Readonly Type_Readonly => Type;
         public ICell_Readonly Cell_Readonly => Cell;
         public Vector2Int Position => Cell.Position;
 
         public event Action<Block> OnDestroy;
         public event Action<IBlock_Readonly> OnDestroy_Readonly;
-        public event Action<IBlockType> OnTypeChange;
+        public event Action<IBlockType_Readonly> OnTypeChange;
         public event Action<Vector2Int> OnPositionChange;
 
         public Block(IBlockType type, Cell cell)

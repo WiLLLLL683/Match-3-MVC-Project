@@ -19,7 +19,7 @@ namespace Model.Objects
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
-        public GameBoard(ACellType[,] cellTypes)
+        public GameBoard(ICellType[,] cellTypes)
         {
             Cells = new Cell[cellTypes.GetLength(0), cellTypes.GetLength(1)];
             Blocks = new List<Block>();
