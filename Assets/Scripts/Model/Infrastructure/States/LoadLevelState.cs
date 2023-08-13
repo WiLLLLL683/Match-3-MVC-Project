@@ -18,7 +18,7 @@ namespace Model.Infrastructure
         private LevelData levelData;
         private Level level;
 
-        private const int MATCH_CHECK_ITERATIONS = 3; //количество итераций проверки совпавших блоков
+        private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
         public LoadLevelState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
         {
@@ -80,6 +80,10 @@ namespace Model.Infrastructure
             for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
             {
                 HashSet<Cell> matches = matchSystem.FindAllMatches();
+                
+                if (matches.Count == 0)
+                    return;
+
                 foreach (Cell match in matches)
                 {
                     match.DestroyBlock();

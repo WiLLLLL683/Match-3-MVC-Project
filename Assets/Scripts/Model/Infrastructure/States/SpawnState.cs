@@ -16,7 +16,7 @@ namespace Model.Infrastructure
         private IMatchSystem matchSystem;
         private ISpawnSystem spawnSystem;
 
-        private int maxIterations = 10; //максимальное количество итераций спавна/проверки до
+        private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
         public SpawnState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
         {
@@ -31,31 +31,28 @@ namespace Model.Infrastructure
         {
             level = game.CurrentLevel;
 
-            //TEST!!!
-            gravitySystem.SetLevel(level);
-            gravitySystem.Execute(level.gameBoard);
+            for (int i = 0; i < MAX_SPAWN_ITERATIONS; i++)
+            {
+                //гравитация
+                gravitySystem.Execute(level.gameBoard);
 
-            //for (int i = 0; i < maxIterations; i++)
-            //{
-            //    //гравитация
-            //    gravitySystem.Execute();
+                //проверка на совпадения
+                HashSet<Cell> matches = matchSystem.FindAllMatches();
 
-            //    //проверка на матчи
-            //    HashSet<Cell> matches = matchSystem.FindAllMatches();
+                //если нет совпадений - прекратить
+                if (matches.Count == 0)
+                    break;
 
-            //    //удалить совпадающие блоки
-            //    foreach (Cell match in matches)
-            //    {
-            //        level.UpdateGoals(match.Block.Type);
-            //        match.DestroyBlock();
-            //    }
+                //если есть - удалить совпадающие блоки
+                foreach (Cell match in matches)
+                {
+                    level.UpdateGoals(match.Block.Type);
+                    match.DestroyBlock();
+                }
 
-            //    //спавн верхней полосы
-            //    spawnSystem.SpawnTopLine();
-
-            //    //TODO если уровень полон - прекратить
-
-            //}
+                //спавн верхней полосы
+                spawnSystem.SpawnTopLine();
+            }
 
             stateMachine.SetState<WaitState>();
         }
