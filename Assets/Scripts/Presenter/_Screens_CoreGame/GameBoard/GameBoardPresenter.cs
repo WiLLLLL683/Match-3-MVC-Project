@@ -91,7 +91,7 @@ namespace Presenter
         public ABlockView GetBlockView(Vector2Int modelPosition)
         {
             IBlock_Readonly blockModel = model.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
-            if (blockModel != null && blocks.ContainsKey(blockModel))
+            if (blockModel != null && blocks.ContainsKey(blockModel) && blockModel.Cell_Readonly.IsPlayable)
                 return blocks[blockModel];
             else
                 return null;
