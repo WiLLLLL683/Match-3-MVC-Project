@@ -16,48 +16,28 @@ namespace Model.Systems
         /// <summary>
         /// Обновить данные об уровне
         /// </summary>
-        public void SetLevel(Level _level)
+        public void SetLevel(Level level)
         {
-            level = _level;
+            this.level = level;
         }
 
         /// <summary>
         /// Сдвинуть блок в необходимую сторону со сменой блоков местами
         /// </summary>
-        public SwapBlocksAction Move(Vector2Int _startPosition, Directions direction)
+        public SwapBlocksAction Move(Vector2Int startPosition, Directions direction)
         {
             //вычислить конечную позицию
-            Vector2Int targetPosition;
-            switch (direction)
+            Vector2Int targetPosition = startPosition + direction.ToVector2Int();
+
+            //проверка: есть ли в начальной и конечной позициях блоки?
+            if (!level.gameBoard.ValidateBlockAt(targetPosition) ||
+                !level.gameBoard.ValidateBlockAt(startPosition))
             {
-                case Directions.Up:
-                    targetPosition = _startPosition + Vector2Int.up;
-                    break;
-                case Directions.Down:
-                    targetPosition = _startPosition + Vector2Int.down;
-                    break;
-                case Directions.Left:
-                    targetPosition = _startPosition + Vector2Int.left;
-                    break;
-                case Directions.Right:
-                    targetPosition = _startPosition + Vector2Int.right;
-                    break;
-                default:
-                    return null;
+                return null;
             }
 
-            //проверка: начальная позиция вне поля?
-            if (!level.gameBoard.CheckValidCellByPosition(_startPosition))
-                return null;
-
-            //проверка: конечная позиция вне поля?
-            if (!level.gameBoard.CheckValidCellByPosition(targetPosition))
-                return null;
-
             //возврат действия по смене блоков местами
-            return new SwapBlocksAction(level.gameBoard.Cells[_startPosition.x, _startPosition.y], level.gameBoard.Cells[targetPosition.x, targetPosition.y]);
-
-            //TODO добавить ивенты различных исходов
+            return new SwapBlocksAction(level.gameBoard.Cells[startPosition.x, startPosition.y], level.gameBoard.Cells[targetPosition.x, targetPosition.y]);
         }
     }
 }

@@ -12,10 +12,10 @@ namespace Model.Systems
     public class ChangeBlockTypeAction : IAction
     {
         private Block block;
-        private ABlockType targetType;
-        private ABlockType previousType;
+        private IBlockType targetType;
+        private IBlockType previousType;
 
-        public ChangeBlockTypeAction(ABlockType _type, Block _block)
+        public ChangeBlockTypeAction(IBlockType _type, Block _block)
         {
             block = _block;
             targetType = _type;

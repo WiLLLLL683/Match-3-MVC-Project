@@ -46,7 +46,7 @@ namespace Model.Objects
         {
             gameBoard = new GameBoard(xLength, yLength);
             goals = new Counter[1];
-            goals[0] = new Counter(new BasicBlockType(), 2);
+            goals[0] = new Counter(new BasicBlockType(0), 2);
             restrictions = new Counter[1];
             restrictions[0] = new Counter(new Turn(), 2);
             matchPatterns = new Pattern[1];
@@ -54,20 +54,19 @@ namespace Model.Objects
             hintPatterns = new HintPattern[1];
             hintPatterns[0] = new HintPattern(new bool[1, 1] { { true } }, new(0, 0), Directions.Up);
 
-
             List<BlockType_Weight> balanceDictionary = new();
-            balanceDictionary.Add(new BlockType_Weight(new BlueBlockType(), 50));
-            balanceDictionary.Add(new BlockType_Weight(new RedBlockType(), 50));
-            balance = new Balance(balanceDictionary);
+            balanceDictionary.Add(new BlockType_Weight(new BasicBlockType(0), 50));
+            balanceDictionary.Add(new BlockType_Weight(new BasicBlockType(1), 50));
+            balance = new Balance(balanceDictionary, new BasicBlockType(0));
         }
 
         /// <summary>
         /// for tests only
         /// </summary>
-        public Level(int xLength, int yLength, Pattern[] _matchPatterns)
+        public Level(int xLength, int yLength, Pattern[] matchPatterns)
         {
             gameBoard = new GameBoard(xLength, yLength);
-            matchPatterns = _matchPatterns;
+            this.matchPatterns = matchPatterns;
         }
 
         /// <summary>

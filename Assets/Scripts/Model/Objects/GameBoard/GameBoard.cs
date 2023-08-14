@@ -13,22 +13,42 @@ namespace Model.Objects
     {
         public Cell[,] Cells { get; private set; }
         public List<Block> Blocks { get; private set; }
+        public int RowsOfInvisibleCells { get; private set; }
         public ICell_Readonly[,] Cells_Readonly => Cells;
         public IEnumerable<IBlock_Readonly> Blocks_Readonly => Blocks;
+
+        public event Action<IBlock_Readonly> OnBlockSpawn;
+
+        private readonly ICellType invisibleCellType;
 
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
-        public GameBoard(ACellType[,] cellTypes)
+        public GameBoard(ICellType[,] cellTypes, int rowsOfInvisibleCells, ICellType invisibleCellType)
         {
-            Cells = new Cell[cellTypes.GetLength(0), cellTypes.GetLength(1)];
+            this.invisibleCellType = invisibleCellType;
+            this.RowsOfInvisibleCells = rowsOfInvisibleCells;
+
+            int xLength = cellTypes.GetLength(0);
+            int yLength = cellTypes.GetLength(1) + RowsOfInvisibleCells;
+            Cells = new Cell[xLength, yLength];
             Blocks = new List<Block>();
 
-            for (int i = 0; i < cellTypes.GetLength(0); i++)
+            //спавн невидимых клеток
+            for (int y = 0; y < RowsOfInvisibleCells; y++)
             {
-                for (int j = 0; j < cellTypes.GetLength(1); j++)
+                for (int x = 0; x < xLength; x++)
                 {
-                    Cells[i, j] = new Cell(cellTypes[i, j], new Vector2Int(i, j));
+                    Cells[x, y] = new Cell(this.invisibleCellType, new Vector2Int(x, y));
+                }
+            }
+
+            //спавн обычных клеток
+            for (int y = RowsOfInvisibleCells; y < yLength; y++)
+            {
+                for (int x = 0; x < xLength; x++)
+                {
+                    Cells[x, y] = new Cell(cellTypes[x, y - RowsOfInvisibleCells], new Vector2Int(x, y));
                 }
             }
         }
@@ -41,11 +61,11 @@ namespace Model.Objects
             Cells = new Cell[xLength, yLength];
             Blocks = new List<Block>();
 
-            for (int i = 0; i < xLength; i++)
+            for (int y = 0; y < yLength; y++)
             {
-                for (int j = 0; j < yLength; j++)
+                for (int x = 0; x < xLength; x++)
                 {
-                    Cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i, j));
+                    Cells[x, y] = new Cell(new BasicCellType(), new Vector2Int(x, y));
                 }
             }
         }
@@ -59,22 +79,21 @@ namespace Model.Objects
             {
                 Blocks.Add(block);
                 block.OnDestroy += UnRegisterBlock;
+                OnBlockSpawn?.Invoke(block);
             }
         }
 
         /// <summary>
         /// Проверка наличия блока в заданной позиции
         /// </summary>
-        public bool CheckValidBlockByPosition(Vector2Int position)
+        public bool ValidateBlockAt(Vector2Int position)
         {
             //позиция вне границ игрового поля?
-            if (!CheckValidCellByPosition(position))
-            {
+            if (!ValidateCellAt(position))
                 return false;
-            }
 
-            //играбельна ли клетка?
-            if (!Cells[position.x, position.y].IsPlayable)
+            //может ли клетка иметь блок?
+            if (!Cells[position.x, position.y].CanContainBlock)
             {
                 Debug.LogWarning("Tried to get Block but Cell was notPlayable");
                 return false;
@@ -90,10 +109,9 @@ namespace Model.Objects
             return true;
         }
 
-        /// <summary>
-        /// Проверка наличия клетки в границах игрового поля
-        /// </summary>
-        public bool CheckValidCellByPosition(Vector2Int position)
+
+
+        private bool ValidateCellAt(Vector2Int position)
         {
             //позиция в границах игрового поля?
             if (position.x >= 0 &&
@@ -105,13 +123,10 @@ namespace Model.Objects
             }
             else
             {
-                Debug.LogError("Cell position out of GameBoards range");
+                Debug.LogWarning("Cell position out of GameBoards range");
                 return false;
             }
         }
-
-
-
         private void UnRegisterBlock(Block block) => Blocks.Remove(block);
     }
 }

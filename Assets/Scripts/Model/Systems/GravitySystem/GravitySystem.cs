@@ -10,24 +10,23 @@ namespace Model.Systems
     /// </summary>
     public class GravitySystem : IGravitySystem
     {
-        private Level level;
+        private GameBoard gameBoard;
 
-        /// <summary>
-        /// Обновить данные об уровне
-        /// </summary>
-        public void SetLevel(Level _level)
-        {
-            level = _level;
-        }
+        private int lowestY;
+
+        public void SetLevel(Level level) => gameBoard = level.gameBoard;
+        public void SetGameBoard(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
         /// <summary>
         /// Переместить все "висящие в воздухе" блоки вниз
         /// </summary>
-        public void Execute()
+        public void Execute(GameBoard gameBoard)
         {
-            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+            this.gameBoard = gameBoard;
+            
+            for (int y = gameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
             {
-                for (int y = level.gameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
+                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
                 {
                     TryMoveBlockDown(x, y);
                 }
@@ -38,24 +37,30 @@ namespace Model.Systems
 
         private void TryMoveBlockDown(int x, int y)
         {
-            int lowestY = y;
-            for (int i = level.gameBoard.Cells.GetLength(1) - 1; i > y; i--)
+            if (!gameBoard.ValidateBlockAt(new Vector2Int(x, y)))
+                return;
+
+            FindLowestEmptyCellUnderPos(x, y);
+
+            if (!IsLowestEmptyCell(y))
             {
-                if (level.gameBoard.Cells[x, i].IsEmpty)
+                var action = new SwapBlocksAction(gameBoard.Cells[x, y], gameBoard.Cells[x, lowestY]);
+                action.Execute();
+            }
+        }
+
+        private bool IsLowestEmptyCell(int y) => y == lowestY;
+
+        private void FindLowestEmptyCellUnderPos(int x, int y)
+        {
+            lowestY = y;
+            for (int i = gameBoard.Cells.GetLength(1) - 1; i > y; i--)
+            {
+                if (gameBoard.Cells[x, i].IsEmpty && gameBoard.Cells[x, i].CanContainBlock)
                 {
                     lowestY = i;
-                    break;
+                    return;
                 }
-            }
-
-            if (lowestY == y)
-            {
-                return;
-            }
-            else
-            {
-                SwapBlocksAction action = new SwapBlocksAction(level.gameBoard.Cells[x, y], level.gameBoard.Cells[x, lowestY]);
-                action.Execute();
             }
         }
     }

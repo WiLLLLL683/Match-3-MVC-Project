@@ -5,7 +5,7 @@ namespace Model.Systems
 {
     public interface IMatchSystem : ISystem
     {
-        public List<Cell> FindFirstHint();
-        public List<Cell> FindMatches();
+        public HashSet<Cell> FindFirstHint();
+        public HashSet<Cell> FindAllMatches();
     }
 }

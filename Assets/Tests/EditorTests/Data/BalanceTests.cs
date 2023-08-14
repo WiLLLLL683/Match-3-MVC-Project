@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Model.Objects;
-using Model.Objects.UnitTests;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
+using UnitTests;
 
 namespace Data.UnitTests
 {
@@ -13,42 +12,41 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_1BasicType_BasicType()
         {
-            List<BlockType_Weight> typesWeight = new();
-            typesWeight.Add(new BlockType_Weight(new BlueBlockType(), 100));
-            Balance balance = new Balance(typesWeight);
+            var typesWeight = TestUtils.CreateListOfWeights(TestUtils.RED_BLOCK);
+            var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
 
-            ABlockType blockType = balance.GetRandomBlockType();
-
-            Assert.AreEqual(typeof(BlueBlockType), blockType.GetType());
-        }
-
-        [Test]
-        public void GetRandomBlockType_NullData_BasicType()
-        {
-            List<BlockType_Weight> typesWeight = new();
-            Balance balance = new Balance(typesWeight);
-
-            ABlockType blockType = balance.GetRandomBlockType();
+            IBlockType blockType = balance.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
+            Assert.AreEqual(blockType.Id, TestUtils.RED_BLOCK);
         }
 
         [Test]
-        public void GetRandomBlockType_2Types50persent_50persent()
+        public void GetRandomBlockType_NullData_DefaultType()
         {
-            List<BlockType_Weight> typesWeight = new();
-            typesWeight.Add(new BlockType_Weight(new BlueBlockType(), 50));
-            typesWeight.Add(new BlockType_Weight(new RedBlockType(), 50));
-            Balance balance = new Balance(typesWeight);
+            var typesWeight = new List<BlockType_Weight>();
+            var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
+
+            IBlockType blockType = balance.GetRandomBlockType();
+
+            Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
+            Assert.AreEqual(blockType.Id, TestUtils.DEFAULT_BLOCK);
+        }
+
+        [Test]
+        public void GetRandomBlockType_2Types50to50percent()
+        {
+            var typesWeight = TestUtils.CreateListOfWeights(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK);
+            var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
 
             int blueCount = 0;
             int redCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                ABlockType blockType = balance.GetRandomBlockType();
-                if (blockType is BlueBlockType)
+                IBlockType blockType = balance.GetRandomBlockType();
+                if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
-                if (blockType is RedBlockType)
+                if (blockType.Id == TestUtils.RED_BLOCK)
                     redCount++;
             }
 
@@ -60,41 +58,40 @@ namespace Data.UnitTests
         }
 
         [Test]
-        public void GetRandomBlockType_4Types25persent_25persent()
+        public void GetRandomBlockType_4Types25to25percent()
         {
-            List<BlockType_Weight> typesWeight = new();
-            typesWeight.Add(new BlockType_Weight(new BlueBlockType(), 25));
-            typesWeight.Add(new BlockType_Weight(new RedBlockType(), 25));
-            typesWeight.Add(new BlockType_Weight(new BasicBlockType(), 25));
-            typesWeight.Add(new BlockType_Weight(new TestBlockType(), 25));
-            Balance balance = new Balance(typesWeight);
+            var typesWeight = TestUtils.CreateListOfWeights(TestUtils.RED_BLOCK,
+                                                            TestUtils.BLUE_BLOCK,
+                                                            TestUtils.GREEN_BLOCK,
+                                                            TestUtils.YELLOW_BLOCK);
+            Balance balance = new Balance(typesWeight, new BasicBlockType());
 
             int blueCount = 0;
             int redCount = 0;
-            int basicCount = 0;
-            int testCount = 0;
+            int greenCount = 0;
+            int yellowCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                ABlockType blockType = balance.GetRandomBlockType();
-                if (blockType is BlueBlockType)
+                IBlockType blockType = balance.GetRandomBlockType();
+                if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
-                if (blockType is RedBlockType)
+                if (blockType.Id == TestUtils.RED_BLOCK)
                     redCount++;
-                if (blockType is BasicBlockType)
-                    basicCount++;
-                if (blockType is TestBlockType)
-                    testCount++;
+                if (blockType.Id == TestUtils.GREEN_BLOCK)
+                    greenCount++;
+                if (blockType.Id == TestUtils.YELLOW_BLOCK)
+                    yellowCount++;
             }
 
             Debug.Log("Blue persent = " + blueCount);
             Debug.Log("Red persent = " + redCount);
-            Debug.Log("Basic persent = " + basicCount);
-            Debug.Log("Test persent = " + testCount);
+            Debug.Log("Green persent = " + greenCount);
+            Debug.Log("Yellow persent = " + yellowCount);
             Assert.That(blueCount >= 200);
             Assert.That(redCount >= 200);
-            Assert.That(basicCount >= 200);
-            Assert.That(testCount >= 200);
-            Assert.That(redCount + blueCount + basicCount + testCount == 1000);
+            Assert.That(greenCount >= 200);
+            Assert.That(yellowCount >= 200);
+            Assert.That(redCount + blueCount + greenCount + yellowCount == 1000);
         }
 
     }

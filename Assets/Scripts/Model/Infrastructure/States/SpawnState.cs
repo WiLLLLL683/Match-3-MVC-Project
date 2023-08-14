@@ -9,48 +9,49 @@ namespace Model.Infrastructure
 {
     public class SpawnState : AModelState
     {
-        private Game game;
+        private readonly Game game;
+        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IGravitySystem gravitySystem;
+        private readonly IMatchSystem matchSystem;
+        private readonly ISpawnSystem spawnSystem;
+
         private Level level;
-        private StateMachine<AModelState> stateMachine;
-        private IGravitySystem gravitySystem;
-        private IMatchSystem matchSystem;
-        private ISpawnSystem spawnSystem;
 
-        private int maxIterations = 10; //максимальное количество итераций спавна/проверки до
+        private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            gravitySystem = _systems.GetSystem<IGravitySystem>();
-            matchSystem = _systems.GetSystem<IMatchSystem>();
-            spawnSystem = _systems.GetSystem<ISpawnSystem>();
+            this.game = game;
+            this.stateMachine = stateMachine;
+            gravitySystem = systems.GetSystem<IGravitySystem>();
+            matchSystem = systems.GetSystem<IMatchSystem>();
+            spawnSystem = systems.GetSystem<ISpawnSystem>();
         }
 
         public override void OnStart()
         {
             level = game.CurrentLevel;
 
-            for (int i = 0; i < maxIterations; i++)
+            for (int i = 0; i < MAX_SPAWN_ITERATIONS; i++)
             {
                 //гравитация
-                gravitySystem.Execute();
+                gravitySystem.Execute(level.gameBoard);
 
-                //проверка на матчи
-                List<Cell> matches = matchSystem.FindMatches();
+                //проверка на совпадения
+                HashSet<Cell> matches = matchSystem.FindAllMatches();
 
-                //удалить совпадающие блоки
-                for (int j = 0; j < matches.Count; j++)
+                //если есть совпадениz - удалить совпадающие блоки
+                if (matches.Count > 0)
                 {
-                    level.UpdateGoals(matches[j].Block.Type);
-                    matches[j].DestroyBlock();
+                    foreach (Cell match in matches)
+                    {
+                        //level.UpdateGoals(match.Block.Type);
+                        match.DestroyBlock();
+                    }
                 }
 
                 //спавн верхней полосы
                 spawnSystem.SpawnTopLine();
-
-                //TODO если уровень полон - прекратить
-
             }
 
             stateMachine.SetState<WaitState>();

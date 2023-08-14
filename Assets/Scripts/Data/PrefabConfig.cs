@@ -25,6 +25,7 @@ namespace Data
         [Header("Elements")]
         public ABlockView blockPrefab;
         public ACellView cellPrefab;
+        public ACellView invisibleCellPrefab;
         public ABoosterView boosterPrefab;
         public ACounterView goalCounterPrefab;
         public ACounterView restrictionCounterPrefab;

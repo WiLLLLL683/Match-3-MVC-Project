@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using View;
-using Data;
 using Model.Readonly;
 using Utils;
 using Model.Infrastructure;
@@ -24,7 +23,7 @@ namespace Presenter
             {
                 var presenter = new BlockPresenter(model, existingView, game);
                 presenter.Enable();
-                existingView.Init(model.Type, model.Position);
+                existingView.Init(model.Type_Readonly.Icon, model.Type_Readonly.DestroyEffect, model.Position);
                 allPresenters.Add(presenter);
                 return presenter;
             }
@@ -60,7 +59,11 @@ namespace Presenter
             model.OnTypeChange -= ChangeType;
         }
         public void Destroy() => Destroy(model);
-        public void Move(Directions direction) => game.MoveBlock(model.Position, direction);
+        public void Move(Directions direction)
+        {
+            direction = direction.InvertUpDown();
+            game.MoveBlock(model.Position, direction);
+        }
         public void Activate()
         {
             Debug.Log("Activate");
@@ -69,7 +72,7 @@ namespace Presenter
         }
 
         private void SyncPosition(Vector2Int modelPosition) => view.ChangeModelPosition(modelPosition);
-        private void ChangeType(ABlockType type) => view.ChangeType(type);
+        private void ChangeType(IBlockType_Readonly type) => view.ChangeType(type.Icon, type.DestroyEffect);
         private void Destroy(IBlock_Readonly block)
         {
             Disable();

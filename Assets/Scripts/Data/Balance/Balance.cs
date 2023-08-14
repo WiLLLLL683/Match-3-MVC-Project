@@ -14,6 +14,7 @@ namespace Data
     {
         [SerializeField] private List<BlockType_Weight> typesWeight;
         [ShowNonSerializedField] private int totalWeight;
+        [SerializeField] private BlockTypeSO defaultBlockType;
 
         public Balance()
         {
@@ -21,21 +22,30 @@ namespace Data
             totalWeight = CalculateTotalWeight();
         }
 
-        public Balance(List<BlockType_Weight> _typesWeight)
+        /// <summary>
+        /// for tests only
+        /// </summary>
+        public Balance(List<BlockType_Weight> typesWeight, IBlockType defaultBlockType)
         {
-            typesWeight = _typesWeight;
+            this.typesWeight = typesWeight;
+            this.defaultBlockType = new();
+            this.defaultBlockType.blockType = defaultBlockType;
             totalWeight = CalculateTotalWeight();
         }
 
         private void OnValidate()
         {
+            for (int i = 0; i < typesWeight.Count; i++)
+            {
+                typesWeight[i].LinkBlockTypeToSO();
+            }
             totalWeight = CalculateTotalWeight();
         }
 
         /// <summary>
         /// Получить рандомный тип блока с заданными вероятностями
         /// </summary>
-        public ABlockType GetRandomBlockType()
+        public IBlockType GetRandomBlockType()
         {
             int weightIndex = new System.Random().Next(0, totalWeight);
 
@@ -49,7 +59,7 @@ namespace Data
                 }
             }
 
-            return new BasicBlockType();
+            return defaultBlockType.blockType;
         }
 
         public Balance Clone()

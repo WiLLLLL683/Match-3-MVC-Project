@@ -6,50 +6,54 @@ using UnityEngine;
 
 namespace Model.Systems
 {
-    /// <summary>
-    /// —истема дл€ спавна новых блоков
-    /// </summary>
     public class SpawnSystem : ISpawnSystem
     {
         private Level level;
 
-        /// <summary>
-        /// ќбновить данные об уровне
-        /// </summary>
-        public void SetLevel(Level _level)
-        {
-            level = _level;
-        }
+        public void SetLevel(Level level) => this.level = level;
 
-        /// <summary>
-        /// спавн новых блоков вверху уровн€ при нехватке блоков ниже
-        /// </summary>
         public void SpawnTopLine()
         {
-            const int y = 0; //верхн€€ лини€
-            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+            for (int y = 0; y < level.gameBoard.RowsOfInvisibleCells; y++)
             {
-                ABlockType type = level.balance.GetRandomBlockType();
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.Cells[x, y]);
-                spawnAction.Execute();
+                for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+                {
+                    IBlockType type = level.balance.GetRandomBlockType();
+                    SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.Cells[x, y]);
+                    spawnAction.Execute();
+                }
             }
         }
 
-        /// <summary>
-        /// спавн бонусных блоков
-        /// </summary>
-        public void SpawnBonusBlock(ABlockType _type, Cell _cell)
+        public void SpawnBonusBlock(IBlockType type, Cell cell)
         {
-            if (_cell.IsEmpty)
+            if (cell.IsEmpty)
             {
-                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, _type, _cell);
+                SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, cell);
                 spawnAction.Execute();
             }
             else
             {
-                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(_type, _cell.Block);
+                ChangeBlockTypeAction changeTypeAction = new ChangeBlockTypeAction(type, cell.Block);
                 changeTypeAction.Execute();
             }
+        }
+
+        public void SpawnGameBoard()
+        {
+            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+            {
+                for (int y = 0; y < level.gameBoard.Cells.GetLength(1); y++)
+                {
+                    SpawnRandomBlock(level.gameBoard.Cells[x, y]);
+                }
+            }
+        }
+
+        public void SpawnRandomBlock(Cell cell)
+        {
+            IBlockType blockType = level.balance.GetRandomBlockType();
+            new SpawnBlockAction(level.gameBoard, blockType, cell).Execute();
         }
     }
 }

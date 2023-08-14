@@ -4,6 +4,6 @@ namespace Model.Systems
 {
     public interface IGravitySystem : ISystem
     {
-        void Execute();
+        void Execute(GameBoard gameBoard);
     }
 }

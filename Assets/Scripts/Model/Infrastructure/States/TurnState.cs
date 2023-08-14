@@ -18,18 +18,18 @@ namespace Model.Infrastructure
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
+        public TurnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            moveSystem = _systems.GetSystem<IMoveSystem>();
-            matchSystem = _systems.GetSystem<IMatchSystem>();
+            this.game = game;
+            this.stateMachine = stateMachine;
+            moveSystem = systems.GetSystem<IMoveSystem>();
+            matchSystem = systems.GetSystem<IMatchSystem>();
         }
 
-        public void SetInput(Vector2Int _startPos, Directions _direction)
+        public void SetInput(Vector2Int startPos, Directions direction)
         {
-            startPos = _startPos;
-            direction = _direction;
+            this.startPos = startPos;
+            this.direction = direction;
         }
 
         public override void OnStart()
@@ -51,37 +51,39 @@ namespace Model.Infrastructure
 
         }
 
+
+
         private void MoveBlock()
         {
             //попытка хода
             IAction swapAction = moveSystem.Move(startPos, direction);
-            swapAction.Execute();
+            swapAction?.Execute();
 
             //проверка на результативность хода
-            List<Cell> matches = matchSystem.FindMatches();
+            HashSet<Cell> matches = matchSystem.FindAllMatches();
+
             if (matches.Count > 0)
             {
-                for (int i = 0; i < matches.Count; i++)
-                {
-                    level.UpdateGoals(matches[i].Block.Type);
-                    matches[i].DestroyBlock();
-                }
-                SucsessfullTurn();
+                SucsessfullTurn(matches);
             }
             else
             {
-                swapAction.Undo();
+                swapAction?.Undo();
                 stateMachine.SetPreviousState();
             }
         }
 
         private void PressBlock()
         {
-            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate();
+            //проверка на результативность хода
+            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
+            
+            //проверка на последующие совпадения
+            HashSet<Cell> matches = matchSystem.FindAllMatches();
 
             if (turnSucsess)
             {
-                SucsessfullTurn();
+                SucsessfullTurn(matches);
             }
             else
             {
@@ -89,10 +91,15 @@ namespace Model.Infrastructure
             }
         }
 
-        private void SucsessfullTurn()
+        private void SucsessfullTurn(HashSet<Cell> matches)
         {
             //TODO засчитать ход в логгер
             //TODO обновить счетчики
+            foreach (Cell match in matches)
+            {
+                //level.UpdateGoals(matches[i].Block.Type);
+                match.DestroyBlock();
+            }
             stateMachine.SetState<SpawnState>();
         }
     }

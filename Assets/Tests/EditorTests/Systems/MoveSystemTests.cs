@@ -14,8 +14,8 @@ namespace Model.Systems.UnitTests
         public void Move_ValidTurn_BlocksSwaped()
         {
             Level level = new(2, 1);
-            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new RedBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
+            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new BasicBlockType());
             MoveSystem moveSystem = new MoveSystem();
             moveSystem.SetLevel(level);
 
@@ -31,8 +31,8 @@ namespace Model.Systems.UnitTests
         public void Move_InValidStartPos_NoChange()
         {
             Level level = new(2,1);
-            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new RedBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
+            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new BasicBlockType());
             MoveSystem moveSystem = new MoveSystem();
             moveSystem.SetLevel(level);
 
@@ -40,7 +40,7 @@ namespace Model.Systems.UnitTests
             if (action != null)
                 action.Execute();
 
-            LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
+            LogAssert.Expect(LogType.Warning, "Cell position out of GameBoards range");
             Assert.AreSame(blockA, level.gameBoard.Cells[0,0].Block);
             Assert.AreSame(blockB, level.gameBoard.Cells[1,0].Block);
         }
@@ -49,8 +49,8 @@ namespace Model.Systems.UnitTests
         public void Move_InValidTargetPos_NoChange()
         {
             Level level = new(2, 1);
-            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BlueBlockType());
-            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new RedBlockType());
+            Block blockA = level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
+            Block blockB = level.gameBoard.Cells[1, 0].SpawnBlock(new BasicBlockType());
             MoveSystem moveSystem = new MoveSystem();
             moveSystem.SetLevel(level);
 
@@ -58,7 +58,7 @@ namespace Model.Systems.UnitTests
             if (action != null)
                 action.Execute();
 
-            LogAssert.Expect(LogType.Error, "Cell position out of GameBoards range");
+            LogAssert.Expect(LogType.Warning, "Cell position out of GameBoards range");
             Assert.AreSame(blockA, level.gameBoard.Cells[0,0].Block);
             Assert.AreSame(blockB, level.gameBoard.Cells[1,0].Block);
         }

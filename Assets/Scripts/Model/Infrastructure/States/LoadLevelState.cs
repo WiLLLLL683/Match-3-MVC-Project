@@ -10,28 +10,27 @@ namespace Model.Infrastructure
 {
     public class LoadLevelState : AModelState
     {
-        private Game game;
-        private StateMachine<AModelState> stateMachine;
-        private AllSystems systems;
-        private IMatchSystem matchSystem;
+        private readonly Game game;
+        private readonly StateMachine<AModelState> stateMachine;
+        private readonly AllSystems systems;
+        private readonly IMatchSystem matchSystem;
+        private readonly ISpawnSystem spwanSystem;
 
         private LevelData levelData;
         private Level level;
 
-        private const int MATCH_CHECK_ITERATIONS = 3; //количество итераций проверки совпавших блоков
+        private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
+        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            systems = _systems;
-            matchSystem = systems.GetSystem<IMatchSystem>();
+            this.game = game;
+            this.stateMachine = stateMachine;
+            this.systems = systems;
+            matchSystem = this.systems.GetSystem<IMatchSystem>();
+            spwanSystem = this.systems.GetSystem<ISpawnSystem>();
         }
 
-        public void SetLevelData(LevelData _levelData)
-        {
-            levelData = _levelData;
-        }
+        public void SetLevelData(LevelData levelData) => this.levelData = levelData;
 
         public override void OnStart()
         {
@@ -43,8 +42,8 @@ namespace Model.Infrastructure
             }
 
             LoadLevel();
-            SpawnBlocks();
-            //SwapMatchedBlocks(); //TODO
+            spwanSystem.SpawnGameBoard();
+            SwapMatchedBlocks(); //TODO
 
             Debug.Log("Core Game Started");
             stateMachine.SetState<WaitState>();
@@ -64,34 +63,21 @@ namespace Model.Infrastructure
             systems.SetLevel(level);
         }
 
-        private void SpawnBlocks()
-        {
-            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
-            {
-                for (int y = 0; y < level.gameBoard.Cells.GetLength(1); y++)
-                {
-                    SpawnRandomBlock(level, level.gameBoard.Cells[x, y]);
-                }
-            }
-        }
-
         private void SwapMatchedBlocks()
         {
             for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
             {
-                List<Cell> matches = matchSystem.FindMatches();
-                for (int j = 0; j < matches.Count; j++)
+                HashSet<Cell> matches = matchSystem.FindAllMatches();
+                
+                if (matches.Count == 0)
+                    return;
+
+                foreach (Cell match in matches)
                 {
-                    matches[j].DestroyBlock();
-                    SpawnRandomBlock(level, matches[j]);
+                    match.DestroyBlock();
+                    spwanSystem.SpawnRandomBlock(match);
                 }
             }
-        }
-
-        private static void SpawnRandomBlock(Level _level, Cell _cell)
-        {
-            ABlockType blockType = _level.balance.GetRandomBlockType();
-            new SpawnBlockAction(_level.gameBoard, blockType, _cell).Execute();
         }
     }
 }

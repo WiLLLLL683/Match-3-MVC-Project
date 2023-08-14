@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Model.Readonly
 {
@@ -7,7 +8,10 @@ namespace Model.Readonly
     /// </summary>
     public interface IGameBoard_Readonly
     {
+        int RowsOfInvisibleCells { get; }
         public IEnumerable<IBlock_Readonly> Blocks_Readonly { get; }
         public ICell_Readonly[,] Cells_Readonly { get; }
+
+        public event Action<IBlock_Readonly> OnBlockSpawn;
     }
 }

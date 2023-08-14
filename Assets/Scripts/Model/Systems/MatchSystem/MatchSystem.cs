@@ -24,30 +24,31 @@ namespace Model.Systems
         /// <summary>
         /// Найти все совпадения по всем паттернам для уничтожения
         /// </summary>
-        public List<Cell> FindMatches()
+        public HashSet<Cell> FindAllMatches()
         {
-            List<Cell> matchedCells = new List<Cell>();
+            HashSet<Cell> matchedCells = new();
 
+            //Проверка всех паттернов
             for (int i = 0; i < level.matchPatterns.Length; i++)
             {
-                List<Cell> cellsAtPattern = CheckPattern(level.matchPatterns[i]);
-                matchedCells.AddRange(cellsAtPattern);
+                HashSet<Cell> cellsAtPattern = CheckPattern(level.matchPatterns[i]);
+                matchedCells.UnionWith(cellsAtPattern);
             }
 
             return matchedCells;
         }
 
         /// <summary>
-        /// Найти первый попавшийся паттерн для подсказки 
+        /// Найти первый попавшийся паттерн для подсказки
         /// </summary>
-        public List<Cell> FindFirstHint()
+        public HashSet<Cell> FindFirstHint()
         {
-            List<Cell> matchedCells = new List<Cell>();
+            HashSet<Cell> matchedCells = new();
 
             for (int i = 0; i < level.hintPatterns.Length; i++)
             {
-                List<Cell> cellsAtPattern = CheckFirstPattern(level.hintPatterns[i]);
-                matchedCells.AddRange(cellsAtPattern);
+                HashSet<Cell> cellsAtPattern = CheckFirstPattern(level.hintPatterns[i]);
+                matchedCells.UnionWith(cellsAtPattern);
             }
 
             return matchedCells; //TODO вернуть только клетки которые нужно сменить для подсказки
@@ -55,17 +56,17 @@ namespace Model.Systems
 
 
 
-        private List<Cell> CheckPattern(Pattern _pattern)
+        private HashSet<Cell> CheckPattern(Pattern _pattern)
         {
-            List<Cell> matchedCells = new List<Cell>();
+            HashSet<Cell> matchedCells = new();
 
-            //пройти по всем клеткам игрового поля и сохранить совпавшие клетки
+            //пройти по всем клеткам игрового поля(кроме невидимых) и сохранить совпавшие клетки
             for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
             {
-                for (int y = 0; y < level.gameBoard.Cells.GetLength(1); y++)
+                for (int y = 0; y < level.gameBoard.Cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
                 {
-                    List<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
-                    matchedCells.AddRange(cellsAtPos);
+                    HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
+                    matchedCells.UnionWith(cellsAtPos);
                 }
             }
 
@@ -73,14 +74,14 @@ namespace Model.Systems
             return matchedCells;
         }
 
-        private List<Cell> CheckFirstPattern(Pattern _pattern)
+        private HashSet<Cell> CheckFirstPattern(Pattern _pattern)
         {
-            //пройти по всем клеткам игрового поля и вернуть первые совпавшие клетки
+            //пройти по всем клеткам игрового поля(кроме невидимых) и вернуть первые совпавшие клетки
             for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
             {
-                for (int y = 0; y < level.gameBoard.Cells.GetLength(1); y++)
+                for (int y = 0; y < level.gameBoard.Cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
                 {
-                    List<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
+                    HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
                     if (cellsAtPos.Count > 0)
                     {
                         return cellsAtPos;
@@ -89,7 +90,7 @@ namespace Model.Systems
             }
 
             //если совпадений нет, то вернуть пустой список
-            return new List<Cell>();
+            return new HashSet<Cell>();
         }
     }
 }

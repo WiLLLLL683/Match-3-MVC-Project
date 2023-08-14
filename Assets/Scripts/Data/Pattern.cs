@@ -1,10 +1,8 @@
 using Array2DEditor;
-using Model.Objects;
 using NaughtyAttributes;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Model.Objects;
 
 namespace Data
 {
@@ -21,9 +19,6 @@ namespace Data
         protected bool[,] grid;
         [ShowNonSerializedField] protected int totalSum; //сумма помеченых клеток в паттерне
         [ShowNonSerializedField] protected Vector2Int originPosition = new Vector2Int(0, 0);
-
-        //переменные
-        protected Type originType;
 
         public Pattern(bool[,] _grid)
         {
@@ -42,44 +37,46 @@ namespace Data
         /// <summary>
         /// Найти клетки совпадающие с данным паттерном
         /// </summary>
-        public List<Cell> Match(GameBoard _gameBoard, Vector2Int _startPosition)
+        public HashSet<Cell> Match(GameBoard gameBoard, Vector2Int startPosition)
         {
             //пуст ли паттерн?
             if (totalSum == 0)
-                return new List<Cell>();
+                return new HashSet<Cell>();
 
-            Vector2Int originPosOnGameboard = new Vector2Int(originPosition.x + _startPosition.x, originPosition.y + _startPosition.y);
-
-            //есть ли блок?
-            if (!_gameBoard.CheckValidBlockByPosition(originPosOnGameboard))
-                return new List<Cell>();
+            //есть ли блок в начальной позиции?
+            Vector2Int originPosOnGameboard = new(originPosition.x + startPosition.x, originPosition.y + startPosition.y);
+            if (!gameBoard.ValidateBlockAt(originPosOnGameboard))
+                return new HashSet<Cell>();
 
             //взять тип оригинального блока
-            originType = _gameBoard.Cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.GetType();
+            int originTypeId = gameBoard.Cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.Id;
 
+            //подсчитать совпадения, пройдя по всем координатам паттерна
             int sum = 0;
-            List<Cell> matchedCells = new List<Cell>();
+            HashSet<Cell> matchedCells = new();
 
-            //проверить и подсчитать совпадения, пройдя по координатам паттерна
             for (int x = 0; x < grid.GetLength(0); x++)
             {
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
-                    Vector2Int posOnGameboard = new Vector2Int(x + _startPosition.x, y + _startPosition.y);
+                    Vector2Int posOnGameboard = new(x + startPosition.x, y + startPosition.y);
 
-                    //помечена ли клетка?
-                    if (grid[x, y] == false)
+                    //помечена ли клетка в паттерне?
+                    if (!grid[x, y])
                         continue;
 
-                    //есть ли блок?
-                    if (!_gameBoard.CheckValidBlockByPosition(posOnGameboard))
+                    //есть ли блок в клетке?
+                    if (!gameBoard.ValidateBlockAt(posOnGameboard))
                         continue;
+
+                    Cell cell = gameBoard.Cells[posOnGameboard.x, posOnGameboard.y];
+                    Block block = cell.Block;
 
                     //совпадают ли типы блоков?
-                    if (_gameBoard.Cells[posOnGameboard.x, posOnGameboard.y].Block.Type.GetType().Equals(originType))
+                    if (block.Type.Id == originTypeId)
                     {
                         sum++;
-                        matchedCells.Add(_gameBoard.Cells[posOnGameboard.x, posOnGameboard.y]);
+                        matchedCells.Add(cell);
                     }
                 }
             }
@@ -88,7 +85,7 @@ namespace Data
             if (sum == totalSum)
                 return matchedCells;
             else
-                return new List<Cell>();
+                return new HashSet<Cell>();
         }
 
 

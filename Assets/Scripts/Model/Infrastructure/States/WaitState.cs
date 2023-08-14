@@ -15,7 +15,7 @@ namespace Model.Infrastructure
         private IMatchSystem matchSystem;
         //данные
         private Level level; //TODO проверить меняется ли уровень при изменении в Game?
-        private List<Cell> hintCells;
+        private HashSet<Cell> hintCells;
 
 
         public WaitState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems) //TODO input
@@ -38,7 +38,7 @@ namespace Model.Infrastructure
                 stateMachine.SetState<WinState>();
 
             //поиск блоков для подсказки
-            hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
+            //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
         }
 
         public override void OnEnd()

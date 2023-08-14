@@ -1,6 +1,5 @@
 ﻿using Model.Readonly;
 using View;
-using Data;
 using UnityEngine;
 using Utils;
 
@@ -20,7 +19,8 @@ namespace Presenter
             public override ICellPresenter Connect(ACellView existingView, ICell_Readonly model)
             {
                 var presenter = new CellPresenter(model, existingView);
-                existingView.Init(model.Position, model.Type);
+                existingView.Init(model.Position, model.Type_Readonly.Icon, model.Type_Readonly.IsPlayable,
+                    model.Type_Readonly.DestroyEffect, model.Type_Readonly.EmptyEffect);
                 allPresenters.Add(presenter);
                 presenter.Enable();
                 return presenter;
@@ -58,7 +58,8 @@ namespace Presenter
             view.PlayDestroyEffect();
             GameObject.Destroy(view.gameObject);
         }
-        private void ChangeType(ACellType type) => view.ChangeType(type);
+        private void ChangeType(ICellType_Readonly type) => view.ChangeType(type.Icon, type.IsPlayable,
+            type.DestroyEffect, type.EmptyEffect);
         private void Empty(ICell_Readonly cell) => view.PlayEmptyEffect();
     }
 }
