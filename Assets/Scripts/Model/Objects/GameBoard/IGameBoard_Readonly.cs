@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Model.Readonly
 {
@@ -9,5 +10,7 @@ namespace Model.Readonly
     {
         public IEnumerable<IBlock_Readonly> Blocks_Readonly { get; }
         public ICell_Readonly[,] Cells_Readonly { get; }
+
+        public event Action<IBlock_Readonly> OnBlockSpawn;
     }
 }

@@ -16,19 +16,33 @@ namespace Model.Objects
         public ICell_Readonly[,] Cells_Readonly => Cells;
         public IEnumerable<IBlock_Readonly> Blocks_Readonly => Blocks;
 
+        public event Action<IBlock_Readonly> OnBlockSpawn;
+
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
-        public GameBoard(ICellType[,] cellTypes)
+        public GameBoard(ICellType[,] cellTypes, int rowsOfInvisibleCells, ICellType invisibleCellType)
         {
-            Cells = new Cell[cellTypes.GetLength(0), cellTypes.GetLength(1)];
+            int xLength = cellTypes.GetLength(0);
+            int yLength = cellTypes.GetLength(1) + rowsOfInvisibleCells;
+            Cells = new Cell[xLength, yLength];
             Blocks = new List<Block>();
 
-            for (int i = 0; i < cellTypes.GetLength(0); i++)
+            //спавн невидимых клеток
+            for (int y = 0; y < rowsOfInvisibleCells; y++)
             {
-                for (int j = 0; j < cellTypes.GetLength(1); j++)
+                for (int x = 0; x < xLength; x++)
                 {
-                    Cells[i, j] = new Cell(cellTypes[i, j], new Vector2Int(i, j));
+                    Cells[x, y] = new Cell(invisibleCellType, new Vector2Int(x, y));
+                }
+            }
+
+            //спавн обычных клеток
+            for (int y = rowsOfInvisibleCells; y < yLength; y++)
+            {
+                for (int x = 0; x < xLength; x++)
+                {
+                    Cells[x, y] = new Cell(cellTypes[x, y - rowsOfInvisibleCells], new Vector2Int(x, y));
                 }
             }
         }
@@ -41,11 +55,11 @@ namespace Model.Objects
             Cells = new Cell[xLength, yLength];
             Blocks = new List<Block>();
 
-            for (int i = 0; i < xLength; i++)
+            for (int y = 0; y < yLength; y++)
             {
-                for (int j = 0; j < yLength; j++)
+                for (int x = 0; x < xLength; x++)
                 {
-                    Cells[i, j] = new Cell(new BasicCellType(), new Vector2Int(i, j));
+                    Cells[x, y] = new Cell(new BasicCellType(), new Vector2Int(x, y));
                 }
             }
         }
@@ -59,6 +73,7 @@ namespace Model.Objects
             {
                 Blocks.Add(block);
                 block.OnDestroy += UnRegisterBlock;
+                OnBlockSpawn?.Invoke(block);
             }
         }
 

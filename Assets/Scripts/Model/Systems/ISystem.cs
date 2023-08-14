@@ -7,6 +7,9 @@ namespace Model.Systems
 {
     public interface ISystem
     {
-        void SetLevel(Level level);
+        /// <summary>
+        /// Обновить данные об уровне
+        /// </summary>
+        public void SetLevel(Level level);
     }
 }

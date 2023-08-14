@@ -32,6 +32,13 @@ MonoBehaviour:
     - row: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
     - row: 00000000010000000000000000000000000000000000000000000000000000000000000000000000
     - row: 00000000010000000000000000000000000000000000000000000000000000000000000000000000
+  rowsOfInvisibleCells: 1
+  invisibleCellType: {fileID: 11400000, guid: 94d590edb7adb714daff1c9850a67d2f, type: 2}
+  balance: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
+  matchPatterns:
+  - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
+  hintPatterns:
+  - {fileID: 11400000, guid: 2271e9eec7997984e98d096ddceb24f7, type: 2}
   goals:
   - target:
       rid: 6504100869899550721
@@ -40,11 +47,6 @@ MonoBehaviour:
   - target:
       rid: 4838321234394480641
     count: 1
-  balance: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
-  matchPatterns:
-  - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
-  hintPatterns:
-  - {fileID: 11400000, guid: 2271e9eec7997984e98d096ddceb24f7, type: 2}
   references:
     version: 2
     RefIds:

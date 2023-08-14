@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Model.Objects;
-using Model.Objects.UnitTests;
-using Moq;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using UnitTests;
 
 namespace Data.UnitTests

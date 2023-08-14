@@ -4,6 +4,7 @@ using UnityEngine;
 using Model.Readonly;
 using View;
 using Utils;
+using System;
 
 namespace Presenter
 {
@@ -56,15 +57,19 @@ namespace Presenter
 
         public void Enable()
         {
-            SpawnCells();
-            SpawnBlocks();
+            SpawnAllCells();
+            SpawnAllBlocks();
+            model.OnBlockSpawn += SpawnBlock;
             //TODO спавн блоков по событию в модели
             Debug.Log($"{this} enabled");
         }
+
+
         public void Disable()
         {
-            ClearBlocks();
-            ClearCells();
+            ClearAllBlocks();
+            ClearAllCells();
+            model.OnBlockSpawn -= SpawnBlock;
             Debug.Log($"{this} disabled");
         }
         public void Destroy()
@@ -89,9 +94,9 @@ namespace Presenter
 
 
         [Button]
-        private void SpawnCells()
+        private void SpawnAllCells()
         {
-            ClearCells();
+            ClearAllCells();
 
             int xLength = model.Cells_Readonly.GetLength(0);
             int yLength = model.Cells_Readonly.GetLength(1);
@@ -106,26 +111,30 @@ namespace Presenter
             }
         }
         [Button]
-        private void SpawnBlocks()
+        private void SpawnAllBlocks()
         {
-            ClearBlocks();
+            ClearAllBlocks();
 
             foreach (var blockModel in model.Blocks_Readonly)
             {
                 blocks[blockModel] = blockFactory.Create(blockModel).View;
             }
         }
-        private void ClearCells()
+        private void ClearAllCells()
         {
             cellFactory.Clear();
             cellFactory.ClearParent();
             cells.Clear();
         }
-        private void ClearBlocks()
+        private void ClearAllBlocks()
         {
             blockFactory.Clear();
             blockFactory.ClearParent();
             blocks.Clear();
+        }
+        private void SpawnBlock(IBlock_Readonly blockModel)
+        {
+            blocks.Add(blockModel, blockFactory.Create(blockModel).View);
         }
     }
 }

@@ -9,22 +9,23 @@ namespace Model.Infrastructure
 {
     public class SpawnState : AModelState
     {
-        private Game game;
+        private readonly Game game;
+        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IGravitySystem gravitySystem;
+        private readonly IMatchSystem matchSystem;
+        private readonly ISpawnSystem spawnSystem;
+
         private Level level;
-        private StateMachine<AModelState> stateMachine;
-        private IGravitySystem gravitySystem;
-        private IMatchSystem matchSystem;
-        private ISpawnSystem spawnSystem;
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            gravitySystem = _systems.GetSystem<IGravitySystem>();
-            matchSystem = _systems.GetSystem<IMatchSystem>();
-            spawnSystem = _systems.GetSystem<ISpawnSystem>();
+            this.game = game;
+            this.stateMachine = stateMachine;
+            gravitySystem = systems.GetSystem<IGravitySystem>();
+            matchSystem = systems.GetSystem<IMatchSystem>();
+            spawnSystem = systems.GetSystem<ISpawnSystem>();
         }
 
         public override void OnStart()
@@ -39,15 +40,14 @@ namespace Model.Infrastructure
                 //проверка на совпадения
                 HashSet<Cell> matches = matchSystem.FindAllMatches();
 
-                //если нет совпадений - прекратить
-                if (matches.Count == 0)
-                    break;
-
-                //если есть - удалить совпадающие блоки
-                foreach (Cell match in matches)
+                //если есть совпадениz - удалить совпадающие блоки
+                if (matches.Count > 0)
                 {
-                    level.UpdateGoals(match.Block.Type);
-                    match.DestroyBlock();
+                    foreach (Cell match in matches)
+                    {
+                        //level.UpdateGoals(match.Block.Type);
+                        match.DestroyBlock();
+                    }
                 }
 
                 //спавн верхней полосы
