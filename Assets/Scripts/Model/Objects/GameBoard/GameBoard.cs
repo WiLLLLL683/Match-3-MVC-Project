@@ -13,36 +13,42 @@ namespace Model.Objects
     {
         public Cell[,] Cells { get; private set; }
         public List<Block> Blocks { get; private set; }
+        public int RowsOfInvisibleCells { get; private set; }
         public ICell_Readonly[,] Cells_Readonly => Cells;
         public IEnumerable<IBlock_Readonly> Blocks_Readonly => Blocks;
 
         public event Action<IBlock_Readonly> OnBlockSpawn;
+
+        private readonly ICellType invisibleCellType;
 
         /// <summary>
         /// Создание пустого игрового поля исходя из данных
         /// </summary>
         public GameBoard(ICellType[,] cellTypes, int rowsOfInvisibleCells, ICellType invisibleCellType)
         {
+            this.invisibleCellType = invisibleCellType;
+            this.RowsOfInvisibleCells = rowsOfInvisibleCells;
+
             int xLength = cellTypes.GetLength(0);
-            int yLength = cellTypes.GetLength(1) + rowsOfInvisibleCells;
+            int yLength = cellTypes.GetLength(1) + RowsOfInvisibleCells;
             Cells = new Cell[xLength, yLength];
             Blocks = new List<Block>();
 
             //спавн невидимых клеток
-            for (int y = 0; y < rowsOfInvisibleCells; y++)
+            for (int y = 0; y < RowsOfInvisibleCells; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    Cells[x, y] = new Cell(invisibleCellType, new Vector2Int(x, y));
+                    Cells[x, y] = new Cell(this.invisibleCellType, new Vector2Int(x, y));
                 }
             }
 
             //спавн обычных клеток
-            for (int y = rowsOfInvisibleCells; y < yLength; y++)
+            for (int y = RowsOfInvisibleCells; y < yLength; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    Cells[x, y] = new Cell(cellTypes[x, y - rowsOfInvisibleCells], new Vector2Int(x, y));
+                    Cells[x, y] = new Cell(cellTypes[x, y - RowsOfInvisibleCells], new Vector2Int(x, y));
                 }
             }
         }
@@ -86,8 +92,8 @@ namespace Model.Objects
             if (!ValidateCellAt(position))
                 return false;
 
-            //играбельна ли клетка?
-            if (!Cells[position.x, position.y].IsPlayable)
+            //может ли клетка иметь блок?
+            if (!Cells[position.x, position.y].CanContainBlock)
             {
                 Debug.LogWarning("Tried to get Block but Cell was notPlayable");
                 return false;

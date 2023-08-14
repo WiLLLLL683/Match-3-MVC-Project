@@ -56,7 +56,7 @@ namespace Model.Systems
             lowestY = y;
             for (int i = gameBoard.Cells.GetLength(1) - 1; i > y; i--)
             {
-                if (gameBoard.Cells[x, i].IsEmpty && gameBoard.Cells[x, i].IsPlayable)
+                if (gameBoard.Cells[x, i].IsEmpty && gameBoard.Cells[x, i].CanContainBlock)
                 {
                     lowestY = i;
                     return;

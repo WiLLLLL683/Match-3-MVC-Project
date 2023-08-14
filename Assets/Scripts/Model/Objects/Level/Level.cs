@@ -22,7 +22,6 @@ namespace Model.Objects
         public Balance balance { get; private set; }
         public Pattern[] matchPatterns { get; private set; }
         public HintPattern[] hintPatterns { get; private set; }
-        public int rowsOfInvisibleCells { get; private set; }
 
         public event Action OnWin;
         public event Action OnLose;
@@ -38,7 +37,6 @@ namespace Model.Objects
             balance = levelData.Balance;
             matchPatterns = levelData.MatchPatterns;
             hintPatterns = levelData.HintPatterns;
-            rowsOfInvisibleCells = levelData.RowsOfInvisibleCells;
         }
 
         /// <summary>
@@ -55,7 +53,6 @@ namespace Model.Objects
             matchPatterns[0] = new Pattern(new bool[1, 1] { { true } });
             hintPatterns = new HintPattern[1];
             hintPatterns[0] = new HintPattern(new bool[1, 1] { { true } }, new(0, 0), Directions.Up);
-            rowsOfInvisibleCells = 1;
 
             List<BlockType_Weight> balanceDictionary = new();
             balanceDictionary.Add(new BlockType_Weight(new BasicBlockType(0), 50));
@@ -70,7 +67,6 @@ namespace Model.Objects
         {
             gameBoard = new GameBoard(xLength, yLength);
             this.matchPatterns = matchPatterns;
-            rowsOfInvisibleCells = 1;
         }
 
         /// <summary>

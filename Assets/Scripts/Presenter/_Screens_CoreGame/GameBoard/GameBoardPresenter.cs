@@ -17,17 +17,20 @@ namespace Presenter
         {
             private readonly AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
             private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
+            private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory;
             public Factory(AGameBoardView viewPrefab,
                 AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory,
-                AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory) : base(viewPrefab)
+                AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory,
+                AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory) : base(viewPrefab)
             {
+                this.invisibleCellFactory = invisibleCellFactory;
                 this.blockFactory = blockFactory;
                 this.cellFactory = cellFactory;
             }
 
             public override IGameBoardPresenter Connect(AGameBoardView existingView, IGameBoard_Readonly model)
             {
-                var presenter = new GameBoardPresenter(model, existingView, blockFactory, cellFactory);
+                var presenter = new GameBoardPresenter(model, existingView, blockFactory, cellFactory, invisibleCellFactory);
                 presenter.Enable();
                 allPresenters.Add(presenter);
                 return presenter;
@@ -38,21 +41,25 @@ namespace Presenter
         private readonly AGameBoardView view;
         private readonly AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
         private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
+        private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory;
 
         private readonly Dictionary<ICell_Readonly, ACellView> cells = new();
         private readonly Dictionary<IBlock_Readonly, ABlockView> blocks = new();
 
         public GameBoardPresenter(IGameBoard_Readonly model, AGameBoardView view,
             AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory,
-            AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory)
+            AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory,
+            AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory)
         {
             this.model = model;
             this.view = view;
             this.blockFactory = blockFactory;
             this.cellFactory = cellFactory;
+            this.invisibleCellFactory = invisibleCellFactory;
 
             this.blockFactory.SetParent(view.BlocksParent);
             this.cellFactory.SetParent(view.CellsParent);
+            this.invisibleCellFactory.SetParent(view.CellsParent);
         }
 
         public void Enable()
@@ -60,7 +67,6 @@ namespace Presenter
             SpawnAllCells();
             SpawnAllBlocks();
             model.OnBlockSpawn += SpawnBlock;
-            //TODO спавн блоков по событию в модели
             Debug.Log($"{this} enabled");
         }
 
@@ -101,12 +107,20 @@ namespace Presenter
             int xLength = model.Cells_Readonly.GetLength(0);
             int yLength = model.Cells_Readonly.GetLength(1);
 
-            for (int x = 0; x < xLength; x++)
+            for (int y = 0; y < yLength; y++)
             {
-                for (int y = 0; y < yLength; y++)
+                for (int x = 0; x < xLength; x++)
                 {
                     ICell_Readonly cellModel = model.Cells_Readonly[x, y];
-                    cells[cellModel] = cellFactory.Create(cellModel).View;
+
+                    if (cellModel.IsPlayable)
+                    {
+                        cells[cellModel] = cellFactory.Create(cellModel).View; //спавн обычных клеток
+                    }
+                    else
+                    {
+                        cells[cellModel] = invisibleCellFactory.Create(cellModel).View; //спавн невидимых клеток если клетка не играбельна
+                    }
                 }
             }
         }

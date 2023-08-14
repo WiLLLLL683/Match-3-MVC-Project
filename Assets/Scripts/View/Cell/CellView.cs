@@ -33,12 +33,6 @@ namespace View
             this.destroyEffectPrefab = destroyEffectPrefab;
             this.emptyEffectPrefab = emptyEffectPrefab;
 
-            if (!isPlayable)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
-
             if (iconSprite != null)
             {
                 icon.gameObject.SetActive(true);
@@ -77,6 +71,9 @@ namespace View
         }
         private void SetCheckerBoardPattern()
         {
+            if (evenSprite == null || oddSprite == null)
+                return;
+
             if ((modelPosition.x % 2 == 1 && modelPosition.y % 2 == 1) ||
                 (modelPosition.x % 2 == 0 && modelPosition.y % 2 == 0))
                 fill.sprite = evenSprite;

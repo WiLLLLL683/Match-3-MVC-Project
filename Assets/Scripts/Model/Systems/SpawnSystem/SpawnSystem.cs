@@ -14,7 +14,7 @@ namespace Model.Systems
 
         public void SpawnTopLine()
         {
-            for (int y = 0; y < level.rowsOfInvisibleCells; y++)
+            for (int y = 0; y < level.gameBoard.RowsOfInvisibleCells; y++)
             {
                 for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
                 {

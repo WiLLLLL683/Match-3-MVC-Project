@@ -13,7 +13,8 @@ namespace Model.Objects
     [Serializable]
     public class Cell : ICell_Readonly
     {
-        public bool IsPlayable => Type.CanContainBlock;
+        public bool IsPlayable => Type.IsPlayable;
+        public bool CanContainBlock => Type.CanContainBlock;
         public bool IsEmpty { get; private set; }
         public ICellType Type { get; private set; }
         public Vector2Int Position { get; private set; }
@@ -47,7 +48,7 @@ namespace Model.Objects
         /// </summary>
         public void SetBlock(Block block)
         {
-            if (IsPlayable)
+            if (CanContainBlock)
             {
                 if (block != null)
                 {
@@ -67,7 +68,7 @@ namespace Model.Objects
         /// </summary>
         public Block SpawnBlock(IBlockType blockType)
         {
-            if (IsPlayable && IsEmpty)
+            if (CanContainBlock && IsEmpty)
             {
                 Block block = new Block(blockType, this);
                 SetBlock(block);
@@ -82,7 +83,7 @@ namespace Model.Objects
         /// </summary>
         public void DestroyBlock()
         {
-            if (IsPlayable && Block != null)
+            if (CanContainBlock && Block != null)
             {
                 Block.Destroy();
                 SetEmpty();

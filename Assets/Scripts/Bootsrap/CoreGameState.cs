@@ -27,6 +27,7 @@ public class CoreGameState : IState
     //фабрики игровых элементов
     private AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
     private AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
+    private AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory;
     private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
     private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
     private AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> boosterFactory;
@@ -48,6 +49,7 @@ public class CoreGameState : IState
         //создание фабрик игровых элементов
         blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab, game);
         cellFactory = new CellPresenter.Factory(prefabs.cellPrefab);
+        invisibleCellFactory = new CellPresenter.Factory(prefabs.invisibleCellPrefab);
         goalFactory = new CounterPresenter.Factory(prefabs.goalCounterPrefab);
         restrictionFactory = new CounterPresenter.Factory(prefabs.restrictionCounterPrefab);
         boosterFactory = new BoosterPresenter.Factory(prefabs.boosterPrefab, game);
@@ -58,7 +60,7 @@ public class CoreGameState : IState
         input = GameObject.Instantiate(prefabs.inputPrefab);
 
         //создание фабрик экранов
-        var gameboardFactory = new GameBoardPresenter.Factory(prefabs.gameBoardPrefab, blockFactory, cellFactory);
+        var gameboardFactory = new GameBoardPresenter.Factory(prefabs.gameBoardPrefab, blockFactory, cellFactory, invisibleCellFactory);
         var boosterInventoryFactory = new BoosterInventoryPresenter.Factory(prefabs.boosterInventoryPrefab, boosterFactory);
         var endGameFactory = new EndGamePresenter.Factory(prefabs.endGamePrefab, input, endGamePopUpFactory);
         var hudFactory = new HudPresenter.Factory(prefabs.hudPrefab, goalFactory, restrictionFactory);
