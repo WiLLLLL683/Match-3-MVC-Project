@@ -13,31 +13,21 @@ namespace Model.Objects
     /// </summary>
     public class Level : ILevel_Readonly
     {
-        public GameBoard gameBoard { get; private set; }
-        public IGameBoard_Readonly GameBoard_Readonly => gameBoard;
-        public Counter[] goals { get; private set; }
-        public ICounter_Readonly[] Goals_Readonly => goals;
-        public Counter[] restrictions { get; private set; }
-        public ICounter_Readonly[] Restrictions_Readonly => goals;
-        public Balance balance { get; private set; }
-        public Pattern[] matchPatterns { get; private set; }
-        public HintPattern[] hintPatterns { get; private set; }
+        public GameBoard gameBoard;
+        public Counter[] goals;
+        public Counter[] restrictions;
+        public Balance balance;
+        public Pattern[] matchPatterns;
+        public HintPattern[] hintPatterns;
 
         public event Action OnWin;
         public event Action OnLose;
 
-        /// <summary>
-        /// Создание уровня исходя из данных с пустым игровым полем
-        /// </summary>
-        public Level(LevelData levelData)
-        {
-            gameBoard = levelData.GameBoard;
-            goals = levelData.Goals;
-            restrictions = levelData.Restrictions;
-            balance = levelData.Balance;
-            matchPatterns = levelData.MatchPatterns;
-            hintPatterns = levelData.HintPatterns;
-        }
+        public IGameBoard_Readonly GameBoard_Readonly => gameBoard;
+        public ICounter_Readonly[] Goals_Readonly => goals;
+        public ICounter_Readonly[] Restrictions_Readonly => goals;
+
+        public Level() { }
 
         /// <summary>
         /// for tests only

@@ -1,4 +1,4 @@
-﻿using Model.Infrastructure;
+﻿using Model.Objects;
 using UnityEngine;
 using Utils;
 using View;

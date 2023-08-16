@@ -1,4 +1,5 @@
 using Data;
+using Model.Factories;
 using Model.Objects;
 using Model.Readonly;
 using Model.Systems;
@@ -27,7 +28,7 @@ namespace Model.Infrastructure
         private StateMachine<AModelState> stateMachine;
         private AllSystems systems;
 
-        public Game(LevelData[] allLevels, int currentLevelIndex)
+        public Game(LevelConfig[] allLevels, int currentLevelIndex, ICellType invisibleCellType)
         {
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
@@ -40,8 +41,12 @@ namespace Model.Infrastructure
             systems.AddSystem<IGravitySystem>(new GravitySystem());
             systems.AddSystem<IMoveSystem>(new MoveSystem());
 
+            var cellFactory = new CellFactory(invisibleCellType);
+            var gameboardFactory = new GameBoardFactory(cellFactory);
+            var levelFactory = new LevelFactory(gameboardFactory);
+
             stateMachine = new();
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems));
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems, levelFactory));
             stateMachine.AddState(new WaitState(this, stateMachine, systems));
             stateMachine.AddState(new TurnState(this, stateMachine, systems));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
@@ -55,7 +60,7 @@ namespace Model.Infrastructure
         /// <summary>
         /// Запуск выбранного уровня кор-игры
         /// </summary>
-        public void StartLevel(LevelData levelData)
+        public void StartLevel(LevelConfig levelData)
         {
             stateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
             stateMachine.SetState<LoadLevelState>();

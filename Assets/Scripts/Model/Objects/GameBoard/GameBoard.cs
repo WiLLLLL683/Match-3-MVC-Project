@@ -11,61 +11,32 @@ namespace Model.Objects
     /// </summary>
     public class GameBoard : IGameBoard_Readonly
     {
-        public Cell[,] Cells { get; private set; }
-        public List<Block> Blocks { get; private set; }
-        public int RowsOfInvisibleCells { get; private set; }
-        public ICell_Readonly[,] Cells_Readonly => Cells;
-        public IEnumerable<IBlock_Readonly> Blocks_Readonly => Blocks;
+        public Cell[,] cells;
+        public List<Block> blocks = new List<Block>();
+        public int rowsOfInvisibleCells;
 
         public event Action<IBlock_Readonly> OnBlockSpawn;
 
-        private readonly ICellType invisibleCellType;
+        public ICell_Readonly[,] Cells_Readonly => cells;
+        public IEnumerable<IBlock_Readonly> Blocks_Readonly => blocks;
+        public int RowsOfInvisibleCells => rowsOfInvisibleCells;
+
+        public GameBoard() { }
 
         /// <summary>
-        /// Создание пустого игрового поля исходя из данных
-        /// </summary>
-        public GameBoard(ICellType[,] cellTypes, int rowsOfInvisibleCells, ICellType invisibleCellType)
-        {
-            this.invisibleCellType = invisibleCellType;
-            this.RowsOfInvisibleCells = rowsOfInvisibleCells;
-
-            int xLength = cellTypes.GetLength(0);
-            int yLength = cellTypes.GetLength(1) + RowsOfInvisibleCells;
-            Cells = new Cell[xLength, yLength];
-            Blocks = new List<Block>();
-
-            //спавн невидимых клеток
-            for (int y = 0; y < RowsOfInvisibleCells; y++)
-            {
-                for (int x = 0; x < xLength; x++)
-                {
-                    Cells[x, y] = new Cell(this.invisibleCellType, new Vector2Int(x, y));
-                }
-            }
-
-            //спавн обычных клеток
-            for (int y = RowsOfInvisibleCells; y < yLength; y++)
-            {
-                for (int x = 0; x < xLength; x++)
-                {
-                    Cells[x, y] = new Cell(cellTypes[x, y - RowsOfInvisibleCells], new Vector2Int(x, y));
-                }
-            }
-        }
-
-        /// <summary>
+        /// For tests only
         /// Создание пустого игрового поля с базовыми клетками по заданным размерам
         /// </summary>
         public GameBoard(int xLength, int yLength)
         {
-            Cells = new Cell[xLength, yLength];
-            Blocks = new List<Block>();
+            cells = new Cell[xLength, yLength];
+            blocks = new List<Block>();
 
             for (int y = 0; y < yLength; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    Cells[x, y] = new Cell(new BasicCellType(), new Vector2Int(x, y));
+                    cells[x, y] = new Cell(new BasicCellType(), new Vector2Int(x, y));
                 }
             }
         }
@@ -77,7 +48,7 @@ namespace Model.Objects
         {
             if (block != null)
             {
-                Blocks.Add(block);
+                blocks.Add(block);
                 block.OnDestroy += UnRegisterBlock;
                 OnBlockSpawn?.Invoke(block);
             }
@@ -93,14 +64,14 @@ namespace Model.Objects
                 return false;
 
             //может ли клетка иметь блок?
-            if (!Cells[position.x, position.y].CanContainBlock)
+            if (!cells[position.x, position.y].CanContainBlock)
             {
                 Debug.LogWarning("Tried to get Block but Cell was notPlayable");
                 return false;
             }
 
             //есть ли блок в клетке?
-            if (Cells[position.x, position.y].IsEmpty)
+            if (cells[position.x, position.y].IsEmpty)
             {
                 Debug.LogWarning("Tried to get Block but Cell was empty");
                 return false;
@@ -116,8 +87,8 @@ namespace Model.Objects
             //позиция в границах игрового поля?
             if (position.x >= 0 &&
                 position.y >= 0 &&
-                position.x < Cells.GetLength(0) &&
-                position.y < Cells.GetLength(1))
+                position.x < cells.GetLength(0) &&
+                position.y < cells.GetLength(1))
             {
                 return true;
             }
@@ -127,6 +98,6 @@ namespace Model.Objects
                 return false;
             }
         }
-        private void UnRegisterBlock(Block block) => Blocks.Remove(block);
+        private void UnRegisterBlock(Block block) => blocks.Remove(block);
     }
 }

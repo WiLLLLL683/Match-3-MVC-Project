@@ -42,11 +42,11 @@ namespace UnitTests
 
             //Преобразовать 2д массив клеток в 1д построчно
             List<Cell> cells = new();
-            for (int y = 0; y < gameBoard.Cells.GetLength(1); y++)
+            for (int y = 0; y < gameBoard.cells.GetLength(1); y++)
             {
-                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
+                for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
                 {
-                    cells.Add(gameBoard.Cells[x,y]);
+                    cells.Add(gameBoard.cells[x,y]);
                 }
             }
 

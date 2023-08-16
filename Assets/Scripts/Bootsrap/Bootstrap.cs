@@ -12,10 +12,11 @@ public class Bootstrap : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField] private PrefabConfig prefabs;
-    [SerializeField] private LevelData[] allLevels;
+    [SerializeField] private LevelConfig[] allLevels;
+    [SerializeField] private CellTypeSO invisibleCellType;
     [Header("Current State")]
-    [SerializeField] private LevelData selectedLevel;
-    public LevelData SelectedLevel => selectedLevel;
+    [SerializeField] private LevelConfig selectedLevel;
+    public LevelConfig SelectedLevel => selectedLevel;
     [NaughtyAttributes.ShowNativeProperty()] public string gameModelState => game?.CurrentStateName;
 
     private Game game;
@@ -23,7 +24,7 @@ public class Bootstrap : MonoBehaviour
 
     private void Awake()
     {
-        game = new(allLevels, 0); //TODO загрузка сохранения
+        game = new(allLevels, 0, invisibleCellType.type); //TODO загрузка сохранения
         stateMachine = new();
         stateMachine.AddState(new MetaGameState(game, prefabs, this));
         stateMachine.AddState(new CoreGameState(game, prefabs, this));

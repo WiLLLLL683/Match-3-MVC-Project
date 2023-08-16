@@ -76,7 +76,7 @@ namespace Model.Infrastructure
         private void PressBlock()
         {
             //проверка на результативность хода
-            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
+            bool turnSucsess = level.gameBoard.cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
             
             //проверка на последующие совпадения
             HashSet<Cell> matches = matchSystem.FindAllMatches();

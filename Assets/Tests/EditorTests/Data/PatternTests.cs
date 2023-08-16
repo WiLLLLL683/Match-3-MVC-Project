@@ -22,7 +22,7 @@ namespace Data.UnitTests
             List<Cell> cells = pattern.Match(gameBoard,new Vector2Int(0,0)).ToList();
 
             Assert.AreEqual(1, cells.Count);
-            Assert.AreEqual(gameBoard.Cells[0,0], cells[0]);
+            Assert.AreEqual(gameBoard.cells[0,0], cells[0]);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Data.UnitTests
         public void _FindPattern_NotPlayableCell_Null()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 1, TestUtils.RED_BLOCK);
-            gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
+            gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
             var pattern = TestUtils.CreatePattern(1, 1, true);
 
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0, 0)).ToList();
@@ -88,8 +88,8 @@ namespace Data.UnitTests
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0,0)).ToList();
 
             Assert.AreEqual(2, cells.Count);
-            Assert.AreEqual(gameBoard.Cells[0, 0], cells[0]);
-            Assert.AreEqual(gameBoard.Cells[1, 0], cells[1]);
+            Assert.AreEqual(gameBoard.cells[0, 0], cells[0]);
+            Assert.AreEqual(gameBoard.cells[1, 0], cells[1]);
         }
 
         [Test]
@@ -116,8 +116,8 @@ namespace Data.UnitTests
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(0,1)).ToList();
 
             Assert.AreEqual(2, cells.Count);
-            Assert.AreEqual(gameBoard.Cells[0,1], cells[0]);
-            Assert.AreEqual(gameBoard.Cells[1,1], cells[1]);
+            Assert.AreEqual(gameBoard.cells[0,1], cells[0]);
+            Assert.AreEqual(gameBoard.cells[1,1], cells[1]);
         }
 
         [Test]
@@ -131,8 +131,8 @@ namespace Data.UnitTests
             List<Cell> cells = pattern.Match(gameBoard, new Vector2Int(1,0)).ToList();
 
             Assert.AreEqual(2, cells.Count);
-            Assert.AreEqual(gameBoard.Cells[1,0], cells[0]);
-            Assert.AreEqual(gameBoard.Cells[2,0], cells[1]);
+            Assert.AreEqual(gameBoard.cells[1,0], cells[0]);
+            Assert.AreEqual(gameBoard.cells[2,0], cells[1]);
         }
     }
 }

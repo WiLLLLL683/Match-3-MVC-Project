@@ -15,56 +15,56 @@ namespace Model.Systems.UnitTests
         public void Execute_OneBlockOneEmptyCellUnder_BlockMovesDown()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
-            var block = gameBoard.Cells[0, 0].Block;
+            var block = gameBoard.cells[0, 0].Block;
             var gravitySystem = new GravitySystem();
 
             gravitySystem.Execute(gameBoard);
 
-            Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
-            Assert.AreEqual(block, gameBoard.Cells[0, 1].Block);
+            Assert.AreEqual(null, gameBoard.cells[0, 0].Block);
+            Assert.AreEqual(block, gameBoard.cells[0, 1].Block);
         }
 
         [Test]
         public void Execute_TwoBlocksNoEmptyCellUnder_NoChange()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
-            var blockA = gameBoard.Cells[0, 0].Block;
-            var blockB = gameBoard.Cells[0, 1].Block;
+            var blockA = gameBoard.cells[0, 0].Block;
+            var blockB = gameBoard.cells[0, 1].Block;
             var gravitySystem = new GravitySystem();
 
             gravitySystem.Execute(gameBoard);
 
-            Assert.AreEqual(blockA, gameBoard.Cells[0, 0].Block);
-            Assert.AreEqual(blockB, gameBoard.Cells[0, 1].Block);
+            Assert.AreEqual(blockA, gameBoard.cells[0, 0].Block);
+            Assert.AreEqual(blockB, gameBoard.cells[0, 1].Block);
         }
 
         [Test]
         public void Execute_OneBlockNotPlayableCellUnder_NoChange()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
-            gameBoard.Cells[0, 1].ChangeType(TestUtils.NotPlayableCellType);
-            var blockA = gameBoard.Cells[0, 0].Block;
+            gameBoard.cells[0, 1].ChangeType(TestUtils.NotPlayableCellType);
+            var blockA = gameBoard.cells[0, 0].Block;
             var gravitySystem = new GravitySystem();
 
             gravitySystem.Execute(gameBoard);
 
-            Assert.AreEqual(blockA, gameBoard.Cells[0, 0].Block);
-            Assert.AreEqual(null, gameBoard.Cells[0, 1].Block);
+            Assert.AreEqual(blockA, gameBoard.cells[0, 0].Block);
+            Assert.AreEqual(null, gameBoard.cells[0, 1].Block);
         }
 
         [Test]
         public void Execute_TwoBlocksEmptyCellUnder_TwoBlocksMoveDown()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 3, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
-            var blockA = gameBoard.Cells[0, 0].Block;
-            var blockB = gameBoard.Cells[0, 1].Block;
+            var blockA = gameBoard.cells[0, 0].Block;
+            var blockB = gameBoard.cells[0, 1].Block;
             var gravitySystem = new GravitySystem();
 
             gravitySystem.Execute(gameBoard);
 
-            Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
-            Assert.AreEqual(blockA, gameBoard.Cells[0, 1].Block);
-            Assert.AreEqual(blockB, gameBoard.Cells[0, 2].Block);
+            Assert.AreEqual(null, gameBoard.cells[0, 0].Block);
+            Assert.AreEqual(blockA, gameBoard.cells[0, 1].Block);
+            Assert.AreEqual(blockB, gameBoard.cells[0, 2].Block);
         }
 
         [Test]
@@ -75,24 +75,24 @@ namespace Model.Systems.UnitTests
 
             gravitySystem.Execute(gameBoard);
 
-            Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
-            Assert.AreEqual(null, gameBoard.Cells[0, 1].Block);
+            Assert.AreEqual(null, gameBoard.cells[0, 0].Block);
+            Assert.AreEqual(null, gameBoard.cells[0, 1].Block);
         }
 
         [Test]
         public void Execute_3Blocks2EmptyCellUnder_3BlocksMoveDown()
         {
             var gameBoard = TestUtils.CreateGameBoard(3, 3, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
-            var block1 = gameBoard.Cells[0, 0].Block;
-            var block2 = gameBoard.Cells[1, 0].Block;
-            var block3 = gameBoard.Cells[2, 0].Block;
+            var block1 = gameBoard.cells[0, 0].Block;
+            var block2 = gameBoard.cells[1, 0].Block;
+            var block3 = gameBoard.cells[2, 0].Block;
             var gravitySystem = new GravitySystem();
 
             gravitySystem.Execute(gameBoard);
 
-            Assert.AreEqual(block1, gameBoard.Cells[0, 2].Block);
-            Assert.AreEqual(block2, gameBoard.Cells[1, 2].Block);
-            Assert.AreEqual(block3, gameBoard.Cells[2, 2].Block);
+            Assert.AreEqual(block1, gameBoard.cells[0, 2].Block);
+            Assert.AreEqual(block2, gameBoard.cells[1, 2].Block);
+            Assert.AreEqual(block3, gameBoard.cells[2, 2].Block);
         }
 
         //тесты отдельных функций

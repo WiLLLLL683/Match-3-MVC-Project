@@ -57,4 +57,16 @@ public static class Extensions
         //строки положения нумеруются сверху вниз, поэтому Position.y отрицательный
         return new Vector2Int(modelPosition.x, -modelPosition.y);
     }
+
+    public static T[] MemberwiseArrayClone<T>(this T[] array) where T : ICloneable
+    {
+        T[] newArray = new T[array.Length];
+
+        for (int i = 0; i < newArray.Length; i++)
+        {
+            newArray[i] = (T)array[i].Clone();
+        }
+
+        return newArray;
+    }
 }

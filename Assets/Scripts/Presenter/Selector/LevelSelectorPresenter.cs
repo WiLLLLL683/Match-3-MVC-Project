@@ -25,7 +25,7 @@ namespace Presenter
             {
                 var presenter = new LevelSelectorPresenter(model, existingView, bootstrap);
                 presenter.Enable();
-                existingView.Init(model.CurrentLevelData.Icon, model.CurrentLevelData.LevelName);
+                existingView.Init(model.CurrentLevelData.icon, model.CurrentLevelData.levelName);
                 allPresenters.Add(presenter);
                 return presenter;
             }

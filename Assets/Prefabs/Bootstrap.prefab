@@ -46,5 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs: {fileID: 11400000, guid: a12bf316bb9de8b47a6f68bb4a11744b, type: 2}
   allLevels:
-  - {fileID: 11400000, guid: 8a87131265bd36e42aedb98223514528, type: 2}
-  selectedLevel: {fileID: 11400000, guid: 8a87131265bd36e42aedb98223514528, type: 2}
+  - {fileID: 11400000, guid: 5879a7ad4576a08429baa87bd58af051, type: 2}
+  invisibleCellType: {fileID: 11400000, guid: 94d590edb7adb714daff1c9850a67d2f, type: 2}
+  selectedLevel: {fileID: 11400000, guid: 5879a7ad4576a08429baa87bd58af051, type: 2}

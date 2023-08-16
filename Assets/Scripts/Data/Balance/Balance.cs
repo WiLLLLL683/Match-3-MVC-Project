@@ -1,5 +1,6 @@
 ﻿using Model.Objects;
 using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Data
     /// Данные о вероятностях спавна разных типов блоков
     /// </summary>
     [CreateAssetMenu(fileName = "Balance", menuName = "Data/Balance")]
-    public class Balance: ScriptableObject
+    public class Balance: ScriptableObject, ICloneable
     {
         [SerializeField] private List<BlockType_Weight> typesWeight;
         [ShowNonSerializedField] private int totalWeight;
@@ -62,10 +63,7 @@ namespace Data
             return defaultBlockType.blockType;
         }
 
-        public Balance Clone()
-        {
-            return (Balance)this.MemberwiseClone();
-        }
+        public object Clone() => this.MemberwiseClone();
 
 
 

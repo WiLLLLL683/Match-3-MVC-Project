@@ -4,8 +4,8 @@ namespace Model.Readonly
 {
     public interface ILevelSelection_Readonly
     {
-        LevelData[] AllLevels { get; }
-        LevelData CurrentLevelData { get; }
+        LevelConfig[] AllLevels { get; }
+        LevelConfig CurrentLevelData { get; }
         int CurrentLevelIndex { get; }
     }
 }

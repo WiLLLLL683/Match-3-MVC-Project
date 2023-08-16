@@ -8,11 +8,11 @@ namespace Model.Objects
 {
     public class LevelSelection : ILevelSelection_Readonly
     {
-        public LevelData[] AllLevels { get; private set; }
+        public LevelConfig[] AllLevels { get; private set; }
         public int CurrentLevelIndex { get; private set; }
-        public LevelData CurrentLevelData => AllLevels[CurrentLevelIndex];
+        public LevelConfig CurrentLevelData => AllLevels[CurrentLevelIndex];
 
-        public LevelSelection(LevelData[] allLevels, int currentLevelIndex)
+        public LevelSelection(LevelConfig[] allLevels, int currentLevelIndex)
         {
             AllLevels = allLevels;
             SetCurrentLevel(currentLevelIndex);

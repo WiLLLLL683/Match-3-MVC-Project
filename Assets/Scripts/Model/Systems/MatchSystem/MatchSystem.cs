@@ -61,9 +61,9 @@ namespace Model.Systems
             HashSet<Cell> matchedCells = new();
 
             //пройти по всем клеткам игрового поля(кроме невидимых) и сохранить совпавшие клетки
-            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
             {
-                for (int y = 0; y < level.gameBoard.Cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
+                for (int y = 0; y < level.gameBoard.cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
                 {
                     HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
                     matchedCells.UnionWith(cellsAtPos);
@@ -77,9 +77,9 @@ namespace Model.Systems
         private HashSet<Cell> CheckFirstPattern(Pattern _pattern)
         {
             //пройти по всем клеткам игрового поля(кроме невидимых) и вернуть первые совпавшие клетки
-            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
             {
-                for (int y = 0; y < level.gameBoard.Cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
+                for (int y = 0; y < level.gameBoard.cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
                 {
                     HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
                     if (cellsAtPos.Count > 0)

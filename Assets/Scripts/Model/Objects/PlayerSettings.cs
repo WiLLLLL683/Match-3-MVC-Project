@@ -1,4 +1,4 @@
-﻿namespace Model.Infrastructure
+﻿namespace Model.Objects
 {
     public class PlayerSettings
     {

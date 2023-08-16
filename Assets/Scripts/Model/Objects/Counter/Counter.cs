@@ -8,7 +8,7 @@ namespace Model.Objects
     /// Счетчик целей заданного типа
     /// </summary>
     [Serializable]
-    public class Counter : ICounter_Readonly
+    public class Counter : ICounter_Readonly, ICloneable
     {
         public ICounterTarget Target => target;
         [SerializeReference, SubclassSelector] private ICounterTarget target;
@@ -48,5 +48,7 @@ namespace Model.Objects
                 isCompleted = true;
             }
         }
+
+        public object Clone() => this.MemberwiseClone();
     }
 }

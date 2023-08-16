@@ -37,7 +37,7 @@ namespace Model.Systems
             }
 
             //возврат действия по смене блоков местами
-            return new SwapBlocksAction(level.gameBoard.Cells[startPosition.x, startPosition.y], level.gameBoard.Cells[targetPosition.x, targetPosition.y]);
+            return new SwapBlocksAction(level.gameBoard.cells[startPosition.x, startPosition.y], level.gameBoard.cells[targetPosition.x, targetPosition.y]);
         }
     }
 }

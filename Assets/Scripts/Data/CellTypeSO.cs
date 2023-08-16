@@ -6,6 +6,6 @@ namespace Data
     [CreateAssetMenu(fileName = "NewCellType", menuName = "Config/CellType")]
     public class CellTypeSO : ScriptableObject
     {
-        [SerializeReference, SubclassSelector] public ICellType cellType;
+        [SerializeReference, SubclassSelector] public ICellType type;
     }
 }

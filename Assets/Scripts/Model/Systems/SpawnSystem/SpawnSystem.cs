@@ -16,10 +16,10 @@ namespace Model.Systems
         {
             for (int y = 0; y < level.gameBoard.RowsOfInvisibleCells; y++)
             {
-                for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+                for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
                 {
                     IBlockType type = level.balance.GetRandomBlockType();
-                    SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.Cells[x, y]);
+                    SpawnBlockAction spawnAction = new SpawnBlockAction(level.gameBoard, type, level.gameBoard.cells[x, y]);
                     spawnAction.Execute();
                 }
             }
@@ -41,11 +41,11 @@ namespace Model.Systems
 
         public void SpawnGameBoard()
         {
-            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
             {
-                for (int y = 0; y < level.gameBoard.Cells.GetLength(1); y++)
+                for (int y = 0; y < level.gameBoard.cells.GetLength(1); y++)
                 {
-                    SpawnRandomBlock(level.gameBoard.Cells[x, y]);
+                    SpawnRandomBlock(level.gameBoard.cells[x, y]);
                 }
             }
         }

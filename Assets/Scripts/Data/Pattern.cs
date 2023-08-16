@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 using Model.Objects;
+using System;
 
 namespace Data
 {
@@ -10,7 +11,7 @@ namespace Data
     /// Паттерн для нахождения одинаковых блоков, выстроенных в ряд
     /// </summary>
     [CreateAssetMenu(fileName ="Pattern", menuName ="Data/Pattern")]
-    public class Pattern: ScriptableObject
+    public class Pattern: ScriptableObject, ICloneable
     {
         //для Unity
         [SerializeField] protected Array2DBool array2d;
@@ -49,7 +50,7 @@ namespace Data
                 return new HashSet<Cell>();
 
             //взять тип оригинального блока
-            int originTypeId = gameBoard.Cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.Id;
+            int originTypeId = gameBoard.cells[originPosOnGameboard.x, originPosOnGameboard.y].Block.Type.Id;
 
             //подсчитать совпадения, пройдя по всем координатам паттерна
             int sum = 0;
@@ -69,7 +70,7 @@ namespace Data
                     if (!gameBoard.ValidateBlockAt(posOnGameboard))
                         continue;
 
-                    Cell cell = gameBoard.Cells[posOnGameboard.x, posOnGameboard.y];
+                    Cell cell = gameBoard.cells[posOnGameboard.x, posOnGameboard.y];
                     Block block = cell.Block;
 
                     //совпадают ли типы блоков?
@@ -87,6 +88,8 @@ namespace Data
             else
                 return new HashSet<Cell>();
         }
+
+        public object Clone() => this.MemberwiseClone();
 
 
 

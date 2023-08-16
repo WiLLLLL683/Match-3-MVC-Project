@@ -21,8 +21,8 @@ namespace Model.Systems.UnitTests
 
             spawnSystem.SpawnTopLine();
 
-            Assert.IsFalse(level.gameBoard.Cells[0, 0].IsEmpty);
-            Assert.IsTrue(level.gameBoard.Cells[0, 1].IsEmpty);
+            Assert.IsFalse(level.gameBoard.cells[0, 0].IsEmpty);
+            Assert.IsTrue(level.gameBoard.cells[0, 1].IsEmpty);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Model.Systems.UnitTests
 
             spawnSystem.SpawnTopLine();
 
-            Assert.IsFalse(level.gameBoard.Cells[0, 0].IsEmpty);
+            Assert.IsFalse(level.gameBoard.cells[0, 0].IsEmpty);
         }
 
         [Test]
@@ -46,16 +46,16 @@ namespace Model.Systems.UnitTests
 
             spawnSystem.SpawnTopLine();
 
-            for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++) //первая полоса заполнена
+            for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++) //первая полоса заполнена
             {
-                Assert.IsFalse(level.gameBoard.Cells[x, 0].IsEmpty);
+                Assert.IsFalse(level.gameBoard.cells[x, 0].IsEmpty);
             }
 
-            for (int y = 1; y < level.gameBoard.Cells.GetLength(1); y++) //остольные полосы пусты
+            for (int y = 1; y < level.gameBoard.cells.GetLength(1); y++) //остольные полосы пусты
             {
-                for (int x = 0; x < level.gameBoard.Cells.GetLength(0); x++)
+                for (int x = 0; x < level.gameBoard.cells.GetLength(0); x++)
                 {
-                    Assert.IsTrue(level.gameBoard.Cells[0, 1].IsEmpty);
+                    Assert.IsTrue(level.gameBoard.cells[0, 1].IsEmpty);
                 }
             }
         }
@@ -67,36 +67,36 @@ namespace Model.Systems.UnitTests
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
-            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.Cells[0,0]);
+            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.cells[0,0]);
 
-            Assert.IsFalse(level.gameBoard.Cells[0,0].IsEmpty);
-            Assert.That(level.gameBoard.Cells[0, 0].Block.Type is BasicBlockType);
+            Assert.IsFalse(level.gameBoard.cells[0,0].IsEmpty);
+            Assert.That(level.gameBoard.cells[0, 0].Block.Type is BasicBlockType);
         }
 
         [Test]
         public void SpawnBonusBlock_FullCell_BlockTypeChanged()
         {
             Level level = new Level(1, 1);
-            level.gameBoard.Cells[0, 0].SpawnBlock(new BasicBlockType());
+            level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
-            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.Cells[0, 0]);
+            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.cells[0, 0]);
 
-            Assert.That(level.gameBoard.Cells[0, 0].Block.Type is BasicBlockType);
+            Assert.That(level.gameBoard.cells[0, 0].Block.Type is BasicBlockType);
         }
 
         [Test]
         public void SpawnBonusBlock_NotPlayableCell_Nothing()
         {
             Level level = new Level(1, 1);
-            level.gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
+            level.gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
-            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.Cells[0, 0]);
+            spawnSystem.SpawnBonusBlock(new BasicBlockType(), level.gameBoard.cells[0, 0]);
 
-            Assert.IsTrue(level.gameBoard.Cells[0, 0].IsEmpty);
+            Assert.IsTrue(level.gameBoard.cells[0, 0].IsEmpty);
         }
     }
 }
