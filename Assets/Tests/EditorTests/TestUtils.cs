@@ -1,11 +1,12 @@
 ﻿using Data;
+using Model.Factories;
 using Model.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace UnitTests
+namespace Tests
 {
     public static class TestUtils
     {
@@ -16,8 +17,13 @@ namespace UnitTests
         public const int GREEN_BLOCK = 3;
         public const int YELLOW_BLOCK = 4;
 
-        public static IBlockType DefaultBlockType = CreateBasicBlockType(DEFAULT_BLOCK);
+        public static IBlockType DefaultBlockType = CreateBlockType(DEFAULT_BLOCK);
+        public static IBlockType RedBlockType = CreateBlockType(RED_BLOCK);
+        public static IBlockType BlueBlockType = CreateBlockType(BLUE_BLOCK);
+        public static IBlockType GreenBlockType = CreateBlockType(GREEN_BLOCK);
+        public static IBlockType YellowBlockType = CreateBlockType(YELLOW_BLOCK);
         public static ICellType BasicCellType = CreateCellType(true, true);
+        public static ICellType InvisibleCellType = CreateCellType(false, true);
         public static ICellType NotPlayableCellType = CreateCellType(false, false);
 
         /// <summary>
@@ -31,6 +37,15 @@ namespace UnitTests
                 list.Add(CreateBlockTypeWeight(typeIds[i], 100));
             }
             return list;
+        }
+
+        /// <summary>
+        /// Указать размеры и типы блоков построчно
+        /// </summary>
+        public static Balance CreateBalance(params int[] typeIds)
+        {
+            var typesWeight = CreateListOfWeights(typeIds);
+            return new Balance(typesWeight, DefaultBlockType);
         }
 
         /// <summary>
@@ -57,7 +72,7 @@ namespace UnitTests
                 {
                     continue;
                 }
-                var blockType = CreateBasicBlockType(typeIds[i]);
+                var blockType = CreateBlockType(typeIds[i]);
                 var block = cells[i].SpawnBlock(blockType);
                 gameBoard.RegisterBlock(block);
             }
@@ -88,8 +103,8 @@ namespace UnitTests
 
 
 
-        private static ICellType CreateCellType(bool isPlayable, bool canContainBlock = true) => new BasicCellType(isPlayable, canContainBlock);
-        private static IBlockType CreateBasicBlockType(int typeId) => new BasicBlockType(typeId);
-        private static BlockType_Weight CreateBlockTypeWeight(int typeId, int weight) => new BlockType_Weight(CreateBasicBlockType(typeId), weight);
+        public static ICellType CreateCellType(bool isPlayable, bool canContainBlock = true) => new BasicCellType(isPlayable, canContainBlock);
+        public static IBlockType CreateBlockType(int typeId) => new BasicBlockType(typeId);
+        public static BlockType_Weight CreateBlockTypeWeight(int typeId, int weight) => new BlockType_Weight(CreateBlockType(typeId), weight);
     }
 }

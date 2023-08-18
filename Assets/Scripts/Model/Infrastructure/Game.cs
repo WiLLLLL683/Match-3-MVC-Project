@@ -2,6 +2,7 @@ using Data;
 using Model.Factories;
 using Model.Objects;
 using Model.Readonly;
+using Model.Services;
 using Model.Systems;
 using System;
 using System.Collections;
@@ -41,16 +42,21 @@ namespace Model.Infrastructure
             systems.AddSystem<IGravitySystem>(new GravitySystem());
             systems.AddSystem<IMoveSystem>(new MoveSystem());
 
+            //фабрики
+            var blockFactory = new BlockFactory();
             var cellFactory = new CellFactory(invisibleCellType);
             var gameboardFactory = new GameBoardFactory(cellFactory);
             var levelFactory = new LevelFactory(gameboardFactory);
 
+            //сервисы
+            var blockSpawnService = new BlockSpawnService(blockFactory);
+
             stateMachine = new();
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems, levelFactory));
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems, levelFactory, blockSpawnService));
             stateMachine.AddState(new WaitState(this, stateMachine, systems));
             stateMachine.AddState(new TurnState(this, stateMachine, systems));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
-            stateMachine.AddState(new SpawnState(this, stateMachine, systems));
+            stateMachine.AddState(new SpawnState(this, stateMachine, systems, blockSpawnService));
             stateMachine.AddState(new LoseState(stateMachine, systems));
             stateMachine.AddState(new WinState(stateMachine, systems));
             stateMachine.AddState(new BonusState(stateMachine, systems));

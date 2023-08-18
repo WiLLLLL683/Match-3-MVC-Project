@@ -4,7 +4,7 @@ using Data;
 using Model.Objects;
 using Model.Systems;
 using NUnit.Framework;
-using UnitTests;
+using Tests;
 using UnityEngine;
 using UnityEngine.TestTools;
 

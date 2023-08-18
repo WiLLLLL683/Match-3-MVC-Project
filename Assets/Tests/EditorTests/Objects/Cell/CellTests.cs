@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using Data;
 using Model.Readonly;
-using UnitTests;
+using Tests;
 
 namespace Model.Objects.UnitTests
 {

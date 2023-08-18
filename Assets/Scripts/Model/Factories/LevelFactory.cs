@@ -5,27 +5,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelFactory
+namespace Model.Factories
 {
-    private readonly GameBoardFactory gameBoardFactory;
-
-    public LevelFactory(GameBoardFactory gameBoardFactory)
+    public class LevelFactory
     {
-        this.gameBoardFactory = gameBoardFactory;
-    }
+        private readonly GameBoardFactory gameBoardFactory;
 
-    public Level Create(LevelConfig levelData)
-    {
-        var gameBoard = gameBoardFactory.Create(levelData.cellConfig);
-
-        return new Level()
+        public LevelFactory(GameBoardFactory gameBoardFactory)
         {
-            gameBoard = gameBoard,
-            goals = levelData.goals.MemberwiseArrayClone(),
-            restrictions = levelData.restrictions.MemberwiseArrayClone(),
-            balance = (Balance)levelData.blockConfig.balance.Clone(),
-            matchPatterns = levelData.blockConfig.matchPatterns.MemberwiseArrayClone(),
-            hintPatterns = levelData.blockConfig.hintPatterns.MemberwiseArrayClone()
-        };
+            this.gameBoardFactory = gameBoardFactory;
+        }
+
+        public Level Create(LevelConfig levelData)
+        {
+            var gameBoard = gameBoardFactory.Create(levelData.cellConfig);
+
+            return new Level()
+            {
+                gameBoard = gameBoard,
+                goals = levelData.goals.MemberwiseArrayClone(),
+                restrictions = levelData.restrictions.MemberwiseArrayClone(),
+                balance = (Balance)levelData.blockConfig.balance.Clone(),
+                matchPatterns = levelData.blockConfig.matchPatterns.MemberwiseArrayClone(),
+                hintPatterns = levelData.blockConfig.hintPatterns.MemberwiseArrayClone()
+            };
+        }
     }
 }

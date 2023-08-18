@@ -12,8 +12,8 @@ namespace Model.Objects
     public class GameBoard : IGameBoard_Readonly
     {
         public Cell[,] cells;
-        public List<Block> blocks = new List<Block>();
         public int rowsOfInvisibleCells;
+        public List<Block> blocks = new List<Block>();
 
         public event Action<IBlock_Readonly> OnBlockSpawn;
 

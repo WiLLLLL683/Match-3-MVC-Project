@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Model.Factories
 {
-    public class GameBoardFactory
+    public class GameBoardFactory : IGameBoardFactory
     {
-        private readonly CellFactory cellFactory;
+        private readonly ICellFactory cellFactory;
 
         private LevelConfig.CellConfig config;
         private Cell[,] cells;
@@ -17,7 +17,7 @@ namespace Model.Factories
 
         private const int DEFAULT_CELL_TYPE_INDEX = 0;
 
-        public GameBoardFactory(CellFactory cellFactory)
+        public GameBoardFactory(ICellFactory cellFactory)
         {
             this.cellFactory = cellFactory;
         }

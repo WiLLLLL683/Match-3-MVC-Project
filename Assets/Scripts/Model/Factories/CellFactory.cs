@@ -3,22 +3,25 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CellFactory
+namespace Model.Factories
 {
-    private readonly ICellType invisibleCellType;
-
-    public CellFactory(ICellType invisibleCellType)
+    public class CellFactory : ICellFactory
     {
-        this.invisibleCellType = invisibleCellType;
-    }
+        private readonly ICellType invisibleCellType;
 
-    public Cell Create(Vector2Int position, ICellType type)
-    {
-        return new Cell(type, position);
-    }
+        public CellFactory(ICellType invisibleCellType)
+        {
+            this.invisibleCellType = invisibleCellType;
+        }
 
-    public Cell CreateInvisible(Vector2Int position)
-    {
-        return new Cell(invisibleCellType, position);
+        public Cell Create(Vector2Int position, ICellType type)
+        {
+            return new Cell(type, position);
+        }
+
+        public Cell CreateInvisible(Vector2Int position)
+        {
+            return new Cell(invisibleCellType, position);
+        }
     }
 }

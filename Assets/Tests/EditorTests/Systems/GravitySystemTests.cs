@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Data;
 using Model.Objects;
 using NUnit.Framework;
-using UnitTests;
+using Tests;
 using UnityEngine;
 using UnityEngine.TestTools;
 

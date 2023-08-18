@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using Model.Services;
 using Model.Systems;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,19 +14,19 @@ namespace Model.Infrastructure
         private readonly StateMachine<AModelState> stateMachine;
         private readonly IGravitySystem gravitySystem;
         private readonly IMatchSystem matchSystem;
-        private readonly ISpawnSystem spawnSystem;
+        private readonly IBlockSpawnService spawnService;
 
         private Level level;
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IBlockSpawnService spawnService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
+            this.spawnService = spawnService;
             gravitySystem = systems.GetSystem<IGravitySystem>();
             matchSystem = systems.GetSystem<IMatchSystem>();
-            spawnSystem = systems.GetSystem<ISpawnSystem>();
         }
 
         public override void OnStart()
@@ -51,7 +52,7 @@ namespace Model.Infrastructure
                 }
 
                 //спавн верхней полосы
-                spawnSystem.SpawnTopLine();
+                spawnService.FillInvisibleRows();
             }
 
             stateMachine.SetState<WaitState>();

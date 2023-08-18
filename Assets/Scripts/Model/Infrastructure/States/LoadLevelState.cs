@@ -1,6 +1,7 @@
 using Data;
 using Model.Factories;
 using Model.Objects;
+using Model.Services;
 using Model.Systems;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Model.Infrastructure
         private readonly StateMachine<AModelState> stateMachine;
         private readonly AllSystems systems;
         private readonly IMatchSystem matchSystem;
-        private readonly ISpawnSystem spwanSystem;
+        private readonly IBlockSpawnService spawnService;
         private readonly LevelFactory levelFactory;
 
         private LevelConfig levelData;
@@ -23,14 +24,14 @@ namespace Model.Infrastructure
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, LevelFactory levelFactory)
+        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, LevelFactory levelFactory, IBlockSpawnService spawnService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.systems = systems;
             this.levelFactory = levelFactory;
+            this.spawnService = spawnService;
             matchSystem = this.systems.GetSystem<IMatchSystem>();
-            spwanSystem = this.systems.GetSystem<ISpawnSystem>();
         }
 
         public void SetLevelData(LevelConfig levelData) => this.levelData = levelData;
@@ -44,7 +45,7 @@ namespace Model.Infrastructure
             }
 
             LoadLevel();
-            spwanSystem.SpawnGameBoard();
+            spawnService.FillGameBoard();
             SwapMatchedBlocks();
 
             Debug.Log("Core Game Started");
@@ -63,6 +64,7 @@ namespace Model.Infrastructure
             level = levelFactory.Create(levelData);
             game.SetCurrentLevel(level);
             systems.SetLevel(level);
+            spawnService.SetLevel(level.gameBoard, level.balance);
         }
 
         private void SwapMatchedBlocks()
@@ -76,8 +78,7 @@ namespace Model.Infrastructure
 
                 foreach (Cell match in matches)
                 {
-                    match.DestroyBlock();
-                    spwanSystem.SpawnRandomBlock(match);
+                    spawnService.SpawnRandomBlock_WithOverride(match);
                 }
             }
         }

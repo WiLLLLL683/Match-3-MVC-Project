@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Model.Objects;
 using NUnit.Framework;
 using UnityEngine;
-using UnitTests;
+using Tests;
 
 namespace Data.UnitTests
 {
@@ -12,8 +12,7 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_1BasicType_BasicType()
         {
-            var typesWeight = TestUtils.CreateListOfWeights(TestUtils.RED_BLOCK);
-            var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
+            var balance = TestUtils.CreateBalance(TestUtils.RED_BLOCK);
 
             IBlockType blockType = balance.GetRandomBlockType();
 
@@ -24,8 +23,7 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_NullData_DefaultType()
         {
-            var typesWeight = new List<BlockType_Weight>();
-            var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
+            var balance = TestUtils.CreateBalance();
 
             IBlockType blockType = balance.GetRandomBlockType();
 
@@ -36,8 +34,7 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_2Types50to50percent()
         {
-            var typesWeight = TestUtils.CreateListOfWeights(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK);
-            var balance = new Balance(typesWeight, TestUtils.DefaultBlockType);
+            var balance = TestUtils.CreateBalance(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK);
 
             int blueCount = 0;
             int redCount = 0;
@@ -60,12 +57,7 @@ namespace Data.UnitTests
         [Test]
         public void GetRandomBlockType_4Types25to25percent()
         {
-            var typesWeight = TestUtils.CreateListOfWeights(TestUtils.RED_BLOCK,
-                                                            TestUtils.BLUE_BLOCK,
-                                                            TestUtils.GREEN_BLOCK,
-                                                            TestUtils.YELLOW_BLOCK);
-            Balance balance = new Balance(typesWeight, new BasicBlockType());
-
+            var balance = TestUtils.CreateBalance(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK, TestUtils.GREEN_BLOCK, TestUtils.YELLOW_BLOCK);
             int blueCount = 0;
             int redCount = 0;
             int greenCount = 0;
