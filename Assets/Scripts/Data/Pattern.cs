@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Model.Objects;
 using System;
+using Model.Services;
 
 namespace Data
 {
@@ -38,7 +39,7 @@ namespace Data
         /// <summary>
         /// Ќайти клетки совпадающие с данным паттерном
         /// </summary>
-        public HashSet<Cell> Match(GameBoard gameBoard, Vector2Int startPosition)
+        public HashSet<Cell> Match(GameBoard gameBoard, Vector2Int startPosition, IValidationService validationService)
         {
             //пуст ли паттерн?
             if (totalSum == 0)
@@ -46,7 +47,7 @@ namespace Data
 
             //есть ли блок в начальной позиции?
             Vector2Int originPosOnGameboard = new(originPosition.x + startPosition.x, originPosition.y + startPosition.y);
-            if (!gameBoard.ValidateBlockAt(originPosOnGameboard))
+            if (!validationService.BlockExistsAt(originPosOnGameboard))
                 return new HashSet<Cell>();
 
             //вз€ть тип оригинального блока
@@ -67,7 +68,7 @@ namespace Data
                         continue;
 
                     //есть ли блок в клетке?
-                    if (!gameBoard.ValidateBlockAt(posOnGameboard))
+                    if (!validationService.BlockExistsAt(posOnGameboard))
                         continue;
 
                     Cell cell = gameBoard.cells[posOnGameboard.x, posOnGameboard.y];

@@ -36,12 +36,6 @@ namespace Model.Infrastructure
             LevelSelection = new LevelSelection(allLevels, currentLevelIndex);
             PlayerSettings = new(true, false); //TODO загрузка из сохранения
 
-            systems = new AllSystems();
-            systems.AddSystem<ISpawnSystem>(new SpawnSystem());
-            systems.AddSystem<IMatchSystem>(new MatchSystem());
-            systems.AddSystem<IGravitySystem>(new GravitySystem());
-            systems.AddSystem<IMoveSystem>(new MoveSystem());
-
             //фабрики
             var blockFactory = new BlockFactory();
             var cellFactory = new CellFactory(invisibleCellType);
@@ -49,10 +43,17 @@ namespace Model.Infrastructure
             var levelFactory = new LevelFactory(gameboardFactory);
 
             //сервисы
-            var blockSpawnService = new BlockSpawnService(blockFactory);
+            var validationService = new ValidationService();
+            var blockSpawnService = new BlockSpawnService(blockFactory, validationService);
+
+            systems = new AllSystems();
+            systems.AddSystem<ISpawnSystem>(new SpawnSystem());
+            systems.AddSystem<IMatchSystem>(new MatchSystem(validationService));
+            systems.AddSystem<IGravitySystem>(new GravitySystem(validationService));
+            systems.AddSystem<IMoveSystem>(new MoveSystem(validationService));
 
             stateMachine = new();
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems, levelFactory, blockSpawnService));
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems, levelFactory, blockSpawnService, validationService));
             stateMachine.AddState(new WaitState(this, stateMachine, systems));
             stateMachine.AddState(new TurnState(this, stateMachine, systems));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
@@ -74,7 +75,7 @@ namespace Model.Infrastructure
         /// <summary>
         /// Обновить данные об уровне
         /// </summary>
-        public void SetCurrentLevel(Level level) => CurrentLevel = level;
+        public void SetLevel(Level level) => CurrentLevel = level;
 
         public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
         public void ActivateBooster(IBooster_Readonly booster) => stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id

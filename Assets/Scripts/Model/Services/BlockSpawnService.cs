@@ -10,12 +10,14 @@ namespace Model.Services
     public class BlockSpawnService : IBlockSpawnService
     {
         private readonly IBlockFactory blockFactory;
+        private readonly IValidationService validationService;
         private GameBoard gameBoard;
         private Balance balance;
 
-        public BlockSpawnService(IBlockFactory blockFactory)
+        public BlockSpawnService(IBlockFactory blockFactory, IValidationService validationService)
         {
             this.blockFactory = blockFactory;
+            this.validationService = validationService;
         }
 
         public void SetLevel(GameBoard gameBoard, Balance balance)
@@ -54,7 +56,8 @@ namespace Model.Services
 
         public void SpawnBlock_WithOverride(IBlockType type, Cell cell)
         {
-            //TODO валидация клетки
+            if (!validationService.CellExistsAt(cell.Position))
+                return;
 
             if (CellIsReadyToSpawn(cell))
             {
@@ -62,6 +65,9 @@ namespace Model.Services
             }
             else
             {
+                if (!validationService.BlockExistsAt(cell.Position))
+                    return;
+
                 cell.Block.ChangeType(type);
             }
         }

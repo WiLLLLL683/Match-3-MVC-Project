@@ -11,7 +11,7 @@ namespace Model.Services.UnitTests
 {
     public class BlockSpawnServiceTests
     {
-        private (BlockSpawnService service, GameBoard gameBoard) Create(int xLength, int yLength, int invisibleRows, int factoryReturnBlockType = TestUtils.DEFAULT_BLOCK, params int[] preSpawnedBlocks)
+        private (BlockSpawnService service, GameBoard gameBoard) Setup(int xLength, int yLength, int invisibleRows, int factoryReturnBlockType = TestUtils.DEFAULT_BLOCK, bool validationCellReturn = true, bool validationBlockReturn = true, params int[] preSpawnedBlocks)
         {
             var gameBoard = TestUtils.CreateGameBoard(xLength, yLength, preSpawnedBlocks);
             gameBoard.rowsOfInvisibleCells = invisibleRows;
@@ -21,7 +21,11 @@ namespace Model.Services.UnitTests
             var blockFactory = Substitute.For<IBlockFactory>();
             blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Cell>()).Returns(new Block(TestUtils.CreateBlockType(factoryReturnBlockType), null));
 
-            var service = new BlockSpawnService(blockFactory);
+            var validation = Substitute.For<IValidationService>();
+            validation.CellExistsAt(default).ReturnsForAnyArgs(validationCellReturn);
+            validation.BlockExistsAt(default).ReturnsForAnyArgs(validationBlockReturn);
+
+            var service = new BlockSpawnService(blockFactory, validation);
             service.SetLevel(gameBoard, balance);
             return (service, gameBoard);
         }
@@ -29,7 +33,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void FillInvisibleRows_2cellsGameBoard_OnlyTopLineSpawned()
         {
-            var tuple = Create(1, 2, 1);
+            var tuple = Setup(1, 2, 1);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
@@ -42,7 +46,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void FillInvisibleRows_1cellGameBoard_OnlyTopLineSpawned()
         {
-            var tuple = Create(1, 1, 1);
+            var tuple = Setup(1, 1, 1);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
@@ -54,7 +58,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void FillInvisibleRows_9cellsGameBoard_OnlyTopLineSpawned()
         {
-            var tuple = Create(3, 3, 1);
+            var tuple = Setup(3, 3, 1);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
@@ -77,7 +81,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void SpawnBlock_EmptyCell_BonusBlockSpawned()
         {
-            var tuple = Create(1, 1, 0, TestUtils.RED_BLOCK);
+            var tuple = Setup(1, 1, 0, TestUtils.RED_BLOCK);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
@@ -90,7 +94,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void SpawnBlock_FullCell_BlockTypeChanged()
         {
-            var tuple = Create(1, 1, 1, TestUtils.RED_BLOCK, TestUtils.DEFAULT_BLOCK);
+            var tuple = Setup(1, 1, 1, TestUtils.RED_BLOCK, true, true, TestUtils.DEFAULT_BLOCK);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
             var blockTypeBefore = gameBoard.cells[0, 0].Block.Type;
@@ -105,7 +109,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void SpawnBlock_NotPlayableCell_Nothing()
         {
-            var tuple = Create(1, 1, 1, TestUtils.RED_BLOCK);
+            var tuple = Setup(1, 1, 1, TestUtils.RED_BLOCK, false);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
             gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);

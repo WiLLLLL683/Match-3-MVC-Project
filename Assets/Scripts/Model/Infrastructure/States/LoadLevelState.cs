@@ -15,22 +15,24 @@ namespace Model.Infrastructure
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
         private readonly AllSystems systems;
+        private readonly ILevelFactory levelFactory;
         private readonly IMatchSystem matchSystem;
         private readonly IBlockSpawnService spawnService;
-        private readonly LevelFactory levelFactory;
+        private readonly IValidationService validationService;
 
         private LevelConfig levelData;
         private Level level;
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, LevelFactory levelFactory, IBlockSpawnService spawnService)
+        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, ILevelFactory levelFactory, IBlockSpawnService spawnService, IValidationService validationService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.systems = systems;
             this.levelFactory = levelFactory;
             this.spawnService = spawnService;
+            this.validationService = validationService;
             matchSystem = this.systems.GetSystem<IMatchSystem>();
         }
 
@@ -62,9 +64,10 @@ namespace Model.Infrastructure
         private void LoadLevel()
         {
             level = levelFactory.Create(levelData);
-            game.SetCurrentLevel(level);
+            game.SetLevel(level);
             systems.SetLevel(level);
             spawnService.SetLevel(level.gameBoard, level.balance);
+            validationService.SetLevel(level.gameBoard);
         }
 
         private void SwapMatchedBlocks()

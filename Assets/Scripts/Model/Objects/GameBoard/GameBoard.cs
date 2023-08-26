@@ -54,50 +54,6 @@ namespace Model.Objects
             }
         }
 
-        /// <summary>
-        /// Проверка наличия блока в заданной позиции
-        /// </summary>
-        public bool ValidateBlockAt(Vector2Int position)
-        {
-            //позиция вне границ игрового поля?
-            if (!ValidateCellAt(position))
-                return false;
-
-            //может ли клетка иметь блок?
-            if (!cells[position.x, position.y].CanContainBlock)
-            {
-                Debug.LogWarning("Tried to get Block but Cell was notPlayable");
-                return false;
-            }
-
-            //есть ли блок в клетке?
-            if (cells[position.x, position.y].IsEmpty)
-            {
-                Debug.LogWarning("Tried to get Block but Cell was empty");
-                return false;
-            }
-
-            return true;
-        }
-
-
-
-        private bool ValidateCellAt(Vector2Int position)
-        {
-            //позиция в границах игрового поля?
-            if (position.x >= 0 &&
-                position.y >= 0 &&
-                position.x < cells.GetLength(0) &&
-                position.y < cells.GetLength(1))
-            {
-                return true;
-            }
-            else
-            {
-                Debug.LogWarning("Cell position out of GameBoards range");
-                return false;
-            }
-        }
         private void UnRegisterBlock(Block block) => blocks.Remove(block);
     }
 }

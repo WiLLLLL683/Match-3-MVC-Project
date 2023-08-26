@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Data;
 using Model.Objects;
+using Model.Services;
+using NSubstitute;
 using NUnit.Framework;
 using Tests;
 using UnityEngine;
@@ -11,12 +13,27 @@ namespace Model.Systems.UnitTests
 {
     public class GravitySystemTests
     {
+        private IValidationService validation = Substitute.For<IValidationService>();
+
+        [SetUp]
+        public void Setup()
+        {
+            Debug.Log("Before");
+            validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Debug.Log("After");
+        }
+        
         [Test]
         public void Execute_OneBlockOneEmptyCellUnder_BlockMovesDown()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
             var block = gameBoard.cells[0, 0].Block;
-            var gravitySystem = new GravitySystem();
+            var gravitySystem = new GravitySystem(validation);
 
             gravitySystem.Execute(gameBoard);
 
@@ -30,7 +47,7 @@ namespace Model.Systems.UnitTests
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
             var blockA = gameBoard.cells[0, 0].Block;
             var blockB = gameBoard.cells[0, 1].Block;
-            var gravitySystem = new GravitySystem();
+            var gravitySystem = new GravitySystem(validation);
 
             gravitySystem.Execute(gameBoard);
 
@@ -44,7 +61,7 @@ namespace Model.Systems.UnitTests
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
             gameBoard.cells[0, 1].ChangeType(TestUtils.NotPlayableCellType);
             var blockA = gameBoard.cells[0, 0].Block;
-            var gravitySystem = new GravitySystem();
+            var gravitySystem = new GravitySystem(validation);
 
             gravitySystem.Execute(gameBoard);
 
@@ -58,7 +75,7 @@ namespace Model.Systems.UnitTests
             var gameBoard = TestUtils.CreateGameBoard(1, 3, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
             var blockA = gameBoard.cells[0, 0].Block;
             var blockB = gameBoard.cells[0, 1].Block;
-            var gravitySystem = new GravitySystem();
+            var gravitySystem = new GravitySystem(validation);
 
             gravitySystem.Execute(gameBoard);
 
@@ -71,7 +88,7 @@ namespace Model.Systems.UnitTests
         public void Execute_AllEmptyCells_NoChange()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2);
-            var gravitySystem = new GravitySystem();
+            var gravitySystem = new GravitySystem(validation);
 
             gravitySystem.Execute(gameBoard);
 
@@ -86,7 +103,7 @@ namespace Model.Systems.UnitTests
             var block1 = gameBoard.cells[0, 0].Block;
             var block2 = gameBoard.cells[1, 0].Block;
             var block3 = gameBoard.cells[2, 0].Block;
-            var gravitySystem = new GravitySystem();
+            var gravitySystem = new GravitySystem(validation);
 
             gravitySystem.Execute(gameBoard);
 

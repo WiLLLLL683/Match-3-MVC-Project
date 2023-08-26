@@ -1,5 +1,6 @@
 ﻿using Model;
 using Model.Objects;
+using Model.Services;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,9 +29,9 @@ namespace Data
         /// <summary>
         /// Поиск подсказки на уровне, вызывает ивент инпута с данными о блоке и направлении в котором его нужно переместить
         /// </summary>
-        public void GetHint(GameBoard _gameBoard, Vector2Int _startPosition, InputMoveDelegate _hintMove)
+        public void GetHint(GameBoard _gameBoard, Vector2Int _startPosition, InputMoveDelegate _hintMove, IValidationService validationService)
         {
-            if (Match(_gameBoard,_startPosition).Count == 0)
+            if (Match(_gameBoard,_startPosition, validationService).Count == 0)
             {
                 return;
             }

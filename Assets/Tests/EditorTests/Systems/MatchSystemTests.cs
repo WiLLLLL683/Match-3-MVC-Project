@@ -7,18 +7,35 @@ using Model.Objects;
 using Data;
 using System.Linq;
 using Tests;
+using NSubstitute;
+using Model.Services;
 
 namespace Model.Systems.UnitTests
 {
     public class MatchSystemTests
     {
+        private IValidationService validation = Substitute.For<IValidationService>();
+
+        [SetUp]
+        public void Setup()
+        {
+            Debug.Log("Before");
+            validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            Debug.Log("After");
+        }
+
         [Test]
         public void FindMatches_1MatchingBlock_ListWith1Cell()
         {
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
             Level level = DotLevel1x1(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem();
+            MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindAllMatches().ToList();
@@ -32,7 +49,7 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
             Level level = new Level(1,1, matchPatterns);
-            MatchSystem matchSystem = new MatchSystem();
+            MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindAllMatches().ToList();
@@ -48,7 +65,7 @@ namespace Model.Systems.UnitTests
             matchPatterns[0] = DotPattern1x1();
             Level level = new Level(1,1, matchPatterns);
             level.gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
-            MatchSystem matchSystem = new MatchSystem();
+            MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindAllMatches().ToList();
@@ -66,7 +83,7 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = VertLinePattern1x3();
             Level level = VertLineLevel1x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem();
+            MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindAllMatches().ToList();
@@ -86,7 +103,7 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = VertLinePattern1x3();
             Level level = VertLineLevel3x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem();
+            MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindAllMatches().ToList();
@@ -106,7 +123,7 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = CrossPattern3x3();
             Level level = CrossLevel3x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem();
+            MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindAllMatches().ToList();
@@ -127,7 +144,7 @@ namespace Model.Systems.UnitTests
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = CrossPattern3x3();
             Level level = NoMatchLevel3x3(matchPatterns);
-            MatchSystem matchSystem = new MatchSystem();
+            MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
             List<Cell> matchedCells = matchSystem.FindAllMatches().ToList();

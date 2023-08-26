@@ -1,4 +1,5 @@
 using Model.Objects;
+using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,15 @@ namespace Model.Systems
     /// </summary>
     public class GravitySystem : IGravitySystem
     {
+        private IValidationService validationService;
         private GameBoard gameBoard;
 
         private int lowestY;
+
+        public GravitySystem(IValidationService validationService)
+        {
+            this.validationService = validationService;
+        }
 
         public void SetLevel(Level level) => gameBoard = level.gameBoard;
         public void SetGameBoard(GameBoard gameBoard) => this.gameBoard = gameBoard;
@@ -37,7 +44,7 @@ namespace Model.Systems
 
         private void TryMoveBlockDown(int x, int y)
         {
-            if (!gameBoard.ValidateBlockAt(new Vector2Int(x, y)))
+            if (!validationService.BlockExistsAt(new Vector2Int(x, y)))
                 return;
 
             FindLowestEmptyCellUnderPos(x, y);

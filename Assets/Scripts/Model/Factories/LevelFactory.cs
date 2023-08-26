@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Model.Factories
 {
-    public class LevelFactory
+    public class LevelFactory : ILevelFactory
     {
         private readonly GameBoardFactory gameBoardFactory;
 

@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Data;
 using Model.Objects;
+using Model.Services;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -10,13 +9,16 @@ namespace Model.Systems.UnitTests
 {
     public class MoveSystemTests
     {
+        private IValidationService validation = Substitute.For<IValidationService>();
+
         [Test]
-        public void Move_ValidTurn_BlocksSwaped()
+        public void Move_ValidTurn_BlocksSwapped()
         {
             Level level = new(2, 1);
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new BasicBlockType());
-            MoveSystem moveSystem = new MoveSystem();
+            validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
+            MoveSystem moveSystem = new MoveSystem(validation);
             moveSystem.SetLevel(level);
 
             IAction action = moveSystem.Move(new Vector2Int(0, 0), Directions.Right);
@@ -33,7 +35,8 @@ namespace Model.Systems.UnitTests
             Level level = new(2,1);
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new BasicBlockType());
-            MoveSystem moveSystem = new MoveSystem();
+            validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
+            MoveSystem moveSystem = new MoveSystem(validation);
             moveSystem.SetLevel(level);
 
             IAction action = moveSystem.Move(new Vector2Int(100, 100), Directions.Right);
@@ -51,7 +54,8 @@ namespace Model.Systems.UnitTests
             Level level = new(2, 1);
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new BasicBlockType());
-            MoveSystem moveSystem = new MoveSystem();
+            validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
+            MoveSystem moveSystem = new MoveSystem(validation);
             moveSystem.SetLevel(level);
 
             IAction action = moveSystem.Move(new Vector2Int(0, 0), Directions.Up);

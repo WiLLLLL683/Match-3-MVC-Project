@@ -1,4 +1,5 @@
 using Model.Objects;
+using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,13 @@ namespace Model.Systems
     /// </summary>
     public class MoveSystem : IMoveSystem
     {
+        private IValidationService validationService;
         private Level level;
+
+        public MoveSystem(IValidationService validationService)
+        {
+            this.validationService = validationService;
+        }
 
         /// <summary>
         /// Обновить данные об уровне
@@ -30,8 +37,8 @@ namespace Model.Systems
             Vector2Int targetPosition = startPosition + direction.ToVector2Int();
 
             //проверка: есть ли в начальной и конечной позициях блоки?
-            if (!level.gameBoard.ValidateBlockAt(targetPosition) ||
-                !level.gameBoard.ValidateBlockAt(startPosition))
+            if (!validationService.BlockExistsAt(targetPosition) ||
+                !validationService.BlockExistsAt(startPosition))
             {
                 return null;
             }

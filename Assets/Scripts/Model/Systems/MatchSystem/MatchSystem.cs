@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Model.Objects;
 using Data;
+using Model.Services;
 
 namespace Model.Systems
 {
@@ -11,7 +12,13 @@ namespace Model.Systems
     /// </summary>
     public class MatchSystem : IMatchSystem
     {
+        private IValidationService validationService;
         private Level level;
+
+        public MatchSystem(IValidationService validationService)
+        {
+            this.validationService = validationService;
+        }
 
         /// <summary>
         /// Обновить данные об уровне
@@ -65,7 +72,7 @@ namespace Model.Systems
             {
                 for (int y = 0; y < level.gameBoard.cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
                 {
-                    HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
+                    HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y), validationService);
                     matchedCells.UnionWith(cellsAtPos);
                 }
             }
@@ -81,7 +88,7 @@ namespace Model.Systems
             {
                 for (int y = 0; y < level.gameBoard.cells.GetLength(1) - level.gameBoard.RowsOfInvisibleCells; y++)
                 {
-                    HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y));
+                    HashSet<Cell> cellsAtPos = _pattern.Match(level.gameBoard, new Vector2Int(x, y), validationService);
                     if (cellsAtPos.Count > 0)
                     {
                         return cellsAtPos;
