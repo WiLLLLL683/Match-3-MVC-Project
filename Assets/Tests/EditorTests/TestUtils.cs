@@ -65,11 +65,10 @@ namespace UnitTests
         /// </summary>
         public static Balance CreateBalance(params int[] typeIds)
         {
-            return new Balance
-            {
-                typesWeight = CreateListOfWeights(typeIds),
-                defaultBlockType = new() { blockType = DefaultBlockType }
-            };
+            var balance = new Balance();
+            balance.SetWeights(CreateListOfWeights(typeIds));
+            balance.defaultBlockType = DefaultBlockType;
+            return balance;
         }
 
         /// <summary>
@@ -156,16 +155,14 @@ namespace UnitTests
 
         private static ICellType CreateCellType(bool isPlayable, bool canContainBlock = true) => new BasicCellType(isPlayable, canContainBlock);
 
-        private static List<BlockType_Weight> CreateListOfWeights(params int[] typeIds)
+        private static List<(IBlockType type, int weight)> CreateListOfWeights(params int[] typeIds)
         {
-            List<BlockType_Weight> list = new();
+            List<(IBlockType type, int weight)> list = new();
             for (int i = 0; i < typeIds.Length; i++)
             {
-                list.Add(CreateBlockTypeWeight(typeIds[i], 100));
+                list.Add((CreateBlockType(typeIds[i]), 100));
             }
             return list;
         }
-
-        private static BlockType_Weight CreateBlockTypeWeight(int typeId, int weight) => new BlockType_Weight(CreateBlockType(typeId), weight);
     }
 }

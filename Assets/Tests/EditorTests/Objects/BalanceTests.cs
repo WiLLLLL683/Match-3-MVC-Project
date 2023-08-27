@@ -5,7 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnitTests;
 
-namespace Data.UnitTests
+namespace Model.Objects.UnitTests
 {
     public class BalanceTests
     {

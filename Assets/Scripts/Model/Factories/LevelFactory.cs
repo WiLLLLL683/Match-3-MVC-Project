@@ -9,23 +9,26 @@ namespace Model.Factories
 {
     public class LevelFactory : ILevelFactory
     {
-        private readonly GameBoardFactory gameBoardFactory;
+        private readonly IGameBoardFactory gameBoardFactory;
+        private readonly IBalanceFactory balanceFactory;
 
-        public LevelFactory(GameBoardFactory gameBoardFactory)
+        public LevelFactory(IGameBoardFactory gameBoardFactory, IBalanceFactory balanceFactory)
         {
             this.gameBoardFactory = gameBoardFactory;
+            this.balanceFactory = balanceFactory;
         }
 
         public Level Create(LevelConfig levelData)
         {
             var gameBoard = gameBoardFactory.Create(levelData.cellConfig);
+            var balance = balanceFactory.Create(levelData.blockConfig.balance);
 
             return new Level()
             {
                 gameBoard = gameBoard,
                 goals = levelData.goals.MemberwiseArrayClone(),
                 restrictions = levelData.restrictions.MemberwiseArrayClone(),
-                balance = (Balance)levelData.blockConfig.balance.Clone(),
+                balance = balance,
                 matchPatterns = levelData.blockConfig.matchPatterns.MemberwiseArrayClone(),
                 hintPatterns = levelData.blockConfig.hintPatterns.MemberwiseArrayClone()
             };

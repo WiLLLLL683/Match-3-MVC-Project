@@ -40,7 +40,8 @@ namespace Model.Infrastructure
             var blockFactory = new BlockFactory();
             var cellFactory = new CellFactory(invisibleCellType);
             var gameboardFactory = new GameBoardFactory(cellFactory);
-            var levelFactory = new LevelFactory(gameboardFactory);
+            var balanceFactory = new BalanceFactory();
+            var levelFactory = new LevelFactory(gameboardFactory, balanceFactory);
 
             //сервисы
             var validationService = new ValidationService();

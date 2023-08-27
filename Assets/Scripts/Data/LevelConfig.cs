@@ -38,7 +38,7 @@ namespace Data
         public class BlockConfig
         {
             [Header("-----Block configuration-----")]
-            public Balance balance;
+            public BalanceSO balance;
             public Pattern[] matchPatterns;
             public HintPattern[] hintPatterns;
         }
