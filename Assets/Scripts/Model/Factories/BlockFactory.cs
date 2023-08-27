@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockFactory : IBlockFactory
+namespace Model.Factories
 {
-    public Block Create(IBlockType type, Cell cell)
+    public class BlockFactory : IBlockFactory
     {
-        return new Block(type, cell);
+        public Block Create(IBlockType type, Cell cell)
+        {
+            return new Block(type, cell);
+        }
     }
 }

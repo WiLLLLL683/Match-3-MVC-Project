@@ -9,21 +9,7 @@ namespace Model.Objects
     /// </summary>
     public class CurrencyInventory
     {
-        private Dictionary<CurrencyType, int> currencies;
-
-        public CurrencyInventory()
-        {
-            currencies = new();
-        }
-
-        /// <summary>
-        /// For tests only
-        /// </summary>
-        public CurrencyInventory(CurrencyType type)
-        {
-            currencies = new();
-            currencies.Add(type, 0);
-        }
+        public Dictionary<CurrencyType, int> currencies { get; private set; } = new();
 
         /// <summary>
         /// Добавить валюту определенного типа
@@ -49,7 +35,6 @@ namespace Model.Objects
         /// <summary>
         /// Забрать валюту определенного типа из инвентаря
         /// </summary>
-        /// <param name="ammount"></param>
         public void TakeCurrency(CurrencyType type, int ammount)
         {
             if (ammount <= 0)

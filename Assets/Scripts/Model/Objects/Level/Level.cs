@@ -27,38 +27,6 @@ namespace Model.Objects
         public ICounter_Readonly[] Goals_Readonly => goals;
         public ICounter_Readonly[] Restrictions_Readonly => goals;
 
-        public Level() { }
-
-        /// <summary>
-        /// for tests only
-        /// </summary>
-        public Level(int xLength, int yLength)
-        {
-            gameBoard = new GameBoard(xLength, yLength);
-            goals = new Counter[1];
-            goals[0] = new Counter(new BasicBlockType(0), 2);
-            restrictions = new Counter[1];
-            restrictions[0] = new Counter(new Turn(), 2);
-            matchPatterns = new Pattern[1];
-            matchPatterns[0] = new Pattern(new bool[1, 1] { { true } });
-            hintPatterns = new HintPattern[1];
-            hintPatterns[0] = new HintPattern(new bool[1, 1] { { true } }, new(0, 0), Directions.Up);
-
-            List<BlockType_Weight> balanceDictionary = new();
-            balanceDictionary.Add(new BlockType_Weight(new BasicBlockType(0), 50));
-            balanceDictionary.Add(new BlockType_Weight(new BasicBlockType(1), 50));
-            balance = new Balance(balanceDictionary, new BasicBlockType(0));
-        }
-
-        /// <summary>
-        /// for tests only
-        /// </summary>
-        public Level(int xLength, int yLength, Pattern[] matchPatterns)
-        {
-            gameBoard = new GameBoard(xLength, yLength);
-            this.matchPatterns = matchPatterns;
-        }
-
         /// <summary>
         /// ѕроверить все ли цели уровн€ выполнены
         /// </summary>

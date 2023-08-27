@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Model.Objects;
 using NUnit.Framework;
 using UnityEngine;
-using Tests;
+using UnitTests;
 
 namespace Data.UnitTests
 {

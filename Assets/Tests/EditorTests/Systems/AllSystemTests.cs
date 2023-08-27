@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Model.Objects;
 using NUnit.Framework;
+using UnitTests;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -85,7 +86,7 @@ namespace Model.Systems.UnitTests
             var systemB = new TestSystem2();
             allSystems.AddSystem(systemA);
             allSystems.AddSystem(systemB);
-            Level level = new(1,1);
+            Level level = TestUtils.CreateLevel(1, 1);
 
             allSystems.SetLevel(level);
 

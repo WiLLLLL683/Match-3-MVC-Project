@@ -5,7 +5,7 @@ using Model.Objects;
 using Model.Services;
 using NSubstitute;
 using NUnit.Framework;
-using Tests;
+using UnitTests;
 using UnityEngine;
 using UnityEngine.TestTools;
 

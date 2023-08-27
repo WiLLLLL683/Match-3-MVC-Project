@@ -5,7 +5,7 @@ using Model.Objects;
 using Model.Services;
 using NSubstitute;
 using NUnit.Framework;
-using Tests;
+using UnitTests;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -72,7 +72,7 @@ namespace Data.UnitTests
         [Test]
         public void _FindPattern_EmptyCell_Null()
         {
-            GameBoard gameBoard = new GameBoard(1, 1);
+            GameBoard gameBoard = TestUtils.CreateGameBoard(1, 1);
             bool[,] grid = new bool[1, 1];
             grid[0, 0] = true;
             Pattern pattern = new Pattern(grid);

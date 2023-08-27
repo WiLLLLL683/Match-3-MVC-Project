@@ -21,26 +21,6 @@ namespace Model.Objects
         public IEnumerable<IBlock_Readonly> Blocks_Readonly => blocks;
         public int RowsOfInvisibleCells => rowsOfInvisibleCells;
 
-        public GameBoard() { }
-
-        /// <summary>
-        /// For tests only
-        /// Создание пустого игрового поля с базовыми клетками по заданным размерам
-        /// </summary>
-        public GameBoard(int xLength, int yLength)
-        {
-            cells = new Cell[xLength, yLength];
-            blocks = new List<Block>();
-
-            for (int y = 0; y < yLength; y++)
-            {
-                for (int x = 0; x < xLength; x++)
-                {
-                    cells[x, y] = new Cell(new BasicCellType(), new Vector2Int(x, y));
-                }
-            }
-        }
-
         /// <summary>
         /// Регистрация блока в игровом поле
         /// </summary>

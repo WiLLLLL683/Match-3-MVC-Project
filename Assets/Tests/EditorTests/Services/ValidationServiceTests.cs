@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using Tests;
+using UnitTests;
 using UnityEngine;
 
 namespace Model.Services.UnitTests

@@ -2,6 +2,7 @@ using Model.Objects;
 using Model.Services;
 using NSubstitute;
 using NUnit.Framework;
+using UnitTests;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -14,7 +15,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void Move_ValidTurn_BlocksSwapped()
         {
-            Level level = new(2, 1);
+            Level level = TestUtils.CreateLevel(2, 1);
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new BasicBlockType());
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
@@ -32,7 +33,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void Move_InValidStartPos_NoChange()
         {
-            Level level = new(2,1);
+            Level level = TestUtils.CreateLevel(2,1);
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new BasicBlockType());
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
@@ -51,7 +52,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void Move_InValidTargetPos_NoChange()
         {
-            Level level = new(2, 1);
+            Level level = TestUtils.CreateLevel(2, 1);
             Block blockA = level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             Block blockB = level.gameBoard.cells[1, 0].SpawnBlock(new BasicBlockType());
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);

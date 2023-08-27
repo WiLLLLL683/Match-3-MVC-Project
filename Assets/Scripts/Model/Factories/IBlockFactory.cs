@@ -1,6 +1,9 @@
 ﻿using Model.Objects;
 
-public interface IBlockFactory
+namespace Model.Factories
 {
-    Block Create(IBlockType type, Cell cell);
+    public interface IBlockFactory
+    {
+        Block Create(IBlockType type, Cell cell);
+    }
 }

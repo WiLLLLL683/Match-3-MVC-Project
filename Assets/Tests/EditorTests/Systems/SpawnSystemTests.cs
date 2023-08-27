@@ -4,7 +4,7 @@ using Data;
 using Model.Objects;
 using Model.Systems;
 using NUnit.Framework;
-using Tests;
+using UnitTests;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -15,7 +15,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void SpawnTopLine_2cellsGameBoard_OnlyTopLineSpawned()
         {
-            Level level = new Level(1, 2);
+            Level level = TestUtils.CreateLevel(1, 2);
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
@@ -28,7 +28,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void SpawnTopLine_1cellGameBoard_OnlyTopLineSpawned()
         {
-            Level level = new Level(1, 1);
+            Level level = TestUtils.CreateLevel(1, 1);
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
@@ -40,7 +40,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void SpawnTopLine_9cellsGameBoard_OnlyTopLineSpawned()
         {
-            Level level = new Level(3, 3);
+            Level level = TestUtils.CreateLevel(3, 3);
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
@@ -63,7 +63,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void SpawnBonusBlock_EmptyCell_BonusBlockSpawned()
         {
-            Level level = new Level(1, 1);
+            Level level = TestUtils.CreateLevel(1, 1);
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
 
@@ -76,7 +76,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void SpawnBonusBlock_FullCell_BlockTypeChanged()
         {
-            Level level = new Level(1, 1);
+            Level level = TestUtils.CreateLevel(1, 1);
             level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);
@@ -89,7 +89,7 @@ namespace Model.Systems.UnitTests
         [Test]
         public void SpawnBonusBlock_NotPlayableCell_Nothing()
         {
-            Level level = new Level(1, 1);
+            Level level = TestUtils.CreateLevel(1, 1);
             level.gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
             SpawnSystem spawnSystem = new SpawnSystem();
             spawnSystem.SetLevel(level);

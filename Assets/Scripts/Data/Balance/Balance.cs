@@ -13,24 +13,12 @@ namespace Data
     [CreateAssetMenu(fileName = "Balance", menuName = "Data/Balance")]
     public class Balance: ScriptableObject, ICloneable
     {
-        [SerializeField] private List<BlockType_Weight> typesWeight;
-        [ShowNonSerializedField] private int totalWeight;
-        [SerializeField] private BlockTypeSO defaultBlockType;
+        public List<BlockType_Weight> typesWeight = new();
+        public BlockTypeSO defaultBlockType;
+        [ShowNonSerializedField] public int totalWeight;
 
         public Balance()
         {
-            typesWeight = new List<BlockType_Weight>();
-            totalWeight = CalculateTotalWeight();
-        }
-
-        /// <summary>
-        /// for tests only
-        /// </summary>
-        public Balance(List<BlockType_Weight> typesWeight, IBlockType defaultBlockType)
-        {
-            this.typesWeight = typesWeight;
-            this.defaultBlockType = new();
-            this.defaultBlockType.blockType = defaultBlockType;
             totalWeight = CalculateTotalWeight();
         }
 

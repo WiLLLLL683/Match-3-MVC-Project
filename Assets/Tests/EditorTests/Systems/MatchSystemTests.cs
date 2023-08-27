@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using Data;
 using System.Linq;
-using Tests;
+using UnitTests;
 using NSubstitute;
 using Model.Services;
 
@@ -48,7 +48,7 @@ namespace Model.Systems.UnitTests
         {
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
-            Level level = new Level(1,1, matchPatterns);
+            Level level = TestUtils.CreateLevel(1,1, matchPatterns);
             MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
 
@@ -63,7 +63,7 @@ namespace Model.Systems.UnitTests
         {
             Pattern[] matchPatterns = new Pattern[1];
             matchPatterns[0] = DotPattern1x1();
-            Level level = new Level(1,1, matchPatterns);
+            Level level = TestUtils.CreateLevel(1,1, matchPatterns);
             level.gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
             MatchSystem matchSystem = new MatchSystem(validation);
             matchSystem.SetLevel(level);
@@ -158,13 +158,13 @@ namespace Model.Systems.UnitTests
 
         private Level DotLevel1x1(Pattern[] matchPatterns)
         {
-            Level level = new Level(1, 1, matchPatterns);
+            Level level = TestUtils.CreateLevel(1, 1, matchPatterns);
             level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             return level;
         }
         private Level VertLineLevel1x3(Pattern[] matchPatterns)
         {
-            Level level = new Level(1, 3, matchPatterns);
+            Level level = TestUtils.CreateLevel(1, 3, matchPatterns);
             level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[0, 1].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[0, 2].SpawnBlock(new BasicBlockType());
@@ -172,7 +172,7 @@ namespace Model.Systems.UnitTests
         }
         private Level VertLineLevel3x3(Pattern[] matchPatterns)
         {
-            Level level = new Level(3, 3, matchPatterns);
+            Level level = TestUtils.CreateLevel(3, 3, matchPatterns);
             level.gameBoard.cells[2, 0].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[2, 1].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[2, 2].SpawnBlock(new BasicBlockType());
@@ -180,7 +180,7 @@ namespace Model.Systems.UnitTests
         }
         private Level NoMatchLevel3x3(Pattern[] matchPatterns)
         {
-            Level level = new Level(3, 3, matchPatterns);
+            Level level = TestUtils.CreateLevel(3, 3, matchPatterns);
             level.gameBoard.cells[0, 0].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[0, 1].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[0, 2].SpawnBlock(new BasicBlockType());
@@ -194,7 +194,7 @@ namespace Model.Systems.UnitTests
         }
         private Level CrossLevel3x3(Pattern[] matchPatterns)
         {
-            Level level = new Level(3, 3, matchPatterns);
+            Level level = TestUtils.CreateLevel(3, 3, matchPatterns);
             level.gameBoard.cells[0, 1].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[1, 0].SpawnBlock(new BasicBlockType());
             level.gameBoard.cells[1, 1].SpawnBlock(new BasicBlockType());

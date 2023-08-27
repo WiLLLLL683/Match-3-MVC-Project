@@ -1,9 +1,10 @@
 using Data;
+using Model.Factories;
 using Model.Objects;
 using Model.Services;
 using NSubstitute;
 using NUnit.Framework;
-using Tests;
+using UnitTests;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -11,7 +12,13 @@ namespace Model.Services.UnitTests
 {
     public class BlockSpawnServiceTests
     {
-        private (BlockSpawnService service, GameBoard gameBoard) Setup(int xLength, int yLength, int invisibleRows, int factoryReturnBlockType = TestUtils.DEFAULT_BLOCK, bool validationCellReturn = true, bool validationBlockReturn = true, params int[] preSpawnedBlocks)
+        private (BlockSpawnService service, GameBoard gameBoard) Setup(int xLength,
+            int yLength,
+            int invisibleRows,
+            int factoryReturnBlockType = TestUtils.DEFAULT_BLOCK,
+            bool validationCellReturn = true,
+            bool validationBlockReturn = true,
+            params int[] preSpawnedBlocks)
         {
             var gameBoard = TestUtils.CreateGameBoard(xLength, yLength, preSpawnedBlocks);
             gameBoard.rowsOfInvisibleCells = invisibleRows;
@@ -19,7 +26,7 @@ namespace Model.Services.UnitTests
             var balance = TestUtils.CreateBalance(TestUtils.DEFAULT_BLOCK);
 
             var blockFactory = Substitute.For<IBlockFactory>();
-            blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Cell>()).Returns(new Block(TestUtils.CreateBlockType(factoryReturnBlockType), null));
+            blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Cell>()).Returns(x => TestUtils.CreateBlock(factoryReturnBlockType, x.Arg<Cell>()));
 
             var validation = Substitute.For<IValidationService>();
             validation.CellExistsAt(default).ReturnsForAnyArgs(validationCellReturn);
@@ -94,7 +101,13 @@ namespace Model.Services.UnitTests
         [Test]
         public void SpawnBlock_FullCell_BlockTypeChanged()
         {
-            var tuple = Setup(1, 1, 1, TestUtils.RED_BLOCK, true, true, TestUtils.DEFAULT_BLOCK);
+            var tuple = Setup(xLength: 1,
+                              yLength: 1,
+                              invisibleRows: 1,
+                              factoryReturnBlockType: TestUtils.RED_BLOCK,
+                              validationCellReturn: true,
+                              validationBlockReturn: true,
+                              preSpawnedBlocks: TestUtils.DEFAULT_BLOCK);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
             var blockTypeBefore = gameBoard.cells[0, 0].Block.Type;
