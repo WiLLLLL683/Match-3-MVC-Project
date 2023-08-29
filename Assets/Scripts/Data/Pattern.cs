@@ -18,9 +18,9 @@ namespace Data
         [SerializeField] protected Array2DBool array2d;
 
         //статичные данные
-        protected bool[,] grid;
-        [ShowNonSerializedField] protected int totalSum; //сумма помеченых клеток в паттерне
-        [ShowNonSerializedField] protected Vector2Int originPosition = new Vector2Int(0, 0);
+        public bool[,] grid;
+        public int totalSum; //сумма помеченых клеток в паттерне
+        public Vector2Int originPosition = new Vector2Int(0, 0);
 
         public Pattern(bool[,] _grid)
         {

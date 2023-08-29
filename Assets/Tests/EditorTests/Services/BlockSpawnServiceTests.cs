@@ -26,7 +26,7 @@ namespace Model.Services.UnitTests
             var balance = TestUtils.CreateBalance(TestUtils.DEFAULT_BLOCK);
 
             var blockFactory = Substitute.For<IBlockFactory>();
-            blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Cell>()).Returns(x => TestUtils.CreateBlock(factoryReturnBlockType, x.Arg<Cell>()));
+            blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Cell>()).Returns(x => TestUtils.CreateBlockInCell(factoryReturnBlockType, x.Arg<Cell>()));
 
             var validation = Substitute.For<IValidationService>();
             validation.CellExistsAt(default).ReturnsForAnyArgs(validationCellReturn);

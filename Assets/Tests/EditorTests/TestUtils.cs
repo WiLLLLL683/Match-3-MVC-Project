@@ -149,7 +149,51 @@ namespace UnitTests
         /// <summary>
         /// Создание блока указанного типа
         /// </summary>
-        public static Block CreateBlock(int typeId, Cell cell) => new Block(CreateBlockType(typeId), cell);
+        public static Block CreateBlock(int typeId)
+        {
+            var type = CreateBlockType(typeId);
+            return new Block(type, null);
+        }
+
+        /// <summary>
+        /// Создание блока указанного типа
+        /// </summary>
+        public static Block CreateBlockInCell(int typeId, Cell cell)
+        {
+            var type = CreateBlockType(typeId);
+            var block = new Block(type, cell);
+            cell.SetBlock(block);
+            return block;
+        }
+
+        public static Pattern DotPattern1x1()
+        {
+            bool[,] grid = new bool[1, 1];
+            grid[0, 0] = true;
+            return new Pattern(grid);
+        }
+
+        public static Pattern VertLinePattern1x3()
+        {
+            bool[,] grid = new bool[1, 3];
+            grid[0, 0] = true;
+            grid[0, 1] = true;
+            grid[0, 2] = true;
+            return new Pattern(grid);
+        }
+
+        public static Pattern CrossPattern3x3()
+        {
+            bool[,] grid = new bool[3, 3];
+            grid[0, 1] = true;
+            grid[1, 0] = true;
+            grid[1, 1] = true;
+            grid[1, 2] = true;
+            grid[2, 1] = true;
+            var pattern = new Pattern(grid);
+            pattern.originPosition = new(0, 1);
+            return pattern;
+        }
 
         private static IBlockType CreateBlockType(int typeId) => new BasicBlockType(typeId);
 
