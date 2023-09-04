@@ -18,9 +18,10 @@ namespace Model.Services.UnitTests
             int xLength,
             int yLength,
             bool validationBlockReturn = true,
+            Pattern[] matchPatterns = default,
+            HintPattern[] hintPatterns = default,
             params int[] preSpawnedBlocks)
         {
-
             var gameBoard = TestUtils.CreateGameBoard(xLength, yLength, preSpawnedBlocks);
 
             var validation = new ValidationService();
@@ -29,52 +30,52 @@ namespace Model.Services.UnitTests
             //validation.BlockExistsAt(default).ReturnsForAnyArgs(validationBlockReturn);
 
             var service = new MatchService(validation);
-            service.SetLevel(gameBoard);
+            service.SetLevel(gameBoard, matchPatterns, hintPatterns);
             return (service, gameBoard);
         }
 
         [Test]
-        public void Match_EmptyCells_EmptyList()
+        public void FindAllMatches_EmptyCells_EmptyList()
         {
-            Pattern pattern = TestUtils.DotPattern1x1();
-            var (service, gameBoard) = Setup(1, 1, true);
+            Pattern[] patterns = new Pattern[1] { TestUtils.DotPattern1x1() };
+            var (service, gameBoard) = Setup(1, 1, true, patterns);
 
-            List<Cell> matchedCells = service.Match(pattern).ToList();
+            List<Cell> matchedCells = service.FindAllMatches().ToList();
 
             Assert.AreEqual(0, matchedCells.Count);
         }
 
         [Test]
-        public void Match_NotPlayableCells_EmptyList()
+        public void FindAllMatches_NotPlayableCells_EmptyList()
         {
-            Pattern pattern = TestUtils.DotPattern1x1();
-            var (service, gameBoard) = Setup(1, 1, true);
+            Pattern[] patterns = new Pattern[1] { TestUtils.DotPattern1x1() };
+            var (service, gameBoard) = Setup(1, 1, true, patterns);
             gameBoard.cells[0,0].ChangeType(TestUtils.NotPlayableCellType);
 
-            List<Cell> matchedCells = service.Match(pattern).ToList();
+            List<Cell> matchedCells = service.FindAllMatches().ToList();
 
             Assert.AreEqual(0, matchedCells.Count);
         }
 
         [Test]
-        public void Match_MatchingBlock_ListWith1Cell()
+        public void FindAllMatches_MatchingBlock_ListWith1Cell()
         {
-            Pattern pattern = TestUtils.DotPattern1x1();
-            var (service, gameBoard) = Setup(1, 1, true, TestUtils.DEFAULT_BLOCK);
+            Pattern[] patterns = new Pattern[1] { TestUtils.DotPattern1x1() };
+            var (service, gameBoard) = Setup(1, 1, true, patterns, default, TestUtils.DEFAULT_BLOCK);
 
-            List<Cell> matchedCells = service.Match(pattern).ToList();
+            List<Cell> matchedCells = service.FindAllMatches().ToList();
 
             Assert.AreEqual(gameBoard.cells[0, 0], matchedCells[0]);
             Assert.AreEqual(1, matchedCells.Count);
         }
 
         [Test]
-        public void Match_MatchingLine_ListWithLineOfCells()
+        public void FindAllMatches_MatchingLine_ListWithLineOfCells()
         {
-            Pattern pattern = TestUtils.VertLinePattern1x3();
-            var (service, gameBoard) = Setup(1, 3, true, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
+            Pattern[] patterns = new Pattern[1] { TestUtils.VertLinePattern1x3() };
+            var (service, gameBoard) = Setup(1, 3, true, patterns, default, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
 
-            List<Cell> matchedCells = service.Match(pattern).ToList();
+            List<Cell> matchedCells = service.FindAllMatches().ToList();
 
             Assert.AreEqual(gameBoard.cells[0, 0], matchedCells[0]);
             Assert.AreEqual(gameBoard.cells[0, 1], matchedCells[1]);
@@ -83,15 +84,15 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void Match_MatchingLineShifted_ListWithLineOfCells()
+        public void FindAllMatches_MatchingLineShifted_ListWithLineOfCells()
         {
-            Pattern pattern = TestUtils.VertLinePattern1x3();
-            var (service, gameBoard) = Setup(3, 3, true);
+            Pattern[] patterns = new Pattern[1] { TestUtils.VertLinePattern1x3() };
+            var (service, gameBoard) = Setup(3, 3, true, patterns);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[2, 0]);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[2, 1]);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[2, 2]);
 
-            List<Cell> matchedCells = service.Match(pattern).ToList();
+            List<Cell> matchedCells = service.FindAllMatches().ToList();
 
             Assert.AreEqual(gameBoard.cells[2, 0], matchedCells[0]);
             Assert.AreEqual(gameBoard.cells[2, 1], matchedCells[1]);
@@ -100,17 +101,17 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void Match_MatchingCross_CrossWithLineOfCells()
+        public void FindAllMatches_MatchingCross_CrossWithLineOfCells()
         {
-            Pattern pattern = TestUtils.CrossPattern3x3();
-            var (service, gameBoard) = Setup(3, 3, true);
+            Pattern[] patterns = new Pattern[1] { TestUtils.CrossPattern3x3() };
+            var (service, gameBoard) = Setup(3, 3, true, patterns);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[0, 1]);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[1, 0]);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[1, 1]);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[1, 2]);
             TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.cells[2, 1]);
 
-            HashSet<Cell> matchedCells = service.Match(pattern);
+            HashSet<Cell> matchedCells = service.FindAllMatches();
 
             Assert.IsTrue(matchedCells.Contains(gameBoard.cells[0, 1]));
             Assert.IsTrue(matchedCells.Contains(gameBoard.cells[1, 0]));
@@ -121,12 +122,12 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void Match_NoMatch_EmptyList()
+        public void FindAllMatches_NoMatch_EmptyList()
         {
-            Pattern pattern = TestUtils.CrossPattern3x3();
-            var (service, gameBoard) = Setup(3, 3, true);
+            Pattern[] patterns = new Pattern[1] { TestUtils.CrossPattern3x3() };
+            var (service, gameBoard) = Setup(3, 3, true, patterns);
 
-            List<Cell> matchedCells = service.Match(pattern).ToList();
+            List<Cell> matchedCells = service.FindAllMatches().ToList();
 
             Assert.AreEqual(0, matchedCells.Count);
         }

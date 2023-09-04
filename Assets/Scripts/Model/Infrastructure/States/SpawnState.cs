@@ -13,20 +13,20 @@ namespace Model.Infrastructure
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
         private readonly IGravitySystem gravitySystem;
-        private readonly IMatchSystem matchSystem;
+        private readonly IMatchService matchService;
         private readonly IBlockSpawnService spawnService;
 
         private Level level;
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IBlockSpawnService spawnService)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IBlockSpawnService spawnService, IMatchService matchService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.spawnService = spawnService;
+            this.matchService = matchService;
             gravitySystem = systems.GetSystem<IGravitySystem>();
-            matchSystem = systems.GetSystem<IMatchSystem>();
         }
 
         public override void OnStart()
@@ -39,7 +39,7 @@ namespace Model.Infrastructure
                 gravitySystem.Execute(level.gameBoard);
 
                 //проверка на совпадения
-                HashSet<Cell> matches = matchSystem.FindAllMatches();
+                HashSet<Cell> matches = matchService.FindAllMatches();
 
                 //если есть совпадениz - удалить совпадающие блоки
                 if (matches.Count > 0)

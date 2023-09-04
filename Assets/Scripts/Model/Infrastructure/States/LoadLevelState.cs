@@ -14,9 +14,8 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
-        private readonly AllSystems systems;
         private readonly ILevelFactory levelFactory;
-        private readonly IMatchSystem matchSystem;
+        private readonly IMatchService matchService;
         private readonly IBlockSpawnService spawnService;
         private readonly IValidationService validationService;
 
@@ -25,15 +24,14 @@ namespace Model.Infrastructure
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, ILevelFactory levelFactory, IBlockSpawnService spawnService, IValidationService validationService)
+        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, ILevelFactory levelFactory, IBlockSpawnService spawnService, IValidationService validationService, IMatchService matchService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
-            this.systems = systems;
             this.levelFactory = levelFactory;
             this.spawnService = spawnService;
             this.validationService = validationService;
-            matchSystem = this.systems.GetSystem<IMatchSystem>();
+            this.matchService = matchService;
         }
 
         public void SetLevelData(LevelConfig levelData) => this.levelData = levelData;
@@ -65,16 +63,16 @@ namespace Model.Infrastructure
         {
             level = levelFactory.Create(levelData);
             game.SetLevel(level);
-            systems.SetLevel(level);
             spawnService.SetLevel(level.gameBoard, level.balance);
             validationService.SetLevel(level.gameBoard);
+            matchService.SetLevel(level.gameBoard, level.matchPatterns, level.hintPatterns);
         }
 
         private void SwapMatchedBlocks()
         {
             for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
             {
-                HashSet<Cell> matches = matchSystem.FindAllMatches();
+                HashSet<Cell> matches = matchService.FindAllMatches();
                 
                 if (matches.Count == 0)
                     return;

@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using Model.Services;
 using Model.Systems;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,17 +13,17 @@ namespace Model.Infrastructure
         //зависимости
         private Game game;
         private StateMachine<AModelState> stateMachine;
-        private IMatchSystem matchSystem;
+        private IMatchService matchService;
         //данные
         private Level level; //TODO проверить меняется ли уровень при изменении в Game?
         private HashSet<Cell> hintCells;
 
 
-        public WaitState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems) //TODO input
+        public WaitState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            matchSystem = _systems.GetSystem<IMatchSystem>();
+            this.game = game;
+            this.stateMachine = stateMachine;
+            this.matchService = matchService;
         }
 
         public override void OnStart()

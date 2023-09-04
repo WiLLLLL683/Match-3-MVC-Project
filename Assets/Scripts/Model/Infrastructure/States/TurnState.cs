@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using Model.Services;
 using Model.Systems;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,21 +10,21 @@ namespace Model.Infrastructure
 {
     public class TurnState : AModelState
     {
-        private Game game;
-        private Level level;
-        private StateMachine<AModelState> stateMachine;
-        private IMoveSystem moveSystem;
-        private IMatchSystem matchSystem;
+        private readonly Game game;
+        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IMoveSystem moveSystem;
+        private readonly IMatchService matchService;
 
+        private Level level;
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
+        public TurnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IMatchService matchService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
+            this.matchService = matchService;
             moveSystem = systems.GetSystem<IMoveSystem>();
-            matchSystem = systems.GetSystem<IMatchSystem>();
         }
 
         public void SetInput(Vector2Int startPos, Directions direction)
@@ -51,16 +52,12 @@ namespace Model.Infrastructure
 
         }
 
-
-
         private void MoveBlock()
         {
-            //попытка хода
             IAction swapAction = moveSystem.Move(startPos, direction);
             swapAction?.Execute();
 
-            //проверка на результативность хода
-            HashSet<Cell> matches = matchSystem.FindAllMatches();
+            HashSet<Cell> matches = matchService.FindAllMatches();
 
             if (matches.Count > 0)
             {
@@ -75,11 +72,9 @@ namespace Model.Infrastructure
 
         private void PressBlock()
         {
-            //проверка на результативность хода
             bool turnSucsess = level.gameBoard.cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
-            
-            //проверка на последующие совпадения
-            HashSet<Cell> matches = matchSystem.FindAllMatches();
+
+            HashSet<Cell> matches = matchService.FindAllMatches();
 
             if (turnSucsess)
             {

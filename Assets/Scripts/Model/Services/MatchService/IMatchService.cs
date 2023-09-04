@@ -9,16 +9,16 @@ namespace Model.Services
         /// <summary>
         /// Обновить данные об уровне
         /// </summary>
-        public void SetLevel(GameBoard gameBoard);
+        public void SetLevel(GameBoard gameBoard, Pattern[] matchPatterns, HintPattern[] hintPatterns);
 
         /// <summary>
-        /// Пройти по всем клеткам игрового поля(кроме невидимых) и сохранить все совпавшие клетки
+        /// Найти все совпадения по всем паттернам
         /// </summary>
-        public HashSet<Cell> Match(Pattern pattern);
+        public HashSet<Cell> FindAllMatches();
 
         /// <summary>
-        /// Пройти по всем клеткам игрового поля(кроме невидимых) и вернуть клетки первого совпавпадающего паттерна
+        /// Найти первый попавшийся паттерн для подсказки
         /// </summary>
-        public HashSet<Cell> MatchFirst(Pattern pattern);
+        public HashSet<Cell> FindHint();
     }
 }

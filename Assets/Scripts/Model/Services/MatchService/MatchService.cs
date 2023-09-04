@@ -12,6 +12,10 @@ namespace Model.Services
         private readonly IMatcher matcher;
 
         private GameBoard gameBoard;
+        private Pattern[] matchPatterns;
+        private HintPattern[] hintPatterns;
+        private int xStartPos;
+        private int yStartPos;
         private int xLength;
         private int yLength;
 
@@ -22,52 +26,92 @@ namespace Model.Services
             matcher = new Matcher(validationService); //TODO вынести создание в Game
         }
 
-        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
-
-        public HashSet<Cell> Match(Pattern pattern)
+        public void SetLevel(GameBoard gameBoard, Pattern[] matchPatterns, HintPattern[] hintPatterns)
         {
-            Setup(pattern);
+            this.gameBoard = gameBoard;
+            this.matchPatterns = matchPatterns;
+            this.hintPatterns = hintPatterns;
+        }
 
-            if (!PatternFitGameboard)
-                return matchedCells;
+        public HashSet<Cell> FindAllMatches()
+        {
+            matchedCells.Clear();
 
-            for (int y = gameBoard.RowsOfInvisibleCells; y <= yLength; y++)
+            for (int i = 0; i < matchPatterns.Length; i++)
             {
-                for (int x = 0; x <= xLength; x++)
-                {
-                    matchedCells.UnionWith(matcher.MatchAt(new(x, y), pattern, gameBoard));
-                }
+                CheckPattern(matchPatterns[i]);
             }
 
             return matchedCells;
         }
 
-        public HashSet<Cell> MatchFirst(Pattern pattern)
+        public HashSet<Cell> FindHint()
         {
-            Setup(pattern);
+            matchedCells.Clear();
+
+            for (int i = 0; i < hintPatterns.Length; i++)
+            {
+                CheckPatternFirst(hintPatterns[i]);
+
+                if (matchedCells.Count > 0)
+                    break;
+            }
+
+            return matchedCells; //TODO вернуть только клетки которые нужно сменить для подсказки
+        }
+
+        /// <summary>
+        /// Пройти по всем клеткам игрового поля(кроме невидимых) и сохранить все совпавшие клетки
+        /// </summary>
+        private void CheckPattern(Pattern pattern)
+        {
+            SetRegionToCheck(pattern);
 
             if (!PatternFitGameboard)
-                return matchedCells;
+                return;
 
-            for (int y = gameBoard.RowsOfInvisibleCells; y <= yLength; y++)
+            for (int y = yStartPos; y <= yLength; y++)
             {
-                for (int x = 0; x <= xLength; x++)
+                for (int x = xStartPos; x <= xLength; x++)
                 {
-                    matchedCells.UnionWith(matcher.MatchAt(new(x, y), pattern, gameBoard));
+                    HashSet<Cell> cells = matcher.MatchAt(new(x, y), pattern, gameBoard);
+                    matchedCells.UnionWith(cells);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Пройти по всем клеткам игрового поля(кроме невидимых) и вернуть клетки первого совпадения паттерна
+        /// </summary>
+        private void CheckPatternFirst(Pattern pattern)
+        {
+            SetRegionToCheck(pattern);
+
+            if (!PatternFitGameboard)
+                return;
+
+            for (int y = yStartPos; y <= yLength; y++)
+            {
+                for (int x = xStartPos; x <= xLength; x++)
+                {
+                    HashSet<Cell> cells = matcher.MatchAt(new(x, y), pattern, gameBoard);
+                    matchedCells.UnionWith(cells);
 
                     if (matchedCells.Count > 0)
                         break;
                 }
             }
 
-            return matchedCells;
+            //TODO вернуть только клетки которые нужно сменить для подсказки
         }
 
-        private void Setup(Pattern pattern)
+        private void SetRegionToCheck(Pattern pattern)
         {
-            matchedCells.Clear();
-            xLength = gameBoard.cells.GetLength(0) - pattern.grid.GetLength(0); //корректировка под размер паттерна
-            yLength = gameBoard.cells.GetLength(1) - pattern.grid.GetLength(1) - gameBoard.RowsOfInvisibleCells; //корректировка под размер паттерна
+            xStartPos = 0;
+            xLength = gameBoard.cells.GetLength(0) - pattern.grid.GetLength(0);
+
+            yStartPos = gameBoard.RowsOfInvisibleCells;
+            yLength = gameBoard.cells.GetLength(1) - pattern.grid.GetLength(1) - gameBoard.RowsOfInvisibleCells;
         }
     }
 }

@@ -46,19 +46,18 @@ namespace Model.Infrastructure
             //сервисы
             var validationService = new ValidationService();
             var blockSpawnService = new BlockSpawnService(blockFactory, validationService);
+            var matchService = new MatchService(validationService);
 
             systems = new AllSystems();
-            systems.AddSystem<ISpawnSystem>(new SpawnSystem());
-            systems.AddSystem<IMatchSystem>(new MatchSystem(validationService));
             systems.AddSystem<IGravitySystem>(new GravitySystem(validationService));
             systems.AddSystem<IMoveSystem>(new MoveSystem(validationService));
 
             stateMachine = new();
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, systems, levelFactory, blockSpawnService, validationService));
-            stateMachine.AddState(new WaitState(this, stateMachine, systems));
-            stateMachine.AddState(new TurnState(this, stateMachine, systems));
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, blockSpawnService, validationService, matchService));
+            stateMachine.AddState(new WaitState(this, stateMachine, matchService));
+            stateMachine.AddState(new TurnState(this, stateMachine, systems, matchService));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
-            stateMachine.AddState(new SpawnState(this, stateMachine, systems, blockSpawnService));
+            stateMachine.AddState(new SpawnState(this, stateMachine, systems, blockSpawnService, matchService));
             stateMachine.AddState(new LoseState(stateMachine, systems));
             stateMachine.AddState(new WinState(stateMachine, systems));
             stateMachine.AddState(new BonusState(stateMachine, systems));
@@ -76,7 +75,11 @@ namespace Model.Infrastructure
         /// <summary>
         /// Обновить данные об уровне
         /// </summary>
-        public void SetLevel(Level level) => CurrentLevel = level;
+        public void SetLevel(Level level)
+        {
+            CurrentLevel = level;
+            systems.SetLevel(level);
+        }
 
         public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
         public void ActivateBooster(IBooster_Readonly booster) => stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
