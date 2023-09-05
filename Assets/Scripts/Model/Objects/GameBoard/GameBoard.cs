@@ -1,8 +1,6 @@
-﻿using Data;
-using Model.Readonly;
+﻿using Model.Readonly;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Model.Objects
 {

@@ -1,8 +1,4 @@
-﻿using Model.Objects;
-using Model.Systems;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Model.Systems;
 using Utils;
 
 namespace Model.Infrastructure

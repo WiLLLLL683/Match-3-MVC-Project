@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Config;
 using Model.Objects;
 
 namespace Model.Factories

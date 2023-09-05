@@ -1,10 +1,10 @@
-﻿using Data;
+﻿using Config;
 using Model.Objects;
 
 namespace Model.Factories
 {
     public interface ILevelFactory
     {
-        Level Create(LevelConfig levelData);
+        Level Create(LevelSO levelData);
     }
 }

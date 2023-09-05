@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
 using System;
-using Data;
+using Config;
 
 namespace Model.Objects.UnitTests
 {

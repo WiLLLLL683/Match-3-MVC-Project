@@ -1,7 +1,5 @@
-﻿using Data;
+﻿using Config;
 using Model.Objects;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Factories
@@ -10,7 +8,7 @@ namespace Model.Factories
     {
         private readonly ICellFactory cellFactory;
 
-        private LevelConfig.CellConfig config;
+        private LevelSO.CellConfig config;
         private Cell[,] cells;
         private int xLength;
         private int yLength;
@@ -22,7 +20,7 @@ namespace Model.Factories
             this.cellFactory = cellFactory;
         }
 
-        public GameBoard Create(LevelConfig.CellConfig config)
+        public GameBoard Create(LevelSO.CellConfig config)
         {
             this.config = config;
 

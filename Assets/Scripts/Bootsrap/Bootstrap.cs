@@ -1,22 +1,17 @@
-﻿using Presenter;
-using Data;
+﻿using Config;
 using Model.Infrastructure;
-using System;
-using System.Collections;
 using UnityEngine;
-using AYellowpaper;
-using View;
 using Utils;
 
 public class Bootstrap : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField] private PrefabConfig prefabs;
-    [SerializeField] private LevelConfig[] allLevels;
+    [SerializeField] private LevelSO[] allLevels;
     [SerializeField] private CellTypeSO invisibleCellType;
     [Header("Current State")]
-    [SerializeField] private LevelConfig selectedLevel;
-    public LevelConfig SelectedLevel => selectedLevel;
+    [SerializeField] private LevelSO selectedLevel;
+    public LevelSO SelectedLevel => selectedLevel;
     [NaughtyAttributes.ShowNativeProperty()] public string gameModelState => game?.CurrentStateName;
 
     private Game game;

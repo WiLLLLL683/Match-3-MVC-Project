@@ -1,7 +1,10 @@
-﻿using Data;
+﻿using Config;
 using Model.Objects;
 
-public interface IBalanceFactory
+namespace Model.Factories
 {
-    Balance Create(BalanceSO balanceSO);
+    public interface IBalanceFactory
+    {
+        Balance Create(BalanceSO balanceSO);
+    }
 }

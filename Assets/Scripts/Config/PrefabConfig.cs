@@ -1,11 +1,7 @@
-﻿using AYellowpaper;
-using Presenter;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using View;
 
-namespace Data
+namespace Config
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "PrefabConfig", menuName = "Config/PrefabConfig")]

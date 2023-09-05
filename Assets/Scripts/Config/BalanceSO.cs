@@ -1,9 +1,8 @@
-﻿using Model.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Data
+namespace Config
 {
     [CreateAssetMenu(fileName = "Balance", menuName = "Config/Balance")]
     public class BalanceSO: ScriptableObject

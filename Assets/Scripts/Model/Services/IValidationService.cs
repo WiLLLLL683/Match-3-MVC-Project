@@ -11,6 +11,6 @@ namespace Model.Services
         /// Проверка наличия блока в заданной позиции
         /// </summary>
         public bool BlockExistsAt(Vector2Int position);
-        bool CellExistsAt(Vector2Int position);
+        public bool CellExistsAt(Vector2Int position);
     }
 }

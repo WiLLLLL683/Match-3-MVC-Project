@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Model.Objects;
 
-namespace Data
+namespace Config
 {
     [CreateAssetMenu(fileName = "NewCellType", menuName = "Config/CellType")]
     public class CellTypeSO : ScriptableObject

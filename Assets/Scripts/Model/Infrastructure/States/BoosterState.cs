@@ -1,8 +1,5 @@
 ﻿using Model.Objects;
 using Model.Systems;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Utils;
 
 namespace Model.Infrastructure
@@ -43,8 +40,6 @@ namespace Model.Infrastructure
         {
 
         }
-
-
 
         private void SucsessfullTurn()
         {

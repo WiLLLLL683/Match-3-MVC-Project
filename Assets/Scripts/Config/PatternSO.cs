@@ -1,12 +1,7 @@
 using Array2DEditor;
-using NaughtyAttributes;
-using System.Collections.Generic;
 using UnityEngine;
-using Model.Objects;
-using System;
-using Model.Services;
 
-namespace Data
+namespace Config
 {
     [CreateAssetMenu(fileName ="Pattern", menuName ="Config/Pattern")]
     public class PatternSO: ScriptableObject

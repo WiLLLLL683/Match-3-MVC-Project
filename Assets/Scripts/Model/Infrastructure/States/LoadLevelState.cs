@@ -1,9 +1,7 @@
-using Data;
+using Config;
 using Model.Factories;
 using Model.Objects;
 using Model.Services;
-using Model.Systems;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -19,7 +17,7 @@ namespace Model.Infrastructure
         private readonly IBlockSpawnService spawnService;
         private readonly IValidationService validationService;
 
-        private LevelConfig levelData;
+        private LevelSO levelData;
         private Level level;
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
@@ -34,7 +32,7 @@ namespace Model.Infrastructure
             this.matchService = matchService;
         }
 
-        public void SetLevelData(LevelConfig levelData) => this.levelData = levelData;
+        public void SetLevelData(LevelSO levelData) => this.levelData = levelData;
 
         public override void OnStart()
         {
@@ -56,8 +54,6 @@ namespace Model.Infrastructure
         {
 
         }
-
-
 
         private void LoadLevel()
         {

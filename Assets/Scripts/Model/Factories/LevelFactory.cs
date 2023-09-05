@@ -1,9 +1,6 @@
-﻿using Data;
-using Model.Factories;
+﻿using Config;
+using Model.Infrastructure;
 using Model.Objects;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Model.Factories
 {
@@ -22,7 +19,7 @@ namespace Model.Factories
             this.hintPatternFactory = hintPatternFactory;
         }
 
-        public Level Create(LevelConfig levelConfig)
+        public Level Create(LevelSO levelConfig)
         {
             GameBoard gameBoard = gameBoardFactory.Create(levelConfig.cellConfig);
             Balance balance = balanceFactory.Create(levelConfig.blockConfig.balance);

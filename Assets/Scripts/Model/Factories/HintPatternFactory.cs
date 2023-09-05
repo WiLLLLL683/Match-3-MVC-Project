@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Config;
+using Model.Infrastructure;
 using Model.Objects;
 
 namespace Model.Factories

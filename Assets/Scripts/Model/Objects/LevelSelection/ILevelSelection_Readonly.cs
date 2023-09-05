@@ -1,11 +1,11 @@
-﻿using Data;
+﻿using Config;
 
 namespace Model.Readonly
 {
     public interface ILevelSelection_Readonly
     {
-        LevelConfig[] AllLevels { get; }
-        LevelConfig CurrentLevelData { get; }
+        LevelSO[] AllLevels { get; }
+        LevelSO CurrentLevelData { get; }
         int CurrentLevelIndex { get; }
     }
 }

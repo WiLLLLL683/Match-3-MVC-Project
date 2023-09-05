@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Data;
+using Config;
 using NUnit.Framework;
 using UnitTests;
 using UnityEngine;

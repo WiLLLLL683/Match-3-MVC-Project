@@ -1,8 +1,4 @@
-﻿using Model.Objects;
-using NaughtyAttributes;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Model.Objects
 {

@@ -1,10 +1,5 @@
-﻿using Data;
-using Model.Factories;
+﻿using Model.Factories;
 using Model.Objects;
-using NaughtyAttributes;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Model.Services
 {
@@ -78,9 +73,6 @@ namespace Model.Services
             IBlockType type = balance.GetRandomBlockType();
             SpawnBlock_WithOverride(type, cell);
         }
-
-
-
 
         private void SpawnRandomBlock(Cell cell)
         {

@@ -1,8 +1,11 @@
-﻿using Data;
+﻿using Config;
 using Model.Objects;
 
-public interface IHintPatternFactory
+namespace Model.Infrastructure
 {
-    HintPattern Create(HintPatternSO config);
-    HintPattern[] Create(HintPatternSO[] configs);
+    public interface IHintPatternFactory
+    {
+        HintPattern Create(HintPatternSO config);
+        HintPattern[] Create(HintPatternSO[] configs);
+    }
 }

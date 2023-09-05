@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Array2DEditor;
 using Model.Objects;
-using View;
 using NaughtyAttributes;
 
-namespace Data
+namespace Config
 {
     /// <summary>
     /// Данные об уровне
     /// </summary>
     [CreateAssetMenu(fileName ="New Level", menuName ="Config/Level")]
-    public class LevelConfig : ScriptableObject
+    public class LevelSO : ScriptableObject
     {
         public Sprite icon;
         public string levelName;
+        [Header("-----Cell configuration-----")]
         public CellConfig cellConfig;
+        [Header("-----Block configuration-----")]
         public BlockConfig blockConfig;
         [Header("-----Overall rules-----")]
         public Counter[] goals;
@@ -26,7 +25,6 @@ namespace Data
         [Serializable]
         public class CellConfig
         {
-            [Header("-----Cell configuration-----")]
             public CellTypeSO[] cellTypes;
             [InfoBox("Use index of Cell Types to configure the initial arrangement of Cells on the Gameboard")]
             public Array2DInt gameBoard;
@@ -37,7 +35,6 @@ namespace Data
         [Serializable]
         public class BlockConfig
         {
-            [Header("-----Block configuration-----")]
             public BalanceSO balance;
             public PatternSO[] matchPatterns;
             public HintPatternSO[] hintPatterns;

@@ -1,12 +1,9 @@
-using Data;
+using Config;
 using Model.Factories;
 using Model.Objects;
 using Model.Readonly;
 using Model.Services;
 using Model.Systems;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
@@ -29,7 +26,7 @@ namespace Model.Infrastructure
         private StateMachine<AModelState> stateMachine;
         private AllSystems systems;
 
-        public Game(LevelConfig[] allLevels, int currentLevelIndex, ICellType invisibleCellType)
+        public Game(LevelSO[] allLevels, int currentLevelIndex, ICellType invisibleCellType)
         {
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
@@ -69,11 +66,12 @@ namespace Model.Infrastructure
         /// <summary>
         /// Запуск выбранного уровня кор-игры
         /// </summary>
-        public void StartLevel(LevelConfig levelData)
+        public void StartLevel(LevelSO levelData)
         {
             stateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
             stateMachine.SetState<LoadLevelState>();
         }
+
         /// <summary>
         /// Обновить данные об уровне
         /// </summary>
@@ -84,7 +82,9 @@ namespace Model.Infrastructure
         }
 
         public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
+        
         public void ActivateBooster(IBooster_Readonly booster) => stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
+       
         public void ActivateBlock(Vector2Int blockPosition) => stateMachine.CurrentState.OnInputActivateBlock(blockPosition);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Model.Objects;
 using UnityEngine;
 
-namespace Data
+namespace Config
 {
     [CreateAssetMenu(fileName = "NewBlockType", menuName = "Config/BlockType")]
     public class BlockTypeSO : ScriptableObject

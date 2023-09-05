@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Config;
 using System.Collections;
 using UnityEngine;
 

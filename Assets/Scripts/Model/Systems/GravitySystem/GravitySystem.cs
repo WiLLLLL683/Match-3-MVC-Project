@@ -1,7 +1,5 @@
 using Model.Objects;
 using Model.Services;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Systems
