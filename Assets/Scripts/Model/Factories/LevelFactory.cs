@@ -11,26 +11,32 @@ namespace Model.Factories
     {
         private readonly IGameBoardFactory gameBoardFactory;
         private readonly IBalanceFactory balanceFactory;
+        private readonly IPatternFactory patternFactory;
+        private readonly IHintPatternFactory hintPatternFactory;
 
-        public LevelFactory(IGameBoardFactory gameBoardFactory, IBalanceFactory balanceFactory)
+        public LevelFactory(IGameBoardFactory gameBoardFactory, IBalanceFactory balanceFactory, IPatternFactory patternFactory, IHintPatternFactory hintPatternFactory)
         {
             this.gameBoardFactory = gameBoardFactory;
             this.balanceFactory = balanceFactory;
+            this.patternFactory = patternFactory;
+            this.hintPatternFactory = hintPatternFactory;
         }
 
-        public Level Create(LevelConfig levelData)
+        public Level Create(LevelConfig levelConfig)
         {
-            var gameBoard = gameBoardFactory.Create(levelData.cellConfig);
-            var balance = balanceFactory.Create(levelData.blockConfig.balance);
+            GameBoard gameBoard = gameBoardFactory.Create(levelConfig.cellConfig);
+            Balance balance = balanceFactory.Create(levelConfig.blockConfig.balance);
+            Pattern[] pattern = patternFactory.Create(levelConfig.blockConfig.matchPatterns);
+            HintPattern[] hintPattern = hintPatternFactory.Create(levelConfig.blockConfig.hintPatterns);
 
             return new Level()
             {
                 gameBoard = gameBoard,
-                goals = levelData.goals.MemberwiseArrayClone(),
-                restrictions = levelData.restrictions.MemberwiseArrayClone(),
+                goals = levelConfig.goals.MemberwiseArrayClone(),
+                restrictions = levelConfig.restrictions.MemberwiseArrayClone(),
                 balance = balance,
-                matchPatterns = levelData.blockConfig.matchPatterns.MemberwiseArrayClone(),
-                hintPatterns = levelData.blockConfig.hintPatterns.MemberwiseArrayClone()
+                matchPatterns = pattern,
+                hintPatterns = hintPattern
             };
         }
     }

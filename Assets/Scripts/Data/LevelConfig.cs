@@ -39,8 +39,8 @@ namespace Data
         {
             [Header("-----Block configuration-----")]
             public BalanceSO balance;
-            public Pattern[] matchPatterns;
-            public HintPattern[] hintPatterns;
+            public PatternSO[] matchPatterns;
+            public HintPatternSO[] hintPatterns;
         }
     }
 }

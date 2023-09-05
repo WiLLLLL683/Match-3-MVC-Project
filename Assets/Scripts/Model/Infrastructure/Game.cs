@@ -41,7 +41,9 @@ namespace Model.Infrastructure
             var cellFactory = new CellFactory(invisibleCellType);
             var gameboardFactory = new GameBoardFactory(cellFactory);
             var balanceFactory = new BalanceFactory();
-            var levelFactory = new LevelFactory(gameboardFactory, balanceFactory);
+            var patternFactory = new PatternFactory();
+            var hintPatternFactory = new HintPatternFactory();
+            var levelFactory = new LevelFactory(gameboardFactory, balanceFactory, patternFactory, hintPatternFactory);
 
             //сервисы
             var validationService = new ValidationService();
