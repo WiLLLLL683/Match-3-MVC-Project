@@ -11,19 +11,19 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
-        private readonly IMoveSystem moveSystem;
         private readonly IMatchService matchService;
+        private readonly IMoveService moveService;
 
         private Level level;
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IMatchService matchService)
+        public TurnState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService, IMoveService moveService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.matchService = matchService;
-            moveSystem = systems.GetSystem<IMoveSystem>();
+            this.moveService = moveService;
         }
 
         public void SetInput(Vector2Int startPos, Directions direction)
@@ -53,7 +53,7 @@ namespace Model.Infrastructure
 
         private void MoveBlock()
         {
-            IAction swapAction = moveSystem.Move(startPos, direction);
+            IAction swapAction = moveService.Move(level.gameBoard, startPos, direction);
             swapAction?.Execute();
 
             HashSet<Cell> matches = matchService.FindAllMatches();

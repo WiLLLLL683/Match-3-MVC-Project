@@ -5,6 +5,7 @@ namespace Model.Services
 {
     public interface IValidationService
     {
+        public bool CellIsEmptyAt(Vector2Int position);
         public void SetLevel(GameBoard gameBoard);
 
         /// <summary>

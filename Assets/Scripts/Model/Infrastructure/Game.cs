@@ -47,14 +47,14 @@ namespace Model.Infrastructure
             var blockSpawnService = new BlockSpawnService(blockFactory, validationService);
             var matchService = new MatchService(validationService);
             var gravityService = new GravityService(validationService);
+            var moveService = new MoveService(validationService);
 
             systems = new AllSystems();
-            systems.AddSystem<IMoveSystem>(new MoveSystem(validationService));
 
             stateMachine = new();
             stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, blockSpawnService, validationService, matchService));
             stateMachine.AddState(new WaitState(this, stateMachine, matchService));
-            stateMachine.AddState(new TurnState(this, stateMachine, systems, matchService));
+            stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
             stateMachine.AddState(new SpawnState(this, stateMachine, systems, blockSpawnService, matchService, gravityService));
             stateMachine.AddState(new LoseState(stateMachine, systems));

@@ -19,6 +19,8 @@ namespace Model.Services
 
         public bool BlockExistsAt(Vector2Int position)
         {
+            this.position = position;
+
             if (!CellExistsAt(position))
             {
                 return false;
@@ -58,6 +60,30 @@ namespace Model.Services
             if (!CellExists)
             {
                 Debug.LogWarning("Tried to get Cell but Cell was null");
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool CellIsEmptyAt(Vector2Int position)
+        {
+            this.position = position;
+
+            if (!CellExistsAt(position))
+            {
+                return false;
+            }
+
+            if (!CellCanContainBlock)
+            {
+                Debug.LogWarning("Cell cant contain Block");
+                return false;
+            }
+
+            if (!CellIsEmpty)
+            {
+                Debug.LogWarning("Cell is not empty");
                 return false;
             }
 
