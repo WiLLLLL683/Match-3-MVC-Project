@@ -10,7 +10,6 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
-        private readonly IGravityService gravitySystem;
         private readonly IMatchService matchService;
         private readonly IBlockSpawnService spawnService;
         private readonly IGravityService gravityService;
@@ -35,7 +34,7 @@ namespace Model.Infrastructure
             for (int i = 0; i < MAX_SPAWN_ITERATIONS; i++)
             {
                 //гравитация
-                gravitySystem.Execute(level.gameBoard);
+                gravityService.Execute(level.gameBoard);
 
                 //проверка на совпадения
                 HashSet<Cell> matches = matchService.FindAllMatches();
