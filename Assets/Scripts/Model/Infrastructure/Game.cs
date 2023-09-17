@@ -46,9 +46,9 @@ namespace Model.Infrastructure
             var validationService = new ValidationService();
             var blockSpawnService = new BlockSpawnService(blockFactory, validationService);
             var matchService = new MatchService(validationService);
+            var gravityService = new GravityService(validationService);
 
             systems = new AllSystems();
-            systems.AddSystem<IGravitySystem>(new GravitySystem(validationService));
             systems.AddSystem<IMoveSystem>(new MoveSystem(validationService));
 
             stateMachine = new();
@@ -56,7 +56,7 @@ namespace Model.Infrastructure
             stateMachine.AddState(new WaitState(this, stateMachine, matchService));
             stateMachine.AddState(new TurnState(this, stateMachine, systems, matchService));
             stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
-            stateMachine.AddState(new SpawnState(this, stateMachine, systems, blockSpawnService, matchService));
+            stateMachine.AddState(new SpawnState(this, stateMachine, systems, blockSpawnService, matchService, gravityService));
             stateMachine.AddState(new LoseState(stateMachine, systems));
             stateMachine.AddState(new WinState(stateMachine, systems));
             stateMachine.AddState(new BonusState(stateMachine, systems));

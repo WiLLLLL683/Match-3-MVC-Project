@@ -1,30 +1,24 @@
 using Model.Objects;
-using Model.Services;
+using Model.Systems;
 using UnityEngine;
 
-namespace Model.Systems
+namespace Model.Services
 {
-    /// <summary>
-    /// Система для перемещения блоков вниз, если клетка внизу пуста
-    /// </summary>
-    public class GravitySystem : IGravitySystem
+    public class GravityService : IGravityService
     {
         private IValidationService validationService;
         private GameBoard gameBoard;
 
         private int lowestY;
 
-        public GravitySystem(IValidationService validationService)
+        public GravityService(IValidationService validationService)
         {
             this.validationService = validationService;
         }
 
-        public void SetLevel(Level level) => gameBoard = level.gameBoard;
-        public void SetGameBoard(GameBoard gameBoard) => this.gameBoard = gameBoard;
+        //public void SetLevel(Level level) => gameBoard = level.gameBoard;
+        //public void SetGameBoard(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
-        /// <summary>
-        /// Переместить все "висящие в воздухе" блоки вниз
-        /// </summary>
         public void Execute(GameBoard gameBoard)
         {
             this.gameBoard = gameBoard;

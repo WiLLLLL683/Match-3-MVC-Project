@@ -10,21 +10,22 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
-        private readonly IGravitySystem gravitySystem;
+        private readonly IGravityService gravitySystem;
         private readonly IMatchService matchService;
         private readonly IBlockSpawnService spawnService;
+        private readonly IGravityService gravityService;
 
         private Level level;
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IBlockSpawnService spawnService, IMatchService matchService)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.spawnService = spawnService;
             this.matchService = matchService;
-            gravitySystem = systems.GetSystem<IGravitySystem>();
+            this.gravityService = gravityService;
         }
 
         public override void OnStart()
