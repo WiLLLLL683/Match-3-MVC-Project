@@ -1,10 +1,9 @@
+using UnityEngine;
 using Config;
 using Model.Factories;
 using Model.Objects;
 using Model.Readonly;
 using Model.Services;
-using Model.Systems;
-using UnityEngine;
 using Utils;
 
 namespace Model.Infrastructure
@@ -24,7 +23,6 @@ namespace Model.Infrastructure
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name;
 
         private StateMachine<AModelState> stateMachine;
-        private AllSystems systems;
 
         public Game(LevelSO[] allLevels, int currentLevelIndex, ICellType invisibleCellType)
         {
@@ -49,18 +47,16 @@ namespace Model.Infrastructure
             var gravityService = new GravityService(validationService);
             var moveService = new MoveService(validationService);
 
-            systems = new AllSystems();
-
             stateMachine = new();
             stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, blockSpawnService, validationService, matchService));
             stateMachine.AddState(new WaitState(this, stateMachine, matchService));
             stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService));
-            stateMachine.AddState(new BoosterState(this, stateMachine, systems, BoosterInventory));
-            stateMachine.AddState(new SpawnState(this, stateMachine, systems, blockSpawnService, matchService, gravityService));
-            stateMachine.AddState(new LoseState(stateMachine, systems));
-            stateMachine.AddState(new WinState(stateMachine, systems));
-            stateMachine.AddState(new BonusState(stateMachine, systems));
-            stateMachine.AddState(new ExitState(stateMachine, systems));
+            stateMachine.AddState(new BoosterState(this, stateMachine, BoosterInventory));
+            stateMachine.AddState(new SpawnState(this, stateMachine, blockSpawnService, matchService, gravityService));
+            stateMachine.AddState(new LoseState(stateMachine));
+            stateMachine.AddState(new WinState(stateMachine));
+            stateMachine.AddState(new BonusState(stateMachine));
+            stateMachine.AddState(new ExitState(stateMachine));
         }
 
         /// <summary>
@@ -78,7 +74,6 @@ namespace Model.Infrastructure
         public void SetLevel(Level level)
         {
             CurrentLevel = level;
-            systems.SetLevel(level);
         }
 
         public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);

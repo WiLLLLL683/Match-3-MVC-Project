@@ -1,5 +1,4 @@
 ﻿using Model.Objects;
-using Model.Systems;
 using Utils;
 
 namespace Model.Infrastructure
@@ -13,16 +12,16 @@ namespace Model.Infrastructure
 
         private IBooster booster;
 
-        public BoosterState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems, BoosterInventory _boosterInventory)
+        public BoosterState(Game game, StateMachine<AModelState> stateMachine, BoosterInventory boosterInventory)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            boosterInventory = _boosterInventory;
+            this.game = game;
+            this.stateMachine = stateMachine;
+            this.boosterInventory = boosterInventory;
         }
 
-        public void SetInput(IBooster _booster)
+        public void SetInput(IBooster booster)
         {
-            booster = _booster;
+            this.booster = booster;
         }
 
         public override void OnStart()

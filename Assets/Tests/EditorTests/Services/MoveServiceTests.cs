@@ -1,6 +1,5 @@
 using Model.Objects;
 using Model.Services;
-using Model.Systems;
 using NSubstitute;
 using NUnit.Framework;
 using UnitTests;

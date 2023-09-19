@@ -4,9 +4,8 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
-using Config;
 
-namespace Model.Systems.UnitTests
+namespace Model.Services.Actions.UnitTests
 {
     public class ChangeBlockTypeActionTests
     {

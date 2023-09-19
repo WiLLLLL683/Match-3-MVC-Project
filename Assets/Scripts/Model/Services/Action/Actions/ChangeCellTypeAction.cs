@@ -1,7 +1,7 @@
-using Model.Objects;
 using UnityEngine;
+using Model.Objects;
 
-namespace Model.Systems
+namespace Model.Services
 {
     /// <summary>
     /// смена типа клетки

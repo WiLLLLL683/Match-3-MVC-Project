@@ -1,7 +1,6 @@
-﻿using Model.Objects;
+﻿using System.Collections.Generic;
+using Model.Objects;
 using Model.Services;
-using Model.Systems;
-using System.Collections.Generic;
 using Utils;
 
 namespace Model.Infrastructure
@@ -18,7 +17,7 @@ namespace Model.Infrastructure
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService)
         {
             this.game = game;
             this.stateMachine = stateMachine;

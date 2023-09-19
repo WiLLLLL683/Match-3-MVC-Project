@@ -1,15 +1,14 @@
-﻿using Model.Systems;
-using Utils;
+﻿using Utils;
 
 namespace Model.Infrastructure
 {
     public class LoseState : AModelState
     {
-        private StateMachine<AModelState> stateMachine;
-        
-        public LoseState(StateMachine<AModelState> _stateMachine, AllSystems _systems)
+        private readonly StateMachine<AModelState> stateMachine;
+
+        public LoseState(StateMachine<AModelState> stateMachine)
         {
-            stateMachine = _stateMachine;
+            this.stateMachine = stateMachine;
         }
 
         public override void OnStart()

@@ -1,5 +1,4 @@
 using Model.Objects;
-using Model.Systems;
 using UnityEngine;
 
 namespace Model.Services
@@ -31,8 +30,6 @@ namespace Model.Services
                 }
             }
         }
-
-
 
         private void TryMoveBlockDown(int x, int y)
         {

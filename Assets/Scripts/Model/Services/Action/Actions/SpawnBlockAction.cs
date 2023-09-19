@@ -1,6 +1,6 @@
 using Model.Objects;
 
-namespace Model.Systems
+namespace Model.Services
 {
     /// <summary>
     /// Спавн блока заданного типа в заданной позиции

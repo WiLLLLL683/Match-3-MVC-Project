@@ -1,9 +1,6 @@
 using Model.Objects;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace Model.Systems
+namespace Model.Services
 {
     /// <summary>
     /// Смена блоков местами в двух клетках

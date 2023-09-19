@@ -1,11 +1,7 @@
-﻿using Config;
-using Model.Factories;
-using Model.Objects;
-using Model.Systems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Model.Objects;
+using Model.Services;
 
 namespace UnitTests
 {
