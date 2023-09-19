@@ -7,25 +7,13 @@ namespace Model.Services.UnitTests
 {
     public class GravityServiceTests
     {
-        private IValidationService validation = Substitute.For<IValidationService>();
+        private IValidationService validation = new ValidationService();
 
-        [SetUp]
-        public void Setup()
-        {
-            Debug.Log("Before");
-            validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Debug.Log("After");
-        }
-        
         [Test]
         public void Execute_OneBlockOneEmptyCellUnder_BlockMovesDown()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
+            validation.SetLevel(gameBoard);
             var block = gameBoard.cells[0, 0].Block;
             var gravitySystem = new GravityService(validation);
 
@@ -39,6 +27,7 @@ namespace Model.Services.UnitTests
         public void Execute_TwoBlocksNoEmptyCellUnder_NoChange()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
+            validation.SetLevel(gameBoard);
             var blockA = gameBoard.cells[0, 0].Block;
             var blockB = gameBoard.cells[0, 1].Block;
             var gravitySystem = new GravityService(validation);
@@ -54,6 +43,7 @@ namespace Model.Services.UnitTests
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
             gameBoard.cells[0, 1].ChangeType(TestUtils.NotPlayableCellType);
+            validation.SetLevel(gameBoard);
             var blockA = gameBoard.cells[0, 0].Block;
             var gravitySystem = new GravityService(validation);
 
@@ -67,6 +57,7 @@ namespace Model.Services.UnitTests
         public void Execute_TwoBlocksEmptyCellUnder_TwoBlocksMoveDown()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 3, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
+            validation.SetLevel(gameBoard);
             var blockA = gameBoard.cells[0, 0].Block;
             var blockB = gameBoard.cells[0, 1].Block;
             var gravitySystem = new GravityService(validation);
@@ -82,6 +73,7 @@ namespace Model.Services.UnitTests
         public void Execute_AllEmptyCells_NoChange()
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2);
+            validation.SetLevel(gameBoard);
             var gravitySystem = new GravityService(validation);
 
             gravitySystem.Execute(gameBoard);
@@ -94,6 +86,7 @@ namespace Model.Services.UnitTests
         public void Execute_3Blocks2EmptyCellUnder_3BlocksMoveDown()
         {
             var gameBoard = TestUtils.CreateGameBoard(3, 3, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
+            validation.SetLevel(gameBoard);
             var block1 = gameBoard.cells[0, 0].Block;
             var block2 = gameBoard.cells[1, 0].Block;
             var block3 = gameBoard.cells[2, 0].Block;

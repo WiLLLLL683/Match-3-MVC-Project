@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
+using UnitTests;
 
 namespace Model.Services.Actions.UnitTests
 {
@@ -14,14 +15,14 @@ namespace Model.Services.Actions.UnitTests
         {
             Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0,0));
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0,1));
-            Block blockA = cellA.SpawnBlock(new BasicBlockType());
-            Block blockB = cellB.SpawnBlock(new BasicBlockType());
+            Block blockA = TestUtils.CreateBlockInCell(TestUtils.BLUE_BLOCK, cellA);
+            Block blockB = TestUtils.CreateBlockInCell(TestUtils.RED_BLOCK, cellB);
 
-            SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
+            IAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
 
-            Assert.AreEqual(blockB, cellA.Block);
-            Assert.AreEqual(blockA, cellB.Block);
+            Assert.AreEqual(blockB.Type.Id, cellA.Block.Type.Id);
+            Assert.AreEqual(blockA.Type.Id, cellB.Block.Type.Id);
         }
 
         [Test]
@@ -29,15 +30,15 @@ namespace Model.Services.Actions.UnitTests
         {
             Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
-            Block blockB = cellB.SpawnBlock(new BasicBlockType());
+            Block blockB = TestUtils.CreateBlockInCell(TestUtils.RED_BLOCK, cellB);
             int eventCount = 0;
-            cellA.OnEmpty += (cell) => eventCount += 1;
-            cellB.OnEmpty += (cell) => eventCount += 1;
+            cellA.OnEmpty += (_) => ++eventCount;
+            cellB.OnEmpty += (_) => ++eventCount;
 
-            SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
+            IAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
 
-            Assert.AreEqual(blockB, cellA.Block);
+            Assert.AreEqual(blockB.Type.Id, cellA.Block.Type.Id);
             Assert.AreEqual(null, cellB.Block);
             Assert.AreEqual(1, eventCount);
         }
@@ -48,10 +49,10 @@ namespace Model.Services.Actions.UnitTests
             Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
             int eventCount = 0;
-            cellA.OnEmpty += (cell) => eventCount += 1;
-            cellB.OnEmpty += (cell) => eventCount += 1;
+            cellA.OnEmpty += (_) => ++eventCount;
+            cellB.OnEmpty += (_) => ++eventCount;
 
-            SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
+            IAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
 
             Assert.AreEqual(null, cellA.Block);
@@ -64,13 +65,13 @@ namespace Model.Services.Actions.UnitTests
         {
             Cell cellA = null;
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
-            Block blockB = cellB.SpawnBlock(new BasicBlockType());
+            Block blockB = TestUtils.CreateBlockInCell(TestUtils.RED_BLOCK, cellB);
 
-            SwapBlocksAction action = new SwapBlocksAction(cellA, cellB);
+            IAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
 
             Assert.AreEqual(null, cellA);
-            Assert.AreEqual(blockB, cellB.Block);
+            Assert.AreEqual(blockB.Type.Id, cellB.Block.Type.Id);
         }
     }
 }

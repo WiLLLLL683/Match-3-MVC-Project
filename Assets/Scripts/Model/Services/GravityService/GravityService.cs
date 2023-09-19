@@ -52,7 +52,7 @@ namespace Model.Services
             lowestY = y;
             for (int i = gameBoard.cells.GetLength(1) - 1; i > y; i--)
             {
-                if (gameBoard.cells[x, i].IsEmpty && gameBoard.cells[x, i].CanContainBlock)
+                if (validationService.CellIsEmptyAt(new(x, i)))
                 {
                     lowestY = i;
                     return;

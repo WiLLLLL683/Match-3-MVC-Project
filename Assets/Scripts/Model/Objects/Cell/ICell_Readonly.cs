@@ -10,8 +10,6 @@ namespace Model.Readonly
     public interface ICell_Readonly
     {
         public IBlock_Readonly Block_Readonly { get; }
-        public bool IsEmpty { get; }
-        public bool IsPlayable { get; }
         public Vector2Int Position { get; }
         public ICellType_Readonly Type_Readonly { get; }
 

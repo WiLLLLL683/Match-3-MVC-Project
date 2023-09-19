@@ -17,7 +17,7 @@ namespace Model.Objects.UnitTests
         {
             var cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
 
-            Assert.AreEqual(true, cell.IsEmpty);
+            Assert.AreEqual(true, cell.Block == null);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
 
-            Assert.AreEqual(true, cell.IsPlayable);
+            Assert.AreEqual(true, cell.Type.IsPlayable);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0,0));
 
-            Assert.AreEqual(false, cell.IsPlayable);
+            Assert.AreEqual(false, cell.Type.IsPlayable);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Model.Objects.UnitTests
             cell.SetBlock(null);
 
             Assert.AreEqual(null, cell.Block);
-            Assert.AreEqual(true, cell.IsEmpty);
+            Assert.AreEqual(true, cell.Block == null);
             Assert.AreEqual(1, eventCount);
         }
 
@@ -83,7 +83,7 @@ namespace Model.Objects.UnitTests
             cell.SetBlock(block);
             cell.DestroyBlock();
 
-            Assert.AreEqual(true, cell.IsEmpty);
+            Assert.AreEqual(true, cell.Block == null);
         }
 
         [Test]

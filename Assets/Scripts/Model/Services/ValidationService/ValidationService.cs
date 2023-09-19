@@ -9,8 +9,8 @@ namespace Model.Services
         private Vector2Int position;
 
         private bool BlockExists => gameBoard.cells[position.x, position.y].Block != null;
-        private bool CellIsEmpty => gameBoard.cells[position.x, position.y].IsEmpty;
-        private bool CellCanContainBlock => gameBoard.cells[position.x, position.y].CanContainBlock;
+        private bool CellIsEmpty => gameBoard.cells[position.x, position.y].Block == null;
+        private bool CellCanContainBlock => gameBoard.cells[position.x, position.y].Type.CanContainBlock;
         private bool CellExists => gameBoard.cells[position.x, position.y] != null;
         private bool CellIsInsideGameboard => 0 <= position.x && position.x < gameBoard.cells.GetLength(0)
                                            && 0 <= position.y && position.y < gameBoard.cells.GetLength(1);

@@ -91,7 +91,7 @@ namespace Presenter
         public ABlockView GetBlockView(Vector2Int modelPosition)
         {
             IBlock_Readonly blockModel = model.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
-            if (blockModel != null && blocks.ContainsKey(blockModel) && blockModel.Cell_Readonly.IsPlayable)
+            if (blockModel != null && blocks.ContainsKey(blockModel) && blockModel.Cell_Readonly.Type_Readonly.IsPlayable)
                 return blocks[blockModel];
             else
                 return null;
@@ -113,7 +113,7 @@ namespace Presenter
                 {
                     ICell_Readonly cellModel = model.Cells_Readonly[x, y];
 
-                    if (cellModel.IsPlayable)
+                    if (cellModel.Type_Readonly.IsPlayable)
                     {
                         cells[cellModel] = cellFactory.Create(cellModel).View; //спавн обычных клеток
                     }

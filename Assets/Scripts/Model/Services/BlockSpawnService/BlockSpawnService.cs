@@ -28,7 +28,7 @@ namespace Model.Services
             {
                 for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
                 {
-                    if (!CellIsReadyToSpawn(gameBoard.cells[x, y]))
+                    if (!validationService.CellIsEmptyAt(new(x, y)))
                         continue;
 
                     SpawnRandomBlock(gameBoard.cells[x, y]);
@@ -42,29 +42,11 @@ namespace Model.Services
             {
                 for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
                 {
-                    if (!CellIsReadyToSpawn(gameBoard.cells[x, y]))
+                    if (!validationService.CellIsEmptyAt(new(x, y)))
                         continue;
                     
                     SpawnRandomBlock(gameBoard.cells[x, y]);
                 }
-            }
-        }
-
-        public void SpawnBlock_WithOverride(IBlockType type, Cell cell)
-        {
-            if (!validationService.CellExistsAt(cell.Position))
-                return;
-
-            if (CellIsReadyToSpawn(cell))
-            {
-                SpawnBlock(type, cell);
-            }
-            else
-            {
-                if (!validationService.BlockExistsAt(cell.Position))
-                    return;
-
-                cell.Block.ChangeType(type);
             }
         }
 
@@ -80,13 +62,29 @@ namespace Model.Services
             SpawnBlock(type, cell);
         }
 
+        public void SpawnBlock_WithOverride(IBlockType type, Cell cell)
+        {
+            if (!validationService.CellExistsAt(cell.Position))
+                return;
+
+            if (validationService.CellIsEmptyAt(cell.Position))
+            {
+                SpawnBlock(type, cell);
+            }
+            else
+            {
+                if (!validationService.BlockExistsAt(cell.Position))
+                    return;
+
+                cell.Block.ChangeType(type);
+            }
+        }
+
         private void SpawnBlock(IBlockType type, Cell cell)
         {
             Block block = blockFactory.Create(type, cell);
             cell.SetBlock(block);
             gameBoard.RegisterBlock(block);
         }
-
-        private bool CellIsReadyToSpawn(Cell cell) => cell.CanContainBlock && cell.IsEmpty;
     }
 }

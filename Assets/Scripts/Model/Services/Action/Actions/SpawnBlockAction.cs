@@ -1,3 +1,4 @@
+using Model.Factories;
 using Model.Objects;
 
 namespace Model.Services
@@ -7,20 +8,25 @@ namespace Model.Services
     /// </summary>
     public class SpawnBlockAction : IAction
     {
-        private GameBoard gameBoard;
-        private IBlockType type;
-        private Cell cell;
+        private readonly GameBoard gameBoard;
+        private readonly IBlockType type;
+        private readonly Cell cell;
+        private readonly IBlockFactory factory;
 
-        public SpawnBlockAction(GameBoard _gameBoard, IBlockType _type, Cell _cell)
+        private Block block;
+
+        public SpawnBlockAction(GameBoard gameBoard, IBlockType type, Cell cell, IBlockFactory factory)
         {
-            gameBoard = _gameBoard;
-            type = _type;
-            cell = _cell;
+            this.gameBoard = gameBoard;
+            this.type = type;
+            this.cell = cell;
+            this.factory = factory;
         }
 
         public void Execute()
         {
-            Block block = cell.SpawnBlock(type);
+            block = factory.Create(type, cell);
+            cell.SetBlock(block);
             gameBoard.RegisterBlock(block);
         }
 

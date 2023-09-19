@@ -12,13 +12,14 @@ namespace Model.Services
         private IBlockType targetType;
         private IBlockType previousType;
 
-        public ChangeBlockTypeAction(IBlockType _type, Block _block)
+        public ChangeBlockTypeAction(IBlockType targetType, Block block)
         {
-            block = _block;
-            targetType = _type;
-            if (block != null)
+            this.block = block;
+            this.targetType = targetType;
+
+            if (this.block != null)
             {
-                previousType = block.Type;
+                previousType = this.block.Type;
             }
         }
 

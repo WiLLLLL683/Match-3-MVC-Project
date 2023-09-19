@@ -85,7 +85,7 @@ namespace Model.Services.UnitTests
 
             moveSystem.Move(gameBoard, new Vector2Int(0, 0), Directions.Up)?.Execute();
 
-            Assert.IsTrue(gameBoard.cells[0, 0].IsEmpty);
+            Assert.IsTrue(gameBoard.cells[0, 0].Block == null);
             Assert.AreEqual(blockB.Type.Id, gameBoard.cells[1,0].Block.Type.Id);
         }
 

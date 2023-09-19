@@ -10,12 +10,9 @@ namespace Model.Objects
     [Serializable]
     public class Cell : ICell_Readonly
     {
-        public bool IsPlayable => Type.IsPlayable;
-        public bool CanContainBlock => Type.CanContainBlock;
-        public bool IsEmpty { get; set; }
-        public ICellType Type { get; set; }
-        public Vector2Int Position { get; set; }
-        public Block Block { get; set; }
+        public ICellType Type { get; private set; }
+        public Vector2Int Position { get; private set; }
+        public Block Block { get; private set; }
 
         public IBlock_Readonly Block_Readonly => Block;
         public ICellType_Readonly Type_Readonly => Type;
@@ -26,7 +23,6 @@ namespace Model.Objects
 
         public Cell(ICellType type, Vector2Int position)
         {
-            IsEmpty = true;
             Type = type;
             Position = position;
         }
@@ -45,34 +41,18 @@ namespace Model.Objects
         /// </summary>
         public void SetBlock(Block block)
         {
-            if (CanContainBlock)
-            {
-                if (block != null)
-                {
-                    Block = block;
-                    Block.ChangePosition(this);
-                    IsEmpty = false;
-                }
-                else
-                {
-                    SetEmpty();
-                }
-            }
-        }
+            if (!Type.CanContainBlock)
+                return;
 
-        /// <summary>
-        /// Заспавнить блок в клетке при возможности
-        /// </summary>
-        public Block SpawnBlock(IBlockType blockType)
-        {
-            if (CanContainBlock && IsEmpty)
+            if (block != null)
             {
-                Block block = new Block(blockType, this);
-                SetBlock(block);
-                return block;
+                Block = block;
+                Block.ChangePosition(this);
             }
-
-            return null;
+            else
+            {
+                SetEmpty();
+            }
         }
 
         /// <summary>
@@ -80,7 +60,7 @@ namespace Model.Objects
         /// </summary>
         public void DestroyBlock()
         {
-            if (CanContainBlock && Block != null)
+            if (Type.CanContainBlock && Block != null)
             {
                 Block.Destroy();
                 SetEmpty();
@@ -104,7 +84,6 @@ namespace Model.Objects
         private void SetEmpty()
         {
             Block = null;
-            IsEmpty = true;
             OnEmpty?.Invoke(this);
         }
     }

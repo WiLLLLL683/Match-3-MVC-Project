@@ -82,7 +82,7 @@ namespace Model.Services.UnitTests
         {
             var tuple = Setup(TestUtils.BasicCellType);
             var validation = tuple.validation;
-            tuple.gameBoard.cells[0, 0].Block = null;
+            tuple.gameBoard.cells[0, 0].SetBlock(null);
 
             bool isValid = validation.BlockExistsAt(new(0,0));
 

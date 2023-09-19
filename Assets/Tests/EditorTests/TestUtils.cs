@@ -113,8 +113,7 @@ namespace UnitTests
                 {
                     continue;
                 }
-                IBlockType blockType = CreateBlockType(typeIds[i]);
-                Block block = cells[i].SpawnBlock(blockType);
+                Block block = CreateBlockInCell(typeIds[i], cells[i]);
                 gameBoard.RegisterBlock(block);
             }
 
