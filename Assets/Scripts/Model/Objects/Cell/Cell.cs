@@ -32,6 +32,9 @@ namespace Model.Objects
         /// </summary>
         public void ChangeType(ICellType type)
         {
+            if (type == null)
+                return;
+
             Type = type;
             OnTypeChange?.Invoke(Type);
         }
@@ -46,8 +49,7 @@ namespace Model.Objects
 
             if (block != null)
             {
-                Block = block;
-                Block.ChangePosition(this);
+                RegisterBlock(block);
             }
             else
             {
@@ -56,21 +58,9 @@ namespace Model.Objects
         }
 
         /// <summary>
-        /// Уничтожить блок в клетке при возможности
+        /// Уничтожить материал клетки, результат зависит от типа клетки
         /// </summary>
-        public void DestroyBlock()
-        {
-            if (Type.CanContainBlock && Block != null)
-            {
-                Block.Destroy();
-                SetEmpty();
-            }
-        }
-
-        /// <summary>
-        /// Уничтожить саму клетку, результат зависит от типа клетки
-        /// </summary>
-        public void DestroyCell()
+        public void Destroy()
         {
             if (Type != null)
             {
@@ -79,10 +69,22 @@ namespace Model.Objects
             }
         }
 
+        private void RegisterBlock(Block block)
+        {
+            Block = block;
+            Block.ChangePosition(this);
+            Block.OnDestroy += SetEmpty;
+        }
 
+        private void SetEmpty(Block _) => SetEmpty();
 
         private void SetEmpty()
         {
+            if (Block != null)
+            {
+                Block.OnDestroy -= SetEmpty;
+            }
+
             Block = null;
             OnEmpty?.Invoke(this);
         }

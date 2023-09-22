@@ -13,31 +13,37 @@ namespace Model.Objects.UnitTests
     public class CellTests
     {
         [Test]
-        public void CellConstructor_CreateCell_CellIsEmpty()
+        public void ChangeType_ValidType_TypeChanged()
         {
-            var cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
+            ICellType oldType = TestUtils.BasicCellType;
+            ICellType newType = TestUtils.NotPlayableCellType;
+            Cell cell = new Cell(oldType, new Vector2Int(0, 0));
+            int eventCount = 0;
+            cell.OnTypeChange += (_) => ++eventCount;
 
-            Assert.AreEqual(true, cell.Block == null);
+            cell.ChangeType(newType);
+
+            Assert.AreEqual(newType, cell.Type);
+            Assert.AreEqual(1, eventCount);
         }
 
         [Test]
-        public void CellConstructor_CreatePlayableCell_CellIsPlayable()
+        public void ChangeType_NullType_NoChange()
         {
-            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
+            ICellType oldType = TestUtils.BasicCellType;
+            ICellType newType = null;
+            Cell cell = new Cell(oldType, new Vector2Int(0, 0));
+            int eventCount = 0;
+            cell.OnTypeChange += (_) => ++eventCount;
 
-            Assert.AreEqual(true, cell.Type.IsPlayable);
+            cell.ChangeType(newType);
+
+            Assert.AreEqual(oldType, cell.Type);
+            Assert.AreEqual(0, eventCount);
         }
 
         [Test]
-        public void CellConstructor_CreateNotPlayableCell_CellIsNotPlayable()
-        {
-            Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0,0));
-
-            Assert.AreEqual(false, cell.Type.IsPlayable);
-        }
-
-        [Test]
-        public void SetBlock_Block_CellHasBlock()
+        public void SetBlock_ValidBlock_CellHasBlock()
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
             Block block = new Block(TestUtils.DefaultBlockType, null);
@@ -45,22 +51,6 @@ namespace Model.Objects.UnitTests
             cell.SetBlock(block);
 
             Assert.AreEqual(block, cell.Block);
-        }
-
-        [Test]
-        public void SetBlock_Null_EmptyCell()
-        {
-            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, cell);
-            int eventCount = 0;
-            cell.OnEmpty += (cell) => eventCount += 1;
-
-            cell.SetBlock(block);
-            cell.SetBlock(null);
-
-            Assert.AreEqual(null, cell.Block);
-            Assert.AreEqual(true, cell.Block == null);
-            Assert.AreEqual(1, eventCount);
         }
 
         [Test]
@@ -75,68 +65,49 @@ namespace Model.Objects.UnitTests
         }
 
         [Test]
-        public void DestroyBlock_Block_CellEmpty()
+        public void SetBlock_Null_EmptyCell()
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, null);
-
+            Block block = new Block(TestUtils.DefaultBlockType, cell);
+            int eventCount = 0;
+            cell.OnEmpty += (_) => ++eventCount;
             cell.SetBlock(block);
-            cell.DestroyBlock();
 
-            Assert.AreEqual(true, cell.Block == null);
+            cell.SetBlock(null);
+
+            Assert.AreEqual(null, cell.Block);
+            Assert.AreEqual(1, eventCount);
         }
 
         [Test]
-        public void DestroyBlock_Block_EmptyEvent()
+        public void SetBlock_DestroyBlock_EmptyCell()
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, null);
-            bool test = false;
-            void TestFunc(ICell_Readonly cell)
-            {
-                test = true;
-            }
-
-            cell.OnEmpty += TestFunc;
+            Block block = new Block(TestUtils.DefaultBlockType, cell);
+            int eventCount = 0;
+            cell.OnEmpty += (_) => ++eventCount;
             cell.SetBlock(block);
-            cell.DestroyBlock();
-            cell.OnEmpty -= TestFunc;
 
-            Assert.AreEqual(true, test);
+            block.Destroy();
+
+            Assert.AreEqual(null, cell.Block);
+            Assert.AreEqual(1, eventCount);
         }
 
         [Test]
-        public void DestroyBlock_Empty_Nothing()
+        public void SetAndUnsetBlock_DestroyBlock_NoEmptyEvents()
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            bool test = false;
-            void TestFunc(ICell_Readonly cell)
-            {
-                test = true;
-            }
+            Block block = new Block(TestUtils.DefaultBlockType, cell);
+            cell.SetBlock(block);
+            cell.SetBlock(null);
+            int eventCount = 0;
+            cell.OnEmpty += (_) => ++eventCount;
 
-            cell.OnEmpty += TestFunc;
-            cell.DestroyBlock();
-            cell.OnEmpty -= TestFunc;
+            block.Destroy();
 
-            Assert.AreEqual(false, test);
-        }
-
-        [Test]
-        public void DestroyBlock_NotPlayableCell_Nothing()
-        {
-            Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0, 0));
-            bool test = false;
-            void TestFunc(ICell_Readonly cell)
-            {
-                test = true;
-            }
-
-            cell.OnEmpty += TestFunc;
-            cell.DestroyBlock();
-            cell.OnEmpty -= TestFunc;
-
-            Assert.AreEqual(false, test);
+            Assert.AreEqual(null, cell.Block);
+            Assert.AreEqual(0, eventCount);
         }
 
         [Test]
@@ -144,9 +115,9 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
             int eventRised = 0;
-            cell.OnDestroy += (_) => eventRised += 1;
+            cell.OnDestroy += (_) => ++eventRised;
 
-            cell.DestroyCell();
+            cell.Destroy();
 
             Assert.AreEqual(1, eventRised);
         }
@@ -156,9 +127,9 @@ namespace Model.Objects.UnitTests
         {
             Cell cell = new Cell(null, new Vector2Int(0, 0));
             int eventRised = 0;
-            cell.OnDestroy += (ICell_Readonly cell) => eventRised += 1;
+            cell.OnDestroy += (_) => ++eventRised;
 
-            cell.DestroyCell();
+            cell.Destroy();
 
             Assert.AreEqual(0, eventRised);
         }

@@ -32,7 +32,7 @@ namespace Model.Services
 
         public void Undo()
         {
-            cell.DestroyBlock();
+            cell.Block.Destroy();
         }
     }
 }
