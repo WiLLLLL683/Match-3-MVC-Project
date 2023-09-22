@@ -12,7 +12,6 @@ namespace Model.Objects
     {
         public IBlockType Type { get; private set; }
         public Cell Cell { get; private set; }
-
         public IBlockType_Readonly Type_Readonly => Type;
         public ICell_Readonly Cell_Readonly => Cell;
         public Vector2Int Position => Cell.Position;

@@ -13,7 +13,6 @@ namespace Model.Objects
         public ICellType Type { get; private set; }
         public Vector2Int Position { get; private set; }
         public Block Block { get; private set; }
-
         public IBlock_Readonly Block_Readonly => Block;
         public ICellType_Readonly Type_Readonly => Type;
 

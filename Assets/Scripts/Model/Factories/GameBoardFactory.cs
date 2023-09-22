@@ -30,13 +30,8 @@ namespace Model.Factories
             CreateInvisibleCells();
             CreateCells();
 
-            return new GameBoard()
-            {
-                cells = cells,
-                rowsOfInvisibleCells = config.rowsOfInvisibleCells
-            };
+            return new GameBoard(cells, config.rowsOfInvisibleCells);
         }
-
 
         private void CreateInvisibleCells()
         {

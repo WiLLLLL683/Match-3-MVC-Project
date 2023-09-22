@@ -16,7 +16,7 @@ namespace Model.Services
         private bool PatternIsEmpty => pattern.totalSum == 0;
         private bool AllCellsMatched => matchedCells.Count == pattern.totalSum;
         private Vector2Int OriginPos => new(pattern.originPosition.x + startPosition.x, pattern.originPosition.y + startPosition.y);
-        private int OriginTypeId => gameBoard.cells[OriginPos.x, OriginPos.y].Block.Type.Id;
+        private int OriginTypeId => gameBoard.Cells[OriginPos.x, OriginPos.y].Block.Type.Id;
 
         public Matcher(IValidationService validation)
         {
@@ -59,7 +59,7 @@ namespace Model.Services
             if (!validation.BlockExistsAt(posOnGameboard))
                 return;
 
-            Cell cell = gameBoard.cells[posOnGameboard.x, posOnGameboard.y];
+            Cell cell = gameBoard.Cells[posOnGameboard.x, posOnGameboard.y];
             int cerrentTypeId = cell.Block.Type.Id;
 
             if (cerrentTypeId == OriginTypeId)

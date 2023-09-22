@@ -9,15 +9,28 @@ namespace Model.Objects
     /// </summary>
     public class GameBoard : IGameBoard_Readonly
     {
-        public Cell[,] cells;
-        public int rowsOfInvisibleCells;
-        public List<Block> blocks = new List<Block>();
+        public Cell[,] Cells { get; private set; }
+        public int RowsOfInvisibleCells { get; private set; }
+        public List<Block> Blocks { get; private set; }
+        public ICell_Readonly[,] Cells_Readonly => Cells;
+        public IEnumerable<IBlock_Readonly> Blocks_Readonly => Blocks;
 
         public event Action<IBlock_Readonly> OnBlockSpawn;
 
-        public ICell_Readonly[,] Cells_Readonly => cells;
-        public IEnumerable<IBlock_Readonly> Blocks_Readonly => blocks;
-        public int RowsOfInvisibleCells => rowsOfInvisibleCells;
+        public GameBoard(Cell[,] cells, int rowsOfInvisibleCells, List<Block> blocks = null)
+        {
+            Cells = cells;
+            RowsOfInvisibleCells = rowsOfInvisibleCells;
+            Blocks = new List<Block>();
+
+            if (blocks == null)
+                return;
+
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                RegisterBlock(blocks[i]);
+            }
+        }
 
         /// <summary>
         /// Регистрация блока в игровом поле
@@ -26,12 +39,12 @@ namespace Model.Objects
         {
             if (block != null)
             {
-                blocks.Add(block);
+                Blocks.Add(block);
                 block.OnDestroy += UnRegisterBlock;
                 OnBlockSpawn?.Invoke(block);
             }
         }
 
-        private void UnRegisterBlock(Block block) => blocks.Remove(block);
+        private void UnRegisterBlock(Block block) => Blocks.Remove(block);
     }
 }

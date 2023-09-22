@@ -8,12 +8,12 @@ namespace Model.Services
         private GameBoard gameBoard;
         private Vector2Int position;
 
-        private bool BlockExists => gameBoard.cells[position.x, position.y].Block != null;
-        private bool CellIsEmpty => gameBoard.cells[position.x, position.y].Block == null;
-        private bool CellCanContainBlock => gameBoard.cells[position.x, position.y].Type.CanContainBlock;
-        private bool CellExists => gameBoard.cells[position.x, position.y] != null;
-        private bool CellIsInsideGameboard => 0 <= position.x && position.x < gameBoard.cells.GetLength(0)
-                                           && 0 <= position.y && position.y < gameBoard.cells.GetLength(1);
+        private bool BlockExists => gameBoard.Cells[position.x, position.y].Block != null;
+        private bool CellIsEmpty => gameBoard.Cells[position.x, position.y].Block == null;
+        private bool CellCanContainBlock => gameBoard.Cells[position.x, position.y].Type.CanContainBlock;
+        private bool CellExists => gameBoard.Cells[position.x, position.y] != null;
+        private bool CellIsInsideGameboard => 0 <= position.x && position.x < gameBoard.Cells.GetLength(0)
+                                           && 0 <= position.y && position.y < gameBoard.Cells.GetLength(1);
 
         public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
 

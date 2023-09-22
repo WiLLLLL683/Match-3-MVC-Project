@@ -22,9 +22,9 @@ namespace Model.Services
         {
             this.gameBoard = gameBoard;
             
-            for (int y = gameBoard.cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
+            for (int y = gameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
             {
-                for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
+                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
                 {
                     TryMoveBlockDown(x, y);
                 }
@@ -40,7 +40,7 @@ namespace Model.Services
 
             if (!IsLowestEmptyCell(y))
             {
-                var action = new SwapBlocksAction(gameBoard.cells[x, y], gameBoard.cells[x, lowestY]);
+                var action = new SwapBlocksAction(gameBoard.Cells[x, y], gameBoard.Cells[x, lowestY]);
                 action.Execute();
             }
         }
@@ -50,7 +50,7 @@ namespace Model.Services
         private void FindLowestEmptyCellUnderPos(int x, int y)
         {
             lowestY = y;
-            for (int i = gameBoard.cells.GetLength(1) - 1; i > y; i--)
+            for (int i = gameBoard.Cells.GetLength(1) - 1; i > y; i--)
             {
                 if (validationService.CellIsEmptyAt(new(x, i)))
                 {

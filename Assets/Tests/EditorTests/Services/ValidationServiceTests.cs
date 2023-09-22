@@ -11,11 +11,11 @@ namespace Model.Services.UnitTests
     {
         private (IValidationService validation, GameBoard gameBoard) Setup(ICellType cellType, params int[] preSpawnedBlocks)
         {
-            var gameBoard = TestUtils.CreateGameBoard(1, 1, preSpawnedBlocks);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, preSpawnedBlocks);
             if (cellType != null)
-                gameBoard.cells[0, 0].ChangeType(cellType);
+                gameBoard.Cells[0, 0].ChangeType(cellType);
             else
-                gameBoard.cells[0, 0] = null;
+                gameBoard.Cells[0, 0] = null;
 
             var validation = new ValidationService();
             validation.SetLevel(gameBoard);
@@ -82,7 +82,7 @@ namespace Model.Services.UnitTests
         {
             var tuple = Setup(TestUtils.BasicCellType);
             var validation = tuple.validation;
-            tuple.gameBoard.cells[0, 0].SetBlock(null);
+            tuple.gameBoard.Cells[0, 0].SetBlock(null);
 
             bool isValid = validation.BlockExistsAt(new(0,0));
 

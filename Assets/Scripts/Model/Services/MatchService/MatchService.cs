@@ -105,10 +105,10 @@ namespace Model.Services
         private void SetRegionToCheck(Pattern pattern)
         {
             xStartPos = 0;
-            xLength = gameBoard.cells.GetLength(0) - pattern.grid.GetLength(0);
+            xLength = gameBoard.Cells.GetLength(0) - pattern.grid.GetLength(0);
 
             yStartPos = gameBoard.RowsOfInvisibleCells;
-            yLength = gameBoard.cells.GetLength(1) - pattern.grid.GetLength(1) - gameBoard.RowsOfInvisibleCells;
+            yLength = gameBoard.Cells.GetLength(1) - pattern.grid.GetLength(1) - gameBoard.RowsOfInvisibleCells;
         }
     }
 }

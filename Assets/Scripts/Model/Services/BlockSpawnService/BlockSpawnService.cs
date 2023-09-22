@@ -26,26 +26,26 @@ namespace Model.Services
         {
             for (int y = 0; y < gameBoard.RowsOfInvisibleCells; y++)
             {
-                for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
+                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
                 {
                     if (!validationService.CellIsEmptyAt(new(x, y)))
                         continue;
 
-                    SpawnRandomBlock(gameBoard.cells[x, y]);
+                    SpawnRandomBlock(gameBoard.Cells[x, y]);
                 }
             }
         }
 
         public void FillGameBoard()
         {
-            for (int y = 0; y < gameBoard.cells.GetLength(1); y++)
+            for (int y = 0; y < gameBoard.Cells.GetLength(1); y++)
             {
-                for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
+                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
                 {
                     if (!validationService.CellIsEmptyAt(new(x, y)))
                         continue;
                     
-                    SpawnRandomBlock(gameBoard.cells[x, y]);
+                    SpawnRandomBlock(gameBoard.Cells[x, y]);
                 }
             }
         }

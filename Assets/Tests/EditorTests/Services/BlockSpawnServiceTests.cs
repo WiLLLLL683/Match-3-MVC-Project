@@ -18,8 +18,7 @@ namespace Model.Services.UnitTests
             int factoryReturnBlockType = TestUtils.DEFAULT_BLOCK,
             params int[] preSpawnedBlocks)
         {
-            var gameBoard = TestUtils.CreateGameBoard(xLength, yLength, preSpawnedBlocks);
-            gameBoard.rowsOfInvisibleCells = invisibleRows;
+            var gameBoard = TestUtils.CreateGameBoard(xLength, yLength, invisibleRows, preSpawnedBlocks);
 
             var balance = TestUtils.CreateBalance(TestUtils.DEFAULT_BLOCK);
 
@@ -43,8 +42,8 @@ namespace Model.Services.UnitTests
 
             service.FillInvisibleRows();
 
-            Assert.IsFalse(gameBoard.cells[0, 0].Block == null);
-            Assert.IsTrue(gameBoard.cells[0, 1].Block == null);
+            Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
+            Assert.IsTrue(gameBoard.Cells[0, 1].Block == null);
         }
 
         [Test]
@@ -56,7 +55,7 @@ namespace Model.Services.UnitTests
 
             service.FillInvisibleRows();
 
-            Assert.IsFalse(gameBoard.cells[0, 0].Block == null);
+            Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
         }
 
         [Test]
@@ -68,16 +67,16 @@ namespace Model.Services.UnitTests
 
             service.FillInvisibleRows();
 
-            for (int x = 0; x < gameBoard.cells.GetLength(0); x++) //первая полоса заполнена
+            for (int x = 0; x < gameBoard.Cells.GetLength(0); x++) //первая полоса заполнена
             {
-                Assert.IsFalse(gameBoard.cells[x, 0].Block == null);
+                Assert.IsFalse(gameBoard.Cells[x, 0].Block == null);
             }
 
-            for (int y = 1; y < gameBoard.cells.GetLength(1); y++) //остольные полосы пусты
+            for (int y = 1; y < gameBoard.Cells.GetLength(1); y++) //остольные полосы пусты
             {
-                for (int x = 0; x < gameBoard.cells.GetLength(0); x++)
+                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
                 {
-                    Assert.IsTrue(gameBoard.cells[0, 1].Block == null);
+                    Assert.IsTrue(gameBoard.Cells[0, 1].Block == null);
                 }
             }
         }
@@ -89,10 +88,10 @@ namespace Model.Services.UnitTests
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
-            service.SpawnBlock_WithOverride(TestUtils.RedBlockType, gameBoard.cells[0,0]);
+            service.SpawnBlock_WithOverride(TestUtils.RedBlockType, gameBoard.Cells[0,0]);
             
-            Assert.IsFalse(gameBoard.cells[0, 0].Block == null);
-            Assert.That(gameBoard.cells[0, 0].Block.Type.Id == TestUtils.RED_BLOCK);
+            Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
+            Assert.That(gameBoard.Cells[0, 0].Block.Type.Id == TestUtils.RED_BLOCK);
         }
 
         [Test]
@@ -105,13 +104,13 @@ namespace Model.Services.UnitTests
                               preSpawnedBlocks: TestUtils.DEFAULT_BLOCK);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
-            var blockTypeBefore = gameBoard.cells[0, 0].Block.Type;
+            var blockTypeBefore = gameBoard.Cells[0, 0].Block.Type;
 
-            service.SpawnBlock_WithOverride(TestUtils.RedBlockType, gameBoard.cells[0, 0]);
+            service.SpawnBlock_WithOverride(TestUtils.RedBlockType, gameBoard.Cells[0, 0]);
 
-            Assert.IsFalse(gameBoard.cells[0, 0].Block == null);
+            Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
             Assert.That(blockTypeBefore.Id == TestUtils.DEFAULT_BLOCK);
-            Assert.That(gameBoard.cells[0, 0].Block.Type.Id == TestUtils.RED_BLOCK);
+            Assert.That(gameBoard.Cells[0, 0].Block.Type.Id == TestUtils.RED_BLOCK);
         }
 
         [Test]
@@ -120,14 +119,14 @@ namespace Model.Services.UnitTests
             var tuple = Setup(1, 1, 1, TestUtils.RED_BLOCK);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
-            gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
+            gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
 
-            service.SpawnBlock_WithOverride(TestUtils.RedBlockType, gameBoard.cells[0, 0]);
+            service.SpawnBlock_WithOverride(TestUtils.RedBlockType, gameBoard.Cells[0, 0]);
 
-            Assert.IsTrue(gameBoard.cells[0, 0].Block == null);
-            Assert.IsFalse(gameBoard.cells[0, 0].Type.IsPlayable);
-            Assert.IsFalse(gameBoard.cells[0, 0].Type.CanContainBlock);
-            Assert.That(gameBoard.cells[0, 0].Block == null);
+            Assert.IsTrue(gameBoard.Cells[0, 0].Block == null);
+            Assert.IsFalse(gameBoard.Cells[0, 0].Type.IsPlayable);
+            Assert.IsFalse(gameBoard.Cells[0, 0].Type.CanContainBlock);
+            Assert.That(gameBoard.Cells[0, 0].Block == null);
         }
     }
 }

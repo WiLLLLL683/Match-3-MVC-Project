@@ -21,21 +21,21 @@ namespace Model.Services.UnitTests
         public void _FindPattern_1MatchingBlock_ListWith1Cell()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
-            var gameBoard = TestUtils.CreateGameBoard(1, 1, TestUtils.RED_BLOCK);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, TestUtils.RED_BLOCK);
             var pattern = TestUtils.CreatePattern(1, 1, true);
             var matcher = new Matcher(validation);
 
             List<Cell> cells = matcher.MatchAt(new(0,0), pattern, gameBoard).ToList();
 
             Assert.AreEqual(1, cells.Count);
-            Assert.AreEqual(gameBoard.cells[0,0], cells[0]);
+            Assert.AreEqual(gameBoard.Cells[0,0], cells[0]);
         }
 
         [Test]
         public void _FindPattern_EmptyPattern_Null()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
-            var gameBoard = TestUtils.CreateGameBoard(1, 1, TestUtils.RED_BLOCK);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, TestUtils.RED_BLOCK);
             var pattern = TestUtils.CreatePattern(1, 1, false);
             var matcher = new Matcher(validation);
 
@@ -48,7 +48,7 @@ namespace Model.Services.UnitTests
         public void _FindPattern_NotValidCell_Null()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
-            var gameBoard = TestUtils.CreateGameBoard(1, 1, TestUtils.RED_BLOCK);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, TestUtils.RED_BLOCK);
             var pattern = TestUtils.CreatePattern(1, 1, true);
             var matcher = new Matcher(validation);
 
@@ -61,8 +61,8 @@ namespace Model.Services.UnitTests
         public void _FindPattern_NotPlayableCell_Null()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
-            var gameBoard = TestUtils.CreateGameBoard(1, 1, TestUtils.RED_BLOCK);
-            gameBoard.cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, TestUtils.RED_BLOCK);
+            gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
             var pattern = TestUtils.CreatePattern(1, 1, true);
             var matcher = new Matcher(validation);
 
@@ -75,7 +75,7 @@ namespace Model.Services.UnitTests
         public void _FindPattern_EmptyCell_Null()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
-            var gameBoard = TestUtils.CreateGameBoard(1, 1);
+            var gameBoard = TestUtils.CreateGameBoard(1, 1, 0);
             var pattern = TestUtils.CreatePattern(1, 1, true);
             var matcher = new Matcher(validation);
 
@@ -90,7 +90,7 @@ namespace Model.Services.UnitTests
         public void FindPattern_2MatchingBlock_ListWith2Cell()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
-            var gameBoard = TestUtils.CreateGameBoard(2, 1,
+            var gameBoard = TestUtils.CreateGameBoard(2, 1, 0,
                 TestUtils.RED_BLOCK, TestUtils.RED_BLOCK,
                 TestUtils.BLUE_BLOCK, TestUtils.GREEN_BLOCK);
             var pattern = TestUtils.CreatePattern(2, 1, true, true);
@@ -99,15 +99,15 @@ namespace Model.Services.UnitTests
             List<Cell> cells = matcher.MatchAt(new(0,0), pattern, gameBoard).ToList();
 
             Assert.AreEqual(2, cells.Count);
-            Assert.AreEqual(gameBoard.cells[0, 0], cells[0]);
-            Assert.AreEqual(gameBoard.cells[1, 0], cells[1]);
+            Assert.AreEqual(gameBoard.Cells[0, 0], cells[0]);
+            Assert.AreEqual(gameBoard.Cells[1, 0], cells[1]);
         }
 
         [Test]
         public void FindPattern_NoMatchingBlocks_Null()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
-            var gameBoard = TestUtils.CreateGameBoard(2, 2,
+            var gameBoard = TestUtils.CreateGameBoard(2, 2, 0,
                 TestUtils.BLUE_BLOCK, TestUtils.GREEN_BLOCK,
                 TestUtils.RED_BLOCK, TestUtils.YELLOW_BLOCK);
             var pattern = TestUtils.CreatePattern(2, 1, true, true);
@@ -122,7 +122,7 @@ namespace Model.Services.UnitTests
         public void FindPattern_2MatchingBlockShiftedDown_ListWith2Cell()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
-            var gameBoard = TestUtils.CreateGameBoard(2, 2,
+            var gameBoard = TestUtils.CreateGameBoard(2, 2, 0,
                 TestUtils.BLUE_BLOCK, TestUtils.GREEN_BLOCK,
                 TestUtils.RED_BLOCK, TestUtils.RED_BLOCK);
             var pattern = TestUtils.CreatePattern(2, 1, true, true);
@@ -131,15 +131,15 @@ namespace Model.Services.UnitTests
             List<Cell> cells = matcher.MatchAt(new(0,1), pattern, gameBoard).ToList();
 
             Assert.AreEqual(2, cells.Count);
-            Assert.AreEqual(gameBoard.cells[0,1], cells[0]);
-            Assert.AreEqual(gameBoard.cells[1,1], cells[1]);
+            Assert.AreEqual(gameBoard.Cells[0,1], cells[0]);
+            Assert.AreEqual(gameBoard.Cells[1,1], cells[1]);
         }
 
         [Test]
         public void FindPattern_2MatchingBlockShiftedRight_ListWith2Cell()
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
-            var gameBoard = TestUtils.CreateGameBoard(3, 2,
+            var gameBoard = TestUtils.CreateGameBoard(3, 2, 0,
                 TestUtils.YELLOW_BLOCK, TestUtils.RED_BLOCK, TestUtils.RED_BLOCK,
                 TestUtils.BLUE_BLOCK, TestUtils.GREEN_BLOCK, TestUtils.YELLOW_BLOCK);
             var pattern = TestUtils.CreatePattern(2, 1, true, true);
@@ -148,8 +148,8 @@ namespace Model.Services.UnitTests
             List<Cell> cells = matcher.MatchAt(new(1,0), pattern, gameBoard).ToList();
 
             Assert.AreEqual(2, cells.Count);
-            Assert.AreEqual(gameBoard.cells[1,0], cells[0]);
-            Assert.AreEqual(gameBoard.cells[2,0], cells[1]);
+            Assert.AreEqual(gameBoard.Cells[1,0], cells[0]);
+            Assert.AreEqual(gameBoard.Cells[2,0], cells[1]);
         }
     }
 }

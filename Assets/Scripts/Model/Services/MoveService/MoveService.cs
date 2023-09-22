@@ -28,8 +28,8 @@ namespace Model.Services
             if (!validation.CellExistsAt(targetPosition))
                 return null;
 
-            Cell startCell = gameBoard.cells[startPosition.x, startPosition.y];
-            Cell targetCell = gameBoard.cells[targetPosition.x, targetPosition.y];
+            Cell startCell = gameBoard.Cells[startPosition.x, startPosition.y];
+            Cell targetCell = gameBoard.Cells[targetPosition.x, targetPosition.y];
 
             return new SwapBlocksAction(startCell, targetCell);
         }

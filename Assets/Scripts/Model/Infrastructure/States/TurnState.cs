@@ -70,7 +70,7 @@ namespace Model.Infrastructure
 
         private void PressBlock()
         {
-            bool turnSucsess = level.gameBoard.cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
+            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 
