@@ -6,7 +6,7 @@ namespace Model.Objects
     /// <summary>
     /// Тип блока с возможностью активации
     /// </summary>
-    public interface IBlockType : IBlockType_Readonly, ICounterTarget
+    public interface IBlockType : IBlockType_Readonly
     {
         /// <summary>
         /// Возвращает успешен ли был ход

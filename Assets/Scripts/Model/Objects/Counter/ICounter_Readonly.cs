@@ -1,14 +1,15 @@
 ﻿using Model.Objects;
+using System;
 
 namespace Model.Readonly
 {
     public interface ICounter_Readonly
     {
         int Count { get; }
-        bool isCompleted { get; }
+        bool IsCompleted { get; }
         ICounterTarget Target { get; }
 
-        event GoalDelegate OnCompleteEvent;
-        event GoalDelegate OnUpdateEvent;
+        event Action<ICounterTarget, int> OnUpdateEvent;
+        event Action<ICounterTarget> OnCompleteEvent;
     }
 }

@@ -7,7 +7,7 @@ namespace Model.Objects
     /// Базовый тип блока, без действия по активации
     /// </summary>
     [Serializable]
-    public class BasicBlockType : IBlockType
+    public class BasicBlockType : IBlockType, ICounterTarget
     {
         [SerializeField] private int id;
         [SerializeField] private Sprite icon;

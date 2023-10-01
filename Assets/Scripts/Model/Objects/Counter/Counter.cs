@@ -10,45 +10,44 @@ namespace Model.Objects
     [Serializable]
     public class Counter : ICounter_Readonly, ICloneable
     {
-        public ICounterTarget Target => target;
-        [SerializeReference, SubclassSelector] private ICounterTarget target;
-        public int Count => count;
-        [SerializeField] private int count;
-        public bool isCompleted { get; private set; }
+        public ICounterTarget Target { get; private set; }
+        public int Count { get; private set; }
+        public bool IsCompleted { get; private set; }
 
-        public event GoalDelegate OnUpdateEvent;
-        public event GoalDelegate OnCompleteEvent;
+        public event Action<ICounterTarget, int> OnUpdateEvent;
+        public event Action<ICounterTarget> OnCompleteEvent;
 
-        public Counter(ICounterTarget _target, int _count)
+        public Counter(ICounterTarget Target, int Count)
         {
-            target = _target;
-            count = _count;
+            this.Target = Target;
+            this.Count = Count;
         }
 
         /// <summary>
         /// Проверка на совпадение с целью счетчика, уменьшение счета при совпадении
         /// </summary>
-        /// <param name="goalTarget"></param>
-        public void UpdateGoal(ICounterTarget goalTarget)
+        public void CheckTarget(ICounterTarget target)
         {
-            if (goalTarget.GetType() == Target.GetType() && !isCompleted)
+            if (!IsCompleted &&
+                target.GetType() == Target.GetType() &&
+                target.Id == Target.Id)
             {
-                count -= 1;
+                Count--;
                 CheckCompletion();
-                OnUpdateEvent?.Invoke(this, new EventArgs());
-            }
-        }
-
-        private void CheckCompletion()
-        {
-            if (count <= 0)
-            {
-                OnCompleteEvent?.Invoke(this, new EventArgs());
-                count = 0;
-                isCompleted = true;
+                OnUpdateEvent?.Invoke(Target, Count);
             }
         }
 
         public object Clone() => this.MemberwiseClone();
+
+        private void CheckCompletion()
+        {
+            if (Count <= 0)
+            {
+                OnCompleteEvent?.Invoke(Target);
+                Count = 0;
+                IsCompleted = true;
+            }
+        }
     }
 }

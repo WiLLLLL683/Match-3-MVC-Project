@@ -5,13 +5,14 @@ using UnityEngine;
 namespace Model.Objects
 {
     [Serializable]
-    public class BasicCellType : ICellType
+    public class BasicCellType : ICellType, ICounterTarget
     {
         [SerializeField] private Sprite icon;
         [SerializeField] private ParticleSystem destroyEffect;
         [SerializeField] private ParticleSystem emptyEffect;
         [SerializeField] private bool canContainBlock;
         [SerializeField] private bool isPlayable;
+        public int Id { get; private set; }
 
         public BasicCellType()
         {

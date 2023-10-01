@@ -91,7 +91,7 @@ namespace Model.Infrastructure
             foreach (Cell match in matches)
             {
                 //level.UpdateGoals(matches[i].Block.Type);
-                match.Block.Destroy();
+                match.Block?.Destroy();
             }
             stateMachine.SetState<SpawnState>();
         }

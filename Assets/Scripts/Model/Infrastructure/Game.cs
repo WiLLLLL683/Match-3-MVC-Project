@@ -38,7 +38,8 @@ namespace Model.Infrastructure
             var balanceFactory = new BalanceFactory();
             var patternFactory = new PatternFactory();
             var hintPatternFactory = new HintPatternFactory();
-            var levelFactory = new LevelFactory(gameboardFactory, balanceFactory, patternFactory, hintPatternFactory);
+            var counterFactory = new CounterFactory();
+            var levelFactory = new LevelFactory(gameboardFactory, balanceFactory, patternFactory, hintPatternFactory, counterFactory);
 
             //сервисы
             var validationService = new ValidationService();

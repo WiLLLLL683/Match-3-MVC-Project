@@ -13,6 +13,8 @@ namespace Model.Services
     {
         public Sprite Icon => null;
 
+        public int Id { get; }
+
         private List<IAction> actions = new();
 
         /// <summary>

@@ -14,11 +14,11 @@ namespace UnitTests
         public const int GREEN_BLOCK = 3;
         public const int YELLOW_BLOCK = 4;
 
-        public static IBlockType DefaultBlockType = CreateBlockType(DEFAULT_BLOCK);
-        public static IBlockType RedBlockType = CreateBlockType(RED_BLOCK);
-        public static IBlockType BlueBlockType = CreateBlockType(BLUE_BLOCK);
-        public static IBlockType GreenBlockType = CreateBlockType(GREEN_BLOCK);
-        public static IBlockType YellowBlockType = CreateBlockType(YELLOW_BLOCK);
+        public static BasicBlockType DefaultBlockType = CreateBlockType(DEFAULT_BLOCK);
+        public static BasicBlockType RedBlockType = CreateBlockType(RED_BLOCK);
+        public static BasicBlockType BlueBlockType = CreateBlockType(BLUE_BLOCK);
+        public static BasicBlockType GreenBlockType = CreateBlockType(GREEN_BLOCK);
+        public static BasicBlockType YellowBlockType = CreateBlockType(YELLOW_BLOCK);
         public static ICellType BasicCellType = CreateCellType(true, true);
         public static ICellType InvisibleCellType = CreateCellType(false, true);
         public static ICellType NotPlayableCellType = CreateCellType(false, false);
@@ -187,7 +187,7 @@ namespace UnitTests
             return pattern;
         }
 
-        private static IBlockType CreateBlockType(int typeId) => new BasicBlockType(typeId);
+        private static BasicBlockType CreateBlockType(int typeId) => new BasicBlockType(typeId);
 
         private static ICellType CreateCellType(bool isPlayable, bool canContainBlock = true) => new BasicCellType(isPlayable, canContainBlock);
 

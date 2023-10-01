@@ -40,16 +40,6 @@ MonoBehaviour:
     hintPatterns:
     - {fileID: 11400000, guid: 2271e9eec7997984e98d096ddceb24f7, type: 2}
   goals:
-  - target:
-      rid: 6504100940937428995
-    count: 10
-  restrictions: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 6504100940937428995
-      type: {class: BasicBlockType, ns: Model.Objects, asm: GameAssembly}
-      data:
-        id: 1
-        icon: {fileID: 0}
-        destroyEffect: {fileID: 0}
+  - {fileID: 11400000, guid: 8bd526a372d1318498cba843c580922e, type: 2}
+  restrictions:
+  - {fileID: 11400000, guid: 150ae1e4395883c4ca505ca4acac3727, type: 2}

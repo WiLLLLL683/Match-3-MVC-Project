@@ -19,8 +19,8 @@ namespace Config
         [Header("-----Block configuration-----")]
         public BlockConfig blockConfig;
         [Header("-----Overall rules-----")]
-        public Counter[] goals;
-        public Counter[] restrictions;
+        public CounterSO[] goals;
+        public CounterSO[] restrictions;
 
         [Serializable]
         public class CellConfig

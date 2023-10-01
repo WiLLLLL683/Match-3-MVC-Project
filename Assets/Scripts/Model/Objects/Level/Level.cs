@@ -29,7 +29,7 @@ namespace Model.Objects
         {
             for (int i = 0; i < goals.Length; i++)
             {
-                if (!goals[i].isCompleted)
+                if (!goals[i].IsCompleted)
                     return false;
             }
 
@@ -44,7 +44,7 @@ namespace Model.Objects
         {
             for (int i = 0; i < restrictions.Length; i++)
             {
-                if (restrictions[i].isCompleted)
+                if (restrictions[i].IsCompleted)
                 {
                     OnLose?.Invoke();
                     return true;
@@ -61,7 +61,7 @@ namespace Model.Objects
         {
             for (int i = 0; i < goals.Length; i++)
             {
-                goals[i].UpdateGoal(_target);
+                goals[i].CheckTarget(_target);
             }
         }
 
@@ -72,7 +72,7 @@ namespace Model.Objects
         {
             for (int i = 0; i < restrictions.Length; i++)
             {
-                restrictions[i].UpdateGoal(_target);
+                restrictions[i].CheckTarget(_target);
             }
         }
     }

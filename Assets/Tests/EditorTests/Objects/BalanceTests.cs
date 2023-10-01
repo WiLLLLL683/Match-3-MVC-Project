@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Model.Objects;
 using NUnit.Framework;
 using UnityEngine;
 using UnitTests;
