@@ -21,7 +21,7 @@ namespace Model.Objects.UnitTests
             int eventCount = 0;
             cell.OnTypeChange += (_) => ++eventCount;
 
-            cell.ChangeType(newType);
+            cell.SetType(newType);
 
             Assert.AreEqual(newType, cell.Type);
             Assert.AreEqual(1, eventCount);
@@ -36,7 +36,7 @@ namespace Model.Objects.UnitTests
             int eventCount = 0;
             cell.OnTypeChange += (_) => ++eventCount;
 
-            cell.ChangeType(newType);
+            cell.SetType(newType);
 
             Assert.AreEqual(oldType, cell.Type);
             Assert.AreEqual(0, eventCount);
@@ -46,7 +46,7 @@ namespace Model.Objects.UnitTests
         public void SetBlock_ValidBlock_CellHasBlock()
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
-            Block block = new Block(TestUtils.DefaultBlockType, null);
+            Block block = new Block(TestUtils.DefaultBlockType, default);
 
             cell.SetBlock(block);
 
@@ -57,7 +57,7 @@ namespace Model.Objects.UnitTests
         public void SetBlock_NotPlayableCell_Nothing()
         {
             Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, cell);
+            Block block = new Block(TestUtils.DefaultBlockType, cell.Position);
 
             cell.SetBlock(block);
 
@@ -68,7 +68,7 @@ namespace Model.Objects.UnitTests
         public void SetBlock_Null_EmptyCell()
         {
             Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, cell);
+            Block block = new Block(TestUtils.DefaultBlockType, cell.Position);
             int eventCount = 0;
             cell.OnEmpty += (_) => ++eventCount;
             cell.SetBlock(block);
@@ -77,37 +77,6 @@ namespace Model.Objects.UnitTests
 
             Assert.AreEqual(null, cell.Block);
             Assert.AreEqual(1, eventCount);
-        }
-
-        [Test]
-        public void SetBlock_DestroyBlock_EmptyCell()
-        {
-            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, cell);
-            int eventCount = 0;
-            cell.OnEmpty += (_) => ++eventCount;
-            cell.SetBlock(block);
-
-            block.Destroy();
-
-            Assert.AreEqual(null, cell.Block);
-            Assert.AreEqual(1, eventCount);
-        }
-
-        [Test]
-        public void SetAndUnsetBlock_DestroyBlock_NoEmptyEvents()
-        {
-            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, cell);
-            cell.SetBlock(block);
-            cell.SetBlock(null);
-            int eventCount = 0;
-            cell.OnEmpty += (_) => ++eventCount;
-
-            block.Destroy();
-
-            Assert.AreEqual(null, cell.Block);
-            Assert.AreEqual(0, eventCount);
         }
 
         [Test]

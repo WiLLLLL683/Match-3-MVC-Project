@@ -5,41 +5,40 @@ using UnityEngine;
 namespace Model.Objects
 {
     /// <summary>
-    /// Объект игрового блока
+    /// Модель для блока на игровом поле,
+    /// Блок должен находиться в Клетке
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public class Block : IBlock_Readonly
     {
         public IBlockType Type { get; private set; }
-        public Cell Cell { get; private set; }
+        public Vector2Int Position { get; private set; }
         public IBlockType_Readonly Type_Readonly => Type;
-        public ICell_Readonly Cell_Readonly => Cell;
-        public Vector2Int Position => Cell.Position;
 
         public event Action<Block> OnDestroy;
         public event Action<IBlock_Readonly> OnDestroy_Readonly;
         public event Action<IBlockType_Readonly> OnTypeChange;
         public event Action<Vector2Int> OnPositionChange;
 
-        public Block(IBlockType type, Cell cell)
+        public Block(IBlockType type, Vector2Int position)
         {
             Type = type;
-            Cell = cell;
+            Position = position;
         }
 
         /// <summary>
-        /// Задать клетку в которой расположен блок
+        /// Задать положение блока
         /// </summary>
-        public void ChangePosition(Cell cell)
+        public void SetPosition(Vector2Int position)
         {
-            Cell = cell;
+            Position = position;
             OnPositionChange?.Invoke(Position);
         }
 
         /// <summary>
-        /// Изменить тип блока
+        /// Задать новый тип блока
         /// </summary>
-        public void ChangeType(IBlockType type)
+        public void SetType(IBlockType type)
         {
             Type = type;
             OnTypeChange?.Invoke(type);
@@ -52,6 +51,7 @@ namespace Model.Objects
 
         /// <summary>
         /// уничтожить блок
+        /// ВНИМАНИЕ: метод следует вызывать только из Клетки
         /// </summary>
         public void Destroy()
         {

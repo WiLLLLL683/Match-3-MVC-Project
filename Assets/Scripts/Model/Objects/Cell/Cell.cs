@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Model.Objects
 {
     /// <summary>
-    /// Объект клетки игрового поля, которая хранит в себе блок
+    /// Модель для клетки игрового поля, которая хранит в себе блок
     /// </summary>
     [Serializable]
     public class Cell : ICell_Readonly
@@ -29,7 +29,7 @@ namespace Model.Objects
         /// <summary>
         /// Изменить тип клетки
         /// </summary>
-        public void ChangeType(ICellType type)
+        public void SetType(ICellType type)
         {
             if (type == null)
                 return;
@@ -68,22 +68,26 @@ namespace Model.Objects
             }
         }
 
+        /// <summary>
+        /// Уничтожить блок в клетке при возможности
+        /// </summary>
+        public void DestroyBlock()
+        {
+            if (!Type.CanContainBlock || Block == null)
+                return;
+
+            Block.Destroy();
+            SetEmpty();
+        }
+
         private void RegisterBlock(Block block)
         {
             Block = block;
-            Block.ChangePosition(this);
-            Block.OnDestroy += SetEmpty;
+            Block.SetPosition(Position);
         }
-
-        private void SetEmpty(Block _) => SetEmpty();
 
         private void SetEmpty()
         {
-            if (Block != null)
-            {
-                Block.OnDestroy -= SetEmpty;
-            }
-
             Block = null;
             OnEmpty?.Invoke(this);
         }

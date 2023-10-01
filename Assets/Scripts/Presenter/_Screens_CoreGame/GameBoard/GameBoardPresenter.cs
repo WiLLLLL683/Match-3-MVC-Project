@@ -70,7 +70,6 @@ namespace Presenter
             Debug.Log($"{this} enabled");
         }
 
-
         public void Disable()
         {
             ClearAllBlocks();
@@ -91,13 +90,11 @@ namespace Presenter
         public ABlockView GetBlockView(Vector2Int modelPosition)
         {
             IBlock_Readonly blockModel = model.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
-            if (blockModel != null && blocks.ContainsKey(blockModel) && blockModel.Cell_Readonly.Type_Readonly.IsPlayable)
-                return blocks[blockModel];
-            else
+            if (blockModel == null || !blocks.ContainsKey(blockModel))
                 return null;
+
+            return blocks[blockModel];
         }
-
-
 
         [Button]
         private void SpawnAllCells()

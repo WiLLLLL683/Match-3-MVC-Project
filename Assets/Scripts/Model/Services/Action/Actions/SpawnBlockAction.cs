@@ -25,14 +25,14 @@ namespace Model.Services
 
         public void Execute()
         {
-            block = factory.Create(type, cell);
+            block = factory.Create(type, cell.Position);
             cell.SetBlock(block);
             gameBoard.RegisterBlock(block);
         }
 
         public void Undo()
         {
-            cell.Block.Destroy();
+            cell.DestroyBlock();
         }
     }
 }

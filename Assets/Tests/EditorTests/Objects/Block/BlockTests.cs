@@ -15,11 +15,11 @@ namespace Model.Objects.UnitTests
         public void ChangePosition_NewPos_PositionEqNewPos()
         {
             Block block = CreateBlock();
-            Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
+            Vector2Int newPos = new Vector2Int(0, 1);
 
-            block.ChangePosition(cellB);
+            block.SetPosition(newPos);
 
-            Assert.AreEqual(cellB, block.Cell);
+            Assert.AreEqual(newPos, block.Position);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace Model.Objects.UnitTests
             Block block = CreateBlock();
             IBlockType newType = new BasicBlockType();
 
-            block.ChangeType(newType);
+            block.SetType(newType);
 
             Assert.AreEqual(newType, block.Type);
         }
@@ -49,7 +49,7 @@ namespace Model.Objects.UnitTests
             Block block = CreateBlock();
 
             bool beforeChange = block.Activate();
-            block.ChangeType(new BasicBlockType());
+            block.SetType(new BasicBlockType());
             bool afterChange = block.Activate();
 
             Assert.AreNotEqual(beforeChange,afterChange);
@@ -83,7 +83,7 @@ namespace Model.Objects.UnitTests
         private static Block CreateBlock()
         {
             Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
-            Block block = new Block(new TestBlockType(), cellA);
+            Block block = new Block(new TestBlockType(), cellA.Position);
             return block;
         }
 

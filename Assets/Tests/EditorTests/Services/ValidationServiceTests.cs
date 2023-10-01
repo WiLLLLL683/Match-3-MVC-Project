@@ -13,7 +13,7 @@ namespace Model.Services.UnitTests
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, preSpawnedBlocks);
             if (cellType != null)
-                gameBoard.Cells[0, 0].ChangeType(cellType);
+                gameBoard.Cells[0, 0].SetType(cellType);
             else
                 gameBoard.Cells[0, 0] = null;
 

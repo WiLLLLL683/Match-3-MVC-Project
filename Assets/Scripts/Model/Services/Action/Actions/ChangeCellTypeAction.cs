@@ -27,12 +27,12 @@ namespace Model.Services
                 return;
             }
 
-            cell.ChangeType(targetType);
+            cell.SetType(targetType);
         }
 
         public void Undo()
         {
-            cell.ChangeType(previousType);
+            cell.SetType(previousType);
         }
     }
 }

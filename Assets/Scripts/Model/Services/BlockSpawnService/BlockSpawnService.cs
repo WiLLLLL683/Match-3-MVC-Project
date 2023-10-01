@@ -76,13 +76,13 @@ namespace Model.Services
                 if (!validationService.BlockExistsAt(cell.Position))
                     return;
 
-                cell.Block.ChangeType(type);
+                cell.Block.SetType(type);
             }
         }
 
         private void SpawnBlock(IBlockType type, Cell cell)
         {
-            Block block = blockFactory.Create(type, cell);
+            Block block = blockFactory.Create(type, cell.Position);
             cell.SetBlock(block);
             gameBoard.RegisterBlock(block);
         }

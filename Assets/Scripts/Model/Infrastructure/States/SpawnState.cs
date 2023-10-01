@@ -44,7 +44,7 @@ namespace Model.Infrastructure
                     foreach (Cell match in matches)
                     {
                         //level.UpdateGoals(match.Block.Type);
-                        match.Block.Destroy();
+                        match.DestroyBlock();
                     }
                 }
 

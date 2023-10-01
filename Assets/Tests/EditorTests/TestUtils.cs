@@ -141,10 +141,10 @@ namespace UnitTests
         /// <summary>
         /// Создание блока указанного типа
         /// </summary>
-        public static Block CreateBlock(int typeId)
+        public static Block CreateBlock(int typeId, Vector2Int position = default)
         {
             var type = CreateBlockType(typeId);
-            return new Block(type, null);
+            return new Block(type, position);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace UnitTests
         public static Block CreateBlockInCell(int typeId, Cell cell)
         {
             var type = CreateBlockType(typeId);
-            var block = new Block(type, cell);
+            var block = new Block(type, cell.Position);
             cell.SetBlock(block);
             return block;
         }

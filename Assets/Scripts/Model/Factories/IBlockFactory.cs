@@ -1,9 +1,10 @@
 ﻿using Model.Objects;
+using UnityEngine;
 
 namespace Model.Factories
 {
     public interface IBlockFactory
     {
-        Block Create(IBlockType type, Cell cell);
+        public Block Create(IBlockType type, Vector2Int position);
     }
 }

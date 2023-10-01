@@ -23,7 +23,7 @@ namespace Model.Services.UnitTests
             var balance = TestUtils.CreateBalance(TestUtils.DEFAULT_BLOCK);
 
             var blockFactory = Substitute.For<IBlockFactory>();
-            blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Cell>()).Returns(x => TestUtils.CreateBlockInCell(factoryReturnBlockType, x.Arg<Cell>()));
+            blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Vector2Int>()).Returns(x => TestUtils.CreateBlock(factoryReturnBlockType, x.Arg<Vector2Int>()));
 
             var validation = new ValidationService();
             validation.SetLevel(gameBoard);
@@ -119,7 +119,7 @@ namespace Model.Services.UnitTests
             var tuple = Setup(1, 1, 1, TestUtils.RED_BLOCK);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
-            gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
+            gameBoard.Cells[0, 0].SetType(TestUtils.NotPlayableCellType);
 
             service.SpawnBlock_WithOverride(TestUtils.RedBlockType, gameBoard.Cells[0, 0]);
 

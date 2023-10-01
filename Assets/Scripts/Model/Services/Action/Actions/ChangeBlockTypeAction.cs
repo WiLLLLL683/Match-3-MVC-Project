@@ -31,12 +31,12 @@ namespace Model.Services
                 return;
             }
 
-            block.ChangeType(targetType);
+            block.SetType(targetType);
         }
 
         public void Undo()
         {
-            block.ChangeType(previousType);
+            block.SetType(previousType);
         }
     }
 }

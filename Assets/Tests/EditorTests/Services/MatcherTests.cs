@@ -62,7 +62,7 @@ namespace Model.Services.UnitTests
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
             var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, TestUtils.RED_BLOCK);
-            gameBoard.Cells[0, 0].ChangeType(TestUtils.NotPlayableCellType);
+            gameBoard.Cells[0, 0].SetType(TestUtils.NotPlayableCellType);
             var pattern = TestUtils.CreatePattern(1, 1, true);
             var matcher = new Matcher(validation);
 
