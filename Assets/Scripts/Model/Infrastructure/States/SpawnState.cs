@@ -12,28 +12,30 @@ namespace Model.Infrastructure
         private readonly IMatchService matchService;
         private readonly IBlockSpawnService spawnService;
         private readonly IGravityService gravityService;
+        private readonly IBlockDestroyService blockDestroyService;
 
-        private Level level;
+        private GameBoard gameBoard;
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, StateMachine<AModelState> stateMachine, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService, IBlockDestroyService blockDestroyService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.spawnService = spawnService;
             this.matchService = matchService;
             this.gravityService = gravityService;
+            this.blockDestroyService = blockDestroyService;
         }
 
         public override void OnStart()
         {
-            level = game.CurrentLevel;
+            gameBoard = game.CurrentLevel.gameBoard;
 
             for (int i = 0; i < MAX_SPAWN_ITERATIONS; i++)
             {
                 //гравитация
-                gravityService.Execute(level.gameBoard);
+                gravityService.Execute(gameBoard);
 
                 //проверка на совпадения
                 HashSet<Cell> matches = matchService.FindAllMatches();
@@ -44,7 +46,7 @@ namespace Model.Infrastructure
                     foreach (Cell match in matches)
                     {
                         //level.UpdateGoals(match.Block.Type);
-                        match.DestroyBlock();
+                        blockDestroyService.Destroy(gameBoard, match);
                     }
                 }
 

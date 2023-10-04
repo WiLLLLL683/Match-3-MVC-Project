@@ -11,18 +11,20 @@ namespace Model.Infrastructure
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
         private readonly IMatchService matchService;
-        private readonly IMoveService moveService;
+        private readonly IBlockMoveService blockMoveService;
+        private readonly IBlockDestroyService blockDestroyService;
 
-        private Level level;
+        private GameBoard gameBoard;
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService, IMoveService moveService)
+        public TurnState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService, IBlockMoveService moveService, IBlockDestroyService blockDestroyService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.matchService = matchService;
-            this.moveService = moveService;
+            this.blockMoveService = moveService;
+            this.blockDestroyService = blockDestroyService;
         }
 
         public void SetInput(Vector2Int startPos, Directions direction)
@@ -33,7 +35,7 @@ namespace Model.Infrastructure
 
         public override void OnStart()
         {
-            level = game.CurrentLevel;
+            gameBoard = game.CurrentLevel.gameBoard;
 
             if (direction == Directions.Zero)
             {
@@ -52,8 +54,7 @@ namespace Model.Infrastructure
 
         private void MoveBlock()
         {
-            IAction swapAction = moveService.Move(level.gameBoard, startPos, direction);
-            swapAction?.Execute();
+            IAction swapAction = blockMoveService.Move(gameBoard, startPos, direction);
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 
@@ -70,7 +71,7 @@ namespace Model.Infrastructure
 
         private void PressBlock()
         {
-            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
+            bool turnSucsess = gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 
@@ -91,7 +92,7 @@ namespace Model.Infrastructure
             foreach (Cell match in matches)
             {
                 //level.UpdateGoals(matches[i].Block.Type);
-                match.DestroyBlock();
+                blockDestroyService.Destroy(gameBoard, match);
             }
             stateMachine.SetState<SpawnState>();
         }

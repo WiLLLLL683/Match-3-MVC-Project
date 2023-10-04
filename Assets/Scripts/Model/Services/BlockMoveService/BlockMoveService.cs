@@ -5,11 +5,11 @@ using Model.Objects;
 
 namespace Model.Services
 {
-    public class MoveService : IMoveService
+    public class BlockMoveService : IBlockMoveService
     {
         private readonly IValidationService validation;
 
-        public MoveService(IValidationService validationService)
+        public BlockMoveService(IValidationService validationService)
         {
             this.validation = validationService;
         }
@@ -31,7 +31,9 @@ namespace Model.Services
             Cell startCell = gameBoard.Cells[startPosition.x, startPosition.y];
             Cell targetCell = gameBoard.Cells[targetPosition.x, targetPosition.y];
 
-            return new SwapBlocksAction(startCell, targetCell);
+            IAction action = new SwapBlocksAction(startCell, targetCell);
+            action.Execute();
+            return action;
         }
     }
 }

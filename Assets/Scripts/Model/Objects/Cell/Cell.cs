@@ -48,7 +48,8 @@ namespace Model.Objects
 
             if (block != null)
             {
-                RegisterBlock(block);
+                Block = block;
+                Block.SetPosition(Position);
             }
             else
             {
@@ -61,32 +62,14 @@ namespace Model.Objects
         /// </summary>
         public void Destroy()
         {
-            if (Type != null)
-            {
-                Type.DestroyCellMaterial();
-                OnDestroy?.Invoke(this);
-            }
-        }
-
-        /// <summary>
-        /// Уничтожить блок в клетке при возможности
-        /// </summary>
-        public void DestroyBlock()
-        {
-            if (!Type.CanContainBlock || Block == null)
+            if (Type == null)
                 return;
 
-            Block.Destroy();
-            SetEmpty();
+            Type.DestroyCellMaterial();
+            OnDestroy?.Invoke(this);
         }
 
-        private void RegisterBlock(Block block)
-        {
-            Block = block;
-            Block.SetPosition(Position);
-        }
-
-        private void SetEmpty()
+        public void SetEmpty()
         {
             Block = null;
             OnEmpty?.Invoke(this);

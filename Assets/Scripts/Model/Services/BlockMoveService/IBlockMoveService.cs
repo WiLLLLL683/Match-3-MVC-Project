@@ -6,7 +6,7 @@ namespace Model.Services
     /// <summary>
     /// Сервис перемещения блоков
     /// </summary>
-    public interface IMoveService
+    public interface IBlockMoveService
     {
         /// <summary>
         /// Сдвинуть блок в необходимую позицию со сменой блоков местами
