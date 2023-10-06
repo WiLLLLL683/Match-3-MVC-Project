@@ -42,5 +42,6 @@ namespace Model.Objects.UnitTests
         {
             return true;
         }
+        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

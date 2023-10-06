@@ -12,5 +12,10 @@ namespace Model.Objects
         /// Возвращает успешен ли был ход
         /// </summary>
         public bool Activate();
+
+        /// <summary>
+        /// Memberwise clone
+        /// </summary>
+        public IBlockType Clone();
     }
 }

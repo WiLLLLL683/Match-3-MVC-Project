@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using System;
 using Config;
+using UnitTests;
 
 namespace Model.Objects.UnitTests
 {
@@ -14,8 +15,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangePosition_NewPos_PositionEqNewPos()
         {
-            Block block = CreateBlock();
-            Vector2Int newPos = new Vector2Int(0, 1);
+            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK, new(0, 0));
+            Vector2Int newPos = new(0, 1);
 
             block.SetPosition(newPos);
 
@@ -25,8 +26,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangeType_NewType_TypeEqNewType()
         {
-            Block block = CreateBlock();
-            IBlockType newType = new BasicBlockType();
+            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK, new(0, 0));
+            IBlockType newType = TestUtils.RedBlockType;
 
             block.SetType(newType);
 
@@ -36,7 +37,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void Activate_CurrentType_Activated()
         {
-            Block block = CreateBlock();
+            Block block = TestUtils.CreateBlock(new TestBlockType(), new(0, 0));
 
             bool isActivated = block.Activate();
 
@@ -46,10 +47,10 @@ namespace Model.Objects.UnitTests
         [Test]
         public void Activate_NewType_ActivatedNewType()
         {
-            Block block = CreateBlock();
+            Block block = TestUtils.CreateBlock(new TestBlockType(), new(0, 0));
 
             bool beforeChange = block.Activate();
-            block.SetType(new BasicBlockType());
+            block.SetType(TestUtils.RedBlockType);
             bool afterChange = block.Activate();
 
             Assert.AreNotEqual(beforeChange,afterChange);
@@ -60,32 +61,15 @@ namespace Model.Objects.UnitTests
         [Test]
         public void Destroy_Block_DestroyEvent()
         {
-            Block block = CreateBlock();
-            Block test = CreateBlock();
-            void TestFunc(Block sender)
-            {
-                test = sender;
-            }
+            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK, new(0, 0));
+            Block test = null;
+            void TestFunc(Block sender) => test = sender;
 
             block.OnDestroy += TestFunc;
-            try
-            {
-                block.Destroy();
-            }
-            finally
-            {
-                block.OnDestroy -= TestFunc;
-            }
+            block.Destroy();
+            block.OnDestroy -= TestFunc;
 
             Assert.AreSame(block,test);
         }
-
-        private static Block CreateBlock()
-        {
-            Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
-            Block block = new Block(new TestBlockType(), cellA.Position);
-            return block;
-        }
-
     }
 }

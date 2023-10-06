@@ -9,23 +9,17 @@ namespace Model.Objects
     [Serializable]
     public class BasicBlockType : IBlockType, ICounterTarget
     {
-        [SerializeField] private int id;
-        [SerializeField] private Sprite icon;
-        [SerializeField] private ParticleSystem destroyEffect;
-
         public int Id => id;
-        public Sprite Icon => icon;
-        public ParticleSystem DestroyEffect => destroyEffect;
+        [SerializeField] private int id;
 
-        public BasicBlockType()
-        {
+        public BasicBlockType() { }
 
-        }
-        public BasicBlockType(int id = 0)
+        public BasicBlockType(int id)
         {
             this.id = id;
         }
 
         public bool Activate() => false;
+        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

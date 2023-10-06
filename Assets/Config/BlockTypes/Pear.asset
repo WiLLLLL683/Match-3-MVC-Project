@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3078b7ee719702e409337483747163bf, type: 3}
-  m_Name: Apple
+  m_Name: Pear
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: b7481a4c424715542a70ac1efc7468db, type: 3}
+  icon: {fileID: 21300000, guid: 50dd2e8acaa7426438d693e39eb73026, type: 3}
   destroyEffect: {fileID: 1653460736588825326, guid: 7b87fedbd0d08c045a741dfd16402747, type: 3}
   blockType:
-    rid: 6504100759048552449
+    rid: 999603557353914369
   references:
     version: 2
     RefIds:
-    - rid: 6504100759048552449
+    - rid: 999603557353914369
       type: {class: BasicBlockType, ns: Model.Objects, asm: GameAssembly}
       data:
-        id: 1
+        id: 4

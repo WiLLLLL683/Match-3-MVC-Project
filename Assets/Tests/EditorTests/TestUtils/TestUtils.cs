@@ -150,6 +150,14 @@ namespace UnitTests
         /// <summary>
         /// Создание блока указанного типа
         /// </summary>
+        public static Block CreateBlock(IBlockType type, Vector2Int position = default)
+        {
+            return new Block(type, position);
+        }
+
+        /// <summary>
+        /// Создание блока указанного типа
+        /// </summary>
         public static Block CreateBlockInCell(int typeId, Cell cell)
         {
             var type = CreateBlockType(typeId);

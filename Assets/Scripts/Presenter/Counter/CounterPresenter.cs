@@ -24,7 +24,7 @@ namespace Presenter
             {
                 var presenter = new CounterPresenter();
                 presenter.Enable();
-                existingView.Init(model.Target.Icon, model.Count);
+                //existingView.Init(model.Target.Icon, model.Count); //TODO проброс CounterSO
                 allPresenters.Add(presenter);
                 return presenter;
             }

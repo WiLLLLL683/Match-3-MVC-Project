@@ -47,7 +47,7 @@ public class CoreGameState : IState
         game.StartLevel(bootstrap.SelectedLevel);
 
         //создание фабрик игровых элементов
-        blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab, game);
+        blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab, game, bootstrap.SelectedLevel.blockConfig.balance);
         cellFactory = new CellPresenter.Factory(prefabs.cellPrefab);
         invisibleCellFactory = new CellPresenter.Factory(prefabs.invisibleCellPrefab);
         goalFactory = new CounterPresenter.Factory(prefabs.goalCounterPrefab);

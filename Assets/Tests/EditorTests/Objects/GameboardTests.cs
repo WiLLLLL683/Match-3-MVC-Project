@@ -14,7 +14,7 @@ namespace Model.Objects.UnitTests
         public void RegisterBlock_NewBlock_BlockRegistered()
         {
             GameBoard gameBoard = TestUtils.CreateGameBoard(2, 2, 0);
-            Block block = new Block(new BasicBlockType(), default);
+            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK);
 
             gameBoard.RegisterBlock(block);
 
@@ -35,7 +35,7 @@ namespace Model.Objects.UnitTests
         public void UnRegisterBlock_DestroyBlock_BlockUnRegistered()
         {
             GameBoard gameBoard = TestUtils.CreateGameBoard(2, 2, 0);
-            Block block = new Block(new BasicBlockType(), default);
+            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK);
 
             gameBoard.RegisterBlock(block);
             block.Destroy();

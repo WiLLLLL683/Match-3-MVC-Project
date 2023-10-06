@@ -3,6 +3,7 @@ using View;
 using Model.Readonly;
 using Utils;
 using Model.Infrastructure;
+using Config;
 
 namespace Presenter
 {
@@ -14,30 +15,37 @@ namespace Presenter
         public class Factory : AFactory<IBlock_Readonly, ABlockView, IBlockPresenter>
         {
             private readonly IGame game;
-            public Factory(ABlockView viewPrefab, IGame game) : base(viewPrefab)
+            private readonly BalanceSO balanceSO;
+            public Factory(ABlockView viewPrefab, IGame game, BalanceSO balanceSO) : base(viewPrefab)
             {
                 this.game = game;
+                this.balanceSO = balanceSO;
             }
 
             public override IBlockPresenter Connect(ABlockView existingView, IBlock_Readonly model)
             {
-                var presenter = new BlockPresenter(model, existingView, game);
+                BlockTypeSO typeSO = balanceSO.GetSO(model.Type_Readonly.Id);
+                IBlockPresenter presenter = new BlockPresenter(model, existingView, typeSO, game, balanceSO);
                 presenter.Enable();
-                existingView.Init(model.Type_Readonly.Icon, model.Type_Readonly.DestroyEffect, model.Position);
+                existingView.Init(typeSO.icon, typeSO.destroyEffect, model.Position);
                 allPresenters.Add(presenter);
                 return presenter;
             }
         }
-        
-        private IBlock_Readonly model;
-        private ABlockView view;
-        private readonly IGame game;
 
-        public BlockPresenter(IBlock_Readonly model, ABlockView view, IGame game)
+        private readonly IBlock_Readonly model;
+        private readonly ABlockView view;
+        private readonly IGame game;
+        private readonly BalanceSO balanceSO;
+        private BlockTypeSO typeSO;
+
+        public BlockPresenter(IBlock_Readonly model, ABlockView view, BlockTypeSO typeSO, IGame game, BalanceSO balanceSO)
         {
             this.model = model;
             this.view = view;
             this.game = game;
+            this.typeSO = typeSO;
+            this.balanceSO = balanceSO;
         }
 
         public void Enable()
@@ -72,7 +80,11 @@ namespace Presenter
         }
 
         private void SyncPosition(Vector2Int modelPosition) => view.ChangeModelPosition(modelPosition);
-        private void ChangeType(IBlockType_Readonly type) => view.ChangeType(type.Icon, type.DestroyEffect);
+        private void ChangeType(IBlockType_Readonly type)
+        {
+            typeSO = balanceSO.GetSO(type.Id);
+            view.ChangeType(typeSO.icon, typeSO.destroyEffect);
+        }
         private void Destroy(IBlock_Readonly block)
         {
             Disable();
