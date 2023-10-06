@@ -48,4 +48,5 @@ MonoBehaviour:
   allLevels:
   - {fileID: 11400000, guid: 5879a7ad4576a08429baa87bd58af051, type: 2}
   invisibleCellType: {fileID: 11400000, guid: 94d590edb7adb714daff1c9850a67d2f, type: 2}
+  allCellTypes: {fileID: 11400000, guid: 2f2af7c76be39b44fa16a0751eb911bc, type: 2}
   selectedLevel: {fileID: 11400000, guid: 5879a7ad4576a08429baa87bd58af051, type: 2}

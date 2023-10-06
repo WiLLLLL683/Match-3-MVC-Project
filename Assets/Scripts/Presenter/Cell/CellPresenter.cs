@@ -2,6 +2,7 @@
 using View;
 using UnityEngine;
 using Utils;
+using Config;
 
 namespace Presenter
 {
@@ -12,28 +13,36 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<ICell_Readonly, ACellView, ICellPresenter>
         {
-            public Factory(ACellView viewPrefab, Transform parent = null) : base(viewPrefab)
+            private readonly AllCellTypeSO allCellTypeSO;
+
+            public Factory(ACellView viewPrefab, AllCellTypeSO allCellTypeSO, Transform parent = null) : base(viewPrefab)
             {
+                this.allCellTypeSO = allCellTypeSO;
             }
 
             public override ICellPresenter Connect(ACellView existingView, ICell_Readonly model)
             {
-                var presenter = new CellPresenter(model, existingView);
-                existingView.Init(model.Position, model.Type_Readonly.Icon, model.Type_Readonly.IsPlayable,
-                    model.Type_Readonly.DestroyEffect, model.Type_Readonly.EmptyEffect);
+                CellTypeSO cellTypeSO = allCellTypeSO.GetSO(model.Type_Readonly.Id);
+                ICellPresenter presenter = new CellPresenter(model, existingView, cellTypeSO, allCellTypeSO);
+                existingView.Init(model.Position, cellTypeSO.icon, model.Type_Readonly.IsPlayable,
+                    cellTypeSO.destroyEffect, cellTypeSO.emptyEffect);
                 allPresenters.Add(presenter);
                 presenter.Enable();
                 return presenter;
             }
         }
         
-        private ICell_Readonly model;
-        private ACellView view;
+        private readonly ICell_Readonly model;
+        private readonly ACellView view;
+        private readonly AllCellTypeSO allCellTypeSO;
+        private CellTypeSO typeSO;
 
-        public CellPresenter(ICell_Readonly model, ACellView view)
+        public CellPresenter(ICell_Readonly model, ACellView view, CellTypeSO typeSO, AllCellTypeSO allCellTypeSO)
         {
             this.model = model;
             this.view = view;
+            this.typeSO = typeSO;
+            this.allCellTypeSO = allCellTypeSO;
         }
 
         public void Enable()
@@ -50,16 +59,17 @@ namespace Presenter
         }
         public void Destroy() => Destroy(model);
 
-
-
         private void Destroy(ICell_Readonly cell)
         {
             Disable();
             view.PlayDestroyEffect();
             GameObject.Destroy(view.gameObject);
         }
-        private void ChangeType(ICellType_Readonly type) => view.ChangeType(type.Icon, type.IsPlayable,
-            type.DestroyEffect, type.EmptyEffect);
+        private void ChangeType(ICellType_Readonly type)
+        {
+            typeSO = allCellTypeSO.GetSO(type.Id);
+            view.ChangeType(typeSO.icon, type.IsPlayable, typeSO.destroyEffect, typeSO.emptyEffect);
+        }
         private void Empty(ICell_Readonly cell) => view.PlayEmptyEffect();
     }
 }

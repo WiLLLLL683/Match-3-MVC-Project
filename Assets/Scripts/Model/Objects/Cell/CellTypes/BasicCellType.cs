@@ -7,12 +7,12 @@ namespace Model.Objects
     [Serializable]
     public class BasicCellType : ICellType, ICounterTarget
     {
-        [SerializeField] private Sprite icon;
-        [SerializeField] private ParticleSystem destroyEffect;
-        [SerializeField] private ParticleSystem emptyEffect;
+        [SerializeField] private int id;
         [SerializeField] private bool canContainBlock;
         [SerializeField] private bool isPlayable;
-        public int Id { get; private set; }
+        public int Id => id;
+        public bool CanContainBlock => canContainBlock;
+        public bool IsPlayable => isPlayable;
 
         public BasicCellType()
         {
@@ -24,12 +24,6 @@ namespace Model.Objects
             this.isPlayable = isPlayable;
             this.canContainBlock = canContainBlock;
         }
-
-        public Sprite Icon => icon;
-        public ParticleSystem DestroyEffect => destroyEffect;
-        public ParticleSystem EmptyEffect => emptyEffect;
-        public bool CanContainBlock => canContainBlock;
-        public bool IsPlayable => isPlayable;
 
         public void DestroyCellMaterial()
         {

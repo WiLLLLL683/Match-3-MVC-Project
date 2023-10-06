@@ -9,8 +9,8 @@ namespace Model.Objects
     [Serializable]
     public class BasicBlockType : IBlockType, ICounterTarget
     {
-        public int Id => id;
         [SerializeField] private int id;
+        public int Id => id;
 
         public BasicBlockType() { }
 

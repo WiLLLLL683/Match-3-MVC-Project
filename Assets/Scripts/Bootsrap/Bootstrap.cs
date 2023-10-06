@@ -9,6 +9,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private PrefabConfig prefabs;
     [SerializeField] private LevelSO[] allLevels;
     [SerializeField] private CellTypeSO invisibleCellType;
+    [SerializeField] private AllCellTypeSO allCellTypes;
     [Header("Current State")]
     [SerializeField] private LevelSO selectedLevel;
     public LevelSO SelectedLevel => selectedLevel;
@@ -22,7 +23,7 @@ public class Bootstrap : MonoBehaviour
         game = new(allLevels, 0, invisibleCellType.type); //TODO загрузка сохранения
         stateMachine = new();
         stateMachine.AddState(new MetaGameState(game, prefabs, this));
-        stateMachine.AddState(new CoreGameState(game, prefabs, this));
+        stateMachine.AddState(new CoreGameState(game, prefabs, allCellTypes, this));
 
         LoadMetaGame();
     }
