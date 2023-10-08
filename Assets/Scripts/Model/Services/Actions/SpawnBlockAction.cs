@@ -9,13 +9,13 @@ namespace Model.Services
     public class SpawnBlockAction : IAction
     {
         private readonly GameBoard gameBoard;
-        private readonly IBlockType type;
+        private readonly BlockType type;
         private readonly Cell cell;
         private readonly IBlockFactory factory;
 
         private Block block;
 
-        public SpawnBlockAction(GameBoard gameBoard, IBlockType type, Cell cell, IBlockFactory factory)
+        public SpawnBlockAction(GameBoard gameBoard, BlockType type, Cell cell, IBlockFactory factory)
         {
             this.gameBoard = gameBoard;
             this.type = type;

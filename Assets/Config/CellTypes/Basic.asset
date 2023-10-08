@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37235cc6cf6bfd541bfb3800d579af0e, type: 3}
   m_Name: Basic
   m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  destroyEffect: {fileID: 0}
+  emptyEffect: {fileID: 0}
   type:
     rid: 6504100940937428994
   references:
@@ -20,8 +23,6 @@ MonoBehaviour:
     - rid: 6504100940937428994
       type: {class: BasicCellType, ns: Model.Objects, asm: GameAssembly}
       data:
-        icon: {fileID: 21300000, guid: 24994231162bd094198e66a765820b0e, type: 3}
-        destroyEffect: {fileID: 0}
-        emptyEffect: {fileID: 0}
+        id: 1
         canContainBlock: 1
         isPlayable: 1

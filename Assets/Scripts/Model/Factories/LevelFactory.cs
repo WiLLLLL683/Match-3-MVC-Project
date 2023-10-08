@@ -23,10 +23,10 @@ namespace Model.Factories
 
         public Level Create(LevelSO levelConfig)
         {
-            GameBoard gameBoard = gameBoardFactory.Create(levelConfig.cellConfig);
-            Balance balance = balanceFactory.Create(levelConfig.blockConfig.balance);
-            Pattern[] pattern = patternFactory.Create(levelConfig.blockConfig.matchPatterns);
-            HintPattern[] hintPattern = hintPatternFactory.Create(levelConfig.blockConfig.hintPatterns);
+            GameBoard gameBoard = gameBoardFactory.Create(levelConfig);
+            Balance balance = balanceFactory.Create(levelConfig.blockTypeSet);
+            Pattern[] pattern = patternFactory.Create(levelConfig.matchPatterns);
+            HintPattern[] hintPattern = hintPatternFactory.Create(levelConfig.hintPatterns);
             Counter[] goals = counterFactory.Create(levelConfig.goals);
             Counter[] restrictions = counterFactory.Create(levelConfig.restrictions);
 

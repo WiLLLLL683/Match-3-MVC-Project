@@ -15,8 +15,8 @@ namespace Presenter
         public class Factory : AFactory<IBlock_Readonly, ABlockView, IBlockPresenter>
         {
             private readonly IGame game;
-            private readonly BalanceSO balanceSO;
-            public Factory(ABlockView viewPrefab, IGame game, BalanceSO balanceSO) : base(viewPrefab)
+            private readonly BlockTypeSetSO balanceSO;
+            public Factory(ABlockView viewPrefab, IGame game, BlockTypeSetSO balanceSO) : base(viewPrefab)
             {
                 this.game = game;
                 this.balanceSO = balanceSO;
@@ -36,10 +36,10 @@ namespace Presenter
         private readonly IBlock_Readonly model;
         private readonly ABlockView view;
         private readonly IGame game;
-        private readonly BalanceSO balanceSO;
+        private readonly BlockTypeSetSO balanceSO;
         private BlockTypeSO typeSO;
 
-        public BlockPresenter(IBlock_Readonly model, ABlockView view, BlockTypeSO typeSO, IGame game, BalanceSO balanceSO)
+        public BlockPresenter(IBlock_Readonly model, ABlockView view, BlockTypeSO typeSO, IGame game, BlockTypeSetSO balanceSO)
         {
             this.model = model;
             this.view = view;

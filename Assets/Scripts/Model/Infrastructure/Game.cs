@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Config;
 using Model.Factories;
@@ -11,20 +12,21 @@ namespace Model.Infrastructure
     /// <summary>
     /// Основной объект модели игры
     /// </summary>
+    [Serializable]
     public class Game : IGame
     {
         //meta game
-        public LevelSelection LevelSelection { get; private set; }
-        public CurrencyInventory CurrencyInventory { get; private set; }
+        public LevelSelection LevelSelection;
+        public CurrencyInventory CurrencyInventory;
         //core game
-        public Level CurrentLevel { get; private set; }
-        public BoosterInventory BoosterInventory { get; private set; }
-        public PlayerSettings PlayerSettings { get; private set; }
+        public Level CurrentLevel;
+        public BoosterInventory BoosterInventory;
+        public PlayerSettings PlayerSettings;
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name;
 
-        private StateMachine<AModelState> stateMachine;
+        private readonly StateMachine<AModelState> stateMachine = new();
 
-        public Game(LevelSO[] allLevels, int currentLevelIndex, ICellType invisibleCellType)
+        public Game(LevelSO[] allLevels, int currentLevelIndex, CellTypeSetSO allCellTypes, CellType invisibleCellType)
         {
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
@@ -34,7 +36,7 @@ namespace Model.Infrastructure
             //фабрики
             var blockFactory = new BlockFactory();
             var cellFactory = new CellFactory(invisibleCellType);
-            var gameboardFactory = new GameBoardFactory(cellFactory);
+            var gameboardFactory = new GameBoardFactory(cellFactory, allCellTypes);
             var balanceFactory = new BalanceFactory();
             var patternFactory = new PatternFactory();
             var hintPatternFactory = new HintPatternFactory();
@@ -49,7 +51,6 @@ namespace Model.Infrastructure
             var moveService = new BlockMoveService(validationService);
             var blockDestroyService = new BlockDestroyService(validationService, blockFactory);
 
-            stateMachine = new();
             stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, blockSpawnService, validationService, matchService));
             stateMachine.AddState(new WaitState(this, stateMachine, matchService));
             stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService, blockDestroyService));

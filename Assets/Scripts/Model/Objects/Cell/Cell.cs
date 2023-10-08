@@ -10,7 +10,7 @@ namespace Model.Objects
     [Serializable]
     public class Cell : ICell_Readonly
     {
-        public ICellType Type { get; private set; }
+        public CellType Type { get; private set; }
         public Vector2Int Position { get; private set; }
         public Block Block { get; private set; }
         public IBlock_Readonly Block_Readonly => Block;
@@ -18,9 +18,9 @@ namespace Model.Objects
 
         public event Action<ICell_Readonly> OnEmpty;
         public event Action<ICell_Readonly> OnDestroy;
-        public event Action<ICellType> OnTypeChange;
+        public event Action<CellType> OnTypeChange;
 
-        public Cell(ICellType type, Vector2Int position)
+        public Cell(CellType type, Vector2Int position)
         {
             Type = type;
             Position = position;
@@ -29,7 +29,7 @@ namespace Model.Objects
         /// <summary>
         /// Изменить тип клетки
         /// </summary>
-        public void SetType(ICellType type)
+        public void SetType(CellType type)
         {
             if (type == null)
                 return;

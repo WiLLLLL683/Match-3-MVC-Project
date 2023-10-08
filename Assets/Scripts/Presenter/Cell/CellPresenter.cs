@@ -13,9 +13,9 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<ICell_Readonly, ACellView, ICellPresenter>
         {
-            private readonly AllCellTypeSO allCellTypeSO;
+            private readonly CellTypeSetSO allCellTypeSO;
 
-            public Factory(ACellView viewPrefab, AllCellTypeSO allCellTypeSO, Transform parent = null) : base(viewPrefab)
+            public Factory(ACellView viewPrefab, CellTypeSetSO allCellTypeSO, Transform parent = null) : base(viewPrefab)
             {
                 this.allCellTypeSO = allCellTypeSO;
             }
@@ -34,10 +34,10 @@ namespace Presenter
         
         private readonly ICell_Readonly model;
         private readonly ACellView view;
-        private readonly AllCellTypeSO allCellTypeSO;
+        private readonly CellTypeSetSO allCellTypeSO;
         private CellTypeSO typeSO;
 
-        public CellPresenter(ICell_Readonly model, ACellView view, CellTypeSO typeSO, AllCellTypeSO allCellTypeSO)
+        public CellPresenter(ICell_Readonly model, ACellView view, CellTypeSO typeSO, CellTypeSetSO allCellTypeSO)
         {
             this.model = model;
             this.view = view;

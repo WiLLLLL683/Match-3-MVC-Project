@@ -1,19 +1,21 @@
-﻿using Model.Readonly;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Model.Readonly;
 
 namespace Model.Objects
 {
     /// <summary>
     /// Объект игрового поля, хранит сетку клеток и все блоки на поле
     /// </summary>
+    [Serializable]
     public class GameBoard : IGameBoard_Readonly
     {
-        public Cell[,] Cells { get; private set; }
-        public int RowsOfInvisibleCells { get; private set; }
-        public List<Block> Blocks { get; private set; }
+        public Cell[,] Cells;
+        public int RowsOfInvisibleCells;
+        public List<Block> Blocks;
         public ICell_Readonly[,] Cells_Readonly => Cells;
         public IEnumerable<IBlock_Readonly> Blocks_Readonly => Blocks;
+        int IGameBoard_Readonly.RowsOfInvisibleCells => RowsOfInvisibleCells;
 
         public event Action<IBlock_Readonly> OnBlockSpawn;
 

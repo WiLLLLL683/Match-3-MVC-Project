@@ -5,15 +5,8 @@ using UnityEngine;
 namespace Model.Objects
 {
     [Serializable]
-    public class BasicCellType : ICellType, ICounterTarget
+    public class BasicCellType : CellType
     {
-        [SerializeField] private int id;
-        [SerializeField] private bool canContainBlock;
-        [SerializeField] private bool isPlayable;
-        public int Id => id;
-        public bool CanContainBlock => canContainBlock;
-        public bool IsPlayable => isPlayable;
-
         public BasicCellType()
         {
             this.isPlayable = true;
@@ -25,7 +18,7 @@ namespace Model.Objects
             this.canContainBlock = canContainBlock;
         }
 
-        public void DestroyCellMaterial()
+        public override void DestroyCellMaterial()
         {
 
         }

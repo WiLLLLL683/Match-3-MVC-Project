@@ -19,9 +19,9 @@ namespace UnitTests
         public static BasicBlockType BlueBlockType = CreateBlockType(BLUE_BLOCK);
         public static BasicBlockType GreenBlockType = CreateBlockType(GREEN_BLOCK);
         public static BasicBlockType YellowBlockType = CreateBlockType(YELLOW_BLOCK);
-        public static ICellType BasicCellType = CreateCellType(true, true);
-        public static ICellType InvisibleCellType = CreateCellType(false, true);
-        public static ICellType NotPlayableCellType = CreateCellType(false, false);
+        public static CellType BasicCellType = CreateCellType(true, true);
+        public static CellType InvisibleCellType = CreateCellType(false, true);
+        public static CellType NotPlayableCellType = CreateCellType(false, false);
 
         /// <summary>
         /// Создать дефолтный уровень со всеми компонентами
@@ -30,7 +30,7 @@ namespace UnitTests
         public static Level CreateLevel(int xLength, int yLength)
         {
             var goals = new Counter[1] { new Counter(DefaultBlockType, 2) };
-            var restrictions = new Counter[1] { new Counter(new Turn(), 2) };
+            var restrictions = new Counter[1] { new Counter(new Model.Services.Turn(), 2) };
             var matchPatterns = new Pattern[1] { new Pattern(new bool[1, 1] { { true } })  };
             var hintPatterns = new HintPattern[1] { new HintPattern(new bool[1, 1] { { true } }, new(0, 0), Directions.Up) };
 
@@ -150,7 +150,7 @@ namespace UnitTests
         /// <summary>
         /// Создание блока указанного типа
         /// </summary>
-        public static Block CreateBlock(IBlockType type, Vector2Int position = default)
+        public static Block CreateBlock(BlockType type, Vector2Int position = default)
         {
             return new Block(type, position);
         }
@@ -197,14 +197,14 @@ namespace UnitTests
 
         private static BasicBlockType CreateBlockType(int typeId) => new BasicBlockType(typeId);
 
-        private static ICellType CreateCellType(bool isPlayable, bool canContainBlock = true) => new BasicCellType(isPlayable, canContainBlock);
+        private static CellType CreateCellType(bool isPlayable, bool canContainBlock = true) => new BasicCellType(isPlayable, canContainBlock);
 
-        private static List<(IBlockType type, int weight)> CreateListOfWeights(params int[] typeIds)
+        private static List<BlockType_Weight> CreateListOfWeights(params int[] typeIds)
         {
-            List<(IBlockType type, int weight)> list = new();
+            List<BlockType_Weight> list = new();
             for (int i = 0; i < typeIds.Length; i++)
             {
-                list.Add((CreateBlockType(typeIds[i]), 100));
+                list.Add(new(CreateBlockType(typeIds[i]), 100));
             }
             return list;
         }

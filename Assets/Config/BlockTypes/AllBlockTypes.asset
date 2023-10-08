@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea668bea852bd874ab9e55dce026759c, type: 3}
-  m_Name: Balance
+  m_Script: {fileID: 11500000, guid: c4b72acedd756984196e69424d38814e, type: 3}
+  m_Name: AllBlockTypes
   m_EditorClassIdentifier: 
   typeWeights:
   - blockTypeSO: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}

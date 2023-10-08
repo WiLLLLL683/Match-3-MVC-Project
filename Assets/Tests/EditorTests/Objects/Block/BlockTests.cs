@@ -27,7 +27,7 @@ namespace Model.Objects.UnitTests
         public void ChangeType_NewType_TypeEqNewType()
         {
             Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK, new(0, 0));
-            IBlockType newType = TestUtils.RedBlockType;
+            BlockType newType = TestUtils.RedBlockType;
 
             block.SetType(newType);
 

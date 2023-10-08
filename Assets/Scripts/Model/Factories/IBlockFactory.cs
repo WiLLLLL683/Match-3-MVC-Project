@@ -5,6 +5,6 @@ namespace Model.Factories
 {
     public interface IBlockFactory
     {
-        public Block Create(IBlockType type, Vector2Int position);
+        public Block Create(BlockType type, Vector2Int position);
     }
 }

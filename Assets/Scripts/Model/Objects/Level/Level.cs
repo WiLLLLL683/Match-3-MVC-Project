@@ -6,6 +6,7 @@ namespace Model.Objects
     /// <summary>
     /// Объект уровня с игровой доской и правилами
     /// </summary>
+    [Serializable]
     public class Level : ILevel_Readonly
     {
         public GameBoard gameBoard;
@@ -29,6 +30,9 @@ namespace Model.Objects
         {
             for (int i = 0; i < goals.Length; i++)
             {
+                if (goals[i] == null)
+                    continue;
+
                 if (!goals[i].IsCompleted)
                     return false;
             }
@@ -44,6 +48,9 @@ namespace Model.Objects
         {
             for (int i = 0; i < restrictions.Length; i++)
             {
+                if (restrictions[i] == null)
+                    continue;
+
                 if (restrictions[i].IsCompleted)
                 {
                     OnLose?.Invoke();

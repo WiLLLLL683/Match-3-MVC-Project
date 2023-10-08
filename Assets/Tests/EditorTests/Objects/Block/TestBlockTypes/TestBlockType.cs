@@ -4,44 +4,16 @@ using UnityEngine;
 
 namespace Model.Objects.UnitTests
 {
-    public class TestBlockType : IBlockType
+    public class TestBlockType : BlockType
     {
         public TestBlockType(int id = 0)
         {
 
         }
 
-        public ParticleSystem DestroyEffect
-        {
-            get
-            {
-                // TODO: Add your implementation
-                return null;
-            }
-        }
-
-        public Sprite Icon
-        {
-            get
-            {
-                // TODO: Add your implementation
-                return null;
-            }
-        }
-
-        public int Id
-        {
-            get
-            {
-                // TODO: Add your implementation
-                return 0;
-            }
-        }
-
-        public bool Activate()
+        public override bool Activate()
         {
             return true;
         }
-        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

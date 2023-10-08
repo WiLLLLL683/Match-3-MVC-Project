@@ -20,7 +20,7 @@ namespace Model.Services
         /// <summary>
         /// Создать или принудительно изменить тип блока в выбранной клетке
         /// </summary>
-        void SpawnBlock_WithOverride(IBlockType type, Cell cell);
+        void SpawnBlock_WithOverride(BlockType type, Cell cell);
 
         /// <summary>
         /// Создать или принудительно изменить тип блока на случайный в выбранной клетке

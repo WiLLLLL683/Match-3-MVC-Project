@@ -11,7 +11,7 @@ namespace Model.Objects
     [Serializable]
     public class Block : IBlock_Readonly
     {
-        public IBlockType Type { get; private set; }
+        public BlockType Type { get; private set; }
         public Vector2Int Position { get; private set; }
         public IBlockType_Readonly Type_Readonly => Type;
 
@@ -20,7 +20,7 @@ namespace Model.Objects
         public event Action<IBlockType_Readonly> OnTypeChange;
         public event Action<Vector2Int> OnPositionChange;
 
-        public Block(IBlockType type, Vector2Int position)
+        public Block(BlockType type, Vector2Int position)
         {
             Type = type;
             Position = position;
@@ -38,7 +38,7 @@ namespace Model.Objects
         /// <summary>
         /// Задать новый тип блока
         /// </summary>
-        public void SetType(IBlockType type)
+        public void SetType(BlockType type)
         {
             Type = type;
             OnTypeChange?.Invoke(type);

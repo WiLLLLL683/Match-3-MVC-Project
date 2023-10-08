@@ -15,8 +15,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangeType_ValidType_TypeChanged()
         {
-            ICellType oldType = TestUtils.BasicCellType;
-            ICellType newType = TestUtils.NotPlayableCellType;
+            CellType oldType = TestUtils.BasicCellType;
+            CellType newType = TestUtils.NotPlayableCellType;
             Cell cell = new Cell(oldType, new Vector2Int(0, 0));
             int eventCount = 0;
             cell.OnTypeChange += (_) => ++eventCount;
@@ -30,8 +30,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangeType_NullType_NoChange()
         {
-            ICellType oldType = TestUtils.BasicCellType;
-            ICellType newType = null;
+            CellType oldType = TestUtils.BasicCellType;
+            CellType newType = null;
             Cell cell = new Cell(oldType, new Vector2Int(0, 0));
             int eventCount = 0;
             cell.OnTypeChange += (_) => ++eventCount;

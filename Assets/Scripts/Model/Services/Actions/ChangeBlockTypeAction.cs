@@ -9,10 +9,10 @@ namespace Model.Services
     public class ChangeBlockTypeAction : IAction
     {
         private Block block;
-        private IBlockType targetType;
-        private IBlockType previousType;
+        private BlockType targetType;
+        private BlockType previousType;
 
-        public ChangeBlockTypeAction(IBlockType targetType, Block block)
+        public ChangeBlockTypeAction(BlockType targetType, Block block)
         {
             this.block = block;
             this.targetType = targetType;

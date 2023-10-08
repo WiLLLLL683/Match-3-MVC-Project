@@ -15,6 +15,6 @@ namespace Model.Readonly
 
         public event Action<ICell_Readonly> OnDestroy;
         public event Action<ICell_Readonly> OnEmpty;
-        public event Action<ICellType> OnTypeChange;
+        public event Action<CellType> OnTypeChange;
     }
 }

@@ -23,7 +23,7 @@ namespace Model.Services.UnitTests
             var balance = TestUtils.CreateBalance(TestUtils.DEFAULT_BLOCK);
 
             var blockFactory = Substitute.For<IBlockFactory>();
-            blockFactory.Create(Arg.Any<IBlockType>(), Arg.Any<Vector2Int>()).Returns(x => TestUtils.CreateBlock(factoryReturnBlockType, x.Arg<Vector2Int>()));
+            blockFactory.Create(Arg.Any<BlockType>(), Arg.Any<Vector2Int>()).Returns(x => TestUtils.CreateBlock(factoryReturnBlockType, x.Arg<Vector2Int>()));
 
             var validation = new ValidationService();
             validation.SetLevel(gameBoard);

@@ -5,6 +5,6 @@ namespace Model.Factories
 {
     public interface IGameBoardFactory
     {
-        GameBoard Create(LevelSO.CellConfig config);
+        GameBoard Create(LevelSO config);
     }
 }

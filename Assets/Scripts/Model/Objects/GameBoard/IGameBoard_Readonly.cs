@@ -8,7 +8,7 @@ namespace Model.Readonly
     /// </summary>
     public interface IGameBoard_Readonly
     {
-        int RowsOfInvisibleCells { get; }
+        public int RowsOfInvisibleCells { get; }
         public IEnumerable<IBlock_Readonly> Blocks_Readonly { get; }
         public ICell_Readonly[,] Cells_Readonly { get; }
 

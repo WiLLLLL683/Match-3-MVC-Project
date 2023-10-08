@@ -9,7 +9,7 @@ namespace Model.Services.UnitTests
 {
     public class ValidationServiceTests
     {
-        private (IValidationService validation, GameBoard gameBoard) Setup(ICellType cellType, params int[] preSpawnedBlocks)
+        private (IValidationService validation, GameBoard gameBoard) Setup(CellType cellType, params int[] preSpawnedBlocks)
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 1, 0, preSpawnedBlocks);
             if (cellType != null)

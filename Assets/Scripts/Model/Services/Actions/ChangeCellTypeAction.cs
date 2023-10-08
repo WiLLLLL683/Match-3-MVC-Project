@@ -9,10 +9,10 @@ namespace Model.Services
     public class ChangeCellTypeAction : IAction
     {
         private readonly Cell cell;
-        private readonly ICellType targetType;
-        private readonly ICellType previousType;
+        private readonly CellType targetType;
+        private readonly CellType previousType;
 
-        public ChangeCellTypeAction(Cell cell, ICellType targetType)
+        public ChangeCellTypeAction(Cell cell, CellType targetType)
         {
             this.cell = cell;
             this.targetType = targetType;

@@ -1,26 +1,19 @@
-﻿using Model.Objects;
-using System;
+﻿using System;
 using UnityEngine;
+using Model.Objects;
 
 namespace Model.Factories
 {
     public class CellFactory : ICellFactory
     {
-        private readonly ICellType invisibleCellType;
+        private readonly CellType invisibleCellType;
 
-        public CellFactory(ICellType invisibleCellType)
+        public CellFactory(CellType invisibleCellType)
         {
             this.invisibleCellType = invisibleCellType;
         }
 
-        public Cell Create(Vector2Int position, ICellType type)
-        {
-            return new Cell(type, position);
-        }
-
-        public Cell CreateInvisible(Vector2Int position)
-        {
-            return new Cell(invisibleCellType, position);
-        }
+        public Cell Create(Vector2Int position, CellType type) => new Cell(type, position);
+        public Cell CreateInvisible(Vector2Int position) => new Cell(invisibleCellType, position);
     }
 }

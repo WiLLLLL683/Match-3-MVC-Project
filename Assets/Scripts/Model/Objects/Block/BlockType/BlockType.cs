@@ -1,21 +1,26 @@
-﻿using Model.Readonly;
+﻿using System;
 using UnityEngine;
+using Model.Readonly;
 
 namespace Model.Objects
 {
     /// <summary>
     /// Тип блока с возможностью активации
     /// </summary>
-    public interface IBlockType : IBlockType_Readonly
+    [Serializable]
+    public abstract class BlockType : IBlockType_Readonly, ICounterTarget
     {
+        [SerializeField] protected int id;
+        public int Id => id;
+
         /// <summary>
         /// Возвращает успешен ли был ход
         /// </summary>
-        public bool Activate();
+        public abstract bool Activate();
 
         /// <summary>
         /// Memberwise clone
         /// </summary>
-        public IBlockType Clone();
+        public BlockType Clone() => (BlockType)MemberwiseClone();
     }
 }

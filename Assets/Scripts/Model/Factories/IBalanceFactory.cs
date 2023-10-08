@@ -5,6 +5,6 @@ namespace Model.Factories
 {
     public interface IBalanceFactory
     {
-        Balance Create(BalanceSO balanceSO);
+        Balance Create(BlockTypeSetSO balanceSO);
     }
 }

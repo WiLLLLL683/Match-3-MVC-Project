@@ -1,26 +1,26 @@
-﻿using Config;
+﻿using UnityEngine;
+using Config;
 using Model.Objects;
-using UnityEngine;
 
 namespace Model.Factories
 {
     public class GameBoardFactory : IGameBoardFactory
     {
         private readonly ICellFactory cellFactory;
+        private readonly CellTypeSetSO allCellTypes;
 
-        private LevelSO.CellConfig config;
+        private LevelSO config;
         private Cell[,] cells;
         private int xLength;
         private int yLength;
 
-        private const int DEFAULT_CELL_TYPE_INDEX = 0;
-
-        public GameBoardFactory(ICellFactory cellFactory)
+        public GameBoardFactory(ICellFactory cellFactory, CellTypeSetSO allCellTypes)
         {
             this.cellFactory = cellFactory;
+            this.allCellTypes = allCellTypes;
         }
 
-        public GameBoard Create(LevelSO.CellConfig config)
+        public GameBoard Create(LevelSO config)
         {
             this.config = config;
 
@@ -53,22 +53,19 @@ namespace Model.Factories
                 for (int x = 0; x < xLength; x++)
                 {
                     var type = GetCellTypeFromConfig(x, y);
-                    cells[x, y] = cellFactory.Create(new Vector2Int(x, y), type);
+                    cells[x, y] = cellFactory.Create(new(x, y), type);
                 }
             }
         }
 
-        private ICellType GetCellTypeFromConfig(int x, int y)
+        private CellType GetCellTypeFromConfig(int x, int y)
         {
             //сдвиг на количество невидимых рядов, в конфиге они заданы отдельно, а не в 2д массиве
             y -= config.rowsOfInvisibleCells;
 
-            int cellTypeIndex = config.gameBoard.GetCell(x, y);
+            int cellTypeId = config.gameBoard.GetCell(x, y);
 
-            if (cellTypeIndex >= config.cellTypes.Length)
-                cellTypeIndex = DEFAULT_CELL_TYPE_INDEX;
-
-            return config.cellTypes[cellTypeIndex].type;
+            return allCellTypes.GetSO(cellTypeId).type;
         }
     }
 }

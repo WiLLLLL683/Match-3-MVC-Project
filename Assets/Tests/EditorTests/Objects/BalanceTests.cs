@@ -13,7 +13,7 @@ namespace Model.Objects.UnitTests
         {
             var balance = TestUtils.CreateBalance(TestUtils.RED_BLOCK);
 
-            IBlockType blockType = balance.GetRandomBlockType();
+            BlockType blockType = balance.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
             Assert.AreEqual(blockType.Id, TestUtils.RED_BLOCK);
@@ -24,7 +24,7 @@ namespace Model.Objects.UnitTests
         {
             var balance = TestUtils.CreateBalance();
 
-            IBlockType blockType = balance.GetRandomBlockType();
+            BlockType blockType = balance.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
             Assert.AreEqual(blockType.Id, TestUtils.DEFAULT_BLOCK);
@@ -39,7 +39,7 @@ namespace Model.Objects.UnitTests
             int redCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                IBlockType blockType = balance.GetRandomBlockType();
+                BlockType blockType = balance.GetRandomBlockType();
                 if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
                 if (blockType.Id == TestUtils.RED_BLOCK)
@@ -63,7 +63,7 @@ namespace Model.Objects.UnitTests
             int yellowCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                IBlockType blockType = balance.GetRandomBlockType();
+                BlockType blockType = balance.GetRandomBlockType();
                 if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
                 if (blockType.Id == TestUtils.RED_BLOCK)

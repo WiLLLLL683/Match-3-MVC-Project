@@ -13,7 +13,7 @@ public class CoreGameState : IState
     private readonly Game game;
     private readonly PrefabConfig prefabs;
     private readonly Bootstrap bootstrap;
-    private readonly AllCellTypeSO allCellTypes;
+    private readonly CellTypeSetSO allCellTypes;
 
     //инпут
     private AInput input;
@@ -35,7 +35,7 @@ public class CoreGameState : IState
     private AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> pausePopUpFactory;
     private AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> endGamePopUpFactory;
 
-    public CoreGameState(Game game, PrefabConfig prefabs, AllCellTypeSO allCellTypes, Bootstrap bootstrap)
+    public CoreGameState(Game game, PrefabConfig prefabs, CellTypeSetSO allCellTypes, Bootstrap bootstrap)
     {
         this.game = game;
         this.prefabs = prefabs;
@@ -49,7 +49,7 @@ public class CoreGameState : IState
         game.StartLevel(bootstrap.SelectedLevel);
 
         //создание фабрик игровых элементов
-        blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab, game, bootstrap.SelectedLevel.blockConfig.balance);
+        blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab, game, bootstrap.SelectedLevel.blockTypeSet);
         cellFactory = new CellPresenter.Factory(prefabs.cellPrefab, allCellTypes);
         invisibleCellFactory = new CellPresenter.Factory(prefabs.invisibleCellPrefab, allCellTypes);
         goalFactory = new CounterPresenter.Factory(prefabs.goalCounterPrefab);
