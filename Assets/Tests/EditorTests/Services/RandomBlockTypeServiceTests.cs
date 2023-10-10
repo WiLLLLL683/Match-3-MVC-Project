@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnitTests;
+using Model.Objects;
 
-namespace Model.Objects.UnitTests
+namespace Model.Services.UnitTests
 {
-    public class BalanceTests
+    public class RandomBlockTypeServiceTests
     {
         [Test]
         public void GetRandomBlockType_1BasicType_BasicType()
         {
-            var balance = TestUtils.CreateBalance(TestUtils.RED_BLOCK);
+            var service = TestUtils.CreateRandomBlockTypeService(TestUtils.RED_BLOCK);
 
-            BlockType blockType = balance.GetRandomBlockType();
+            BlockType blockType = service.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
             Assert.AreEqual(blockType.Id, TestUtils.RED_BLOCK);
@@ -22,9 +23,9 @@ namespace Model.Objects.UnitTests
         [Test]
         public void GetRandomBlockType_NullData_DefaultType()
         {
-            var balance = TestUtils.CreateBalance();
+            var service = TestUtils.CreateRandomBlockTypeService();
 
-            BlockType blockType = balance.GetRandomBlockType();
+            BlockType blockType = service.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
             Assert.AreEqual(blockType.Id, TestUtils.DEFAULT_BLOCK);
@@ -33,13 +34,13 @@ namespace Model.Objects.UnitTests
         [Test]
         public void GetRandomBlockType_2Types50to50percent()
         {
-            var balance = TestUtils.CreateBalance(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK);
+            var service = TestUtils.CreateRandomBlockTypeService(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK);
 
             int blueCount = 0;
             int redCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                BlockType blockType = balance.GetRandomBlockType();
+                BlockType blockType = service.GetRandomBlockType();
                 if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
                 if (blockType.Id == TestUtils.RED_BLOCK)
@@ -56,14 +57,14 @@ namespace Model.Objects.UnitTests
         [Test]
         public void GetRandomBlockType_4Types25to25percent()
         {
-            var balance = TestUtils.CreateBalance(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK, TestUtils.GREEN_BLOCK, TestUtils.YELLOW_BLOCK);
+            var service = TestUtils.CreateRandomBlockTypeService(TestUtils.RED_BLOCK, TestUtils.BLUE_BLOCK, TestUtils.GREEN_BLOCK, TestUtils.YELLOW_BLOCK);
             int blueCount = 0;
             int redCount = 0;
             int greenCount = 0;
             int yellowCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                BlockType blockType = balance.GetRandomBlockType();
+                BlockType blockType = service.GetRandomBlockType();
                 if (blockType.Id == TestUtils.BLUE_BLOCK)
                     blueCount++;
                 if (blockType.Id == TestUtils.RED_BLOCK)

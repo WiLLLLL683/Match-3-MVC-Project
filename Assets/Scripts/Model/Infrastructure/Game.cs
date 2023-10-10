@@ -18,11 +18,28 @@ namespace Model.Infrastructure
         //meta game
         public LevelSelection LevelSelection;
         public CurrencyInventory CurrencyInventory;
+
         //core game
         public Level CurrentLevel;
         public BoosterInventory BoosterInventory;
         public PlayerSettings PlayerSettings;
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name;
+
+        private readonly IBlockFactory blockFactory;
+        private readonly ICellFactory cellFactory;
+        private readonly IGameBoardFactory gameboardFactory;
+        private readonly IPatternFactory patternFactory;
+        private readonly IHintPatternFactory hintPatternFactory;
+        private readonly ICounterFactory counterFactory;
+        private readonly ILevelFactory levelFactory;
+
+        private readonly IValidationService validationService;
+        private readonly IRandomBlockTypeService randomBlockTypeService;
+        private readonly IBlockSpawnService blockSpawnService;
+        private readonly IMatchService matchService;
+        private readonly IGravityService gravityService;
+        private readonly IBlockMoveService moveService;
+        private readonly IBlockDestroyService blockDestroyService;
 
         private readonly StateMachine<AModelState> stateMachine = new();
 
@@ -33,25 +50,26 @@ namespace Model.Infrastructure
             LevelSelection = new LevelSelection(allLevels, currentLevelIndex);
             PlayerSettings = new(true, false); //TODO загрузка из сохранения
 
-            //фабрики
-            var blockFactory = new BlockFactory();
-            var cellFactory = new CellFactory(invisibleCellType);
-            var gameboardFactory = new GameBoardFactory(cellFactory, allCellTypes);
-            var balanceFactory = new BalanceFactory();
-            var patternFactory = new PatternFactory();
-            var hintPatternFactory = new HintPatternFactory();
-            var counterFactory = new CounterFactory();
-            var levelFactory = new LevelFactory(gameboardFactory, balanceFactory, patternFactory, hintPatternFactory, counterFactory);
+            //factories
+            blockFactory = new BlockFactory();
+            cellFactory = new CellFactory(invisibleCellType);
+            gameboardFactory = new GameBoardFactory(cellFactory, allCellTypes);
+            patternFactory = new PatternFactory();
+            hintPatternFactory = new HintPatternFactory();
+            counterFactory = new CounterFactory();
+            levelFactory = new LevelFactory(gameboardFactory, patternFactory, hintPatternFactory, counterFactory);
 
-            //сервисы
-            var validationService = new ValidationService();
-            var blockSpawnService = new BlockSpawnService(blockFactory, validationService);
-            var matchService = new MatchService(validationService);
-            var gravityService = new GravityService(validationService);
-            var moveService = new BlockMoveService(validationService);
-            var blockDestroyService = new BlockDestroyService(validationService, blockFactory);
+            //services
+            validationService = new ValidationService();
+            randomBlockTypeService = new RandomBlockTypeService();
+            blockSpawnService = new BlockSpawnService(blockFactory, validationService, randomBlockTypeService);
+            matchService = new MatchService(validationService);
+            gravityService = new GravityService(validationService);
+            moveService = new BlockMoveService(validationService);
+            blockDestroyService = new BlockDestroyService(validationService, blockFactory);
 
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, blockSpawnService, validationService, matchService));
+            //game states
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, randomBlockTypeService, blockSpawnService, validationService, matchService));
             stateMachine.AddState(new WaitState(this, stateMachine, matchService));
             stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService, blockDestroyService));
             stateMachine.AddState(new BoosterState(this, stateMachine, BoosterInventory));
@@ -71,18 +89,10 @@ namespace Model.Infrastructure
             stateMachine.SetState<LoadLevelState>();
         }
 
-        /// <summary>
-        /// Обновить данные об уровне
-        /// </summary>
-        public void SetLevel(Level level)
-        {
-            CurrentLevel = level;
-        }
-
         public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
-        
+
         public void ActivateBooster(IBooster_Readonly booster) => stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
-       
+
         public void ActivateBlock(Vector2Int blockPosition) => stateMachine.CurrentState.OnInputActivateBlock(blockPosition);
     }
 }

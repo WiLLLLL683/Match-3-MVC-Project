@@ -7,20 +7,17 @@ namespace Model.Services
     {
         private readonly IBlockFactory blockFactory;
         private readonly IValidationService validationService;
+        private readonly IRandomBlockTypeService randomService;
         private GameBoard gameBoard;
-        private Balance balance;
 
-        public BlockSpawnService(IBlockFactory blockFactory, IValidationService validationService)
+        public BlockSpawnService(IBlockFactory blockFactory, IValidationService validationService, IRandomBlockTypeService randomService)
         {
             this.blockFactory = blockFactory;
             this.validationService = validationService;
+            this.randomService = randomService;
         }
 
-        public void SetLevel(GameBoard gameBoard, Balance balance)
-        {
-            this.gameBoard = gameBoard;
-            this.balance = balance;
-        }
+        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
         public void FillInvisibleRows()
         {
@@ -52,13 +49,13 @@ namespace Model.Services
 
         public void SpawnRandomBlock_WithOverride(Cell cell)
         {
-            BlockType type = balance.GetRandomBlockType();
+            BlockType type = randomService.GetRandomBlockType();
             SpawnBlock_WithOverride(type, cell);
         }
 
         private void SpawnRandomBlock(Cell cell)
         {
-            BlockType type = balance.GetRandomBlockType();
+            BlockType type = randomService.GetRandomBlockType();
             SpawnBlock(type, cell);
         }
 

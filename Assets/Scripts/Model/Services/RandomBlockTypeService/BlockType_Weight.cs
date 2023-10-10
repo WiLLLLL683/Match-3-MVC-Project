@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Model.Objects;
+using System;
 
-namespace Model.Objects
+namespace Model.Services
 {
     [Serializable]
     public class BlockType_Weight

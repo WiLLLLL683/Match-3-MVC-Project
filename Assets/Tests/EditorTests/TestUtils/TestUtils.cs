@@ -41,7 +41,6 @@ namespace UnitTests
                 restrictions = restrictions,
                 matchPatterns = matchPatterns,
                 hintPatterns = hintPatterns,
-                balance = CreateBalance(DEFAULT_BLOCK, RED_BLOCK)
             };
         }
 
@@ -59,12 +58,11 @@ namespace UnitTests
         /// <summary>
         /// Указать размеры и типы блоков построчно
         /// </summary>
-        public static Balance CreateBalance(params int[] typeIds)
+        public static RandomBlockTypeService CreateRandomBlockTypeService(params int[] typeIds)
         {
-            var balance = new Balance();
-            balance.SetWeights(CreateListOfWeights(typeIds));
-            balance.defaultBlockType = DefaultBlockType;
-            return balance;
+            var service = new RandomBlockTypeService();
+            service.SetLevel(CreateListOfWeights(typeIds), DefaultBlockType);
+            return service;
         }
 
         /// <summary>

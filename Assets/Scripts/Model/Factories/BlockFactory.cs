@@ -7,7 +7,7 @@ namespace Model.Factories
     {
         public Block Create(BlockType type, Vector2Int position)
         {
-            var typeClone = type.Clone();
+            BlockType typeClone = type.Clone();
             return new Block(typeClone, position);
         }
     }

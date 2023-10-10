@@ -20,7 +20,7 @@ namespace Model.Services.UnitTests
         {
             var gameBoard = TestUtils.CreateGameBoard(xLength, yLength, invisibleRows, preSpawnedBlocks);
 
-            var balance = TestUtils.CreateBalance(TestUtils.DEFAULT_BLOCK);
+            var balance = TestUtils.CreateRandomBlockTypeService(TestUtils.DEFAULT_BLOCK);
 
             var blockFactory = Substitute.For<IBlockFactory>();
             blockFactory.Create(Arg.Any<BlockType>(), Arg.Any<Vector2Int>()).Returns(x => TestUtils.CreateBlock(factoryReturnBlockType, x.Arg<Vector2Int>()));
@@ -28,8 +28,10 @@ namespace Model.Services.UnitTests
             var validation = new ValidationService();
             validation.SetLevel(gameBoard);
 
-            var service = new BlockSpawnService(blockFactory, validation);
-            service.SetLevel(gameBoard, balance);
+            var random = TestUtils.CreateRandomBlockTypeService(factoryReturnBlockType);
+
+            var service = new BlockSpawnService(blockFactory, validation, random);
+            service.SetLevel(gameBoard);
             return (service, gameBoard);
         }
 

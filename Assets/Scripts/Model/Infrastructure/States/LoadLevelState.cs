@@ -14,6 +14,7 @@ namespace Model.Infrastructure
         private readonly StateMachine<AModelState> stateMachine;
         private readonly ILevelFactory levelFactory;
         private readonly IMatchService matchService;
+        private readonly IRandomBlockTypeService randomBlockTypeService;
         private readonly IBlockSpawnService spawnService;
         private readonly IValidationService validationService;
 
@@ -22,11 +23,12 @@ namespace Model.Infrastructure
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, ILevelFactory levelFactory, IBlockSpawnService spawnService, IValidationService validationService, IMatchService matchService)
+        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, ILevelFactory levelFactory, IRandomBlockTypeService randomBlockTypeService, IBlockSpawnService spawnService, IValidationService validationService, IMatchService matchService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.levelFactory = levelFactory;
+            this.randomBlockTypeService = randomBlockTypeService;
             this.spawnService = spawnService;
             this.validationService = validationService;
             this.matchService = matchService;
@@ -58,8 +60,10 @@ namespace Model.Infrastructure
         private void LoadLevel()
         {
             level = levelFactory.Create(levelData);
-            game.SetLevel(level);
-            spawnService.SetLevel(level.gameBoard, level.balance);
+
+            game.CurrentLevel = level;
+            randomBlockTypeService.SetLevel(levelData.blockTypeSet.GetWeights(), levelData.blockTypeSet.defaultBlockType.type);
+            spawnService.SetLevel(level.gameBoard);
             validationService.SetLevel(level.gameBoard);
             matchService.SetLevel(level.gameBoard, level.matchPatterns, level.hintPatterns);
         }

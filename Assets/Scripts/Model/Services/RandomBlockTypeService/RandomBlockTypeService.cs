@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Config;
+using Model.Objects;
 
-namespace Model.Objects
+namespace Model.Services
 {
-    /// <summary>
-    /// Данные о вероятностях спавна разных типов блоков
-    /// </summary>
     [Serializable]
-    public class Balance
+    public class RandomBlockTypeService : IRandomBlockTypeService
     {
-        public List<BlockType_Weight> typesWeight = new();
-        public BlockType defaultBlockType;
-        public int totalWeight;
+        private List<BlockType_Weight> typesWeight = new();
+        private BlockType defaultBlockType;
+        private int totalWeight;
 
-        public void SetWeights(List<BlockType_Weight> typesWeight)
+        public void SetLevel(List<BlockType_Weight> typesWeight, BlockType defaultBlockType)
         {
+            this.defaultBlockType = defaultBlockType;
             this.typesWeight = typesWeight;
             CalculateTotalWeight();
         }
@@ -24,7 +24,7 @@ namespace Model.Objects
         /// </summary>
         public BlockType GetRandomBlockType()
         {
-            int weightIndex = new System.Random().Next(0, totalWeight);
+            int weightIndex = new Random().Next(0, totalWeight);
 
             int currentWeightIndex = 0;
             foreach (var item in typesWeight)

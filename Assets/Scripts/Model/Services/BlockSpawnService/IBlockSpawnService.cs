@@ -10,7 +10,7 @@ namespace Model.Services
         /// <summary>
         /// Задать данные о текущем уровне
         /// </summary>
-        void SetLevel(GameBoard gameBoard, Balance balance);
+        void SetLevel(GameBoard gameBoard);
 
         /// <summary>
         /// Заполнить пустые клетки случайными блоками только в рядах невидимых клеток

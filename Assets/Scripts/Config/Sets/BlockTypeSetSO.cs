@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Services;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +27,17 @@ namespace Config
             }
 
             return defaultBlockType;
+        }
+
+        public List<BlockType_Weight> GetWeights()
+        {
+            List<BlockType_Weight> weights = new();
+            for (int i = 0; i < typeWeights.Count; i++)
+            {
+                weights.Add(new(typeWeights[i].blockTypeSO.type, typeWeights[i].weight));
+            }
+
+            return weights;
         }
     }
 }
