@@ -54,7 +54,7 @@ namespace Model.Infrastructure
 
         private void MoveBlock()
         {
-            IAction swapAction = blockMoveService.Move(gameBoard, startPos, direction);
+            IAction swapAction = blockMoveService.Move(startPos, direction);
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 
@@ -92,7 +92,7 @@ namespace Model.Infrastructure
             foreach (Cell match in matches)
             {
                 //level.UpdateGoals(matches[i].Block.Type);
-                blockDestroyService.Destroy(gameBoard, match);
+                blockDestroyService.Destroy(match);
             }
             stateMachine.SetState<SpawnState>();
         }

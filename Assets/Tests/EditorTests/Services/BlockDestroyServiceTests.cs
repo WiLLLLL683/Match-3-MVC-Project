@@ -20,6 +20,7 @@ namespace Model.Services.UnitTests
             var gameBoard = TestUtils.CreateGameBoard(1, 1, 0);
             var blockFactory = new BlockFactory();
             var service = new BlockDestroyService(validation, blockFactory);
+            service.SetLevel(gameBoard);
             eventCount = 0;
 
             if (block != null)
@@ -38,7 +39,7 @@ namespace Model.Services.UnitTests
             Block block = TestUtils.CreateBlock(TestUtils.RED_BLOCK);
             var (gameBoard, service) = Setup(block);
 
-            service.Destroy(gameBoard, gameBoard.Cells[0, 0]);
+            service.Destroy(gameBoard.Cells[0, 0]);
 
             Assert.AreEqual(0, gameBoard.Blocks.Count);
             Assert.AreEqual(1, eventCount);
@@ -51,7 +52,7 @@ namespace Model.Services.UnitTests
             Block block = null;
             var (gameBoard, service) = Setup(block);
 
-            service.Destroy(gameBoard, gameBoard.Cells[0, 0]);
+            service.Destroy(gameBoard.Cells[0, 0]);
 
             Assert.AreEqual(0, gameBoard.Blocks.Count);
             Assert.AreEqual(0, eventCount);
@@ -64,7 +65,7 @@ namespace Model.Services.UnitTests
             Block block = TestUtils.CreateBlock(TestUtils.RED_BLOCK);
             var (gameBoard, service) = Setup(block, false);
 
-            service.Destroy(gameBoard, new Vector2Int(100, 100));
+            service.Destroy(new Vector2Int(100, 100));
 
             Assert.AreEqual(1, gameBoard.Blocks.Count);
             Assert.AreEqual(0, eventCount);

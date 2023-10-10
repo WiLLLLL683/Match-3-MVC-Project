@@ -15,9 +15,10 @@ namespace Model.Services.UnitTests
             var gameBoard = TestUtils.CreateGameBoard(1, 2, 0, TestUtils.DEFAULT_BLOCK);
             validation.SetLevel(gameBoard);
             var block = gameBoard.Cells[0, 0].Block;
-            var gravitySystem = new GravityService(validation);
+            var service = new GravityService(validation);
+            service.SetLevel(gameBoard);
 
-            gravitySystem.Execute(gameBoard);
+            service.Execute();
 
             Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(block, gameBoard.Cells[0, 1].Block);
@@ -30,9 +31,10 @@ namespace Model.Services.UnitTests
             validation.SetLevel(gameBoard);
             var blockA = gameBoard.Cells[0, 0].Block;
             var blockB = gameBoard.Cells[0, 1].Block;
-            var gravitySystem = new GravityService(validation);
+            var service = new GravityService(validation);
+            service.SetLevel(gameBoard);
 
-            gravitySystem.Execute(gameBoard);
+            service.Execute();
 
             Assert.AreEqual(blockA, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(blockB, gameBoard.Cells[0, 1].Block);
@@ -45,9 +47,10 @@ namespace Model.Services.UnitTests
             gameBoard.Cells[0, 1].SetType(TestUtils.NotPlayableCellType);
             validation.SetLevel(gameBoard);
             var blockA = gameBoard.Cells[0, 0].Block;
-            var gravitySystem = new GravityService(validation);
+            var service = new GravityService(validation);
+            service.SetLevel(gameBoard);
 
-            gravitySystem.Execute(gameBoard);
+            service.Execute();
 
             Assert.AreEqual(blockA, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(null, gameBoard.Cells[0, 1].Block);
@@ -60,9 +63,10 @@ namespace Model.Services.UnitTests
             validation.SetLevel(gameBoard);
             var blockA = gameBoard.Cells[0, 0].Block;
             var blockB = gameBoard.Cells[0, 1].Block;
-            var gravitySystem = new GravityService(validation);
+            var service = new GravityService(validation);
+            service.SetLevel(gameBoard);
 
-            gravitySystem.Execute(gameBoard);
+            service.Execute();
 
             Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(blockA, gameBoard.Cells[0, 1].Block);
@@ -74,9 +78,10 @@ namespace Model.Services.UnitTests
         {
             var gameBoard = TestUtils.CreateGameBoard(1, 2, 0);
             validation.SetLevel(gameBoard);
-            var gravitySystem = new GravityService(validation);
+            var service = new GravityService(validation);
+            service.SetLevel(gameBoard);
 
-            gravitySystem.Execute(gameBoard);
+            service.Execute();
 
             Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(null, gameBoard.Cells[0, 1].Block);
@@ -90,9 +95,10 @@ namespace Model.Services.UnitTests
             var block1 = gameBoard.Cells[0, 0].Block;
             var block2 = gameBoard.Cells[1, 0].Block;
             var block3 = gameBoard.Cells[2, 0].Block;
-            var gravitySystem = new GravityService(validation);
+            var service = new GravityService(validation);
+            service.SetLevel(gameBoard);
 
-            gravitySystem.Execute(gameBoard);
+            service.Execute();
 
             Assert.AreEqual(block1, gameBoard.Cells[0, 2].Block);
             Assert.AreEqual(block2, gameBoard.Cells[1, 2].Block);
@@ -106,10 +112,10 @@ namespace Model.Services.UnitTests
         //{
         //    var gameBoard = TestUtils.CreateGameBoard(1, 2, TestUtils.DEFAULT_BLOCK);
         //    var block = gameBoard.Cells[0, 0].Block;
-        //    var gravitySystem = new GravitySystem();
+        //    var service = new service();
 
-        //    gravitySystem.SetGameBoard(gameBoard);
-        //    gravitySystem.TryMoveBlockDown(0, 0);
+        //    service.SetGameBoard(gameBoard);
+        //    service.TryMoveBlockDown(0, 0);
 
         //    Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
         //    Assert.AreEqual(block, gameBoard.Cells[0, 1].Block);
@@ -120,15 +126,15 @@ namespace Model.Services.UnitTests
         //{
         //    var gameBoard = TestUtils.CreateGameBoard(1, 4, TestUtils.DEFAULT_BLOCK);
         //    var block = gameBoard.Cells[0, 0].Block;
-        //    var gravitySystem = new GravitySystem();
+        //    var service = new service();
 
         //    Debug.Log($"Before 0 = {gameBoard.Cells[0, 0].Block}");
         //    Debug.Log($"Before 1 = {gameBoard.Cells[0, 1].Block}");
         //    Debug.Log($"Before 2 = {gameBoard.Cells[0, 2].Block}");
         //    Debug.Log($"Before 3 = {gameBoard.Cells[0, 3].Block}");
 
-        //    gravitySystem.SetGameBoard(gameBoard);
-        //    gravitySystem.TryMoveBlockDown(0, 0);
+        //    service.SetGameBoard(gameBoard);
+        //    service.TryMoveBlockDown(0, 0);
 
         //    Debug.Log($"After 0 = {gameBoard.Cells[0, 0].Block}");
         //    Debug.Log($"After 1 = {gameBoard.Cells[0, 1].Block}");

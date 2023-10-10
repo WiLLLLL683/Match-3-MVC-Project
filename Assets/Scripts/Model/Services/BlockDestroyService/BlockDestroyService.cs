@@ -10,6 +10,7 @@ namespace Model.Services
     {
         private readonly IValidationService validation;
         private readonly IBlockFactory blockFactory;
+        private GameBoard gameBoard;
 
         public BlockDestroyService(IValidationService validationService, IBlockFactory blockFactory)
         {
@@ -17,17 +18,19 @@ namespace Model.Services
             this.blockFactory = blockFactory;
         }
 
-        public IAction Destroy(GameBoard gameBoard, Vector2Int position)
+        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
+        
+        public IAction Destroy(Vector2Int position)
         {
             if (!validation.CellExistsAt(position))
                 return null;
 
             Cell cell = gameBoard.Cells[position.x, position.y];
 
-            return Destroy(gameBoard, cell);
+            return Destroy(cell);
         }
 
-        public IAction Destroy(GameBoard gameBoard, Cell cell)
+        public IAction Destroy(Cell cell)
         {
             if (!validation.BlockExistsAt(cell.Position))
                 return null;

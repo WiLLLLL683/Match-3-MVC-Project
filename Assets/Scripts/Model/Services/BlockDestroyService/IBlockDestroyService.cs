@@ -5,7 +5,8 @@ namespace Model.Services
 {
     public interface IBlockDestroyService
     {
-        IAction Destroy(GameBoard gameBoard, Cell cell);
-        IAction Destroy(GameBoard gameBoard, Vector2Int position);
+        public void SetLevel(GameBoard gameBoard);
+        public IAction Destroy(Cell cell);
+        public IAction Destroy(Vector2Int position);
     }
 }

@@ -35,7 +35,7 @@ namespace Model.Infrastructure
             for (int i = 0; i < MAX_SPAWN_ITERATIONS; i++)
             {
                 //гравитация
-                gravityService.Execute(gameBoard);
+                gravityService.Execute();
 
                 //проверка на совпадения
                 HashSet<Cell> matches = matchService.FindAllMatches();
@@ -46,7 +46,7 @@ namespace Model.Infrastructure
                     foreach (Cell match in matches)
                     {
                         //level.UpdateGoals(match.Block.Type);
-                        blockDestroyService.Destroy(gameBoard, match);
+                        blockDestroyService.Destroy(match);
                     }
                 }
 

@@ -25,6 +25,7 @@ namespace Model.Infrastructure
         public PlayerSettings PlayerSettings;
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name;
 
+        //factories
         private readonly IBlockFactory blockFactory;
         private readonly ICellFactory cellFactory;
         private readonly IGameBoardFactory gameboardFactory;
@@ -33,13 +34,14 @@ namespace Model.Infrastructure
         private readonly ICounterFactory counterFactory;
         private readonly ILevelFactory levelFactory;
 
+        //services
         private readonly IValidationService validationService;
-        private readonly IRandomBlockTypeService randomBlockTypeService;
-        private readonly IBlockSpawnService blockSpawnService;
+        private readonly IRandomBlockTypeService randomService;
+        private readonly IBlockSpawnService spawnService;
         private readonly IMatchService matchService;
         private readonly IGravityService gravityService;
         private readonly IBlockMoveService moveService;
-        private readonly IBlockDestroyService blockDestroyService;
+        private readonly IBlockDestroyService destroyService;
 
         private readonly StateMachine<AModelState> stateMachine = new();
 
@@ -61,19 +63,19 @@ namespace Model.Infrastructure
 
             //services
             validationService = new ValidationService();
-            randomBlockTypeService = new RandomBlockTypeService();
-            blockSpawnService = new BlockSpawnService(blockFactory, validationService, randomBlockTypeService);
+            randomService = new RandomBlockTypeService();
+            spawnService = new BlockSpawnService(blockFactory, validationService, randomService);
             matchService = new MatchService(validationService);
             gravityService = new GravityService(validationService);
             moveService = new BlockMoveService(validationService);
-            blockDestroyService = new BlockDestroyService(validationService, blockFactory);
+            destroyService = new BlockDestroyService(validationService, blockFactory);
 
             //game states
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, randomBlockTypeService, blockSpawnService, validationService, matchService));
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, validationService, randomService, spawnService, matchService, gravityService, moveService, destroyService));
             stateMachine.AddState(new WaitState(this, stateMachine, matchService));
-            stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService, blockDestroyService));
+            stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService, destroyService));
             stateMachine.AddState(new BoosterState(this, stateMachine, BoosterInventory));
-            stateMachine.AddState(new SpawnState(this, stateMachine, blockSpawnService, matchService, gravityService, blockDestroyService));
+            stateMachine.AddState(new SpawnState(this, stateMachine, spawnService, matchService, gravityService, destroyService));
             stateMachine.AddState(new LoseState(stateMachine));
             stateMachine.AddState(new WinState(stateMachine));
             stateMachine.AddState(new BonusState(stateMachine));
@@ -89,10 +91,13 @@ namespace Model.Infrastructure
             stateMachine.SetState<LoadLevelState>();
         }
 
-        public void MoveBlock(Vector2Int blockPosition, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
+        public void MoveBlock(Vector2Int blockPosition, Directions direction) =>
+            stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
 
-        public void ActivateBooster(IBooster_Readonly booster) => stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
+        public void ActivateBooster(IBooster_Readonly booster) =>
+            stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
 
-        public void ActivateBlock(Vector2Int blockPosition) => stateMachine.CurrentState.OnInputActivateBlock(blockPosition);
+        public void ActivateBlock(Vector2Int blockPosition) =>
+            stateMachine.CurrentState.OnInputActivateBlock(blockPosition);
     }
 }

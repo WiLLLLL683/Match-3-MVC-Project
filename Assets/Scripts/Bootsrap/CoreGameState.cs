@@ -84,13 +84,5 @@ public class CoreGameState : IState
         pauseScreen.Destroy();
         endGameScreen.Destroy();
         GameObject.Destroy(input.gameObject);
-
-        //уничтожение экранов
-        //GameObject.Destroy(hudScreen.gameObject);
-        //GameObject.Destroy(gameBoardScreen.gameObject);
-        //GameObject.Destroy(input.gameObject);
-        //GameObject.Destroy(boosterInventoryScreen.gameObject);
-        //GameObject.Destroy(pauseScreen.gameObject);
-        //GameObject.Destroy(endGameScreen.gameObject);
     }
 }

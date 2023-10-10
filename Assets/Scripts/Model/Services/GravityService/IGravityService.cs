@@ -10,6 +10,8 @@ namespace Model.Services
         /// <summary>
         /// Переместить все "висящие в воздухе" блоки вниз
         /// </summary>
-        void Execute(GameBoard gameBoard);
+        public void Execute();
+
+        public void SetLevel(GameBoard gameBoard);
     }
 }

@@ -8,19 +8,22 @@ namespace Model.Services
     public class BlockMoveService : IBlockMoveService
     {
         private readonly IValidationService validation;
+        private GameBoard gameBoard;
 
         public BlockMoveService(IValidationService validationService)
         {
             this.validation = validationService;
         }
 
-        public IAction Move(GameBoard gameBoard, Vector2Int startPosition, Directions direction)
+        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
+
+        public IAction Move(Vector2Int startPosition, Directions direction)
         {
             Vector2Int targetPosition = startPosition + direction.ToVector2Int();
-            return Move(gameBoard, startPosition, targetPosition);
+            return Move(startPosition, targetPosition);
         }
 
-        public IAction Move(GameBoard gameBoard, Vector2Int startPosition, Vector2Int targetPosition)
+        public IAction Move(Vector2Int startPosition, Vector2Int targetPosition)
         {
             if (!validation.BlockExistsAt(startPosition))
                 return null;

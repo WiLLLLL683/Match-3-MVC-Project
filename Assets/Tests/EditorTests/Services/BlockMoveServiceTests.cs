@@ -21,8 +21,9 @@ namespace Model.Services.UnitTests
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
             validation.CellExistsAt(default).ReturnsForAnyArgs(true);
             var moveSystem = new BlockMoveService(validation);
+            moveSystem.SetLevel(gameBoard);
 
-            moveSystem.Move(gameBoard, new Vector2Int(0, 0), Directions.Right);
+            moveSystem.Move(new Vector2Int(0, 0), Directions.Right);
 
             Assert.AreEqual(blockB.Type.Id, gameBoard.Cells[0,0].Block.Type.Id);
             Assert.AreEqual(blockA.Type.Id, gameBoard.Cells[1,0].Block.Type.Id);
@@ -36,8 +37,9 @@ namespace Model.Services.UnitTests
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
             validation.CellExistsAt(default).ReturnsForAnyArgs(true);
             var moveSystem = new BlockMoveService(validation);
+            moveSystem.SetLevel(gameBoard);
 
-            moveSystem.Move(gameBoard, new Vector2Int(0, 0), Directions.Right);
+            moveSystem.Move(new Vector2Int(0, 0), Directions.Right);
 
             Assert.AreEqual(blockA.Type.Id, gameBoard.Cells[1,0].Block.Type.Id);
         }
@@ -51,8 +53,9 @@ namespace Model.Services.UnitTests
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
             validation.CellExistsAt(default).ReturnsForAnyArgs(false);
             var moveSystem = new BlockMoveService(validation);
+            moveSystem.SetLevel(gameBoard);
 
-            moveSystem.Move(gameBoard, new Vector2Int(100, 100), Directions.Right);
+            moveSystem.Move(new Vector2Int(100, 100), Directions.Right);
 
             Assert.AreEqual(blockA.Type.Id, gameBoard.Cells[0,0].Block.Type.Id);
             Assert.AreEqual(blockB.Type.Id, gameBoard.Cells[1,0].Block.Type.Id);
@@ -67,8 +70,9 @@ namespace Model.Services.UnitTests
             validation.BlockExistsAt(default).ReturnsForAnyArgs(true);
             validation.CellExistsAt(default).ReturnsForAnyArgs(false);
             var moveSystem = new BlockMoveService(validation);
+            moveSystem.SetLevel(gameBoard);
 
-            moveSystem.Move(gameBoard, new Vector2Int(0, 0), Directions.Up);
+            moveSystem.Move(new Vector2Int(0, 0), Directions.Up);
 
             Assert.AreEqual(blockA.Type.Id, gameBoard.Cells[0,0].Block.Type.Id);
             Assert.AreEqual(blockB.Type.Id, gameBoard.Cells[1,0].Block.Type.Id);
@@ -82,8 +86,9 @@ namespace Model.Services.UnitTests
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
             validation.CellExistsAt(default).ReturnsForAnyArgs(true);
             var moveSystem = new BlockMoveService(validation);
+            moveSystem.SetLevel(gameBoard);
 
-            moveSystem.Move(gameBoard, new Vector2Int(0, 0), Directions.Up);
+            moveSystem.Move(new Vector2Int(0, 0), Directions.Up);
 
             Assert.IsTrue(gameBoard.Cells[0, 0].Block == null);
             Assert.AreEqual(blockB.Type.Id, gameBoard.Cells[1,0].Block.Type.Id);
@@ -98,8 +103,9 @@ namespace Model.Services.UnitTests
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
             validation.CellExistsAt(default).ReturnsForAnyArgs(false);
             var moveSystem = new BlockMoveService(validation);
+            moveSystem.SetLevel(gameBoard);
 
-            moveSystem.Move(gameBoard, new Vector2Int(0, 0), Directions.Up);
+            moveSystem.Move(new Vector2Int(0, 0), Directions.Up);
 
             Assert.IsTrue(gameBoard.Cells[0, 0] == null);
             Assert.AreEqual(blockB.Type.Id, gameBoard.Cells[1, 0].Block.Type.Id);
@@ -114,8 +120,9 @@ namespace Model.Services.UnitTests
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
             validation.CellExistsAt(default).ReturnsForAnyArgs(false);
             var moveSystem = new BlockMoveService(validation);
+            moveSystem.SetLevel(gameBoard);
 
-            moveSystem.Move(gameBoard, new Vector2Int(0, 0), Directions.Up);
+            moveSystem.Move(new Vector2Int(0, 0), Directions.Up);
 
             Assert.AreEqual(blockA.Type.Id, gameBoard.Cells[0, 0].Block.Type.Id);
             Assert.IsTrue(gameBoard.Cells[1, 0] == null);

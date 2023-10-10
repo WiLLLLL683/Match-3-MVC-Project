@@ -15,13 +15,11 @@ namespace Model.Services
             this.validationService = validationService;
         }
 
-        //public void SetLevel(Level level) => gameBoard = level.gameBoard;
+        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
         //public void SetGameBoard(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
-        public void Execute(GameBoard gameBoard)
+        public void Execute()
         {
-            this.gameBoard = gameBoard;
-            
             for (int y = gameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
             {
                 for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
