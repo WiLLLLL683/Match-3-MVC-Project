@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using System.Collections.Generic;
 
 namespace Model.Services
 {
@@ -10,26 +11,26 @@ namespace Model.Services
         /// <summary>
         /// Задать данные о текущем уровне
         /// </summary>
-        void SetLevel(GameBoard gameBoard);
+        public void SetLevel(GameBoard gameBoard);
 
         /// <summary>
         /// Заполнить пустые клетки случайными блоками только в рядах невидимых клеток
         /// </summary>
-        void FillInvisibleRows();
+        public List<IAction> FillInvisibleRows();
 
         /// <summary>
         /// Создать или принудительно изменить тип блока в выбранной клетке
         /// </summary>
-        void SpawnBlock_WithOverride(BlockType type, Cell cell);
+        public IAction SpawnBlock_WithOverride(BlockType type, Cell cell);
 
         /// <summary>
         /// Создать или принудительно изменить тип блока на случайный в выбранной клетке
         /// </summary>
-        void SpawnRandomBlock_WithOverride(Cell cell);
+        public IAction SpawnRandomBlock_WithOverride(Cell cell);
 
         /// <summary>
         /// Заполнить пустые клетки случайными блоками во всем игровом поле, включая невидимые клетки
         /// </summary>
-        void FillGameBoard();
+        public List<IAction> FillGameBoard();
     }
 }
