@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Model.Objects;
 using NUnit.Framework;
-using UnitTests;
+using TestUtils;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -15,7 +12,7 @@ namespace Model.Infrastructure.UnitTests
         public void AddCurrency_PositiveAmount_GoldAdded()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
 
             inventory.AddCurrency(type, 100);
 
@@ -26,7 +23,7 @@ namespace Model.Infrastructure.UnitTests
         public void AddCurrency_ZeroAmount_GoldNotAdded()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
 
             inventory.AddCurrency(type, 0);
 
@@ -38,7 +35,7 @@ namespace Model.Infrastructure.UnitTests
         public void AddCurrency_NegativeAmount_GoldNotAdded()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
 
             inventory.AddCurrency(type, -555);
 
@@ -50,7 +47,7 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_PositiveAmount_GoldRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
             inventory.AddCurrency(type, 100);
 
             inventory.TakeCurrency(type, 10);
@@ -62,7 +59,7 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_NotEnough_GoldNotRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
 
             inventory.TakeCurrency(type, 10);
 
@@ -74,7 +71,7 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_ZeroAmount_GoldNotRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
             inventory.AddCurrency(type, 100);
 
             inventory.TakeCurrency(type, 0);
@@ -87,7 +84,7 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_NegativeAmount_GoldNotRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
             inventory.AddCurrency(type, 100);
 
             inventory.TakeCurrency(type, -10);
@@ -113,7 +110,7 @@ namespace Model.Infrastructure.UnitTests
         public void GetAmount_ValidType_ValidAmount()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestUtils.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
             inventory.AddCurrency(type, 100);
 
             int ammount = inventory.GetAmount(type);

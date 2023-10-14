@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e0af3aa0e9efd34c87fea3a68e47ee0, type: 3}
-  m_Name: HintPattern
+  m_Script: {fileID: 11500000, guid: b75315d4683a6a347aef379b1f054671, type: 3}
+  m_Name: VerticalLine
   m_EditorClassIdentifier: 
   array2d:
     gridSize: {x: 3, y: 3}
     cellSize: {x: 16, y: 16}
     cells:
     - row: 000100
-    - row: 010001
-    - row: 000000
-  cellToMove: {x: 1, y: 0}
-  directionToMove: 1
+    - row: 000100
+    - row: 000100
+  hintPatterns:
+  - {fileID: 11400000, guid: c18024ae2bf303c4cac78da105bf5597, type: 2}
+  - {fileID: 11400000, guid: 303b6266cfa16514b9d2095ed41ef9c8, type: 2}

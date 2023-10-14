@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Config;
 using NUnit.Framework;
-using UnitTests;
-using UnityEngine;
-using UnityEngine.TestTools;
+using TestUtils;
 
 namespace Model.Objects.UnitTests
 {
@@ -13,8 +8,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void RegisterBlock_NewBlock_BlockRegistered()
         {
-            GameBoard gameBoard = TestUtils.CreateGameBoard(2, 2, 0);
-            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK);
+            GameBoard gameBoard = TestLevelFactory.CreateGameBoard(2, 2, 0);
+            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK);
 
             gameBoard.RegisterBlock(block);
 
@@ -24,7 +19,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void RegisterBlock_Null_NoBlocksRegistered()
         {
-            GameBoard gameBoard = TestUtils.CreateGameBoard(2, 2, 0);
+            GameBoard gameBoard = TestLevelFactory.CreateGameBoard(2, 2, 0);
 
             gameBoard.RegisterBlock(null);
 
@@ -34,8 +29,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UnRegisterBlock_DestroyBlock_BlockUnRegistered()
         {
-            GameBoard gameBoard = TestUtils.CreateGameBoard(2, 2, 0);
-            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK);
+            GameBoard gameBoard = TestLevelFactory.CreateGameBoard(2, 2, 0);
+            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK);
 
             gameBoard.RegisterBlock(block);
             block.Destroy();

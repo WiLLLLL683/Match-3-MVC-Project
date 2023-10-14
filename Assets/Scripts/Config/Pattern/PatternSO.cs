@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace Config
 {
-    [CreateAssetMenu(fileName ="Pattern", menuName ="Config/Pattern")]
-    public class PatternSO: ScriptableObject
+    public abstract class PatternSO: ScriptableObject
     {
         [SerializeField] protected Array2DBool array2d;
 

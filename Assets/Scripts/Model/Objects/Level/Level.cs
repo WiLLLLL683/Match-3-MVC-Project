@@ -12,8 +12,7 @@ namespace Model.Objects
         public GameBoard gameBoard;
         public Counter[] goals;
         public Counter[] restrictions;
-        public Pattern[] matchPatterns;
-        public HintPattern[] hintPatterns;
+        public MatchPattern[] matchPatterns;
 
         public event Action OnWin;
         public event Action OnLose;

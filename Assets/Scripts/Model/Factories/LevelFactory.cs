@@ -7,23 +7,20 @@ namespace Model.Factories
     public class LevelFactory : ILevelFactory
     {
         private readonly IGameBoardFactory gameBoardFactory;
-        private readonly IPatternFactory patternFactory;
-        private readonly IHintPatternFactory hintPatternFactory;
+        private readonly IMatchPatternFactory patternFactory;
         private readonly ICounterFactory counterFactory;
 
-        public LevelFactory(IGameBoardFactory gameBoardFactory, IPatternFactory patternFactory, IHintPatternFactory hintPatternFactory, ICounterFactory counterFactory)
+        public LevelFactory(IGameBoardFactory gameBoardFactory, IMatchPatternFactory patternFactory, ICounterFactory counterFactory)
         {
             this.gameBoardFactory = gameBoardFactory;
             this.patternFactory = patternFactory;
-            this.hintPatternFactory = hintPatternFactory;
             this.counterFactory = counterFactory;
         }
 
         public Level Create(LevelSO levelConfig)
         {
             GameBoard gameBoard = gameBoardFactory.Create(levelConfig);
-            Pattern[] pattern = patternFactory.Create(levelConfig.matchPatterns);
-            HintPattern[] hintPattern = hintPatternFactory.Create(levelConfig.hintPatterns);
+            MatchPattern[] matchPatterns = patternFactory.Create(levelConfig.matchPatterns);
             Counter[] goals = counterFactory.Create(levelConfig.goals);
             Counter[] restrictions = counterFactory.Create(levelConfig.restrictions);
 
@@ -32,8 +29,7 @@ namespace Model.Factories
                 gameBoard = gameBoard,
                 goals = goals,
                 restrictions = restrictions,
-                matchPatterns = pattern,
-                hintPatterns = hintPattern
+                matchPatterns = matchPatterns,
             };
         }
     }

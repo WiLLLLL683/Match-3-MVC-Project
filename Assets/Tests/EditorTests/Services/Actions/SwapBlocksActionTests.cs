@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Model.Objects;
-using UnitTests;
+using TestUtils;
 
 namespace Model.Services.Actions.UnitTests
 {
@@ -15,8 +15,8 @@ namespace Model.Services.Actions.UnitTests
         {
             Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0,0));
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0,1));
-            Block blockA = TestUtils.CreateBlockInCell(TestUtils.BLUE_BLOCK, cellA);
-            Block blockB = TestUtils.CreateBlockInCell(TestUtils.RED_BLOCK, cellB);
+            Block blockA = TestUtils.TestBlockFactory.CreateBlockInCell(TestUtils.TestBlockFactory.BLUE_BLOCK, cellA);
+            Block blockB = TestUtils.TestBlockFactory.CreateBlockInCell(TestUtils.TestBlockFactory.RED_BLOCK, cellB);
 
             IAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();
@@ -30,7 +30,7 @@ namespace Model.Services.Actions.UnitTests
         {
             Cell cellA = new Cell(new BasicCellType(), new Vector2Int(0, 0));
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
-            Block blockB = TestUtils.CreateBlockInCell(TestUtils.RED_BLOCK, cellB);
+            Block blockB = TestUtils.TestBlockFactory.CreateBlockInCell(TestUtils.TestBlockFactory.RED_BLOCK, cellB);
             int eventCount = 0;
             cellA.OnEmpty += (_) => ++eventCount;
             cellB.OnEmpty += (_) => ++eventCount;
@@ -65,7 +65,7 @@ namespace Model.Services.Actions.UnitTests
         {
             Cell cellA = null;
             Cell cellB = new Cell(new BasicCellType(), new Vector2Int(0, 1));
-            Block blockB = TestUtils.CreateBlockInCell(TestUtils.RED_BLOCK, cellB);
+            Block blockB = TestUtils.TestBlockFactory.CreateBlockInCell(TestUtils.TestBlockFactory.RED_BLOCK, cellB);
 
             IAction action = new SwapBlocksAction(cellA, cellB);
             action.Execute();

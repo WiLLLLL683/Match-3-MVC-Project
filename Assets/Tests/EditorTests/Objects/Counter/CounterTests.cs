@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Config;
 using NUnit.Framework;
-using UnitTests;
-using UnityEngine;
-using UnityEngine.TestTools;
+using TestUtils;
 
 namespace Model.Objects.UnitTests
 {
@@ -13,7 +8,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UpdateGoal_CorrectTarget_CountMinusOne()
         {
-            var target = TestUtils.BlueBlockType;
+            var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 10);
 
             goal.CheckTarget(target);
@@ -24,7 +19,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UpdateGoal_BelowZero_CountZero()
         {
-            var target = TestUtils.BlueBlockType;
+            var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 0);
 
             goal.CheckTarget(target);
@@ -35,8 +30,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UpdateGoal_IncorrectTarget_CountSame()
         {
-            BasicBlockType target1 = (BasicBlockType)TestUtils.BlueBlockType;
-            BasicBlockType target2 = (BasicBlockType)TestUtils.RedBlockType;
+            BasicBlockType target1 = TestBlockFactory.BlueBlockType;
+            BasicBlockType target2 = TestBlockFactory.RedBlockType;
             var goal = new Counter(target1, 10);
 
             goal.CheckTarget(target2);
@@ -47,7 +42,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UpdateGoal_UpdateCountNotZero_UpdatedEvent()
         {
-            var target = TestUtils.BlueBlockType;
+            var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 10);
             bool updated = false;
             bool completed = false;
@@ -67,7 +62,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UpdateGoal_UpdateCountToZero_CompleteEvent()
         {
-            var target = TestUtils.BlueBlockType;
+            var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 1);
             bool updated = false;
             bool completed = false;
@@ -87,7 +82,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void UpdateGoal_CountToZeroTwice_OneCompleteEvent()
         {
-            var target = TestUtils.BlueBlockType;
+            var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 1);
             bool updated = false;
             bool completed = false;

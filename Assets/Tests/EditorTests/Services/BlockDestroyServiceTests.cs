@@ -4,7 +4,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using UnitTests;
+using TestUtils;
 using UnityEngine;
 
 namespace Model.Services.UnitTests
@@ -17,7 +17,7 @@ namespace Model.Services.UnitTests
         private (GameBoard gameBoard, BlockDestroyService service) Setup(Block block, bool validationReturn = true)
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(validationReturn);
-            var gameBoard = TestUtils.CreateGameBoard(1, 1, 0);
+            var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
             var blockFactory = new BlockFactory();
             var service = new BlockDestroyService(validation, blockFactory);
             service.SetLevel(gameBoard);
@@ -36,7 +36,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void Destroy_ValidBlock_BlocksDestroyed()
         {
-            Block block = TestUtils.CreateBlock(TestUtils.RED_BLOCK);
+            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.RED_BLOCK);
             var (gameBoard, service) = Setup(block);
 
             service.Destroy(gameBoard.Cells[0, 0]);
@@ -62,7 +62,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void Destroy_InValidCell_BlocksDestroyed()
         {
-            Block block = TestUtils.CreateBlock(TestUtils.RED_BLOCK);
+            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.RED_BLOCK);
             var (gameBoard, service) = Setup(block, false);
 
             service.Destroy(new Vector2Int(100, 100));

@@ -36,8 +36,7 @@ namespace Config
         [Space]
 
         public BlockTypeSetSO blockTypeSet;
-        public PatternSO[] matchPatterns;
-        public HintPatternSO[] hintPatterns;
+        public MatchPatternSO[] matchPatterns;
 
         [Serializable]
         public class CounterConfig

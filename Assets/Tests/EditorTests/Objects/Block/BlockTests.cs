@@ -1,12 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
-using Model.Objects;
-using System;
-using Config;
-using UnitTests;
+using TestUtils;
 
 namespace Model.Objects.UnitTests
 {
@@ -15,7 +9,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangePosition_NewPos_PositionEqNewPos()
         {
-            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK, new(0, 0));
+            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK, new(0, 0));
             Vector2Int newPos = new(0, 1);
 
             block.SetPosition(newPos);
@@ -26,8 +20,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangeType_NewType_TypeEqNewType()
         {
-            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK, new(0, 0));
-            BlockType newType = TestUtils.RedBlockType;
+            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK, new(0, 0));
+            BlockType newType = TestBlockFactory.RedBlockType;
 
             block.SetType(newType);
 
@@ -37,7 +31,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void Activate_CurrentType_Activated()
         {
-            Block block = TestUtils.CreateBlock(new TestBlockType(), new(0, 0));
+            Block block = TestBlockFactory.CreateBlock(new TestBlockType(), new(0, 0));
 
             bool isActivated = block.Activate();
 
@@ -47,10 +41,10 @@ namespace Model.Objects.UnitTests
         [Test]
         public void Activate_NewType_ActivatedNewType()
         {
-            Block block = TestUtils.CreateBlock(new TestBlockType(), new(0, 0));
+            Block block = TestBlockFactory.CreateBlock(new TestBlockType(), new(0, 0));
 
             bool beforeChange = block.Activate();
-            block.SetType(TestUtils.RedBlockType);
+            block.SetType(TestBlockFactory.RedBlockType);
             bool afterChange = block.Activate();
 
             Assert.AreNotEqual(beforeChange,afterChange);
@@ -61,7 +55,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void Destroy_Block_DestroyEvent()
         {
-            Block block = TestUtils.CreateBlock(TestUtils.DEFAULT_BLOCK, new(0, 0));
+            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK, new(0, 0));
             Block test = null;
             void TestFunc(Block sender) => test = sender;
 

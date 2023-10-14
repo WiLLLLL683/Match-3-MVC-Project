@@ -7,13 +7,13 @@ namespace Model.Objects
     /// <summary>
     /// Паттерн для нахождения одинаковых блоков, выстроенных в ряд
     /// </summary>
-    public class Pattern
+    public abstract class Pattern
     {
         public bool[,] grid;
         public int totalSum; //сумма помеченых клеток в паттерне
         public Vector2Int originPosition = new(0, 0);
 
-        public Pattern(bool[,] grid)
+        protected Pattern(bool[,] grid)
         {
             this.grid = grid;
             originPosition = GetOriginPosition();

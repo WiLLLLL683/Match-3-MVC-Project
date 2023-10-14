@@ -8,7 +8,7 @@ namespace Model.Services
         /// <summary>
         /// Обновить данные об уровне
         /// </summary>
-        public void SetLevel(GameBoard gameBoard, Pattern[] matchPatterns, HintPattern[] hintPatterns);
+        public void SetLevel(GameBoard gameBoard, MatchPattern[] matchPatterns);
 
         /// <summary>
         /// Найти все совпадения по всем паттернам

@@ -80,7 +80,7 @@ namespace Model.Infrastructure
             validationService.SetLevel(level.gameBoard);
             randomService.SetLevel(levelData.blockTypeSet.GetWeights(), levelData.blockTypeSet.defaultBlockType.type);
             spawnService.SetLevel(level.gameBoard);
-            matchService.SetLevel(level.gameBoard, level.matchPatterns, level.hintPatterns);
+            matchService.SetLevel(level.gameBoard, level.matchPatterns);
             gravityService.SetLevel(level.gameBoard);
             moveService.SetLevel(level.gameBoard);
             destroyService.SetLevel(level.gameBoard);

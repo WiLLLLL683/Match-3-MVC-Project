@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using Config;
 using Model.Readonly;
-using UnitTests;
+using TestUtils;
 
 namespace Model.Objects.UnitTests
 {
@@ -15,8 +15,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangeType_ValidType_TypeChanged()
         {
-            CellType oldType = TestUtils.BasicCellType;
-            CellType newType = TestUtils.NotPlayableCellType;
+            CellType oldType = TestCellFactory.BasicCellType;
+            CellType newType = TestCellFactory.NotPlayableCellType;
             Cell cell = new Cell(oldType, new Vector2Int(0, 0));
             int eventCount = 0;
             cell.OnTypeChange += (_) => ++eventCount;
@@ -30,7 +30,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void ChangeType_NullType_NoChange()
         {
-            CellType oldType = TestUtils.BasicCellType;
+            CellType oldType = TestCellFactory.BasicCellType;
             CellType newType = null;
             Cell cell = new Cell(oldType, new Vector2Int(0, 0));
             int eventCount = 0;
@@ -45,8 +45,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void SetBlock_ValidBlock_CellHasBlock()
         {
-            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0,0));
-            Block block = new Block(TestUtils.DefaultBlockType, default);
+            Cell cell = new Cell(TestCellFactory.BasicCellType, new Vector2Int(0,0));
+            Block block = new Block(TestBlockFactory.DefaultBlockType, default);
 
             cell.SetBlock(block);
 
@@ -56,8 +56,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void SetBlock_NotPlayableCell_Nothing()
         {
-            Cell cell = new Cell(TestUtils.NotPlayableCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, cell.Position);
+            Cell cell = new Cell(TestCellFactory.NotPlayableCellType, new Vector2Int(0, 0));
+            Block block = new Block(TestBlockFactory.DefaultBlockType, cell.Position);
 
             cell.SetBlock(block);
 
@@ -67,8 +67,8 @@ namespace Model.Objects.UnitTests
         [Test]
         public void SetBlock_Null_EmptyCell()
         {
-            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
-            Block block = new Block(TestUtils.DefaultBlockType, cell.Position);
+            Cell cell = new Cell(TestCellFactory.BasicCellType, new Vector2Int(0, 0));
+            Block block = new Block(TestBlockFactory.DefaultBlockType, cell.Position);
             int eventCount = 0;
             cell.OnEmpty += (_) => ++eventCount;
             cell.SetBlock(block);
@@ -82,7 +82,7 @@ namespace Model.Objects.UnitTests
         [Test]
         public void DestroyCell_CorrectCell_OnCellDestroyEvent()
         {
-            Cell cell = new Cell(TestUtils.BasicCellType, new Vector2Int(0, 0));
+            Cell cell = new Cell(TestCellFactory.BasicCellType, new Vector2Int(0, 0));
             int eventRised = 0;
             cell.OnDestroy += (_) => ++eventRised;
 

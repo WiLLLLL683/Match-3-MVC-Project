@@ -1,7 +1,7 @@
 ﻿using Config;
 using Model.Objects;
 
-namespace Model.Infrastructure
+namespace Model.Factories
 {
     public interface IHintPatternFactory
     {

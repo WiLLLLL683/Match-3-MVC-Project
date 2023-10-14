@@ -1,14 +1,8 @@
-using Config;
-using Model.Factories;
 using Model.Objects;
-using Model.Services;
-using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using UnitTests;
-using UnityEngine;
-using UnityEngine.TestTools;
+using TestUtils;
 
 namespace Model.Services.UnitTests
 {
@@ -17,28 +11,24 @@ namespace Model.Services.UnitTests
         private (MatchService service, GameBoard gameBoard) Setup(
             int xLength,
             int yLength,
-            bool validationBlockReturn = true,
-            Pattern[] matchPatterns = default,
-            HintPattern[] hintPatterns = default,
+            MatchPattern[] matchPatterns = default,
             params int[] preSpawnedBlocks)
         {
-            var gameBoard = TestUtils.CreateGameBoard(xLength, yLength, 0, preSpawnedBlocks);
+            var gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, 0, preSpawnedBlocks);
 
             var validation = new ValidationService();
             validation.SetLevel(gameBoard);
-            //var validation = Substitute.For<IValidationService>();
-            //validation.BlockExistsAt(default).ReturnsForAnyArgs(validationBlockReturn);
 
             var service = new MatchService(validation);
-            service.SetLevel(gameBoard, matchPatterns, hintPatterns);
+            service.SetLevel(gameBoard, matchPatterns);
             return (service, gameBoard);
         }
 
         [Test]
         public void FindAllMatches_EmptyCells_EmptyList()
         {
-            Pattern[] patterns = new Pattern[1] { TestUtils.DotPattern1x1() };
-            var (service, gameBoard) = Setup(1, 1, true, patterns);
+            MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.DotPattern1x1() };
+            var (service, gameBoard) = Setup(1, 1, patterns);
 
             List<Cell> matchedCells = service.FindAllMatches().ToList();
 
@@ -48,9 +38,9 @@ namespace Model.Services.UnitTests
         [Test]
         public void FindAllMatches_NotPlayableCells_EmptyList()
         {
-            Pattern[] patterns = new Pattern[1] { TestUtils.DotPattern1x1() };
-            var (service, gameBoard) = Setup(1, 1, true, patterns);
-            gameBoard.Cells[0,0].SetType(TestUtils.NotPlayableCellType);
+            MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.DotPattern1x1() };
+            var (service, gameBoard) = Setup(1, 1, patterns);
+            gameBoard.Cells[0,0].SetType(TestCellFactory.NotPlayableCellType);
 
             List<Cell> matchedCells = service.FindAllMatches().ToList();
 
@@ -60,8 +50,8 @@ namespace Model.Services.UnitTests
         [Test]
         public void FindAllMatches_MatchingBlock_ListWith1Cell()
         {
-            Pattern[] patterns = new Pattern[1] { TestUtils.DotPattern1x1() };
-            var (service, gameBoard) = Setup(1, 1, true, patterns, default, TestUtils.DEFAULT_BLOCK);
+            MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.DotPattern1x1() };
+            var (service, gameBoard) = Setup(1, 1, patterns, default, TestBlockFactory.DEFAULT_BLOCK);
 
             List<Cell> matchedCells = service.FindAllMatches().ToList();
 
@@ -72,8 +62,8 @@ namespace Model.Services.UnitTests
         [Test]
         public void FindAllMatches_MatchingLine_ListWithLineOfCells()
         {
-            Pattern[] patterns = new Pattern[1] { TestUtils.VertLinePattern1x3() };
-            var (service, gameBoard) = Setup(1, 3, true, patterns, default, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK, TestUtils.DEFAULT_BLOCK);
+            MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.VertLinePattern1x3() };
+            var (service, gameBoard) = Setup(1, 3, patterns, default, TestBlockFactory.DEFAULT_BLOCK, TestBlockFactory.DEFAULT_BLOCK, TestBlockFactory.DEFAULT_BLOCK);
 
             List<Cell> matchedCells = service.FindAllMatches().ToList();
 
@@ -86,11 +76,11 @@ namespace Model.Services.UnitTests
         [Test]
         public void FindAllMatches_MatchingLineShifted_ListWithLineOfCells()
         {
-            Pattern[] patterns = new Pattern[1] { TestUtils.VertLinePattern1x3() };
-            var (service, gameBoard) = Setup(3, 3, true, patterns);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[2, 0]);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[2, 1]);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[2, 2]);
+            MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.VertLinePattern1x3() };
+            var (service, gameBoard) = Setup(3, 3, patterns);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[2, 0]);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[2, 1]);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[2, 2]);
 
             List<Cell> matchedCells = service.FindAllMatches().ToList();
 
@@ -103,13 +93,13 @@ namespace Model.Services.UnitTests
         [Test]
         public void FindAllMatches_MatchingCross_CrossWithLineOfCells()
         {
-            Pattern[] patterns = new Pattern[1] { TestUtils.CrossPattern3x3() };
-            var (service, gameBoard) = Setup(3, 3, true, patterns);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[0, 1]);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[1, 0]);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[1, 1]);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[1, 2]);
-            TestUtils.CreateBlockInCell(TestUtils.DEFAULT_BLOCK, gameBoard.Cells[2, 1]);
+            MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.CrossPattern3x3() };
+            var (service, gameBoard) = Setup(3, 3, patterns);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 1]);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[1, 0]);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[1, 1]);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[1, 2]);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[2, 1]);
 
             HashSet<Cell> matchedCells = service.FindAllMatches();
 
@@ -124,8 +114,8 @@ namespace Model.Services.UnitTests
         [Test]
         public void FindAllMatches_NoMatch_EmptyList()
         {
-            Pattern[] patterns = new Pattern[1] { TestUtils.CrossPattern3x3() };
-            var (service, gameBoard) = Setup(3, 3, true, patterns);
+            MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.CrossPattern3x3() };
+            var (service, gameBoard) = Setup(3, 3, patterns);
 
             List<Cell> matchedCells = service.FindAllMatches().ToList();
 

@@ -9,8 +9,8 @@ namespace Model.Services
         private readonly IMatcher matcher;
 
         private GameBoard gameBoard;
-        private Pattern[] matchPatterns;
-        private HintPattern[] hintPatterns;
+        private MatchPattern[] matchPatterns;
+
         private int xStartPos;
         private int yStartPos;
         private int xLength;
@@ -23,11 +23,10 @@ namespace Model.Services
             matcher = new Matcher(validationService); //TODO вынести создание в Game
         }
 
-        public void SetLevel(GameBoard gameBoard, Pattern[] matchPatterns, HintPattern[] hintPatterns)
+        public void SetLevel(GameBoard gameBoard, MatchPattern[] matchPatterns)
         {
             this.gameBoard = gameBoard;
             this.matchPatterns = matchPatterns;
-            this.hintPatterns = hintPatterns;
         }
 
         public HashSet<Cell> FindAllMatches()
@@ -46,12 +45,15 @@ namespace Model.Services
         {
             matchedCells.Clear();
 
-            for (int i = 0; i < hintPatterns.Length; i++)
+            for (int i = 0; i < matchPatterns.Length; i++)
             {
-                CheckPatternFirst(hintPatterns[i]);
+                for (int j = 0; j < matchPatterns[i].hintPatterns.Length; j++)
+                {
+                    CheckPatternFirst(matchPatterns[i].hintPatterns[j]);
 
-                if (matchedCells.Count > 0)
-                    break;
+                    if (matchedCells.Count > 0)
+                        break;
+                }
             }
 
             return matchedCells; //TODO вернуть только клетки которые нужно сменить для подсказки

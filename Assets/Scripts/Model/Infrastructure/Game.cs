@@ -29,7 +29,7 @@ namespace Model.Infrastructure
         private readonly IBlockFactory blockFactory;
         private readonly ICellFactory cellFactory;
         private readonly IGameBoardFactory gameboardFactory;
-        private readonly IPatternFactory patternFactory;
+        private readonly IMatchPatternFactory matchPatternFactory;
         private readonly IHintPatternFactory hintPatternFactory;
         private readonly ICounterFactory counterFactory;
         private readonly ILevelFactory levelFactory;
@@ -56,10 +56,10 @@ namespace Model.Infrastructure
             blockFactory = new BlockFactory();
             cellFactory = new CellFactory(invisibleCellType);
             gameboardFactory = new GameBoardFactory(cellFactory, allCellTypes);
-            patternFactory = new PatternFactory();
             hintPatternFactory = new HintPatternFactory();
+            matchPatternFactory = new MatchPatternFactory(hintPatternFactory);
             counterFactory = new CounterFactory();
-            levelFactory = new LevelFactory(gameboardFactory, patternFactory, hintPatternFactory, counterFactory);
+            levelFactory = new LevelFactory(gameboardFactory, matchPatternFactory, counterFactory);
 
             //services
             validationService = new ValidationService();
