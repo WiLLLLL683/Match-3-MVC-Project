@@ -19,9 +19,9 @@ public class Bootstrap : MonoBehaviour
 
     private void Awake()
     {
-        game = new(allLevels, 0, allCellTypes, allCellTypes.invisibleCellType.type); //TODO загрузка сохранения
+        game = new(allCellTypes, allLevels.Length);
         stateMachine = new();
-        stateMachine.AddState(new MetaGameState(game, prefabs, this));
+        stateMachine.AddState(new MetaGameState(game, prefabs, allLevels, this));
         stateMachine.AddState(new CoreGameState(game, prefabs, allCellTypes, this));
 
         LoadMetaGame();

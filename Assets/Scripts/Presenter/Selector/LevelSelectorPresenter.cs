@@ -2,6 +2,7 @@
 using Model.Readonly;
 using Utils;
 using View;
+using Config;
 
 namespace Presenter
 {
@@ -13,33 +14,38 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter>
+        public class Factory : AFactory<ILevelProgress_Readonly, ASelectorView, ISelectorPresenter>
         {
             private readonly Bootstrap bootstrap;
-            public Factory(ASelectorView viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab)
+            private readonly LevelSO[] allLevels;
+
+            public Factory(ASelectorView viewPrefab, Bootstrap bootstrap, LevelSO[] allLevels, Transform parent = null) : base(viewPrefab)
             {
                 this.bootstrap = bootstrap;
+                this.allLevels = allLevels;
             }
 
-            public override ISelectorPresenter Connect(ASelectorView existingView, ILevelSelection_Readonly model)
+            public override ISelectorPresenter Connect(ASelectorView existingView, ILevelProgress_Readonly model)
             {
-                var presenter = new LevelSelectorPresenter(model, existingView, bootstrap);
+                var presenter = new LevelSelectorPresenter(model, existingView, bootstrap, allLevels);
                 presenter.Enable();
-                existingView.Init(model.CurrentLevelData.icon, model.CurrentLevelData.levelName);
+                existingView.Init(allLevels[model.CurrentLevelIndex].icon, allLevels[model.CurrentLevelIndex].levelName);
                 allPresenters.Add(presenter);
                 return presenter;
             }
         }
         
-        private ILevelSelection_Readonly model;
+        private ILevelProgress_Readonly model;
         private ASelectorView view;
         private Bootstrap bootstrap;
+        private LevelSO[] allLevels;
 
-        public LevelSelectorPresenter(ILevelSelection_Readonly model, ASelectorView view, Bootstrap bootstrap)
+        public LevelSelectorPresenter(ILevelProgress_Readonly model, ASelectorView view, Bootstrap bootstrap, LevelSO[] allLevels)
         {
             this.model = model;
             this.view = view;
             this.bootstrap = bootstrap;
+            this.allLevels = allLevels;
         }
         public void Enable()
         {

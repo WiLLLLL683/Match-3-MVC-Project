@@ -6,15 +6,15 @@ using Utils;
 
 public class LevelSelectionPresenter : ILevelSelectionPresenter
 {
-    public class Factory : AFactory<ILevelSelection_Readonly, ALevelSelectionView, ILevelSelectionPresenter>
+    public class Factory : AFactory<ILevelProgress_Readonly, ALevelSelectionView, ILevelSelectionPresenter>
     {
-        private readonly AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter> selectorFactory;
-        public Factory(ALevelSelectionView viewPrefab, AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter> selectorFactory) : base(viewPrefab)
+        private readonly AFactory<ILevelProgress_Readonly, ASelectorView, ISelectorPresenter> selectorFactory;
+        public Factory(ALevelSelectionView viewPrefab, AFactory<ILevelProgress_Readonly, ASelectorView, ISelectorPresenter> selectorFactory) : base(viewPrefab)
         {
             this.selectorFactory = selectorFactory;
         }
 
-        public override ILevelSelectionPresenter Connect(ALevelSelectionView existingView, ILevelSelection_Readonly model)
+        public override ILevelSelectionPresenter Connect(ALevelSelectionView existingView, ILevelProgress_Readonly model)
         {
             var presenter = new LevelSelectionPresenter(model, existingView, selectorFactory);
             presenter.Enable();
@@ -23,15 +23,15 @@ public class LevelSelectionPresenter : ILevelSelectionPresenter
         }
     }
 
-    private ILevelSelection_Readonly model;
+    private ILevelProgress_Readonly model;
     private ALevelSelectionView view;
-    private AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter> selectorFactory;
+    private AFactory<ILevelProgress_Readonly, ASelectorView, ISelectorPresenter> selectorFactory;
     
     private ISelectorPresenter selector;
 
-    public LevelSelectionPresenter(ILevelSelection_Readonly model,
+    public LevelSelectionPresenter(ILevelProgress_Readonly model,
                      ALevelSelectionView view,
-                     AFactory<ILevelSelection_Readonly, ASelectorView, ISelectorPresenter> selectorFactory)
+                     AFactory<ILevelProgress_Readonly, ASelectorView, ISelectorPresenter> selectorFactory)
     {
         this.model = model;
         this.view = view;

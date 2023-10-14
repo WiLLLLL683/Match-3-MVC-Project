@@ -16,7 +16,7 @@ namespace Model.Infrastructure
     public class Game : IGame
     {
         //meta game
-        public LevelSelection LevelSelection;
+        public LevelProgress LevelProgress;
         public CurrencyInventory CurrencyInventory;
 
         //core game
@@ -45,16 +45,16 @@ namespace Model.Infrastructure
 
         private readonly StateMachine<AModelState> stateMachine = new();
 
-        public Game(LevelSO[] allLevels, int currentLevelIndex, CellTypeSetSO allCellTypes, CellType invisibleCellType)
+        public Game(CellTypeSetSO allCellTypes, int maxLevelIndex)
         {
             CurrencyInventory = new CurrencyInventory();
             BoosterInventory = new BoosterInventory();
-            LevelSelection = new LevelSelection(allLevels, currentLevelIndex);
+            LevelProgress = new LevelProgress(maxLevelIndex);
             PlayerSettings = new(true, false); //TODO загрузка из сохранения
 
             //factories
             blockFactory = new BlockFactory();
-            cellFactory = new CellFactory(invisibleCellType);
+            cellFactory = new CellFactory(allCellTypes.invisibleCellType.type);
             gameboardFactory = new GameBoardFactory(cellFactory, allCellTypes);
             hintPatternFactory = new HintPatternFactory();
             matchPatternFactory = new MatchPatternFactory(hintPatternFactory);
