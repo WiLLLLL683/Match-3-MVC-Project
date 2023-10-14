@@ -42,6 +42,7 @@ namespace Model.Infrastructure
         private readonly IGravityService gravityService;
         private readonly IBlockMoveService moveService;
         private readonly IBlockDestroyService destroyService;
+        private readonly IWinLoseService winLoseService;
 
         private readonly StateMachine<AModelState> stateMachine = new();
 
@@ -69,10 +70,11 @@ namespace Model.Infrastructure
             gravityService = new GravityService(validationService);
             moveService = new BlockMoveService(validationService);
             destroyService = new BlockDestroyService(validationService, blockFactory);
+            winLoseService = new WinLoseService();
 
             //game states
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, validationService, randomService, spawnService, matchService, gravityService, moveService, destroyService));
-            stateMachine.AddState(new WaitState(this, stateMachine, matchService));
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, validationService, randomService, spawnService, matchService, gravityService, moveService, destroyService, winLoseService));
+            stateMachine.AddState(new WaitState(this, stateMachine, matchService, winLoseService));
             stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService, destroyService));
             stateMachine.AddState(new BoosterState(this, stateMachine, BoosterInventory));
             stateMachine.AddState(new SpawnState(this, stateMachine, spawnService, matchService, gravityService, destroyService));

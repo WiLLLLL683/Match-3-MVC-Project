@@ -20,6 +20,7 @@ namespace Model.Infrastructure
         private readonly IGravityService gravityService;
         private readonly IBlockMoveService moveService;
         private readonly IBlockDestroyService destroyService;
+        private readonly IWinLoseService winLoseService;
 
         private LevelSO levelData;
         private Level level;
@@ -35,7 +36,8 @@ namespace Model.Infrastructure
             IMatchService matchService,
             IGravityService gravityService,
             IBlockMoveService moveService,
-            IBlockDestroyService destroyService)
+            IBlockDestroyService destroyService,
+            IWinLoseService winLoseService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
@@ -47,6 +49,7 @@ namespace Model.Infrastructure
             this.gravityService = gravityService;
             this.moveService = moveService;
             this.destroyService = destroyService;
+            this.winLoseService = winLoseService;
         }
 
         public void SetLevelData(LevelSO levelData) => this.levelData = levelData;
@@ -84,6 +87,7 @@ namespace Model.Infrastructure
             gravityService.SetLevel(level.gameBoard);
             moveService.SetLevel(level.gameBoard);
             destroyService.SetLevel(level.gameBoard);
+            winLoseService.SetLevel(level);
         }
 
         private void SwapMatchedBlocks()

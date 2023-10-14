@@ -21,64 +21,7 @@ namespace Model.Objects
         public ICounter_Readonly[] Goals_Readonly => goals;
         public ICounter_Readonly[] Restrictions_Readonly => goals;
 
-        /// <summary>
-        /// Проверить все ли цели уровня выполнены
-        /// </summary>
-        public bool CheckWin()
-        {
-            for (int i = 0; i < goals.Length; i++)
-            {
-                if (goals[i] == null)
-                    continue;
-
-                if (!goals[i].IsCompleted)
-                    return false;
-            }
-
-            OnWin?.Invoke();
-            return true;
-        }
-
-        /// <summary>
-        /// Проверить закончились ли огранияения уровня
-        /// </summary>
-        public bool CheckLose()
-        {
-            for (int i = 0; i < restrictions.Length; i++)
-            {
-                if (restrictions[i] == null)
-                    continue;
-
-                if (restrictions[i].IsCompleted)
-                {
-                    OnLose?.Invoke();
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Пересчет счетчика целей уровня, с вычетом 1 цели
-        /// </summary>
-        public void UpdateGoals(ICounterTarget _target)
-        {
-            for (int i = 0; i < goals.Length; i++)
-            {
-                goals[i].CheckTarget(_target);
-            }
-        }
-
-        /// <summary>
-        /// Пересчет счетчика ограничений уровня, с вычетом 1 цели
-        /// </summary>
-        public void UpdateRestrictions(ICounterTarget _target)
-        {
-            for (int i = 0; i < restrictions.Length; i++)
-            {
-                restrictions[i].CheckTarget(_target);
-            }
-        }
+        public void SetWin() => OnWin?.Invoke();
+        public void SetLose() => OnLose?.Invoke();
     }
 }
