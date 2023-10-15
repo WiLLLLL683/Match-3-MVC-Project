@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using Model.Readonly;
 using Utils;
 using View;
 using Config;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -14,7 +14,7 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<ILevelProgress_Readonly, ASelectorView, ISelectorPresenter>
+        public class Factory : AFactory<LevelProgress, ASelectorView, ISelectorPresenter>
         {
             private readonly Bootstrap bootstrap;
             private readonly LevelSO[] allLevels;
@@ -25,7 +25,7 @@ namespace Presenter
                 this.allLevels = allLevels;
             }
 
-            public override ISelectorPresenter Connect(ASelectorView existingView, ILevelProgress_Readonly model)
+            public override ISelectorPresenter Connect(ASelectorView existingView, LevelProgress model)
             {
                 var presenter = new LevelSelectorPresenter(model, existingView, bootstrap, allLevels);
                 presenter.Enable();
@@ -35,12 +35,12 @@ namespace Presenter
             }
         }
         
-        private ILevelProgress_Readonly model;
+        private LevelProgress model;
         private ASelectorView view;
         private Bootstrap bootstrap;
         private LevelSO[] allLevels;
 
-        public LevelSelectorPresenter(ILevelProgress_Readonly model, ASelectorView view, Bootstrap bootstrap, LevelSO[] allLevels)
+        public LevelSelectorPresenter(LevelProgress model, ASelectorView view, Bootstrap bootstrap, LevelSO[] allLevels)
         {
             this.model = model;
             this.view = view;

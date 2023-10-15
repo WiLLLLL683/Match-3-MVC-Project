@@ -2,6 +2,7 @@
 
 namespace Model.Objects
 {
+    [Serializable]
     public class MatchPattern : Pattern
     {
         public HintPattern[] hintPatterns;

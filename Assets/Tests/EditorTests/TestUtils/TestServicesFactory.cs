@@ -19,10 +19,10 @@ namespace TestUtils
         /// <summary>
         /// Создать инвентарь с 1 валютой заданного типа
         /// </summary>
-        public static CurrencyInventory CreateCurrencyInventory(CurrencyType type, int amount)
+        public static CurrencyService CreateCurrencyInventory(CurrencyType type, int amount)
         {
             Dictionary<CurrencyType, int> initialCurrency = new() { [type] = amount };
-            CurrencyInventory inventory = new(initialCurrency);
+            CurrencyService inventory = new(initialCurrency);
             return inventory;
         }
 

@@ -1,5 +1,8 @@
-﻿namespace Model.Objects
+﻿using System;
+
+namespace Model.Objects
 {
+    [Serializable]
     public class PlayerSettings
     {
         public bool IsSoundOn;

@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Model.Readonly;
+using Model.Objects;
 
-namespace Model.Objects
+namespace Model.Services
 {
-    /// <summary>
-    /// Инвентарь для хранения бустеров
-    /// </summary>
-    public class BoosterInventory : IBoosterInventory_Readonly
+    [Serializable]
+    public class BoosterService : IBoosterService
     {
         private readonly Dictionary<Type, int> boosters = new();
 
-        /// <summary>
-        /// Добавить бустер определенного типа
-        /// </summary>
         public void AddBooster<T>(int ammount) where T : IBooster
         {
             if (ammount <= 0)
@@ -34,10 +30,7 @@ namespace Model.Objects
             }
         }
 
-        /// <summary>
-        /// Забрать бустер определенного типа
-        /// </summary>
-        public IBooster TakeBooster<T>() where T : IBooster, new()
+        public IBooster SpendBooster<T>() where T : IBooster, new()
         {
             Type boosterType = typeof(T);
             if (!boosters.ContainsKey(boosterType))
@@ -55,9 +48,6 @@ namespace Model.Objects
             return new T();
         }
 
-        /// <summary>
-        /// Получить количество бустеров определенного типа
-        /// </summary>
         public int GetBoosterAmount<T>() where T : IBooster
         {
             Type boosterType = typeof(T);

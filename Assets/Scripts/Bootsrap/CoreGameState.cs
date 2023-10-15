@@ -72,7 +72,7 @@ public class CoreGameState : IState
         gameBoardScreen = gameboardFactory.Create(game.CurrentLevel.gameBoard).Presenter;
         input.Init(gameBoardScreen).Enable();
         hudScreen = hudFactory.Create(game.CurrentLevel).Presenter;
-        boosterScreen = boosterInventoryFactory.Create(game.BoosterInventory).Presenter;
+        boosterScreen = boosterInventoryFactory.Create(game.BoosterService).Presenter;
         pauseScreen = pauseFactory.Create(game.PlayerSettings).Presenter;
         endGameScreen = endGameFactory.Create(game.CurrentLevel).Presenter;
     }

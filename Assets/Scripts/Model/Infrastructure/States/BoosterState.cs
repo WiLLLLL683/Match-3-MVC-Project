@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using Model.Readonly;
 using Utils;
 
 namespace Model.Infrastructure
@@ -8,11 +9,11 @@ namespace Model.Infrastructure
         private Game game;
         private Level level;
         private StateMachine<AModelState> stateMachine;
-        private BoosterInventory boosterInventory;
+        private IBoosterService boosterInventory;
 
         private IBooster booster;
 
-        public BoosterState(Game game, StateMachine<AModelState> stateMachine, BoosterInventory boosterInventory)
+        public BoosterState(Game game, StateMachine<AModelState> stateMachine, IBoosterService boosterInventory)
         {
             this.game = game;
             this.stateMachine = stateMachine;

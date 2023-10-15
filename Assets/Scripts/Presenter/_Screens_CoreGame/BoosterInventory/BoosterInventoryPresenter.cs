@@ -10,7 +10,7 @@ namespace Presenter
     /// </summary>
     public class BoosterInventoryPresenter : IBoosterInventoryPresenter
     {
-        public class Factory : AFactory<IBoosterInventory_Readonly, ABoosterInventoryView, IBoosterInventoryPresenter>
+        public class Factory : AFactory<IBoosterService_Readonly, ABoosterInventoryView, IBoosterInventoryPresenter>
         {
             private readonly AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> boosterFactory;
 
@@ -20,7 +20,7 @@ namespace Presenter
                 this.boosterFactory = boosterFactory;
             }
 
-            public override IBoosterInventoryPresenter Connect(ABoosterInventoryView existingView, IBoosterInventory_Readonly model)
+            public override IBoosterInventoryPresenter Connect(ABoosterInventoryView existingView, IBoosterService_Readonly model)
             {
                 var presenter = new BoosterInventoryPresenter(model, existingView, boosterFactory);
                 presenter.Enable();
@@ -29,11 +29,11 @@ namespace Presenter
             }
         }
 
-        private readonly IBoosterInventory_Readonly model;
+        private readonly IBoosterService_Readonly model;
         private readonly ABoosterInventoryView view;
         private readonly AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> factory;
 
-        public BoosterInventoryPresenter(IBoosterInventory_Readonly model,
+        public BoosterInventoryPresenter(IBoosterService_Readonly model,
             ABoosterInventoryView view,
             AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter> factory)
         {

@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Model.Objects
+namespace Model.Services
 {
-    public class CurrencyInventory : ICurrencyInventory
+    [Serializable]
+    public class CurrencyService : ICurrencyService
     {
         private readonly Dictionary<CurrencyType, int> currencies;
 
-        public CurrencyInventory(Dictionary<CurrencyType, int> currencies)
+        public CurrencyService(Dictionary<CurrencyType, int> currencies)
         {
             this.currencies = currencies;
         }
 
-        public CurrencyInventory()
+        public CurrencyService()
         {
             currencies = new(); //TODO загрузка из сохранения
         }

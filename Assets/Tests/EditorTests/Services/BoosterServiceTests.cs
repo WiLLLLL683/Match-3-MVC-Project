@@ -1,18 +1,18 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Model.Objects;
+using Model.Objects.UnitTests;
+using Model.Services;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Model.Objects.UnitTests
+namespace Model.Services.UnitTests
 {
-    public class BoosterInventoryTests
+    public class BoosterServiceTests
     {
         [Test]
         public void AddBooster_NewBooster_NewBoosterAdded()
         {
-            BoosterInventory inventory = new();
+            BoosterService inventory = new();
 
             Assert.AreEqual(0, inventory.GetBoosterAmount<TestBooster1>());
 
@@ -22,9 +22,9 @@ namespace Model.Objects.UnitTests
         }
 
         [Test]
-        public void AddBooster_ExistingBooster_BoosterAmmountIncreased()
+        public void AddBooster_ExistingBooster_BoosterAmountIncreased()
         {
-            BoosterInventory inventory = new();
+            BoosterService inventory = new();
             inventory.AddBooster<TestBooster1>(1);
 
             Assert.AreEqual(1, inventory.GetBoosterAmount<TestBooster1>());
@@ -35,33 +35,33 @@ namespace Model.Objects.UnitTests
         }
 
         [Test]
-        public void TakeBooster_ExistingBooster_BoosterAmmountDecreased()
+        public void SpendBooster_ExistingBooster_BoosterAmountDecreased()
         {
-            BoosterInventory inventory = new();
+            BoosterService inventory = new();
             inventory.AddBooster<TestBooster1>(2);
 
-            inventory.TakeBooster<TestBooster1>();
+            inventory.SpendBooster<TestBooster1>();
 
             Assert.AreEqual(1, inventory.GetBoosterAmount<TestBooster1>());
         }
 
         [Test]
-        public void TakeBooster_ExistingBooster_BoosterReturned()
+        public void SpendBooster_ExistingBooster_BoosterReturned()
         {
-            BoosterInventory inventory = new();
+            BoosterService inventory = new();
             inventory.AddBooster<TestBooster1>(1);
 
-            IBooster booster = inventory.TakeBooster<TestBooster1>();
+            IBooster booster = inventory.SpendBooster<TestBooster1>();
 
             Assert.That(booster is TestBooster1);
         }
 
         [Test]
-        public void TakeBooster_NonExistingBooster_Error()
+        public void SpendBooster_NonExistingBooster_Error()
         {
-            BoosterInventory inventory = new();
+            BoosterService inventory = new();
 
-            inventory.TakeBooster<TestBooster1>();
+            inventory.SpendBooster<TestBooster1>();
 
             LogAssert.Expect(LogType.Error, "You have no booster of this type");
         }

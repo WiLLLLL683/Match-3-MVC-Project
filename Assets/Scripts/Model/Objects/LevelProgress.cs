@@ -3,26 +3,25 @@ using Model.Readonly;
 
 namespace Model.Objects
 {
-    public class LevelProgress : ILevelProgress_Readonly
+    [Serializable]
+    public class LevelProgress
     {
-        public int CurrentLevelIndex => currentLevelIndex;
-
+        public int CurrentLevelIndex;
         private readonly int maxLevelIndex;
-        private int currentLevelIndex;
 
         public LevelProgress(int maxLevelIndex)
         {
             this.maxLevelIndex = maxLevelIndex;
-            this.currentLevelIndex = 0; //TODO загрузка сохранения
+            this.CurrentLevelIndex = 0; //TODO загрузка сохранения
         }
 
         public void SetCurrentLevel(int index)
         {
             index = Math.Clamp(index, 0, maxLevelIndex);
-            currentLevelIndex = index;
+            CurrentLevelIndex = index;
             //TODO save game
         }
 
-        public void IncrementLevelIndex() => SetCurrentLevel(currentLevelIndex + 1);
+        public void IncrementLevelIndex() => SetCurrentLevel(CurrentLevelIndex + 1);
     }
 }

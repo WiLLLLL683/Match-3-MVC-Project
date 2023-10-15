@@ -21,8 +21,8 @@ public class MetaGameState : IState
     private IHeaderPresenter headerScreen;
 
     //фабрики игровых элементов
-    private AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> scoreFactory;
-    private AFactory<ILevelProgress_Readonly, ASelectorView, ISelectorPresenter> selectorFactory;
+    private AFactory<ICurrencyService_Readonly, ACounterView, ICurrencyPresenter> scoreFactory;
+    private AFactory<LevelProgress, ASelectorView, ISelectorPresenter> selectorFactory;
 
     public MetaGameState(Game game, PrefabConfig prefabs, LevelSO[] allLevels, Bootstrap bootstrap)
     {

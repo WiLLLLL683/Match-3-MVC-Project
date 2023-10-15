@@ -17,8 +17,6 @@ namespace Model.Infrastructure
     {
         //meta game
         public LevelProgress LevelProgress;
-        public CurrencyInventory CurrencyInventory;
-        public BoosterInventory BoosterInventory;
         public PlayerSettings PlayerSettings;
 
         //core game
@@ -35,6 +33,8 @@ namespace Model.Infrastructure
         private readonly ILevelFactory levelFactory;
 
         //services
+        public readonly ICurrencyService CurrencyInventory;
+        public readonly IBoosterService BoosterService;
         private readonly IValidationService validationService;
         private readonly IRandomBlockTypeService randomService;
         private readonly IBlockSpawnService spawnService;
@@ -48,8 +48,6 @@ namespace Model.Infrastructure
 
         public Game(CellTypeSetSO allCellTypes, int maxLevelIndex)
         {
-            CurrencyInventory = new CurrencyInventory();
-            BoosterInventory = new BoosterInventory();
             LevelProgress = new LevelProgress(maxLevelIndex);
             PlayerSettings = new(true, false); //TODO загрузка из сохранения
 
@@ -63,6 +61,8 @@ namespace Model.Infrastructure
             levelFactory = new LevelFactory(gameboardFactory, matchPatternFactory, counterFactory);
 
             //services
+            CurrencyInventory = new CurrencyService();
+            BoosterService = new BoosterService();
             validationService = new ValidationService();
             randomService = new RandomBlockTypeService();
             spawnService = new BlockSpawnService(blockFactory, validationService, randomService);
@@ -76,7 +76,7 @@ namespace Model.Infrastructure
             stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, validationService, randomService, spawnService, matchService, gravityService, moveService, destroyService, winLoseService));
             stateMachine.AddState(new WaitState(this, stateMachine, matchService, winLoseService));
             stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService, destroyService));
-            stateMachine.AddState(new BoosterState(this, stateMachine, BoosterInventory));
+            stateMachine.AddState(new BoosterState(this, stateMachine, BoosterService));
             stateMachine.AddState(new SpawnState(this, stateMachine, spawnService, matchService, gravityService, destroyService));
             stateMachine.AddState(new LoseState(stateMachine));
             stateMachine.AddState(new WinState(stateMachine));

@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Model.Objects
 {
+    [Serializable]
     public class HintPattern : Pattern
     {
         public Vector2Int cellToMove;
