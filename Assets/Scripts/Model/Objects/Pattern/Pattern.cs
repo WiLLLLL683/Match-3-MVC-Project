@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Model.Objects
 {
     /// <summary>
-    /// Паттерн для нахождения одинаковых блоков, выстроенных в ряд
+    /// Паттерн для нахождения блоков одного типа, расположенных в по заданной схеме
     /// </summary>
     public abstract class Pattern
     {

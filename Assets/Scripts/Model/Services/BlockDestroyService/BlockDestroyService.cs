@@ -1,8 +1,6 @@
-﻿using Model.Factories;
+﻿using UnityEngine;
+using Model.Factories;
 using Model.Objects;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Model.Services
 {
@@ -19,7 +17,7 @@ namespace Model.Services
         }
 
         public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
-        
+
         public IAction Destroy(Vector2Int position)
         {
             if (!validation.CellExistsAt(position))

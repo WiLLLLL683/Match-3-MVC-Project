@@ -1,7 +1,7 @@
-﻿using Model.Readonly;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Model.Readonly;
 
 namespace Model.Objects
 {
@@ -10,7 +10,7 @@ namespace Model.Objects
     /// </summary>
     public class BoosterInventory : IBoosterInventory_Readonly
     {
-        private Dictionary<Type, int> boosters = new();
+        private readonly Dictionary<Type, int> boosters = new();
 
         /// <summary>
         /// Добавить бустер определенного типа

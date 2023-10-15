@@ -18,11 +18,11 @@ namespace Model.Infrastructure
         //meta game
         public LevelProgress LevelProgress;
         public CurrencyInventory CurrencyInventory;
+        public BoosterInventory BoosterInventory;
+        public PlayerSettings PlayerSettings;
 
         //core game
         public Level CurrentLevel;
-        public BoosterInventory BoosterInventory;
-        public PlayerSettings PlayerSettings;
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name;
 
         //factories

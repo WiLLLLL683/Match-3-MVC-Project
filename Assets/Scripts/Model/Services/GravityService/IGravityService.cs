@@ -7,11 +7,11 @@ namespace Model.Services
     /// </summary>
     public interface IGravityService
     {
+        public void SetLevel(GameBoard gameBoard);
+
         /// <summary>
         /// Переместить все "висящие в воздухе" блоки вниз
         /// </summary>
         public void Execute();
-
-        public void SetLevel(GameBoard gameBoard);
     }
 }

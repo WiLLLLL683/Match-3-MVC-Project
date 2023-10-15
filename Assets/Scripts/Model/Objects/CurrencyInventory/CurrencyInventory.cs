@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Objects
 {
-    /// <summary>
-    /// Инвентарь для игровых валют
-    /// </summary>
-    public class CurrencyInventory
+    public class CurrencyInventory : ICurrencyInventory
     {
-        public Dictionary<CurrencyType, int> currencies { get; private set; } = new();
+        private readonly Dictionary<CurrencyType, int> currencies;
 
-        /// <summary>
-        /// Добавить валюту определенного типа
-        /// </summary>
+        public CurrencyInventory(Dictionary<CurrencyType, int> currencies)
+        {
+            this.currencies = currencies;
+        }
+
+        public CurrencyInventory()
+        {
+            currencies = new(); //TODO загрузка из сохранения
+        }
+
         public void AddCurrency(CurrencyType type, int ammount)
         {
             if (ammount <= 0)
@@ -32,10 +35,7 @@ namespace Model.Objects
             }
         }
 
-        /// <summary>
-        /// Забрать валюту определенного типа из инвентаря
-        /// </summary>
-        public void TakeCurrency(CurrencyType type, int ammount)
+        public void SpendCurrency(CurrencyType type, int ammount)
         {
             if (ammount <= 0)
             {

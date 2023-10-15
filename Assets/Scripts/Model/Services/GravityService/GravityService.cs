@@ -5,7 +5,7 @@ namespace Model.Services
 {
     public class GravityService : IGravityService
     {
-        private IValidationService validationService;
+        private readonly IValidationService validationService;
         private GameBoard gameBoard;
 
         private int lowestY;
@@ -16,7 +16,6 @@ namespace Model.Services
         }
 
         public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
-        //public void SetGameBoard(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
         public void Execute()
         {

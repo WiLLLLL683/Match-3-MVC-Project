@@ -11,11 +11,14 @@ namespace Model.Services
     [Serializable]
     public class Turn : ICounterTarget
     {
-        public Sprite Icon => null;
+        public int Id { get; private set; }
 
-        public int Id { get; }
+        private readonly List<IAction> actions = new();
 
-        private List<IAction> actions = new();
+        public Turn(int id)
+        {
+            Id = id;
+        }
 
         /// <summary>
         /// Добавить действие в ход

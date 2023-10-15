@@ -12,7 +12,7 @@ namespace Model.Infrastructure.UnitTests
         public void AddCurrency_PositiveAmount_GoldAdded()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 0);
 
             inventory.AddCurrency(type, 100);
 
@@ -23,7 +23,7 @@ namespace Model.Infrastructure.UnitTests
         public void AddCurrency_ZeroAmount_GoldNotAdded()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 0);
 
             inventory.AddCurrency(type, 0);
 
@@ -35,7 +35,7 @@ namespace Model.Infrastructure.UnitTests
         public void AddCurrency_NegativeAmount_GoldNotAdded()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 0);
 
             inventory.AddCurrency(type, -555);
 
@@ -47,10 +47,9 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_PositiveAmount_GoldRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
-            inventory.AddCurrency(type, 100);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 100);
 
-            inventory.TakeCurrency(type, 10);
+            inventory.SpendCurrency(type, 10);
 
             Assert.AreEqual(90, inventory.GetAmount(type));
         }
@@ -59,9 +58,9 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_NotEnough_GoldNotRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 0);
 
-            inventory.TakeCurrency(type, 10);
+            inventory.SpendCurrency(type, 10);
 
             Assert.AreEqual(0, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Not enough " + type);
@@ -71,10 +70,9 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_ZeroAmount_GoldNotRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
-            inventory.AddCurrency(type, 100);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 100);
 
-            inventory.TakeCurrency(type, 0);
+            inventory.SpendCurrency(type, 0);
 
             Assert.AreEqual(100, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Can't remove negative ammount of " + type);
@@ -84,10 +82,9 @@ namespace Model.Infrastructure.UnitTests
         public void TakeCurrency_NegativeAmount_GoldNotRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
-            inventory.AddCurrency(type, 100);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 100);
 
-            inventory.TakeCurrency(type, -10);
+            inventory.SpendCurrency(type, -10);
 
             Assert.AreEqual(100, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "Can't remove negative ammount of " + type);
@@ -99,7 +96,7 @@ namespace Model.Infrastructure.UnitTests
             CurrencyType type = CurrencyType.Gold;
             CurrencyInventory inventory = new();
 
-            inventory.TakeCurrency(type, 10);
+            inventory.SpendCurrency(type, 10);
 
             Assert.AreEqual(0, inventory.GetAmount(type));
             LogAssert.Expect(LogType.Error, "You have no " + type);
@@ -110,8 +107,7 @@ namespace Model.Infrastructure.UnitTests
         public void GetAmount_ValidType_ValidAmount()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type);
-            inventory.AddCurrency(type, 100);
+            CurrencyInventory inventory = TestServicesFactory.CreateCurrencyInventory(type, 100);
 
             int ammount = inventory.GetAmount(type);
 

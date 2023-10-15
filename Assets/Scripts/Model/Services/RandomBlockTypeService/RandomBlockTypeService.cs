@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Config;
 using Model.Objects;
 
 namespace Model.Services
@@ -19,9 +18,6 @@ namespace Model.Services
             CalculateTotalWeight();
         }
 
-        /// <summary>
-        /// Получить рандомный тип блока с заданными вероятностями
-        /// </summary>
         public BlockType GetRandomBlockType()
         {
             int weightIndex = new Random().Next(0, totalWeight);

@@ -14,7 +14,7 @@ namespace TestUtils
         public static Level CreateLevel(int xLength, int yLength)
         {
             var goals = new Counter[1] { new Counter(TestBlockFactory.DefaultBlockType, 2) };
-            var restrictions = new Counter[1] { new Counter(new Turn(), 2) };
+            var restrictions = new Counter[1] { new Counter(new Turn(-100), 2) };
             var hintPatterns = new HintPattern[1] { TestPatternFactory.CreateDefaultHintPattern() };
             var matchPatterns = new MatchPattern[1] { new MatchPattern(new bool[1, 1] { { true } }, hintPatterns) };
 

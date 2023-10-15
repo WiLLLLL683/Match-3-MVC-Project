@@ -1,9 +1,7 @@
-﻿using Config;
-
-namespace Model.Readonly
+﻿namespace Model.Readonly
 {
     public interface ILevelProgress_Readonly
     {
-        int CurrentLevelIndex { get; }
+        public int CurrentLevelIndex { get; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Config;
 using Model.Objects;
 
 namespace Model.Services
@@ -9,7 +8,11 @@ namespace Model.Services
     /// </summary>
     public interface IRandomBlockTypeService
     {
-        public BlockType GetRandomBlockType();
         public void SetLevel(List<BlockType_Weight> typesWeight, BlockType defaultBlockType);
+        
+        /// <summary>
+        /// Получить рандомный тип блока с заданными вероятностями
+        /// </summary>
+        public BlockType GetRandomBlockType();
     }
 }
