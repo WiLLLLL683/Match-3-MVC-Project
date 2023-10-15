@@ -2,6 +2,7 @@
 using UnityEngine;
 using View;
 using Utils;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -12,11 +13,11 @@ namespace Presenter
     {
         public class Factory : AFactory<ILevel_Readonly, AHudView, IHudPresenter>
         {
-            private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
-            private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
+            private AFactory<Counter, ACounterView, ICounterPresenter> goalFactory;
+            private AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory;
             public Factory(AHudView viewPrefab,
-                AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory,
-                AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory) : base(viewPrefab)
+                AFactory<Counter, ACounterView, ICounterPresenter> goalFactory,
+                AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory) : base(viewPrefab)
             {
                 this.goalFactory = goalFactory;
                 this.restrictionFactory = restrictionFactory;
@@ -33,13 +34,13 @@ namespace Presenter
         
         private readonly ILevel_Readonly model;
         private readonly AHudView view;
-        private readonly AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
-        private readonly AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
+        private readonly AFactory<Counter, ACounterView, ICounterPresenter> goalFactory;
+        private readonly AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory;
 
         public HudPresenter(ILevel_Readonly model,
             AHudView view,
-            AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory,
-            AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory)
+            AFactory<Counter, ACounterView, ICounterPresenter> goalFactory,
+            AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory)
         {
             this.model = model;
             this.view = view;

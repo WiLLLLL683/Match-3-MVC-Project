@@ -4,9 +4,16 @@ namespace Model.Services
 {
     public class WinLoseService : IWinLoseService
     {
+        private readonly ICounterService counterService;
+
         private Level level;
         private Counter[] goals;
         private Counter[] restrictions;
+
+        public WinLoseService(ICounterService counterService)
+        {
+            this.counterService = counterService;
+        }
 
         public void SetLevel(Level level)
         {
@@ -47,19 +54,19 @@ namespace Model.Services
             return false;
         }
 
-        public void UpdateGoals(ICounterTarget _target)
+        public void UpdateGoals(ICounterTarget target)
         {
             for (int i = 0; i < goals.Length; i++)
             {
-                goals[i].CheckTarget(_target);
+                counterService.CheckTarget(goals[i], target);
             }
         }
 
-        public void UpdateRestrictions(ICounterTarget _target)
+        public void UpdateRestrictions(ICounterTarget target)
         {
             for (int i = 0; i < restrictions.Length; i++)
             {
-                restrictions[i].CheckTarget(_target);
+                counterService.CheckTarget(restrictions[i], target);
             }
         }
     }

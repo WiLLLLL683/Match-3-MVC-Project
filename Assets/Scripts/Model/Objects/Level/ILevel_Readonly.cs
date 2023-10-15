@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Objects;
+using System;
 
 namespace Model.Readonly
 {
@@ -8,7 +9,7 @@ namespace Model.Readonly
         public abstract event Action OnLose;
 
         public IGameBoard_Readonly GameBoard_Readonly { get; }
-        public ICounter_Readonly[] Goals_Readonly { get; }
-        public ICounter_Readonly[] Restrictions_Readonly { get; }
+        public Counter[] Goals_Readonly { get; }
+        public Counter[] Restrictions_Readonly { get; }
     }
 }

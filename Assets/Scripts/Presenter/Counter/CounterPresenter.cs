@@ -3,6 +3,7 @@ using UnityEngine;
 using Model.Readonly;
 using Utils;
 using View;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -14,13 +15,13 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<ICounter_Readonly, ACounterView, ICounterPresenter>
+        public class Factory : AFactory<Counter, ACounterView, ICounterPresenter>
         {
             public Factory(ACounterView viewPrefab, Transform parent = null) : base(viewPrefab)
             {
             }
 
-            public override ICounterPresenter Connect(ACounterView existingView, ICounter_Readonly model)
+            public override ICounterPresenter Connect(ACounterView existingView, Counter model)
             {
                 var presenter = new CounterPresenter();
                 presenter.Enable();

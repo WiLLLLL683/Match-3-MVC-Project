@@ -18,8 +18,8 @@ namespace Model.Objects
         public event Action OnLose;
 
         public IGameBoard_Readonly GameBoard_Readonly => gameBoard;
-        public ICounter_Readonly[] Goals_Readonly => goals;
-        public ICounter_Readonly[] Restrictions_Readonly => goals;
+        public Counter[] Goals_Readonly => goals;
+        public Counter[] Restrictions_Readonly => goals;
 
         public void SetWin() => OnWin?.Invoke();
         public void SetLose() => OnLose?.Invoke();
