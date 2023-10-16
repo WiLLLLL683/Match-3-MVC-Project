@@ -35,15 +35,15 @@ namespace Model.Infrastructure
         //services
         public readonly ICurrencyService CurrencyInventory;
         public readonly IBoosterService BoosterService;
-        private readonly IValidationService validationService;
-        private readonly IRandomBlockTypeService randomService;
-        private readonly IBlockSpawnService spawnService;
-        private readonly IMatchService matchService;
-        private readonly IGravityService gravityService;
-        private readonly IBlockMoveService moveService;
-        private readonly IBlockDestroyService destroyService;
-        private readonly ICounterService counterService;
-        private readonly IWinLoseService winLoseService;
+        public readonly IValidationService validationService;
+        public readonly IRandomBlockTypeService randomService;
+        public readonly IBlockSpawnService spawnService;
+        public readonly IMatchService matchService;
+        public readonly IGravityService gravityService;
+        public readonly IBlockMoveService moveService;
+        public readonly IBlockDestroyService destroyService;
+        public readonly ICounterService counterService;
+        public readonly IWinLoseService winLoseService;
 
         private readonly StateMachine<AModelState> stateMachine = new();
 

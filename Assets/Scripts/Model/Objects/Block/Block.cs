@@ -15,8 +15,6 @@ namespace Model.Objects
         public Vector2Int Position { get; private set; }
         public IBlockType_Readonly Type_Readonly => Type;
 
-        public event Action<Block> OnDestroy;
-        public event Action<IBlock_Readonly> OnDestroy_Readonly;
         public event Action<IBlockType_Readonly> OnTypeChange;
         public event Action<Vector2Int> OnPositionChange;
 
@@ -48,15 +46,5 @@ namespace Model.Objects
         /// Активировать блок, зависит от типа блока
         /// </summary>
         public bool Activate() => Type.Activate();
-
-        /// <summary>
-        /// уничтожить блок
-        /// ВНИМАНИЕ: метод следует вызывать только из Клетки
-        /// </summary>
-        public void Destroy()
-        {
-            OnDestroy?.Invoke(this);
-            OnDestroy_Readonly?.Invoke(this);
-        }
     }
 }

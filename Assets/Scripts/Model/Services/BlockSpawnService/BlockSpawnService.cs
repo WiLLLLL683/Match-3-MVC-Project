@@ -1,5 +1,7 @@
 ﻿using Model.Factories;
 using Model.Objects;
+using Model.Readonly;
+using System;
 using System.Collections.Generic;
 
 namespace Model.Services
@@ -10,6 +12,8 @@ namespace Model.Services
         private readonly IValidationService validationService;
         private readonly IRandomBlockTypeService randomService;
         private GameBoard gameBoard;
+
+        public event Action<Block> OnBlockSpawn;
 
         public BlockSpawnService(IBlockFactory blockFactory, IValidationService validationService, IRandomBlockTypeService randomService)
         {
@@ -88,8 +92,9 @@ namespace Model.Services
 
         private IAction SpawnBlock(BlockType type, Cell cell)
         {
-            IAction spawnAction = new SpawnBlockAction(gameBoard, type, cell, blockFactory);
+            SpawnBlockAction spawnAction = new SpawnBlockAction(gameBoard, type, cell, blockFactory);
             spawnAction.Execute();
+            OnBlockSpawn?.Invoke(spawnAction.Block);
             return spawnAction;
         }
 

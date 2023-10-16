@@ -4,6 +4,8 @@ using Model.Readonly;
 using Utils;
 using Model.Infrastructure;
 using Config;
+using Model.Services;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -12,20 +14,23 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<IBlock_Readonly, ABlockView, IBlockPresenter>
+        public class Factory : AFactory<Block, ABlockView, IBlockPresenter>
         {
             private readonly IGame game;
+            private readonly IBlockDestroyService destroyService;
             private readonly BlockTypeSetSO balanceSO;
-            public Factory(ABlockView viewPrefab, IGame game, BlockTypeSetSO balanceSO) : base(viewPrefab)
+
+            public Factory(ABlockView viewPrefab, IGame game, IBlockDestroyService destroyService, BlockTypeSetSO balanceSO) : base(viewPrefab)
             {
                 this.game = game;
+                this.destroyService = destroyService;
                 this.balanceSO = balanceSO;
             }
 
-            public override IBlockPresenter Connect(ABlockView existingView, IBlock_Readonly model)
+            public override IBlockPresenter Connect(ABlockView existingView, Block model)
             {
                 BlockTypeSO typeSO = balanceSO.GetSO(model.Type_Readonly.Id);
-                IBlockPresenter presenter = new BlockPresenter(model, existingView, typeSO, game, balanceSO);
+                IBlockPresenter presenter = new BlockPresenter(model, existingView, typeSO, game, destroyService, balanceSO);
                 presenter.Enable();
                 existingView.Init(typeSO.icon, typeSO.destroyEffect, model.Position);
                 allPresenters.Add(presenter);
@@ -33,17 +38,19 @@ namespace Presenter
             }
         }
 
-        private readonly IBlock_Readonly model;
+        private readonly Block model;
         private readonly ABlockView view;
         private readonly IGame game;
+        private readonly IBlockDestroyService destroyService;
         private readonly BlockTypeSetSO balanceSO;
         private BlockTypeSO typeSO;
 
-        public BlockPresenter(IBlock_Readonly model, ABlockView view, BlockTypeSO typeSO, IGame game, BlockTypeSetSO balanceSO)
+        public BlockPresenter(Block model, ABlockView view, BlockTypeSO typeSO, IGame game, IBlockDestroyService destroyService, BlockTypeSetSO balanceSO)
         {
             this.model = model;
             this.view = view;
             this.game = game;
+            this.destroyService = destroyService;
             this.typeSO = typeSO;
             this.balanceSO = balanceSO;
         }
@@ -53,7 +60,7 @@ namespace Presenter
             view.OnMove += Move;
             view.OnActivate += Activate;
 
-            model.OnDestroy_Readonly += Destroy;
+            destroyService.OnDestroy += Destroy;
             model.OnPositionChange += SyncPosition;
             model.OnTypeChange += ChangeType;
         }
@@ -62,7 +69,7 @@ namespace Presenter
             view.OnMove -= Move;
             view.OnActivate -= Activate;
 
-            model.OnDestroy_Readonly -= Destroy;
+            destroyService.OnDestroy -= Destroy;
             model.OnPositionChange -= SyncPosition;
             model.OnTypeChange -= ChangeType;
         }
@@ -85,8 +92,11 @@ namespace Presenter
             typeSO = balanceSO.GetSO(type.Id);
             view.ChangeType(typeSO.icon, typeSO.destroyEffect);
         }
-        private void Destroy(IBlock_Readonly block)
+        private void Destroy(Block model)
         {
+            if (this.model != model)
+                return;
+
             Disable();
             view.PlayDestroyEffect();
             GameObject.Destroy(view.gameObject);

@@ -73,7 +73,7 @@ namespace TestUtils
                     continue;
                 }
                 Block block = TestBlockFactory.CreateBlockInCell(typeIds[i], cells[i]);
-                gameBoard.RegisterBlock(block);
+                gameBoard.Blocks.Add(block);
             }
 
             return gameBoard;

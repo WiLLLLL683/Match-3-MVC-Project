@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using System;
 using System.Collections.Generic;
 
 namespace Model.Services
@@ -8,6 +9,8 @@ namespace Model.Services
     /// </summary>
     public interface IBlockSpawnService
     {
+        event Action<Block> OnBlockSpawn;
+
         /// <summary>
         /// Задать данные о текущем уровне
         /// </summary>

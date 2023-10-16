@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Model.Factories;
 using Model.Objects;
+using System;
 
 namespace Model.Services
 {
@@ -9,6 +10,8 @@ namespace Model.Services
         private readonly IValidationService validation;
         private readonly IBlockFactory blockFactory;
         private GameBoard gameBoard;
+
+        public event Action<Block> OnDestroy;
 
         public BlockDestroyService(IValidationService validationService, IBlockFactory blockFactory)
         {
@@ -33,8 +36,9 @@ namespace Model.Services
             if (!validation.BlockExistsAt(cell.Position))
                 return null;
 
-            IAction action = new DestroyBlockAction(gameBoard, cell, blockFactory);
+            DestroyBlockAction action = new DestroyBlockAction(gameBoard, cell, blockFactory);
             action.Execute();
+            OnDestroy?.Invoke(action.Block);
             return action;
         }
     }

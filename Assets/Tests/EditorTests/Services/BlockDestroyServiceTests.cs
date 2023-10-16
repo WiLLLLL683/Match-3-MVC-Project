@@ -26,8 +26,8 @@ namespace Model.Services.UnitTests
             if (block != null)
             {
                 gameBoard.Cells[block.Position.x, block.Position.y].SetBlock(block);
-                gameBoard.RegisterBlock(block);
-                block.OnDestroy += (_) => eventCount++;
+                gameBoard.Blocks.Add(block);
+                service.OnDestroy += (_) => eventCount++;
             }
 
             return (gameBoard, service);

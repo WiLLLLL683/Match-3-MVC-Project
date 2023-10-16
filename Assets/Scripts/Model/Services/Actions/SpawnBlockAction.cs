@@ -8,12 +8,12 @@ namespace Model.Services
     /// </summary>
     public class SpawnBlockAction : IAction
     {
+        public Block Block;
+
         private readonly GameBoard gameBoard;
         private readonly BlockType type;
         private readonly Cell cell;
         private readonly IBlockFactory factory;
-
-        private Block block;
 
         public SpawnBlockAction(GameBoard gameBoard, BlockType type, Cell cell, IBlockFactory factory)
         {
@@ -25,9 +25,9 @@ namespace Model.Services
 
         public void Execute()
         {
-            block = factory.Create(type, cell.Position);
-            cell.SetBlock(block);
-            gameBoard.RegisterBlock(block);
+            Block = factory.Create(type, cell.Position);
+            cell.SetBlock(Block);
+            gameBoard.Blocks.Add(Block);
         }
 
         public void Undo()

@@ -51,19 +51,5 @@ namespace Model.Objects.UnitTests
             Assert.AreEqual(true, beforeChange);
             Assert.AreEqual(false, afterChange);
         }
-
-        [Test]
-        public void Destroy_Block_DestroyEvent()
-        {
-            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK, new(0, 0));
-            Block test = null;
-            void TestFunc(Block sender) => test = sender;
-
-            block.OnDestroy += TestFunc;
-            block.Destroy();
-            block.OnDestroy -= TestFunc;
-
-            Assert.AreSame(block,test);
-        }
     }
 }
