@@ -3,6 +3,7 @@ using UnityEngine;
 using Model.Objects;
 using Model.Services;
 using Utils;
+using Model.Commands;
 
 namespace Model.Infrastructure
 {
@@ -54,7 +55,8 @@ namespace Model.Infrastructure
 
         private void MoveBlock()
         {
-            IAction swapAction = blockMoveService.Move(startPos, direction);
+            ICommand moveAction = new BlockMoveCommand(startPos, direction.ToVector2Int(), blockMoveService);
+            moveAction.Execute();
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 
@@ -64,14 +66,14 @@ namespace Model.Infrastructure
             }
             else
             {
-                swapAction?.Undo();
+                moveAction?.Undo();
                 stateMachine.SetPreviousState();
             }
         }
 
         private void PressBlock()
         {
-            bool turnSucsess = gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
+            bool turnSucsess = gameBoard.Cells[startPos.x, startPos.y].Block.Type.Activate(); //TODO возвращать IAction
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 
@@ -92,7 +94,7 @@ namespace Model.Infrastructure
             foreach (Cell match in matches)
             {
                 //level.UpdateGoals(matches[i].Block.Type);
-                blockDestroyService.Destroy(match);
+                blockDestroyService.DestroyAt(match);
             }
             stateMachine.SetState<SpawnState>();
         }

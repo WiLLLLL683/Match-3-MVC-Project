@@ -16,21 +16,25 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<Block, ABlockView, IBlockPresenter>
         {
+            private readonly BlockTypeSetSO allTypeSO;
             private readonly IGame game;
             private readonly IBlockDestroyService destroyService;
-            private readonly BlockTypeSetSO balanceSO;
+            private readonly IBlockChangeTypeService changeTypeService;
+            private readonly IBlockMoveService moveService;
 
-            public Factory(ABlockView viewPrefab, IGame game, IBlockDestroyService destroyService, BlockTypeSetSO balanceSO) : base(viewPrefab)
+            public Factory(ABlockView viewPrefab, BlockTypeSetSO allTypeSO, IGame game, IBlockDestroyService destroyService, IBlockChangeTypeService changeTypeService, IBlockMoveService moveService) : base(viewPrefab)
             {
+                this.allTypeSO = allTypeSO;
                 this.game = game;
                 this.destroyService = destroyService;
-                this.balanceSO = balanceSO;
+                this.changeTypeService = changeTypeService;
+                this.moveService = moveService;
             }
 
             public override IBlockPresenter Connect(ABlockView existingView, Block model)
             {
-                BlockTypeSO typeSO = balanceSO.GetSO(model.Type_Readonly.Id);
-                IBlockPresenter presenter = new BlockPresenter(model, existingView, typeSO, game, destroyService, balanceSO);
+                BlockTypeSO typeSO = allTypeSO.GetSO(model.Type.Id);
+                IBlockPresenter presenter = new BlockPresenter(model, existingView, typeSO, allTypeSO, game, destroyService, changeTypeService, moveService);
                 presenter.Enable();
                 existingView.Init(typeSO.icon, typeSO.destroyEffect, model.Position);
                 allPresenters.Add(presenter);
@@ -40,19 +44,24 @@ namespace Presenter
 
         private readonly Block model;
         private readonly ABlockView view;
+        private readonly BlockTypeSetSO allTypeSO;
         private readonly IGame game;
         private readonly IBlockDestroyService destroyService;
-        private readonly BlockTypeSetSO balanceSO;
+        private readonly IBlockChangeTypeService changeTypeService;
+        private readonly IBlockMoveService moveService;
         private BlockTypeSO typeSO;
 
-        public BlockPresenter(Block model, ABlockView view, BlockTypeSO typeSO, IGame game, IBlockDestroyService destroyService, BlockTypeSetSO balanceSO)
+        public BlockPresenter(Block model, ABlockView view, BlockTypeSO typeSO, BlockTypeSetSO allTypeSO, IGame game,
+            IBlockDestroyService destroyService, IBlockChangeTypeService changeTypeService, IBlockMoveService moveService)
         {
             this.model = model;
             this.view = view;
+            this.allTypeSO = allTypeSO;
             this.game = game;
             this.destroyService = destroyService;
+            this.changeTypeService = changeTypeService;
+            this.moveService = moveService;
             this.typeSO = typeSO;
-            this.balanceSO = balanceSO;
         }
 
         public void Enable()
@@ -61,8 +70,8 @@ namespace Presenter
             view.OnActivate += Activate;
 
             destroyService.OnDestroy += Destroy;
-            model.OnPositionChange += SyncPosition;
-            model.OnTypeChange += ChangeType;
+            moveService.OnPositionChange += SyncPosition;
+            changeTypeService.OnTypeChange += ChangeType;
         }
         public void Disable()
         {
@@ -70,8 +79,8 @@ namespace Presenter
             view.OnActivate -= Activate;
 
             destroyService.OnDestroy -= Destroy;
-            model.OnPositionChange -= SyncPosition;
-            model.OnTypeChange -= ChangeType;
+            moveService.OnPositionChange -= SyncPosition;
+            changeTypeService.OnTypeChange -= ChangeType;
         }
         public void Destroy() => Destroy(model);
         public void Move(Directions direction)
@@ -86,10 +95,19 @@ namespace Presenter
             game.ActivateBlock(model.Position);
         }
 
-        private void SyncPosition(Vector2Int modelPosition) => view.ChangeModelPosition(modelPosition);
-        private void ChangeType(IBlockType_Readonly type)
+        private void SyncPosition(Block model)
         {
-            typeSO = balanceSO.GetSO(type.Id);
+            if (this.model != model)
+                return;
+
+            view.ChangeModelPosition(model.Position);
+        }
+        private void ChangeType(Block model)
+        {
+            if (this.model != model)
+                return;
+
+            typeSO = allTypeSO.GetSO(model.Type.Id);
             view.ChangeType(typeSO.icon, typeSO.destroyEffect);
         }
         private void Destroy(Block model)

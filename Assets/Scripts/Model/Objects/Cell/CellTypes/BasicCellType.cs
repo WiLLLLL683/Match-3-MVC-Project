@@ -9,13 +9,13 @@ namespace Model.Objects
     {
         public BasicCellType()
         {
-            this.isPlayable = true;
-            this.canContainBlock = true;
+            this.IsPlayable = true;
+            this.CanContainBlock = true;
         }
         public BasicCellType(bool isPlayable, bool canContainBlock)
         {
-            this.isPlayable = isPlayable;
-            this.canContainBlock = canContainBlock;
+            this.IsPlayable = isPlayable;
+            this.CanContainBlock = canContainBlock;
         }
 
         public override void DestroyCellMaterial()

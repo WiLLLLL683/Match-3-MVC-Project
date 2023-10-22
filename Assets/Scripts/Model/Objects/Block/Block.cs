@@ -9,42 +9,15 @@ namespace Model.Objects
     /// Блок должен находиться в Клетке
     /// </summary>
     [Serializable]
-    public class Block : IBlock_Readonly
+    public class Block
     {
-        public BlockType Type { get; private set; }
-        public Vector2Int Position { get; private set; }
-        public IBlockType_Readonly Type_Readonly => Type;
-
-        public event Action<IBlockType_Readonly> OnTypeChange;
-        public event Action<Vector2Int> OnPositionChange;
+        public BlockType Type;
+        public Vector2Int Position;
 
         public Block(BlockType type, Vector2Int position)
         {
             Type = type;
             Position = position;
         }
-
-        /// <summary>
-        /// Задать положение блока
-        /// </summary>
-        public void SetPosition(Vector2Int position)
-        {
-            Position = position;
-            OnPositionChange?.Invoke(Position);
-        }
-
-        /// <summary>
-        /// Задать новый тип блока
-        /// </summary>
-        public void SetType(BlockType type)
-        {
-            Type = type;
-            OnTypeChange?.Invoke(type);
-        }
-
-        /// <summary>
-        /// Активировать блок, зависит от типа блока
-        /// </summary>
-        public bool Activate() => Type.Activate();
     }
 }

@@ -8,6 +8,8 @@ namespace Model.Services
     /// </summary>
     public interface ICounterService
     {
+        bool CheckCompletion(Counter counter);
+
         event Action<Counter> OnCompleteEvent;
         event Action<Counter> OnUpdateEvent;
 

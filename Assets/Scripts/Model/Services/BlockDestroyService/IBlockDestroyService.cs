@@ -8,8 +8,8 @@ namespace Model.Services
     {
         event Action<Block> OnDestroy;
 
-        public void SetLevel(GameBoard gameBoard);
-        public IAction Destroy(Cell cell);
-        public IAction Destroy(Vector2Int position);
+        void SetLevel(GameBoard gameBoard);
+        void DestroyAt(Vector2Int position);
+        void DestroyAt(Cell cell);
     }
 }

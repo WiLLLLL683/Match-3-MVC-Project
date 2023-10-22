@@ -13,7 +13,7 @@ namespace Model.Factories
             this.invisibleCellType = invisibleCellType;
         }
 
-        public Cell Create(Vector2Int position, CellType type) => new Cell(type, position);
-        public Cell CreateInvisible(Vector2Int position) => new Cell(invisibleCellType, position);
+        public Cell Create(Vector2Int position, CellType type) => new Cell(type.Clone(), position);
+        public Cell CreateInvisible(Vector2Int position) => new Cell(invisibleCellType.Clone(), position);
     }
 }

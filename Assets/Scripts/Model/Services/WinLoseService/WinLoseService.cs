@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using System;
 
 namespace Model.Services
 {
@@ -7,46 +8,36 @@ namespace Model.Services
         private readonly ICounterService counterService;
 
         private Level level;
-        private Counter[] goals;
-        private Counter[] restrictions;
+
+        public event Action OnWin;
+        public event Action OnLose;
 
         public WinLoseService(ICounterService counterService)
         {
             this.counterService = counterService;
         }
 
-        public void SetLevel(Level level)
-        {
-            this.level = level;
-            this.goals = level.goals;
-            this.restrictions = level.restrictions;
-        }
+        public void SetLevel(Level level) => this.level = level;
 
         public bool CheckWin()
         {
-            for (int i = 0; i < goals.Length; i++)
+            for (int i = 0; i < level.goals.Length; i++)
             {
-                if (goals[i] == null)
-                    continue;
-
-                if (!goals[i].IsCompleted)
+                if (!counterService.CheckCompletion(level.goals[i]))
                     return false;
             }
 
-            level.SetWin();
+            OnWin?.Invoke();
             return true;
         }
 
         public bool CheckLose()
         {
-            for (int i = 0; i < restrictions.Length; i++)
+            for (int i = 0; i < level.restrictions.Length; i++)
             {
-                if (restrictions[i] == null)
-                    continue;
-
-                if (restrictions[i].IsCompleted)
+                if (counterService.CheckCompletion(level.restrictions[i]))
                 {
-                    level.SetLose();
+                    OnLose?.Invoke();
                     return true;
                 }
             }
@@ -56,17 +47,17 @@ namespace Model.Services
 
         public void UpdateGoals(ICounterTarget target)
         {
-            for (int i = 0; i < goals.Length; i++)
+            for (int i = 0; i < level.goals.Length; i++)
             {
-                counterService.CheckTarget(goals[i], target);
+                counterService.CheckTarget(level.goals[i], target);
             }
         }
 
         public void UpdateRestrictions(ICounterTarget target)
         {
-            for (int i = 0; i < restrictions.Length; i++)
+            for (int i = 0; i < level.restrictions.Length; i++)
             {
-                counterService.CheckTarget(restrictions[i], target);
+                counterService.CheckTarget(level.restrictions[i], target);
             }
         }
     }

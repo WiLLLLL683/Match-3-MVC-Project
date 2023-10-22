@@ -18,13 +18,13 @@ namespace Presenter
         {
             private readonly IBlockSpawnService blockSpawnService;
             private readonly AFactory<Block, ABlockView, IBlockPresenter> blockFactory;
-            private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
-            private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory;
+            private readonly AFactory<Cell, ACellView, ICellPresenter> cellFactory;
+            private readonly AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory;
             public Factory(AGameBoardView viewPrefab,
                 IBlockSpawnService blockSpawnService,
                 AFactory<Block, ABlockView, IBlockPresenter> blockFactory,
-                AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory,
-                AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory) : base(viewPrefab)
+                AFactory<Cell, ACellView, ICellPresenter> cellFactory,
+                AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory) : base(viewPrefab)
             {
                 this.blockSpawnService = blockSpawnService;
                 this.invisibleCellFactory = invisibleCellFactory;
@@ -45,17 +45,17 @@ namespace Presenter
         private readonly AGameBoardView view;
         private readonly IBlockSpawnService blockSpawnService;
         private readonly AFactory<Block, ABlockView, IBlockPresenter> blockFactory;
-        private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
-        private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory;
+        private readonly AFactory<Cell, ACellView, ICellPresenter> cellFactory;
+        private readonly AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory;
 
-        private readonly Dictionary<ICell_Readonly, ACellView> cells = new();
-        private readonly Dictionary<IBlock_Readonly, ABlockView> blocks = new();
+        private readonly Dictionary<Cell, ACellView> cells = new();
+        private readonly Dictionary<Block, ABlockView> blocks = new();
 
         public GameBoardPresenter(GameBoard model, AGameBoardView view,
             IBlockSpawnService blockSpawnService,
             AFactory<Block, ABlockView, IBlockPresenter> blockFactory,
-            AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory,
-            AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory)
+            AFactory<Cell, ACellView, ICellPresenter> cellFactory,
+            AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory)
         {
             this.model = model;
             this.view = view;
@@ -118,9 +118,9 @@ namespace Presenter
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    ICell_Readonly cellModel = model.Cells[x, y];
+                    Cell cellModel = model.Cells[x, y];
 
-                    if (cellModel.Type_Readonly.IsPlayable)
+                    if (cellModel.Type.IsPlayable)
                     {
                         cells[cellModel] = cellFactory.Create(cellModel).View; //спавн обычных клеток
                     }

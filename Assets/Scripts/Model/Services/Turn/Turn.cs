@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Model.Commands;
+using Model.Objects;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Model.Services
     {
         public int Id { get; private set; }
 
-        private readonly List<IAction> actions = new();
+        private readonly List<ICommand> actions = new();
 
         public Turn(int id)
         {
@@ -23,7 +24,7 @@ namespace Model.Services
         /// <summary>
         /// Добавить действие в ход
         /// </summary>
-        public void AddAction(IAction _action)
+        public void AddAction(ICommand _action)
         {
             actions.Add(_action);
         }

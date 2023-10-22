@@ -1,3 +1,4 @@
+using Model.Commands;
 using Model.Objects;
 using UnityEngine;
 
@@ -6,13 +7,15 @@ namespace Model.Services
     public class GravityService : IGravityService
     {
         private readonly IValidationService validationService;
+        private readonly IBlockMoveService moveService;
         private GameBoard gameBoard;
 
         private int lowestY;
 
-        public GravityService(IValidationService validationService)
+        public GravityService(IValidationService validationService, IBlockMoveService moveService)
         {
             this.validationService = validationService;
+            this.moveService = moveService;
         }
 
         public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
@@ -37,7 +40,7 @@ namespace Model.Services
 
             if (!IsLowestEmptyCell(y))
             {
-                var action = new SwapBlocksAction(gameBoard.Cells[x, y], gameBoard.Cells[x, lowestY]);
+                var action = new BlockMoveCommand(new(x, y), new(x, lowestY), moveService); //TODO возвращать комманду?
                 action.Execute();
             }
         }

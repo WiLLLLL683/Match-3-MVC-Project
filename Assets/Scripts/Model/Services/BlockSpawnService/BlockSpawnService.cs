@@ -1,8 +1,6 @@
 ﻿using Model.Factories;
 using Model.Objects;
-using Model.Readonly;
 using System;
-using System.Collections.Generic;
 
 namespace Model.Services
 {
@@ -11,23 +9,25 @@ namespace Model.Services
         private readonly IBlockFactory blockFactory;
         private readonly IValidationService validationService;
         private readonly IRandomBlockTypeService randomService;
+        private readonly IBlockChangeTypeService changeTypeService;
+        private readonly ICellSetBlockService setBlockService;
         private GameBoard gameBoard;
 
         public event Action<Block> OnBlockSpawn;
 
-        public BlockSpawnService(IBlockFactory blockFactory, IValidationService validationService, IRandomBlockTypeService randomService)
+        public BlockSpawnService(IBlockFactory blockFactory, IValidationService validationService, IRandomBlockTypeService randomService, IBlockChangeTypeService changeTypeService, ICellSetBlockService setBlockService)
         {
             this.blockFactory = blockFactory;
             this.validationService = validationService;
             this.randomService = randomService;
+            this.changeTypeService = changeTypeService;
+            this.setBlockService = setBlockService;
         }
 
         public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
-        public List<IAction> FillInvisibleRows()
+        public void FillInvisibleRows()
         {
-            List<IAction> actions = new();
-
             for (int y = 0; y < gameBoard.RowsOfInvisibleCells; y++)
             {
                 for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
@@ -35,17 +35,13 @@ namespace Model.Services
                     if (!validationService.CellIsEmptyAt(new(x, y)))
                         continue;
 
-                    actions.Add(SpawnRandomBlock(gameBoard.Cells[x, y]));
+                    SpawnRandomBlock(gameBoard.Cells[x, y]);
                 }
             }
-
-            return actions;
         }
 
-        public List<IAction> FillGameBoard()
+        public void FillGameBoard()
         {
-            List<IAction> actions = new();
-
             for (int y = 0; y < gameBoard.Cells.GetLength(1); y++)
             {
                 for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
@@ -53,56 +49,45 @@ namespace Model.Services
                     if (!validationService.CellIsEmptyAt(new(x, y)))
                         continue;
 
-                    actions.Add(SpawnRandomBlock(gameBoard.Cells[x, y]));
+                    SpawnRandomBlock(gameBoard.Cells[x, y]);
                 }
             }
-
-            return actions;
         }
 
-        public IAction SpawnRandomBlock_WithOverride(Cell cell)
+        public void SpawnRandomBlock_WithOverride(Cell cell)
         {
             BlockType type = randomService.GetRandomBlockType();
-            return SpawnBlock_WithOverride(type, cell);
+            SpawnBlock_WithOverride(cell, type);
         }
 
-        public IAction SpawnBlock_WithOverride(BlockType type, Cell cell)
+        public void SpawnBlock_WithOverride(Cell cell, BlockType type)
         {
             if (!validationService.CellExistsAt(cell.Position))
-                return null;
+                return;
 
             if (validationService.CellIsEmptyAt(cell.Position))
             {
-                return SpawnBlock(type, cell);
+                SpawnBlock(cell, type);
             }
 
             if (validationService.BlockExistsAt(cell.Position))
             {
-                return ChangeBlockType(type, cell);
+                changeTypeService.ChangeBlockType(cell, type);
             }
-
-            return null;
         }
 
-        private IAction SpawnRandomBlock(Cell cell)
+        private void SpawnRandomBlock(Cell cell)
         {
             BlockType type = randomService.GetRandomBlockType();
-            return SpawnBlock(type, cell);
+            SpawnBlock(cell, type);
         }
 
-        private IAction SpawnBlock(BlockType type, Cell cell)
+        private void SpawnBlock(Cell cell, BlockType type)
         {
-            SpawnBlockAction spawnAction = new SpawnBlockAction(gameBoard, type, cell, blockFactory);
-            spawnAction.Execute();
-            OnBlockSpawn?.Invoke(spawnAction.Block);
-            return spawnAction;
-        }
-
-        private static IAction ChangeBlockType(BlockType type, Cell cell)
-        {
-            IAction changeTypeAction = new ChangeBlockTypeAction(type, cell.Block);
-            changeTypeAction.Execute();
-            return changeTypeAction;
+            var block = blockFactory.Create(type, cell.Position);
+            setBlockService.SetBlock(cell, block);
+            gameBoard.Blocks.Add(block);
+            OnBlockSpawn?.Invoke(block);
         }
     }
 }

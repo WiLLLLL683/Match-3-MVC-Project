@@ -1,7 +1,5 @@
 ﻿using Model.Objects;
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Model.Services
 {
@@ -22,14 +20,21 @@ namespace Model.Services
             }
         }
 
-        private void CheckCompletion(Counter counter)
+        public bool CheckCompletion(Counter counter)
         {
-            if (counter.Count <= 0)
-            {
-                OnCompleteEvent?.Invoke(counter);
-                counter.Count = 0;
-                counter.IsCompleted = true;
-            }
+            if (counter == null)
+                return false;
+
+            if (counter.IsCompleted)
+                return true;
+
+            if (counter.Count > 0)
+                return false;
+
+            counter.Count = 0;
+            counter.IsCompleted = true;
+            OnCompleteEvent?.Invoke(counter);
+            return true;
         }
     }
 }

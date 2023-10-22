@@ -12,25 +12,23 @@ namespace Model.Services.UnitTests
 {
     public class BlockSpawnServiceTests
     {
-        private (BlockSpawnService service, GameBoard gameBoard) Setup(int xLength,
+        private (BlockSpawnService service, GameBoard gameBoard) Setup(
+            int xLength,
             int yLength,
             int invisibleRows,
             int factoryReturnBlockType = TestBlockFactory.DEFAULT_BLOCK,
             params int[] preSpawnedBlocks)
         {
             var gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, invisibleRows, preSpawnedBlocks);
-
-            var balance = TestServicesFactory.CreateRandomBlockTypeService(TestBlockFactory.DEFAULT_BLOCK);
-
-            var blockFactory = Substitute.For<IBlockFactory>();
-            blockFactory.Create(Arg.Any<BlockType>(), Arg.Any<Vector2Int>()).Returns(x => TestBlockFactory.CreateBlock(factoryReturnBlockType, x.Arg<Vector2Int>()));
-
+            var blockFactory = new BlockFactory();
             var validation = new ValidationService();
+            var random = TestServicesFactory.CreateRandomBlockTypeService(factoryReturnBlockType);
+            var changeTypeService = new BlockChangeTypeService(validation);
+            var setBlockService = new CellSetBlockService();
+
             validation.SetLevel(gameBoard);
 
-            var random = TestServicesFactory.CreateRandomBlockTypeService(factoryReturnBlockType);
-
-            var service = new BlockSpawnService(blockFactory, validation, random);
+            var service = new BlockSpawnService(blockFactory, validation, random, changeTypeService, setBlockService);
             service.SetLevel(gameBoard);
             return (service, gameBoard);
         }
@@ -90,7 +88,7 @@ namespace Model.Services.UnitTests
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
-            service.SpawnBlock_WithOverride(TestBlockFactory.RedBlockType, gameBoard.Cells[0,0]);
+            service.SpawnBlock_WithOverride(gameBoard.Cells[0, 0], TestBlockFactory.RedBlockType);
             
             Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
             Assert.That(gameBoard.Cells[0, 0].Block.Type.Id == TestBlockFactory.RED_BLOCK);
@@ -108,7 +106,7 @@ namespace Model.Services.UnitTests
             var gameBoard = tuple.gameBoard;
             var blockTypeBefore = gameBoard.Cells[0, 0].Block.Type;
 
-            service.SpawnBlock_WithOverride(TestBlockFactory.RedBlockType, gameBoard.Cells[0, 0]);
+            service.SpawnBlock_WithOverride(gameBoard.Cells[0, 0], TestBlockFactory.RedBlockType);
 
             Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
             Assert.That(blockTypeBefore.Id == TestBlockFactory.DEFAULT_BLOCK);
@@ -121,9 +119,9 @@ namespace Model.Services.UnitTests
             var tuple = Setup(1, 1, 1, TestBlockFactory.RED_BLOCK);
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
-            gameBoard.Cells[0, 0].SetType(TestCellFactory.NotPlayableCellType);
+            gameBoard.Cells[0, 0].Type = TestCellFactory.NotPlayableCellType;
 
-            service.SpawnBlock_WithOverride(TestBlockFactory.RedBlockType, gameBoard.Cells[0, 0]);
+            service.SpawnBlock_WithOverride(gameBoard.Cells[0, 0], TestBlockFactory.RedBlockType);
 
             Assert.IsTrue(gameBoard.Cells[0, 0].Block == null);
             Assert.IsFalse(gameBoard.Cells[0, 0].Type.IsPlayable);

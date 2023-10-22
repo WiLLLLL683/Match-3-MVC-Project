@@ -5,14 +5,13 @@ using UnityEngine;
 namespace Model.Objects
 {
     [Serializable]
-    public abstract class CellType : ICellType_Readonly, ICounterTarget
+    public abstract class CellType : ICounterTarget
     {
-        [SerializeField] protected int id;
-        [SerializeField] protected bool canContainBlock;
-        [SerializeField] protected bool isPlayable;
-        public int Id => id;
-        public bool CanContainBlock => canContainBlock;
-        public bool IsPlayable => isPlayable;
+        public int Id;
+        public bool CanContainBlock;
+        public bool IsPlayable;
+
+        int ICounterTarget.Id => Id;
 
         public abstract void DestroyCellMaterial();
 

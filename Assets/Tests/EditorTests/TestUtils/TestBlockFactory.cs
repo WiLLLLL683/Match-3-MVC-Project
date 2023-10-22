@@ -40,11 +40,18 @@ namespace TestUtils
         /// <summary>
         /// Создание блока указанного типа
         /// </summary>
-        public static Block CreateBlockInCell(int typeId, Cell cell)
+        public static Block CreateBlockInCell(int typeId, Cell cell, GameBoard gameBoard = null)
         {
             var type = CreateBlockType(typeId);
             var block = new Block(type, cell.Position);
-            cell.SetBlock(block);
+            cell.Block = block;
+            cell.Block.Position = cell.Position;
+
+            if (gameBoard != null)
+            {
+                gameBoard.Blocks.Add(block);
+            }
+
             return block;
         }
 

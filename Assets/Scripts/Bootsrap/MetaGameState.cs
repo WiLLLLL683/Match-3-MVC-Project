@@ -46,7 +46,7 @@ public class MetaGameState : IState
         
         //создание экранов
         levelSelectionScreen = levelSelectionFactory.Create(game.LevelProgress).Presenter;
-        headerScreen = headerFactory.Create(game.CurrencyInventory).Presenter;
+        headerScreen = headerFactory.Create(game.currencyInventory).Presenter;
         backgroundScreen = GameObject.Instantiate(prefabs.backgroundPrefab);
     }
 

@@ -3,59 +3,67 @@ using Model.Infrastructure;
 using Model.Readonly;
 using Utils;
 using View;
+using Model.Objects;
+using Model.Services;
 
 namespace Presenter
 {
     public class EndGamePresenter : IEndGamePresenter
     {
-        public class Factory : AFactory<ILevel_Readonly, AEndGameView, IEndGamePresenter>
+        public class Factory : AFactory<Level, AEndGameView, IEndGamePresenter>
         {
-            private readonly AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> factory;
             private readonly AInput input;
+            private readonly AFactory<Level, AEndGamePopUp, IPopUpPresenter> factory;
+            private readonly IWinLoseService winLoseService;
 
-            public Factory(AEndGameView viewPrefab, AInput input, AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> factory) : base(viewPrefab)
+            public Factory(AEndGameView viewPrefab, AInput input, AFactory<Level, AEndGamePopUp, IPopUpPresenter> factory,
+            IWinLoseService winLoseService) : base(viewPrefab)
             {
                 this.input = input;
                 this.factory = factory;
+                this.winLoseService = winLoseService;
             }
 
-            public override IEndGamePresenter Connect(AEndGameView existingView, ILevel_Readonly model)
+            public override IEndGamePresenter Connect(AEndGameView existingView, Level model)
             {
-                var presenter = new EndGamePresenter(model, existingView, input, factory);
+                var presenter = new EndGamePresenter(model, existingView, input, factory, winLoseService);
                 presenter.Enable();
                 allPresenters.Add(presenter);
                 return presenter;
             }
         }
 
-        private readonly ILevel_Readonly model;
+        private readonly Level model;
         private readonly AEndGameView view;
         private readonly AInput input;
-        private readonly AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> factory;
+        private readonly AFactory<Level, AEndGamePopUp, IPopUpPresenter> factory;
+        private readonly IWinLoseService winLoseService;
 
-        public EndGamePresenter(ILevel_Readonly model,
+        public EndGamePresenter(Level model,
             AEndGameView view,
             AInput input,
-            AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter> factory)
+            AFactory<Level, AEndGamePopUp, IPopUpPresenter> factory,
+            IWinLoseService winLoseService)
         {
             this.model = model;
             this.view = view;
             this.input = input;
             this.factory = factory;
+            this.winLoseService = winLoseService;
         }
         public void Enable()
         {
             factory.Connect(view.CompletePopUp, model);
             factory.Connect(view.DefeatPopUp, model);
-            model.OnLose += ShowDefeatPopUp;
-            model.OnWin += ShowCompletePopUp;
+            winLoseService.OnLose += ShowDefeatPopUp;
+            winLoseService.OnWin += ShowCompletePopUp;
 
             Debug.Log($"{this} enabled");
         }
         public void Disable()
         {
-            model.OnLose -= ShowDefeatPopUp;
-            model.OnWin -= ShowCompletePopUp;
+            winLoseService.OnLose -= ShowDefeatPopUp;
+            winLoseService.OnWin -= ShowCompletePopUp;
             
             Debug.Log($"{this} disabled");
         }

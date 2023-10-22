@@ -40,7 +40,7 @@ namespace Model.Services.UnitTests
         {
             MatchPattern[] patterns = new MatchPattern[1] { TestPatternFactory.DotPattern1x1() };
             var (service, gameBoard) = Setup(1, 1, patterns);
-            gameBoard.Cells[0,0].SetType(TestCellFactory.NotPlayableCellType);
+            gameBoard.Cells[0,0].Type = TestCellFactory.NotPlayableCellType;
 
             List<Cell> matchedCells = service.FindAllMatches().ToList();
 

@@ -1,9 +1,13 @@
 ﻿using Model.Objects;
+using System;
 
 namespace Model.Services
 {
     public interface IWinLoseService
     {
+        event Action OnLose;
+        event Action OnWin;
+
         public void SetLevel(Level level);
 
         /// <summary>

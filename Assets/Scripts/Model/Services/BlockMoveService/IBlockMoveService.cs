@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Model.Objects;
 
 namespace Model.Services
@@ -8,16 +9,18 @@ namespace Model.Services
     /// </summary>
     public interface IBlockMoveService
     {
+        event Action<Block> OnPositionChange;
+
         public void SetLevel(GameBoard gameBoard);
 
         /// <summary>
         /// Сдвинуть блок в необходимую позицию со сменой блоков местами
         /// </summary>
-        public IAction Move(Vector2Int startPosition, Vector2Int targetPosition);
+        public void Move(Vector2Int startPosition, Vector2Int targetPosition);
 
         /// <summary>
         /// Сдвинуть блок в необходимую сторону со сменой блоков местами
         /// </summary>
-        public IAction Move(Vector2Int startPosition, Directions direction);
+        public void Move(Vector2Int startPosition, Directions direction);
     }
 }

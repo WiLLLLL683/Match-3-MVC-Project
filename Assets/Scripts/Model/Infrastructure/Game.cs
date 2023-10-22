@@ -33,16 +33,19 @@ namespace Model.Infrastructure
         private readonly ILevelFactory levelFactory;
 
         //services
-        public readonly ICurrencyService CurrencyInventory;
-        public readonly IBoosterService BoosterService;
-        public readonly IValidationService validationService;
-        public readonly IRandomBlockTypeService randomService;
-        public readonly IBlockSpawnService spawnService;
-        public readonly IMatchService matchService;
-        public readonly IGravityService gravityService;
-        public readonly IBlockMoveService moveService;
-        public readonly IBlockDestroyService destroyService;
+        public readonly IBlockChangeTypeService blockChangeTypeService;
+        public readonly IBlockDestroyService blockDestroyService;
+        public readonly IBlockMoveService blockMoveService;
+        public readonly IBlockSpawnService blockSpawnService;
+        public readonly IBoosterService boosterService;
+        public readonly ICellChangeTypeService cellChangeTypeService;
+        public readonly ICellSetBlockService cellSetBlockService;
         public readonly ICounterService counterService;
+        public readonly ICurrencyService currencyInventory;
+        public readonly IGravityService gravityService;
+        public readonly IMatchService matchService;
+        public readonly IRandomBlockTypeService randomService;
+        public readonly IValidationService validationService;
         public readonly IWinLoseService winLoseService;
 
         private readonly StateMachine<AModelState> stateMachine = new();
@@ -62,24 +65,27 @@ namespace Model.Infrastructure
             levelFactory = new LevelFactory(gameboardFactory, matchPatternFactory, counterFactory);
 
             //services
-            CurrencyInventory = new CurrencyService();
-            BoosterService = new BoosterService();
+            currencyInventory = new CurrencyService();
+            boosterService = new BoosterService();
             validationService = new ValidationService();
             randomService = new RandomBlockTypeService();
-            spawnService = new BlockSpawnService(blockFactory, validationService, randomService);
+            cellSetBlockService = new CellSetBlockService();
+            cellChangeTypeService = new CellChangeTypeService();
+            blockChangeTypeService = new BlockChangeTypeService(validationService);
+            blockSpawnService = new BlockSpawnService(blockFactory, validationService, randomService, blockChangeTypeService, cellSetBlockService);
             matchService = new MatchService(validationService);
-            gravityService = new GravityService(validationService);
-            moveService = new BlockMoveService(validationService);
-            destroyService = new BlockDestroyService(validationService, blockFactory);
+            blockMoveService = new BlockMoveService(validationService, cellSetBlockService);
+            gravityService = new GravityService(validationService, blockMoveService);
+            blockDestroyService = new BlockDestroyService(validationService, cellSetBlockService);
             counterService = new CounterService();
             winLoseService = new WinLoseService(counterService);
 
             //game states
-            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, validationService, randomService, spawnService, matchService, gravityService, moveService, destroyService, winLoseService));
+            stateMachine.AddState(new LoadLevelState(this, stateMachine, levelFactory, validationService, randomService, blockSpawnService, matchService, gravityService, blockMoveService, blockDestroyService, winLoseService));
             stateMachine.AddState(new WaitState(this, stateMachine, matchService, winLoseService));
-            stateMachine.AddState(new TurnState(this, stateMachine, matchService, moveService, destroyService));
-            stateMachine.AddState(new BoosterState(this, stateMachine, BoosterService));
-            stateMachine.AddState(new SpawnState(this, stateMachine, spawnService, matchService, gravityService, destroyService));
+            stateMachine.AddState(new TurnState(this, stateMachine, matchService, blockMoveService, blockDestroyService));
+            stateMachine.AddState(new BoosterState(this, stateMachine, boosterService));
+            stateMachine.AddState(new SpawnState(this, stateMachine, blockSpawnService, matchService, gravityService, blockDestroyService));
             stateMachine.AddState(new LoseState(stateMachine));
             stateMachine.AddState(new WinState(stateMachine));
             stateMachine.AddState(new BonusState(stateMachine));

@@ -15,7 +15,6 @@ namespace Model.Services.UnitTests
     {
         private IValidationService validation = Substitute.For<IValidationService>();
 
-
         //Базовые тесты с 1 клеткой
         [Test]
         public void _FindPattern_1MatchingBlock_ListWith1Cell()
@@ -63,7 +62,7 @@ namespace Model.Services.UnitTests
         {
             validation.BlockExistsAt(default).ReturnsForAnyArgs(false);
             var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0, TestBlockFactory.RED_BLOCK);
-            gameBoard.Cells[0, 0].SetType(TestCellFactory.NotPlayableCellType);
+            gameBoard.Cells[0, 0].Type = TestCellFactory.NotPlayableCellType;
             var pattern = TestPatternFactory.DotPattern1x1();
             var matcher = new Matcher(validation);
 

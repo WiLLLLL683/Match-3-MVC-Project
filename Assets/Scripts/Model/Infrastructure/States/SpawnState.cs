@@ -46,7 +46,7 @@ namespace Model.Infrastructure
                     foreach (Cell match in matches)
                     {
                         //level.UpdateGoals(match.Block.Type);
-                        blockDestroyService.Destroy(match);
+                        blockDestroyService.DestroyAt(match);
                     }
                 }
 

@@ -22,4 +22,4 @@ MonoBehaviour:
     - rid: 999603594557128723
       type: {class: BasicBlockType, ns: Model.Objects, asm: GameAssembly}
       data:
-        id: 2
+        Id: 2

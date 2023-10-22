@@ -11,24 +11,18 @@ namespace Model.Services.UnitTests
 {
     public class BlockDestroyServiceTests
     {
-        private IValidationService validation = Substitute.For<IValidationService>();
         private int eventCount;
 
-        private (GameBoard gameBoard, BlockDestroyService service) Setup(Block block, bool validationReturn = true)
+        private (GameBoard gameBoard, BlockDestroyService service) Setup()
         {
-            validation.BlockExistsAt(default).ReturnsForAnyArgs(validationReturn);
             var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
-            var blockFactory = new BlockFactory();
-            var service = new BlockDestroyService(validation, blockFactory);
+            var setBlock = new CellSetBlockService();
+            var validation = new ValidationService();
+            var service = new BlockDestroyService(validation, setBlock);
+            validation.SetLevel(gameBoard);
             service.SetLevel(gameBoard);
             eventCount = 0;
-
-            if (block != null)
-            {
-                gameBoard.Cells[block.Position.x, block.Position.y].SetBlock(block);
-                gameBoard.Blocks.Add(block);
-                service.OnDestroy += (_) => eventCount++;
-            }
+            service.OnDestroy += (_) => eventCount++;
 
             return (gameBoard, service);
         }
@@ -36,10 +30,10 @@ namespace Model.Services.UnitTests
         [Test]
         public void Destroy_ValidBlock_BlocksDestroyed()
         {
-            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.RED_BLOCK);
-            var (gameBoard, service) = Setup(block);
+            var (gameBoard, service) = Setup();
+            Block block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.RED_BLOCK, gameBoard.Cells[0, 0], gameBoard);
 
-            service.Destroy(gameBoard.Cells[0, 0]);
+            service.DestroyAt(gameBoard.Cells[0, 0]);
 
             Assert.AreEqual(0, gameBoard.Blocks.Count);
             Assert.AreEqual(1, eventCount);
@@ -49,10 +43,9 @@ namespace Model.Services.UnitTests
         [Test]
         public void Destroy_InValidBlock_BlocksDestroyed()
         {
-            Block block = null;
-            var (gameBoard, service) = Setup(block);
+            var (gameBoard, service) = Setup();
 
-            service.Destroy(gameBoard.Cells[0, 0]);
+            service.DestroyAt(gameBoard.Cells[0, 0]);
 
             Assert.AreEqual(0, gameBoard.Blocks.Count);
             Assert.AreEqual(0, eventCount);
@@ -62,10 +55,10 @@ namespace Model.Services.UnitTests
         [Test]
         public void Destroy_InValidCell_BlocksDestroyed()
         {
-            Block block = TestBlockFactory.CreateBlock(TestBlockFactory.RED_BLOCK);
-            var (gameBoard, service) = Setup(block, false);
+            var (gameBoard, service) = Setup();
+            Block block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.RED_BLOCK, gameBoard.Cells[0, 0], gameBoard);
 
-            service.Destroy(new Vector2Int(100, 100));
+            service.DestroyAt(new Vector2Int(100, 100));
 
             Assert.AreEqual(1, gameBoard.Blocks.Count);
             Assert.AreEqual(0, eventCount);

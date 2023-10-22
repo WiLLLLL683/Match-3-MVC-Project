@@ -10,7 +10,7 @@ namespace Model.Services.UnitTests
         {
             var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0, preSpawnedBlocks);
             if (cellType != null)
-                gameBoard.Cells[0, 0].SetType(cellType);
+                gameBoard.Cells[0, 0].Type = cellType;
             else
                 gameBoard.Cells[0, 0] = null;
 
@@ -79,7 +79,7 @@ namespace Model.Services.UnitTests
         {
             var tuple = Setup(TestCellFactory.BasicCellType);
             var validation = tuple.validation;
-            tuple.gameBoard.Cells[0, 0].SetBlock(null);
+            tuple.gameBoard.Cells[0, 0].Block = null;
 
             bool isValid = validation.BlockExistsAt(new(0,0));
 

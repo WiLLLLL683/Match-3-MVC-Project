@@ -19,21 +19,21 @@ namespace Model.Services
         /// <summary>
         /// Заполнить пустые клетки случайными блоками только в рядах невидимых клеток
         /// </summary>
-        public List<IAction> FillInvisibleRows();
+        public void FillInvisibleRows();
 
         /// <summary>
         /// Создать или принудительно изменить тип блока в выбранной клетке
         /// </summary>
-        public IAction SpawnBlock_WithOverride(BlockType type, Cell cell);
+        public void SpawnBlock_WithOverride(Cell cell, BlockType type);
 
         /// <summary>
         /// Создать или принудительно изменить тип блока на случайный в выбранной клетке
         /// </summary>
-        public IAction SpawnRandomBlock_WithOverride(Cell cell);
+        public void SpawnRandomBlock_WithOverride(Cell cell);
 
         /// <summary>
         /// Заполнить пустые клетки случайными блоками во всем игровом поле, включая невидимые клетки
         /// </summary>
-        public List<IAction> FillGameBoard();
+        public void FillGameBoard();
     }
 }

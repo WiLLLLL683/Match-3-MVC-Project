@@ -11,7 +11,7 @@ namespace Presenter
     /// </summary>
     public class HudPresenter : IHudPresenter
     {
-        public class Factory : AFactory<ILevel_Readonly, AHudView, IHudPresenter>
+        public class Factory : AFactory<Level, AHudView, IHudPresenter>
         {
             private AFactory<Counter, ACounterView, ICounterPresenter> goalFactory;
             private AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory;
@@ -23,7 +23,7 @@ namespace Presenter
                 this.restrictionFactory = restrictionFactory;
             }
 
-            public override IHudPresenter Connect(AHudView existingView, ILevel_Readonly model)
+            public override IHudPresenter Connect(AHudView existingView, Level model)
             {
                 var presenter = new HudPresenter(model, existingView, goalFactory, restrictionFactory);
                 presenter.Enable();
@@ -32,12 +32,12 @@ namespace Presenter
             }
         }
         
-        private readonly ILevel_Readonly model;
+        private readonly Level model;
         private readonly AHudView view;
         private readonly AFactory<Counter, ACounterView, ICounterPresenter> goalFactory;
         private readonly AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory;
 
-        public HudPresenter(ILevel_Readonly model,
+        public HudPresenter(Level model,
             AHudView view,
             AFactory<Counter, ACounterView, ICounterPresenter> goalFactory,
             AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory)

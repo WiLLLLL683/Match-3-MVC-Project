@@ -10,7 +10,7 @@ namespace Model.Objects
     public class BasicBlockType : BlockType
     {
         public BasicBlockType() { }
-        public BasicBlockType(int id) => this.id = id;
+        public BasicBlockType(int id) => this.Id = id;
 
         public override bool Activate() => false;
     }

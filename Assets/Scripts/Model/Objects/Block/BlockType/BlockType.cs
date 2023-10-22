@@ -8,10 +8,10 @@ namespace Model.Objects
     /// Тип блока с возможностью активации
     /// </summary>
     [Serializable]
-    public abstract class BlockType : IBlockType_Readonly, ICounterTarget
+    public abstract class BlockType : ICounterTarget
     {
-        [SerializeField] protected int id;
-        public int Id => id;
+        public int Id;
+        int ICounterTarget.Id => Id;
 
         /// <summary>
         /// Возвращает успешен ли был ход
