@@ -6,7 +6,7 @@ namespace Model.Commands
     /// <summary>
     /// смена типа клетки
     /// </summary>
-    public class CellChangeTypeCommand : ICommand
+    public class CellChangeTypeCommand : CommandBase
     {
         private readonly Cell cell;
         private readonly CellType targetType;
@@ -15,13 +15,26 @@ namespace Model.Commands
 
         public CellChangeTypeCommand(Cell cell, CellType targetType, ICellChangeTypeService cellChangeTypeService)
         {
+            if (cell == null ||
+                targetType == null ||
+                cellChangeTypeService == null ||
+                cell.Type == null)
+            {
+                return;
+            }
+
             this.cell = cell;
             this.targetType = targetType;
             this.cellChangeTypeService = cellChangeTypeService;
             previousType = cell.Type;
+            isValid = true;
         }
 
-        public void Execute() => cellChangeTypeService.ChangeType(cell, targetType);
-        public void Undo() => cellChangeTypeService.ChangeType(cell, previousType);
+        protected override void OnExecute()
+        {
+            cellChangeTypeService.ChangeType(cell, targetType);
+            isExecuted = true;
+        }
+        protected override void OnUndo() => cellChangeTypeService.ChangeType(cell, previousType);
     }
 }

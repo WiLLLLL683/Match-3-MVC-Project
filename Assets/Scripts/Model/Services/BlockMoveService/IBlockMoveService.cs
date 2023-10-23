@@ -15,12 +15,14 @@ namespace Model.Services
 
         /// <summary>
         /// Сдвинуть блок в необходимую позицию со сменой блоков местами
+        /// возвращает успех перемещения
         /// </summary>
-        public void Move(Vector2Int startPosition, Vector2Int targetPosition);
+        public bool Move(Vector2Int startPosition, Vector2Int targetPosition);
 
         /// <summary>
         /// Сдвинуть блок в необходимую сторону со сменой блоков местами
+        /// возвращает успех перемещения
         /// </summary>
-        public void Move(Vector2Int startPosition, Directions direction);
+        public bool Move(Vector2Int startPosition, Directions direction);
     }
 }

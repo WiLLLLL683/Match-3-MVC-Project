@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Model.Factories;
+using Model.Objects;
 using Model.Services;
 using NSubstitute;
 using NSubstitute.Extensions;
@@ -14,28 +15,33 @@ namespace Model.Commands.UnitTests
     {
         private int eventCount = 0;
 
-        private (GameBoard gameBoard, BlockDestroyCommand command) Setup()
+        private (GameBoard gameBoard, IBlockDestroyService destroy, IBlockSpawnService spawn) Setup()
         {
             var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
             var validation = new ValidationService();
             var setBlock = new CellSetBlockService();
-            var spawn = Substitute.For<IBlockSpawnService>(); //TODO спавнить блок
-            var service = new BlockDestroyService(validation, setBlock);
+            var random = TestServicesFactory.CreateRandomBlockTypeService();
+            var changeType = new BlockChangeTypeService(validation);
+            var factory = new BlockFactory();
+            var spawn = new BlockSpawnService(factory, validation, random, changeType, setBlock);
+            var destroy = new BlockDestroyService(validation, setBlock);
             validation.SetLevel(gameBoard);
-            service.SetLevel(gameBoard);
+            destroy.SetLevel(gameBoard);
+            changeType.SetLevel(gameBoard);
+            spawn.SetLevel(gameBoard);
 
-            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], service, spawn);
             eventCount = 0;
-            service.OnDestroy += (_) => eventCount++;
+            destroy.OnDestroy += (_) => eventCount++;
 
-            return (gameBoard, command);
+            return (gameBoard, destroy, spawn);
         }
 
         [Test]
         public void Execute_ValidBlock_BlockDestroyed()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
             var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0,0], gameBoard);
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
 
             command.Execute();
 
@@ -46,8 +52,9 @@ namespace Model.Commands.UnitTests
         [Test]
         public void Undo_ValidBlock_BlockSpawned()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
             var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
 
             command.Execute();
 
@@ -63,7 +70,8 @@ namespace Model.Commands.UnitTests
         [Test]
         public void Execute_NullType_NoChange()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
             var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
             block.Type = null;
 
@@ -76,7 +84,8 @@ namespace Model.Commands.UnitTests
         [Test]
         public void Undo_NullType_NoChange()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
             var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
             block.Type = null;
 
@@ -94,7 +103,8 @@ namespace Model.Commands.UnitTests
         [Test]
         public void Execute_NullBlock_NoChange()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
 
             command.Execute();
 
@@ -105,7 +115,8 @@ namespace Model.Commands.UnitTests
         [Test]
         public void Undo_NullBlock_NoChange()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
 
             command.Execute();
 
@@ -121,7 +132,8 @@ namespace Model.Commands.UnitTests
         [Test]
         public void Execute_NullCell_NoChange()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
             gameBoard.Cells[0, 0] = null;
 
             command.Execute();
@@ -133,7 +145,8 @@ namespace Model.Commands.UnitTests
         [Test]
         public void Undo_NullCell_NoChange()
         {
-            var (gameBoard, command) = Setup();
+            var (gameBoard, destroy, spawn) = Setup();
+            var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
             gameBoard.Cells[0, 0] = null;
 
             command.Execute();

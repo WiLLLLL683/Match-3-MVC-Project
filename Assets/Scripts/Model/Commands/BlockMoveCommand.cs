@@ -7,7 +7,7 @@ namespace Model.Commands
     /// <summary>
     /// Смена блоков местами в двух клетках
     /// </summary>
-    public class BlockMoveCommand : ICommand
+    public class BlockMoveCommand : CommandBase
     {
         private readonly Vector2Int startPosition;
         private readonly Vector2Int targetPosition;
@@ -15,12 +15,23 @@ namespace Model.Commands
 
         public BlockMoveCommand(Vector2Int startPosition, Vector2Int targetPosition, IBlockMoveService blockMoveService)
         {
+            if (startPosition == targetPosition ||
+                blockMoveService == null)
+            {
+                return;
+            }
+
             this.startPosition = startPosition;
             this.targetPosition = targetPosition;
             this.blockMoveService = blockMoveService;
+            isValid = true;
         }
 
-        public void Execute() => blockMoveService.Move(startPosition, targetPosition);
-        public void Undo() => blockMoveService.Move(targetPosition, startPosition);
+        protected override void OnExecute()
+        {
+            if(blockMoveService.Move(startPosition, targetPosition))
+                isExecuted = true;
+        }
+        protected override void OnUndo() => blockMoveService.Move(targetPosition, startPosition);
     }
 }

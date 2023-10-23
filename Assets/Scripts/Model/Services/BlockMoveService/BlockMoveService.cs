@@ -20,24 +20,25 @@ namespace Model.Services
 
         public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
-        public void Move(Vector2Int startPosition, Directions direction)
+        public bool Move(Vector2Int startPosition, Directions direction)
         {
             Vector2Int targetPosition = startPosition + direction.ToVector2Int();
-            Move(startPosition, targetPosition);
+            return Move(startPosition, targetPosition);
         }
 
-        public void Move(Vector2Int startPosition, Vector2Int targetPosition)
+        public bool Move(Vector2Int startPosition, Vector2Int targetPosition)
         {
             if (!validation.BlockExistsAt(startPosition))
-                return;
+                return false;
 
             if (!validation.CellExistsAt(targetPosition))
-                return;
+                return false;
 
             Cell startCell = gameBoard.Cells[startPosition.x, startPosition.y];
             Cell targetCell = gameBoard.Cells[targetPosition.x, targetPosition.y];
 
             SwapTwoBlocks(startCell, targetCell);
+            return true;
         }
 
         private void SwapTwoBlocks(Cell cellA, Cell cellB)

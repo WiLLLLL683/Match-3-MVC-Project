@@ -3,7 +3,7 @@ using Model.Services;
 
 namespace Model.Commands
 {
-    public class BlockDestroyCommand : ICommand
+    public class BlockDestroyCommand : CommandBase
     {
         private readonly Cell cell;
         private readonly IBlockDestroyService destroyService;
@@ -13,18 +13,33 @@ namespace Model.Commands
 
         public BlockDestroyCommand(Cell cell, IBlockDestroyService destroyService, IBlockSpawnService blockSpawnService)
         {
+            if (cell == null ||
+                destroyService == null ||
+                blockSpawnService == null)
+            {
+                return;
+            }
+
             this.cell = cell;
             this.destroyService = destroyService;
             this.blockSpawnService = blockSpawnService;
+            isValid = true;
         }
 
-        public void Execute()
+        protected override void OnExecute()
         {
+            if (cell.Block == null ||
+                cell.Block.Type == null)
+            {
+                return;
+            }
+
             blockType = cell.Block.Type;
-            destroyService.DestroyAt(cell);
+            destroyService.DestroyAt(cell.Position);
+            isExecuted = true;
         }
 
-        public void Undo()
+        protected override void OnUndo()
         {
             blockSpawnService.SpawnBlock_WithOverride(cell, blockType);
         }
