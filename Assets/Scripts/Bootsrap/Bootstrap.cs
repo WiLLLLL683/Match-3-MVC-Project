@@ -19,7 +19,7 @@ public class Bootstrap : MonoBehaviour
 
     private void Awake()
     {
-        game = new(allCellTypes, allLevels.Length);
+        game = new(allCellTypes);
         stateMachine = new();
         stateMachine.AddState(new MetaGameState(game, prefabs, allLevels, this));
         stateMachine.AddState(new CoreGameState(game, prefabs, allCellTypes, this));

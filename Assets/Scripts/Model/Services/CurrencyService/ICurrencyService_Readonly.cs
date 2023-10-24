@@ -1,4 +1,6 @@
-﻿namespace Model.Readonly
+﻿using Model.Objects;
+
+namespace Model.Readonly
 {
     /// <summary>
     /// Сервис для работы с игровыми валютами и очками

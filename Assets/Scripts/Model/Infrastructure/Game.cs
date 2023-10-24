@@ -18,6 +18,7 @@ namespace Model.Infrastructure
         //meta game
         public LevelProgress LevelProgress;
         public PlayerSettings PlayerSettings;
+        public CurrencyInventory CurrencyInventory;
 
         //core game
         public Level CurrentLevel;
@@ -42,7 +43,7 @@ namespace Model.Infrastructure
         public readonly ICellSetBlockService cellSetBlockService;
         public readonly ICellDestroyService cellDestroyService;
         public readonly ICounterService counterService;
-        public readonly ICurrencyService currencyInventory;
+        public readonly ICurrencyService currencyService;
         public readonly IGravityService gravityService;
         public readonly IMatchService matchService;
         public readonly IRandomBlockTypeService randomService;
@@ -51,10 +52,11 @@ namespace Model.Infrastructure
 
         private readonly StateMachine<AModelState> stateMachine = new();
 
-        public Game(CellTypeSetSO allCellTypes, int maxLevelIndex)
+        public Game(CellTypeSetSO allCellTypes)
         {
-            LevelProgress = new LevelProgress(maxLevelIndex);
+            LevelProgress = new LevelProgress(); //TODO загрузка из сохранения
             PlayerSettings = new(true, false); //TODO загрузка из сохранения
+            CurrencyInventory = new(); //TODO загрузка из сохранения
 
             //factories
             blockFactory = new BlockFactory();
@@ -66,7 +68,7 @@ namespace Model.Infrastructure
             levelFactory = new LevelFactory(gameboardFactory, matchPatternFactory, counterFactory);
 
             //services
-            currencyInventory = new CurrencyService();
+            currencyService = new CurrencyService(CurrencyInventory);
             boosterService = new BoosterService();
             validationService = new ValidationService();
             randomService = new RandomBlockTypeService();

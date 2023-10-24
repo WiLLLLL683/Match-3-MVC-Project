@@ -19,11 +19,12 @@ namespace TestUtils
         /// <summary>
         /// Создать инвентарь с 1 валютой заданного типа
         /// </summary>
-        public static CurrencyService CreateCurrencyInventory(CurrencyType type, int amount)
+        public static CurrencyService CreateCurrencyService(CurrencyType type, int amount)
         {
-            Dictionary<CurrencyType, int> initialCurrency = new() { [type] = amount };
-            CurrencyService inventory = new(initialCurrency);
-            return inventory;
+            CurrencyInventory inventory = new();
+            inventory.currencies.Add(type, amount);
+            CurrencyService Service = new(inventory);
+            return Service;
         }
 
         private static List<BlockType_Weight> CreateListOfWeights(params int[] typeIds)

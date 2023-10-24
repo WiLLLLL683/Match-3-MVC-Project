@@ -10,11 +10,3 @@ public enum Directions
 {
     Up, Down, Left, Right, Zero
 }
-
-/// <summary>
-/// Типы валют
-/// </summary>
-public enum CurrencyType
-{
-    Gold, Star
-}

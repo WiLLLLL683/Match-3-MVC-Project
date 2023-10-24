@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Objects;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,17 +8,9 @@ namespace Model.Services
     [Serializable]
     public class CurrencyService : ICurrencyService
     {
-        private readonly Dictionary<CurrencyType, int> currencies;
+        private readonly CurrencyInventory inventory;
 
-        public CurrencyService(Dictionary<CurrencyType, int> currencies)
-        {
-            this.currencies = currencies;
-        }
-
-        public CurrencyService()
-        {
-            currencies = new(); //TODO загрузка из сохранения
-        }
+        public CurrencyService(CurrencyInventory inventory) => this.inventory = inventory;
 
         public void AddCurrency(CurrencyType type, int ammount)
         {
@@ -27,13 +20,13 @@ namespace Model.Services
                 return;
             }
 
-            if (currencies.ContainsKey(type))
+            if (inventory.currencies.ContainsKey(type))
             {
-                currencies[type] += ammount;
+                inventory.currencies[type] += ammount;
             }
             else
             {
-                currencies.Add(type, ammount);
+                inventory.currencies.Add(type, ammount);
             }
         }
 
@@ -45,30 +38,30 @@ namespace Model.Services
                 return;
             }
 
-            if (!currencies.ContainsKey(type))
+            if (!inventory.currencies.ContainsKey(type))
             {
                 Debug.LogError("You have no " + type);
                 return;
             }
 
-            if (ammount > currencies[type])
+            if (ammount > inventory.currencies[type])
             {
                 Debug.LogError("Not enough " + type);
                 return;
             }
 
-            currencies[type] -= ammount;
+            inventory.currencies[type] -= ammount;
         }
 
         public int GetAmount(CurrencyType type)
         {
-            if (!currencies.ContainsKey(type))
+            if (!inventory.currencies.ContainsKey(type))
             {
                 Debug.LogError("You have no " + type);
                 return 0;
             }
 
-            return currencies[type];
+            return inventory.currencies[type];
         }
     }
 }
