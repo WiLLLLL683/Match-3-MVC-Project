@@ -14,24 +14,10 @@ namespace Model.Objects
         public Vector2Int Position;
         public Block Block;
 
-        public event Action<Cell> OnDestroy;
-
         public Cell(CellType type, Vector2Int position)
         {
             Type = type;
             Position = position;
-        }
-
-        /// <summary>
-        /// Уничтожить материал клетки, результат зависит от типа клетки
-        /// </summary>
-        public void Destroy()
-        {
-            if (Type == null)
-                return;
-
-            Type.DestroyCellMaterial();
-            OnDestroy?.Invoke(this);
         }
     }
 }

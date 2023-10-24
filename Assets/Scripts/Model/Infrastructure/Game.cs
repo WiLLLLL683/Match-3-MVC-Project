@@ -40,6 +40,7 @@ namespace Model.Infrastructure
         public readonly IBoosterService boosterService;
         public readonly ICellChangeTypeService cellChangeTypeService;
         public readonly ICellSetBlockService cellSetBlockService;
+        public readonly ICellDestroyService cellDestroyService;
         public readonly ICounterService counterService;
         public readonly ICurrencyService currencyInventory;
         public readonly IGravityService gravityService;
@@ -71,6 +72,7 @@ namespace Model.Infrastructure
             randomService = new RandomBlockTypeService();
             cellSetBlockService = new CellSetBlockService();
             cellChangeTypeService = new CellChangeTypeService();
+            cellDestroyService = new CellDestroyService();
             blockChangeTypeService = new BlockChangeTypeService(validationService);
             blockSpawnService = new BlockSpawnService(blockFactory, validationService, randomService, blockChangeTypeService, cellSetBlockService);
             matchService = new MatchService(validationService);

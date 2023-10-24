@@ -18,18 +18,20 @@ namespace Presenter
             private readonly CellTypeSetSO allCellTypeSO;
             private readonly ICellSetBlockService setBlockService;
             private readonly ICellChangeTypeService changeTypeService;
+            private readonly ICellDestroyService cellDestroyService;
 
-            public Factory(ACellView viewPrefab, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService, Transform parent = null) : base(viewPrefab)
+            public Factory(ACellView viewPrefab, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService, ICellDestroyService cellDestroyService, Transform parent = null) : base(viewPrefab)
             {
                 this.allCellTypeSO = allCellTypeSO;
                 this.setBlockService = setBlockService;
                 this.changeTypeService = changeTypeService;
+                this.cellDestroyService = cellDestroyService;
             }
 
             public override ICellPresenter Connect(ACellView existingView, Cell model)
             {
                 CellTypeSO cellTypeSO = allCellTypeSO.GetSO(model.Type.Id);
-                ICellPresenter presenter = new CellPresenter(model, existingView, cellTypeSO, allCellTypeSO, setBlockService, changeTypeService);
+                ICellPresenter presenter = new CellPresenter(model, existingView, cellTypeSO, allCellTypeSO, setBlockService, changeTypeService, cellDestroyService);
                 existingView.Init(model.Position, cellTypeSO.icon, model.Type.IsPlayable,
                     cellTypeSO.destroyEffect, cellTypeSO.emptyEffect);
                 allPresenters.Add(presenter);
@@ -43,9 +45,10 @@ namespace Presenter
         private readonly CellTypeSetSO allCellTypeSO;
         private readonly ICellSetBlockService setBlockService;
         private readonly ICellChangeTypeService changeTypeService;
+        private readonly ICellDestroyService cellDestroyService;
         private CellTypeSO typeSO;
 
-        public CellPresenter(Cell model, ACellView view, CellTypeSO typeSO, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService)
+        public CellPresenter(Cell model, ACellView view, CellTypeSO typeSO, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService, ICellDestroyService cellDestroyService)
         {
             this.model = model;
             this.view = view;
@@ -53,17 +56,18 @@ namespace Presenter
             this.allCellTypeSO = allCellTypeSO;
             this.setBlockService = setBlockService;
             this.changeTypeService = changeTypeService;
+            this.cellDestroyService = cellDestroyService;
         }
 
         public void Enable()
         {
-            model.OnDestroy += Destroy;
+            cellDestroyService.OnDestroy += Destroy;
             setBlockService.OnEmpty += Empty;
             changeTypeService.OnTypeChange += ChangeType;
         }
         public void Disable()
         {
-            model.OnDestroy -= Destroy;
+            cellDestroyService.OnDestroy -= Destroy;
             setBlockService.OnEmpty -= Empty;
             changeTypeService.OnTypeChange -= ChangeType;
         }

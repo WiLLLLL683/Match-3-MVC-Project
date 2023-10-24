@@ -50,8 +50,8 @@ public class CoreGameState : IState
 
         //создание фабрик игровых элементов
         blockFactory = new BlockPresenter.Factory(prefabs.blockPrefab, bootstrap.SelectedLevel.blockTypeSet, game, game.blockDestroyService, game.blockChangeTypeService, game.blockMoveService);
-        cellFactory = new CellPresenter.Factory(prefabs.cellPrefab, allCellTypes, game.cellSetBlockService, game.cellChangeTypeService);
-        invisibleCellFactory = new CellPresenter.Factory(prefabs.invisibleCellPrefab, allCellTypes, game.cellSetBlockService, game.cellChangeTypeService);
+        cellFactory = new CellPresenter.Factory(prefabs.cellPrefab, allCellTypes, game.cellSetBlockService, game.cellChangeTypeService, game.cellDestroyService);
+        invisibleCellFactory = new CellPresenter.Factory(prefabs.invisibleCellPrefab, allCellTypes, game.cellSetBlockService, game.cellChangeTypeService, game.cellDestroyService);
         goalFactory = new CounterPresenter.Factory(prefabs.goalCounterPrefab);
         restrictionFactory = new CounterPresenter.Factory(prefabs.restrictionCounterPrefab);
         boosterFactory = new BoosterPresenter.Factory(prefabs.boosterPrefab, game);
