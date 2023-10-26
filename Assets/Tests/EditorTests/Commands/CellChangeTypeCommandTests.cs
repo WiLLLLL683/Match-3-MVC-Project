@@ -3,7 +3,7 @@ using Model.Services;
 using NUnit.Framework;
 using TestUtils;
 
-namespace Model.Commands.UnitTests
+namespace Model.Infrastructure.Commands.UnitTests
 {
     public class CellChangeTypeCommandTests
     {

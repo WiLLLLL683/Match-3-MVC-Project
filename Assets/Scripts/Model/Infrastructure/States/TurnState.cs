@@ -3,7 +3,7 @@ using UnityEngine;
 using Model.Objects;
 using Model.Services;
 using Utils;
-using Model.Commands;
+using Model.Infrastructure.Commands;
 
 namespace Model.Infrastructure
 {
@@ -55,7 +55,7 @@ namespace Model.Infrastructure
 
         private void MoveBlock()
         {
-            ICommand moveAction = new BlockMoveCommand(startPos, direction.ToVector2Int(), blockMoveService);
+            ICommand moveAction = new BlockMoveCommand(startPos, startPos + direction.ToVector2Int(), blockMoveService);
             moveAction.Execute();
 
             HashSet<Cell> matches = matchService.FindAllMatches();

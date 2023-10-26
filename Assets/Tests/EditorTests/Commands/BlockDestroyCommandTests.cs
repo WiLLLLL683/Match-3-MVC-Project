@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using TestUtils;
 using UnityEngine;
 
-namespace Model.Commands.UnitTests
+namespace Model.Infrastructure.Commands.UnitTests
 {
     public class BlockDestroyCommandTests
     {

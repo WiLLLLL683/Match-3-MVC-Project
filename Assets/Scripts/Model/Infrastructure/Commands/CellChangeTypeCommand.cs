@@ -1,7 +1,7 @@
 using Model.Objects;
 using Model.Services;
 
-namespace Model.Commands
+namespace Model.Infrastructure.Commands
 {
     /// <summary>
     /// смена типа клетки

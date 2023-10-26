@@ -35,9 +35,9 @@ namespace Model.Services
             if (!validation.BlockExistsAt(cell.Position))
                 return;
 
+            OnDestroy?.Invoke(cell.Block);
             gameBoard.Blocks.Remove(cell.Block);
             setBlockService.SetEmpty(cell);
-            OnDestroy?.Invoke(cell.Block);
         }
     }
 }
