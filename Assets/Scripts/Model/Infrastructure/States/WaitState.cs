@@ -1,6 +1,5 @@
 ﻿using Model.Objects;
-using Model.Systems;
-using System.Collections;
+using Model.Services;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -9,20 +8,21 @@ namespace Model.Infrastructure
 {
     public class WaitState : AModelState
     {
-        //зависимости
-        private Game game;
-        private StateMachine<AModelState> stateMachine;
-        private IMatchSystem matchSystem;
-        //данные
+        private readonly Game game;
+        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IMatchService matchService;
+        private readonly IWinLoseService winLoseService;
+
         private Level level; //TODO проверить меняется ли уровень при изменении в Game?
         private HashSet<Cell> hintCells;
 
 
-        public WaitState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems) //TODO input
+        public WaitState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService, IWinLoseService winLoseService)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            matchSystem = _systems.GetSystem<IMatchSystem>();
+            this.game = game;
+            this.stateMachine = stateMachine;
+            this.matchService = matchService;
+            this.winLoseService = winLoseService;
         }
 
         public override void OnStart()
@@ -30,11 +30,11 @@ namespace Model.Infrastructure
             level = game.CurrentLevel;
 
             //проверка на проигрыш
-            if (level.CheckLose())
+            if (winLoseService.CheckLose())
                 stateMachine.SetState<LoseState>();
 
             //проверка на выигрыш
-            if (level.CheckWin())
+            if (winLoseService.CheckWin())
                 stateMachine.SetState<WinState>();
 
             //поиск блоков для подсказки

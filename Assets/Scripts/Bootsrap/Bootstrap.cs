@@ -1,32 +1,28 @@
-﻿using Presenter;
-using Data;
+﻿using Config;
 using Model.Infrastructure;
-using System;
-using System.Collections;
 using UnityEngine;
-using AYellowpaper;
-using View;
 using Utils;
 
 public class Bootstrap : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField] private PrefabConfig prefabs;
-    [SerializeField] private LevelData[] allLevels;
+    [SerializeField] private LevelSO[] allLevels;
+    [SerializeField] private CellTypeSetSO allCellTypes;
     [Header("Current State")]
-    [SerializeField] private LevelData selectedLevel;
-    public LevelData SelectedLevel => selectedLevel;
+    [SerializeField] private LevelSO selectedLevel;
+    public LevelSO SelectedLevel => selectedLevel;
     [NaughtyAttributes.ShowNativeProperty()] public string gameModelState => game?.CurrentStateName;
 
-    private Game game;
+    [SerializeField] private Game game;
     private StateMachine<IState> stateMachine;
 
     private void Awake()
     {
-        game = new(allLevels, 0); //TODO загрузка сохранения
+        game = new(allCellTypes);
         stateMachine = new();
-        stateMachine.AddState(new MetaGameState(game, prefabs, this));
-        stateMachine.AddState(new CoreGameState(game, prefabs, this));
+        stateMachine.AddState(new MetaGameState(game, prefabs, allLevels, this));
+        stateMachine.AddState(new CoreGameState(game, prefabs, allCellTypes, this));
 
         LoadMetaGame();
     }

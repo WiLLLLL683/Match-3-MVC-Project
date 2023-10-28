@@ -2,9 +2,10 @@
 using NaughtyAttributes;
 using UnityEngine;
 using Model.Readonly;
+using Model.Services;
+using Model.Objects;
 using View;
 using Utils;
-using System;
 
 namespace Presenter
 {
@@ -13,46 +14,52 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<IGameBoard_Readonly, AGameBoardView, IGameBoardPresenter>
+        public class Factory : AFactory<GameBoard, AGameBoardView, IGameBoardPresenter>
         {
-            private readonly AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
-            private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
-            private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory;
+            private readonly IBlockSpawnService blockSpawnService;
+            private readonly AFactory<Block, ABlockView, IBlockPresenter> blockFactory;
+            private readonly AFactory<Cell, ACellView, ICellPresenter> cellFactory;
+            private readonly AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory;
             public Factory(AGameBoardView viewPrefab,
-                AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory,
-                AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory,
-                AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory) : base(viewPrefab)
+                IBlockSpawnService blockSpawnService,
+                AFactory<Block, ABlockView, IBlockPresenter> blockFactory,
+                AFactory<Cell, ACellView, ICellPresenter> cellFactory,
+                AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory) : base(viewPrefab)
             {
+                this.blockSpawnService = blockSpawnService;
                 this.invisibleCellFactory = invisibleCellFactory;
                 this.blockFactory = blockFactory;
                 this.cellFactory = cellFactory;
             }
 
-            public override IGameBoardPresenter Connect(AGameBoardView existingView, IGameBoard_Readonly model)
+            public override IGameBoardPresenter Connect(AGameBoardView existingView, GameBoard model)
             {
-                var presenter = new GameBoardPresenter(model, existingView, blockFactory, cellFactory, invisibleCellFactory);
+                var presenter = new GameBoardPresenter(model, existingView, blockSpawnService, blockFactory, cellFactory, invisibleCellFactory);
                 presenter.Enable();
                 allPresenters.Add(presenter);
                 return presenter;
             }
         }
 
-        private readonly IGameBoard_Readonly model;
+        private readonly GameBoard model;
         private readonly AGameBoardView view;
-        private readonly AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory;
-        private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory;
-        private readonly AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory;
+        private readonly IBlockSpawnService blockSpawnService;
+        private readonly AFactory<Block, ABlockView, IBlockPresenter> blockFactory;
+        private readonly AFactory<Cell, ACellView, ICellPresenter> cellFactory;
+        private readonly AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory;
 
-        private readonly Dictionary<ICell_Readonly, ACellView> cells = new();
-        private readonly Dictionary<IBlock_Readonly, ABlockView> blocks = new();
+        private readonly Dictionary<Cell, ACellView> cells = new();
+        private readonly Dictionary<Block, ABlockView> blocks = new();
 
-        public GameBoardPresenter(IGameBoard_Readonly model, AGameBoardView view,
-            AFactory<IBlock_Readonly, ABlockView, IBlockPresenter> blockFactory,
-            AFactory<ICell_Readonly, ACellView, ICellPresenter> cellFactory,
-            AFactory<ICell_Readonly, ACellView, ICellPresenter> invisibleCellFactory)
+        public GameBoardPresenter(GameBoard model, AGameBoardView view,
+            IBlockSpawnService blockSpawnService,
+            AFactory<Block, ABlockView, IBlockPresenter> blockFactory,
+            AFactory<Cell, ACellView, ICellPresenter> cellFactory,
+            AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory)
         {
             this.model = model;
             this.view = view;
+            this.blockSpawnService = blockSpawnService;
             this.blockFactory = blockFactory;
             this.cellFactory = cellFactory;
             this.invisibleCellFactory = invisibleCellFactory;
@@ -66,54 +73,54 @@ namespace Presenter
         {
             SpawnAllCells();
             SpawnAllBlocks();
-            model.OnBlockSpawn += SpawnBlock;
+            blockSpawnService.OnBlockSpawn += SpawnBlock;
             Debug.Log($"{this} enabled");
         }
-
 
         public void Disable()
         {
             ClearAllBlocks();
             ClearAllCells();
-            model.OnBlockSpawn -= SpawnBlock;
+            blockSpawnService.OnBlockSpawn -= SpawnBlock;
             Debug.Log($"{this} disabled");
         }
+
         public void Destroy()
         {
             Disable();
             GameObject.Destroy(view.gameObject);
         }
+
         public ACellView GetCellView(Vector2Int modelPosition)
         {
-            ICell_Readonly cellModel = model.Cells_Readonly[modelPosition.x, modelPosition.y];
+            Cell cellModel = model.Cells[modelPosition.x, modelPosition.y];
             return cells[cellModel];
         }
+
         public ABlockView GetBlockView(Vector2Int modelPosition)
         {
-            IBlock_Readonly blockModel = model.Cells_Readonly[modelPosition.x, modelPosition.y].Block_Readonly;
-            if (blockModel != null && blocks.ContainsKey(blockModel) && blockModel.Cell_Readonly.IsPlayable)
-                return blocks[blockModel];
-            else
+            Block blockModel = model.Cells[modelPosition.x, modelPosition.y].Block;
+            if (blockModel == null || !blocks.ContainsKey(blockModel))
                 return null;
+
+            return blocks[blockModel];
         }
-
-
 
         [Button]
         private void SpawnAllCells()
         {
             ClearAllCells();
 
-            int xLength = model.Cells_Readonly.GetLength(0);
-            int yLength = model.Cells_Readonly.GetLength(1);
+            int xLength = model.Cells.GetLength(0);
+            int yLength = model.Cells.GetLength(1);
 
             for (int y = 0; y < yLength; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    ICell_Readonly cellModel = model.Cells_Readonly[x, y];
+                    Cell cellModel = model.Cells[x, y];
 
-                    if (cellModel.IsPlayable)
+                    if (cellModel.Type.IsPlayable)
                     {
                         cells[cellModel] = cellFactory.Create(cellModel).View; //спавн обычных клеток
                     }
@@ -129,7 +136,7 @@ namespace Presenter
         {
             ClearAllBlocks();
 
-            foreach (var blockModel in model.Blocks_Readonly)
+            foreach (var blockModel in model.Blocks)
             {
                 blocks[blockModel] = blockFactory.Create(blockModel).View;
             }
@@ -146,7 +153,7 @@ namespace Presenter
             blockFactory.ClearParent();
             blocks.Clear();
         }
-        private void SpawnBlock(IBlock_Readonly blockModel)
+        private void SpawnBlock(Block blockModel)
         {
             blocks.Add(blockModel, blockFactory.Create(blockModel).View);
         }

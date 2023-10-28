@@ -2,6 +2,7 @@
 using UnityEngine;
 using View;
 using Utils;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -10,19 +11,19 @@ namespace Presenter
     /// </summary>
     public class HudPresenter : IHudPresenter
     {
-        public class Factory : AFactory<ILevel_Readonly, AHudView, IHudPresenter>
+        public class Factory : AFactory<Level, AHudView, IHudPresenter>
         {
-            private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
-            private AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
+            private AFactory<Counter, ACounterView, ICounterPresenter> goalFactory;
+            private AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory;
             public Factory(AHudView viewPrefab,
-                AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory,
-                AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory) : base(viewPrefab)
+                AFactory<Counter, ACounterView, ICounterPresenter> goalFactory,
+                AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory) : base(viewPrefab)
             {
                 this.goalFactory = goalFactory;
                 this.restrictionFactory = restrictionFactory;
             }
 
-            public override IHudPresenter Connect(AHudView existingView, ILevel_Readonly model)
+            public override IHudPresenter Connect(AHudView existingView, Level model)
             {
                 var presenter = new HudPresenter(model, existingView, goalFactory, restrictionFactory);
                 presenter.Enable();
@@ -31,15 +32,15 @@ namespace Presenter
             }
         }
         
-        private readonly ILevel_Readonly model;
+        private readonly Level model;
         private readonly AHudView view;
-        private readonly AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory;
-        private readonly AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory;
+        private readonly AFactory<Counter, ACounterView, ICounterPresenter> goalFactory;
+        private readonly AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory;
 
-        public HudPresenter(ILevel_Readonly model,
+        public HudPresenter(Level model,
             AHudView view,
-            AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> goalFactory,
-            AFactory<ICounter_Readonly, ACounterView, ICounterPresenter> restrictionFactory)
+            AFactory<Counter, ACounterView, ICounterPresenter> goalFactory,
+            AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory)
         {
             this.model = model;
             this.view = view;

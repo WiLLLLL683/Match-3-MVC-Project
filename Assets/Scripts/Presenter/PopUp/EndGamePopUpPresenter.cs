@@ -2,6 +2,7 @@
 using Model.Readonly;
 using Utils;
 using View;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -10,7 +11,7 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<ILevel_Readonly, AEndGamePopUp, IPopUpPresenter>
+        public class Factory : AFactory<Level, AEndGamePopUp, IPopUpPresenter>
         {
             private readonly Bootstrap bootstrap;
             public Factory(AEndGamePopUp viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab)
@@ -18,7 +19,7 @@ namespace Presenter
                 this.bootstrap = bootstrap;
             }
 
-            public override IPopUpPresenter Connect(AEndGamePopUp existingView, ILevel_Readonly model)
+            public override IPopUpPresenter Connect(AEndGamePopUp existingView, Level model)
             {
                 var presenter = new EndGamePopUpPresenter(model, existingView, bootstrap);
                 presenter.Enable();
@@ -27,11 +28,11 @@ namespace Presenter
             }
         }
 
-        private readonly ILevel_Readonly model;
+        private readonly Level model;
         private readonly AEndGamePopUp view;
         private readonly Bootstrap bootstrap;
 
-        public EndGamePopUpPresenter(ILevel_Readonly model, AEndGamePopUp view, Bootstrap bootstrap)
+        public EndGamePopUpPresenter(Level model, AEndGamePopUp view, Bootstrap bootstrap)
         {
             this.model = model;
             this.view = view;

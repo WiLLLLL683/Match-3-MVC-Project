@@ -2,6 +2,7 @@
 using UnityEngine;
 using View;
 using Utils;
+using Model.Readonly;
 
 namespace Presenter
 {
@@ -10,15 +11,15 @@ namespace Presenter
     /// </summary>
     public class HeaderPresenter : IHeaderPresenter
     {
-        public class Factory : AFactory<CurrencyInventory, AHeaderView, IHeaderPresenter>
+        public class Factory : AFactory<ICurrencyService_Readonly, AHeaderView, IHeaderPresenter>
         {
-            private readonly AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> currencyFactory;
-            public Factory(AHeaderView viewPrefab, AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> currencyFactory) : base(viewPrefab)
+            private readonly AFactory<ICurrencyService_Readonly, ACounterView, ICurrencyPresenter> currencyFactory;
+            public Factory(AHeaderView viewPrefab, AFactory<ICurrencyService_Readonly, ACounterView, ICurrencyPresenter> currencyFactory) : base(viewPrefab)
             {
                 this.currencyFactory = currencyFactory;
             }
 
-            public override IHeaderPresenter Connect(AHeaderView existingView, CurrencyInventory model)
+            public override IHeaderPresenter Connect(AHeaderView existingView, ICurrencyService_Readonly model)
             {
                 var presenter = new HeaderPresenter(model, existingView, currencyFactory);
                 presenter.Enable();
@@ -27,11 +28,11 @@ namespace Presenter
             }
         }
 
-        private CurrencyInventory model;
+        private ICurrencyService_Readonly model;
         private AHeaderView view;
-        private AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> scoreFactory;
+        private AFactory<ICurrencyService_Readonly, ACounterView, ICurrencyPresenter> scoreFactory;
 
-        public HeaderPresenter(CurrencyInventory model, AHeaderView view, AFactory<CurrencyInventory, ACounterView, ICurrencyPresenter> scoreFactory)
+        public HeaderPresenter(ICurrencyService_Readonly model, AHeaderView view, AFactory<ICurrencyService_Readonly, ACounterView, ICurrencyPresenter> scoreFactory)
         {
             this.model = model;
             this.view = view;

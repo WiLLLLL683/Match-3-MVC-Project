@@ -7,25 +7,11 @@ namespace Model.Objects
     /// Базовый тип блока, без действия по активации
     /// </summary>
     [Serializable]
-    public class BasicBlockType : IBlockType
+    public class BasicBlockType : BlockType
     {
-        [SerializeField] private int id;
-        [SerializeField] private Sprite icon;
-        [SerializeField] private ParticleSystem destroyEffect;
+        public BasicBlockType() { }
+        public BasicBlockType(int id) => this.Id = id;
 
-        public int Id => id;
-        public Sprite Icon => icon;
-        public ParticleSystem DestroyEffect => destroyEffect;
-
-        public BasicBlockType()
-        {
-
-        }
-        public BasicBlockType(int id = 0)
-        {
-            this.id = id;
-        }
-
-        public bool Activate() => false;
+        public override bool Activate() => false;
     }
 }

@@ -1,8 +1,6 @@
-﻿using Model.Objects;
-using Model.Systems;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using Model.Objects;
+using Model.Services;
 using Utils;
 
 namespace Model.Infrastructure
@@ -11,34 +9,36 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
-        private readonly IGravitySystem gravitySystem;
-        private readonly IMatchSystem matchSystem;
-        private readonly ISpawnSystem spawnSystem;
+        private readonly IMatchService matchService;
+        private readonly IBlockSpawnService spawnService;
+        private readonly IGravityService gravityService;
+        private readonly IBlockDestroyService blockDestroyService;
 
-        private Level level;
+        private GameBoard gameBoard;
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
+        public SpawnState(Game game, StateMachine<AModelState> stateMachine, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService, IBlockDestroyService blockDestroyService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
-            gravitySystem = systems.GetSystem<IGravitySystem>();
-            matchSystem = systems.GetSystem<IMatchSystem>();
-            spawnSystem = systems.GetSystem<ISpawnSystem>();
+            this.spawnService = spawnService;
+            this.matchService = matchService;
+            this.gravityService = gravityService;
+            this.blockDestroyService = blockDestroyService;
         }
 
         public override void OnStart()
         {
-            level = game.CurrentLevel;
+            gameBoard = game.CurrentLevel.gameBoard;
 
             for (int i = 0; i < MAX_SPAWN_ITERATIONS; i++)
             {
                 //гравитация
-                gravitySystem.Execute(level.gameBoard);
+                gravityService.Execute();
 
                 //проверка на совпадения
-                HashSet<Cell> matches = matchSystem.FindAllMatches();
+                HashSet<Cell> matches = matchService.FindAllMatches();
 
                 //если есть совпадениz - удалить совпадающие блоки
                 if (matches.Count > 0)
@@ -46,12 +46,12 @@ namespace Model.Infrastructure
                     foreach (Cell match in matches)
                     {
                         //level.UpdateGoals(match.Block.Type);
-                        match.DestroyBlock();
+                        blockDestroyService.DestroyAt(match);
                     }
                 }
 
                 //спавн верхней полосы
-                spawnSystem.SpawnTopLine();
+                spawnService.FillInvisibleRows();
             }
 
             stateMachine.SetState<WaitState>();

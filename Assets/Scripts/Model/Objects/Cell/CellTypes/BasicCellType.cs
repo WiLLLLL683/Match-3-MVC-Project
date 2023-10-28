@@ -5,32 +5,20 @@ using UnityEngine;
 namespace Model.Objects
 {
     [Serializable]
-    public class BasicCellType : ICellType
+    public class BasicCellType : CellType
     {
-        [SerializeField] private Sprite icon;
-        [SerializeField] private ParticleSystem destroyEffect;
-        [SerializeField] private ParticleSystem emptyEffect;
-        [SerializeField] private bool canContainBlock;
-        [SerializeField] private bool isPlayable;
-
         public BasicCellType()
         {
-            this.isPlayable = true;
-            this.canContainBlock = true;
+            this.IsPlayable = true;
+            this.CanContainBlock = true;
         }
         public BasicCellType(bool isPlayable, bool canContainBlock)
         {
-            this.isPlayable = isPlayable;
-            this.canContainBlock = canContainBlock;
+            this.IsPlayable = isPlayable;
+            this.CanContainBlock = canContainBlock;
         }
 
-        public Sprite Icon => icon;
-        public ParticleSystem DestroyEffect => destroyEffect;
-        public ParticleSystem EmptyEffect => emptyEffect;
-        public bool CanContainBlock => canContainBlock;
-        public bool IsPlayable => isPlayable;
-
-        public void DestroyCellMaterial()
+        public override void DestroyCellMaterial()
         {
 
         }

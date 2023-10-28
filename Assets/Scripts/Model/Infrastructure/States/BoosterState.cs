@@ -1,8 +1,5 @@
 ﻿using Model.Objects;
-using Model.Systems;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Model.Readonly;
 using Utils;
 
 namespace Model.Infrastructure
@@ -12,20 +9,20 @@ namespace Model.Infrastructure
         private Game game;
         private Level level;
         private StateMachine<AModelState> stateMachine;
-        private BoosterInventory boosterInventory;
+        private IBoosterService boosterInventory;
 
         private IBooster booster;
 
-        public BoosterState(Game _game, StateMachine<AModelState> _stateMachine, AllSystems _systems, BoosterInventory _boosterInventory)
+        public BoosterState(Game game, StateMachine<AModelState> stateMachine, IBoosterService boosterInventory)
         {
-            game = _game;
-            stateMachine = _stateMachine;
-            boosterInventory = _boosterInventory;
+            this.game = game;
+            this.stateMachine = stateMachine;
+            this.boosterInventory = boosterInventory;
         }
 
-        public void SetInput(IBooster _booster)
+        public void SetInput(IBooster booster)
         {
-            booster = _booster;
+            this.booster = booster;
         }
 
         public override void OnStart()
@@ -43,8 +40,6 @@ namespace Model.Infrastructure
         {
 
         }
-
-
 
         private void SucsessfullTurn()
         {

@@ -1,7 +1,7 @@
-using Data;
+using Config;
+using Model.Factories;
 using Model.Objects;
-using Model.Systems;
-using System.Collections;
+using Model.Services;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -12,38 +12,59 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly StateMachine<AModelState> stateMachine;
-        private readonly AllSystems systems;
-        private readonly IMatchSystem matchSystem;
-        private readonly ISpawnSystem spwanSystem;
+        private readonly ILevelFactory levelFactory;
+        private readonly IMatchService matchService;
+        private readonly IRandomBlockTypeService randomService;
+        private readonly IBlockSpawnService spawnService;
+        private readonly IValidationService validationService;
+        private readonly IGravityService gravityService;
+        private readonly IBlockMoveService moveService;
+        private readonly IBlockDestroyService destroyService;
+        private readonly IWinLoseService winLoseService;
 
-        private LevelData levelData;
+        private LevelSO levelData;
         private Level level;
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
+        public LoadLevelState(Game game, 
+            StateMachine<AModelState> stateMachine,
+            ILevelFactory levelFactory,
+            IValidationService validationService,
+            IRandomBlockTypeService randomService,
+            IBlockSpawnService spawnService,
+            IMatchService matchService,
+            IGravityService gravityService,
+            IBlockMoveService moveService,
+            IBlockDestroyService destroyService,
+            IWinLoseService winLoseService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
-            this.systems = systems;
-            matchSystem = this.systems.GetSystem<IMatchSystem>();
-            spwanSystem = this.systems.GetSystem<ISpawnSystem>();
+            this.levelFactory = levelFactory;
+            this.validationService = validationService;
+            this.randomService = randomService;
+            this.spawnService = spawnService;
+            this.matchService = matchService;
+            this.gravityService = gravityService;
+            this.moveService = moveService;
+            this.destroyService = destroyService;
+            this.winLoseService = winLoseService;
         }
 
-        public void SetLevelData(LevelData levelData) => this.levelData = levelData;
+        public void SetLevelData(LevelSO levelData) => this.levelData = levelData;
 
         public override void OnStart()
         {
             if (levelData == null)
             {
                 Debug.LogError("Invalid LevelData");
-                //stateMachine.SetState<MetaGameState>();
                 return;
             }
 
             LoadLevel();
-            spwanSystem.SpawnGameBoard();
-            SwapMatchedBlocks(); //TODO
+            spawnService.FillGameBoard();
+            SwapMatchedBlocks();
 
             Debug.Log("Core Game Started");
             stateMachine.SetState<WaitState>();
@@ -54,28 +75,33 @@ namespace Model.Infrastructure
 
         }
 
-
-
         private void LoadLevel()
         {
-            level = new Level(levelData);
-            game.SetCurrentLevel(level);
-            systems.SetLevel(level);
+            level = levelFactory.Create(levelData);
+
+            game.CurrentLevel = level;
+            validationService.SetLevel(level.gameBoard);
+            randomService.SetLevel(levelData.blockTypeSet.GetWeights(), levelData.blockTypeSet.defaultBlockType.type);
+            spawnService.SetLevel(level.gameBoard);
+            matchService.SetLevel(level.gameBoard, level.matchPatterns);
+            gravityService.SetLevel(level.gameBoard);
+            moveService.SetLevel(level.gameBoard);
+            destroyService.SetLevel(level.gameBoard);
+            winLoseService.SetLevel(level);
         }
 
         private void SwapMatchedBlocks()
         {
             for (int i = 0; i < MATCH_CHECK_ITERATIONS; i++)
             {
-                HashSet<Cell> matches = matchSystem.FindAllMatches();
+                HashSet<Cell> matches = matchService.FindAllMatches();
                 
                 if (matches.Count == 0)
                     return;
 
                 foreach (Cell match in matches)
                 {
-                    match.DestroyBlock();
-                    spwanSystem.SpawnRandomBlock(match);
+                    spawnService.SpawnRandomBlock_WithOverride(match);
                 }
             }
         }

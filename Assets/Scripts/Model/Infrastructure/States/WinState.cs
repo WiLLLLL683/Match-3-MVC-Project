@@ -1,21 +1,16 @@
-﻿using Model.Objects;
-using Model.Systems;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Utils;
+﻿using Utils;
 
 namespace Model.Infrastructure
 {
     public class WinState : AModelState
     {
-        private StateMachine<AModelState> stateMachine;
+        private readonly StateMachine<AModelState> stateMachine;
 
-        public WinState(StateMachine<AModelState> _stateMachine, AllSystems _systems)
+        public WinState(StateMachine<AModelState> stateMachine)
         {
-            stateMachine = _stateMachine;
+            this.stateMachine = stateMachine;
         }
-        
+
         public override void OnStart()
         {
 

@@ -1,5 +1,4 @@
-﻿using Model.Objects;
-using Model.Readonly;
+﻿using Model.Readonly;
 using UnityEngine;
 
 namespace Model.Infrastructure

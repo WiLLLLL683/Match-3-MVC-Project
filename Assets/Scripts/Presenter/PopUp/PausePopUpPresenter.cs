@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Model.Infrastructure;
+using Model.Objects;
 using Utils;
 using View;
 

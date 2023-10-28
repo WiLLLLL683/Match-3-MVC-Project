@@ -1,29 +1,31 @@
-﻿using Model.Objects;
-using Model.Systems;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Model.Objects;
+using Model.Services;
 using Utils;
+using Model.Infrastructure.Commands;
 
 namespace Model.Infrastructure
 {
     public class TurnState : AModelState
     {
-        private Game game;
-        private Level level;
-        private StateMachine<AModelState> stateMachine;
-        private IMoveSystem moveSystem;
-        private IMatchSystem matchSystem;
+        private readonly Game game;
+        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IMatchService matchService;
+        private readonly IBlockMoveService blockMoveService;
+        private readonly IBlockDestroyService blockDestroyService;
 
+        private GameBoard gameBoard;
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game game, StateMachine<AModelState> stateMachine, AllSystems systems)
+        public TurnState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService, IBlockMoveService moveService, IBlockDestroyService blockDestroyService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
-            moveSystem = systems.GetSystem<IMoveSystem>();
-            matchSystem = systems.GetSystem<IMatchSystem>();
+            this.matchService = matchService;
+            this.blockMoveService = moveService;
+            this.blockDestroyService = blockDestroyService;
         }
 
         public void SetInput(Vector2Int startPos, Directions direction)
@@ -34,7 +36,7 @@ namespace Model.Infrastructure
 
         public override void OnStart()
         {
-            level = game.CurrentLevel;
+            gameBoard = game.CurrentLevel.gameBoard;
 
             if (direction == Directions.Zero)
             {
@@ -51,16 +53,12 @@ namespace Model.Infrastructure
 
         }
 
-
-
         private void MoveBlock()
         {
-            //попытка хода
-            IAction swapAction = moveSystem.Move(startPos, direction);
-            swapAction?.Execute();
+            ICommand moveAction = new BlockMoveCommand(startPos, startPos + direction.ToVector2Int(), blockMoveService);
+            moveAction.Execute();
 
-            //проверка на результативность хода
-            HashSet<Cell> matches = matchSystem.FindAllMatches();
+            HashSet<Cell> matches = matchService.FindAllMatches();
 
             if (matches.Count > 0)
             {
@@ -68,18 +66,16 @@ namespace Model.Infrastructure
             }
             else
             {
-                swapAction?.Undo();
+                moveAction?.Undo();
                 stateMachine.SetPreviousState();
             }
         }
 
         private void PressBlock()
         {
-            //проверка на результативность хода
-            bool turnSucsess = level.gameBoard.Cells[startPos.x, startPos.y].Block.Activate(); //TODO возвращать IAction
-            
-            //проверка на последующие совпадения
-            HashSet<Cell> matches = matchSystem.FindAllMatches();
+            bool turnSucsess = gameBoard.Cells[startPos.x, startPos.y].Block.Type.Activate(); //TODO возвращать IAction
+
+            HashSet<Cell> matches = matchService.FindAllMatches();
 
             if (turnSucsess)
             {
@@ -98,7 +94,7 @@ namespace Model.Infrastructure
             foreach (Cell match in matches)
             {
                 //level.UpdateGoals(matches[i].Block.Type);
-                match.DestroyBlock();
+                blockDestroyService.DestroyAt(match);
             }
             stateMachine.SetState<SpawnState>();
         }
