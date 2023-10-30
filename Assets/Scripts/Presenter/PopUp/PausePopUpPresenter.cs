@@ -12,15 +12,15 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<PlayerSettings, APausePopUp, IPopUpPresenter>
         {
-            private readonly Bootstrap bootstrap;
-            public Factory(APausePopUp viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab)
+            private readonly SceneLoader sceneLoader;
+            public Factory(APausePopUp viewPrefab, SceneLoader sceneLoader, Transform parent = null) : base(viewPrefab)
             {
-                this.bootstrap = bootstrap;
+                this.sceneLoader = sceneLoader;
             }
 
             public override IPopUpPresenter Connect(APausePopUp existingView, PlayerSettings model)
             {
-                var presenter = new PausePopUpPresenter(model, existingView, bootstrap);
+                var presenter = new PausePopUpPresenter(model, existingView, sceneLoader);
                 existingView.Init(model.IsSoundOn, model.IsVibrationOn);
                 presenter.Enable();
                 allPresenters.Add(presenter);
@@ -30,13 +30,13 @@ namespace Presenter
         
         private readonly APausePopUp view;
         private readonly PlayerSettings model;
-        private readonly Bootstrap bootstrap;
+        private readonly SceneLoader sceneLoader;
 
-        public PausePopUpPresenter(PlayerSettings model, APausePopUp view, Bootstrap bootstrap)
+        public PausePopUpPresenter(PlayerSettings model, APausePopUp view, SceneLoader sceneLoader)
         {
             this.model = model;
             this.view = view;
-            this.bootstrap = bootstrap;
+            this.sceneLoader = sceneLoader;
         }
 
         public void Enable()
@@ -68,7 +68,7 @@ namespace Presenter
             //TODO next level
             Debug.Log("Next Level");
         }
-        private void Quit() => bootstrap.LoadMetaGame();
+        private void Quit() => sceneLoader.LoadMetaGame();
         private void Replay()
         {
             //TODO replay

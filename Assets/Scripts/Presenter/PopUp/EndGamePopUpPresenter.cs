@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Model.Readonly;
 using Utils;
 using View;
 using Model.Objects;
@@ -13,15 +12,15 @@ namespace Presenter
         /// </summary>
         public class Factory : AFactory<Level, AEndGamePopUp, IPopUpPresenter>
         {
-            private readonly Bootstrap bootstrap;
-            public Factory(AEndGamePopUp viewPrefab, Bootstrap bootstrap, Transform parent = null) : base(viewPrefab)
+            private readonly SceneLoader sceneLoader;
+            public Factory(AEndGamePopUp viewPrefab, SceneLoader sceneLoader, Transform parent = null) : base(viewPrefab)
             {
-                this.bootstrap = bootstrap;
+                this.sceneLoader = sceneLoader;
             }
 
             public override IPopUpPresenter Connect(AEndGamePopUp existingView, Level model)
             {
-                var presenter = new EndGamePopUpPresenter(model, existingView, bootstrap);
+                var presenter = new EndGamePopUpPresenter(model, existingView, sceneLoader);
                 presenter.Enable();
                 allPresenters.Add(presenter);
                 return presenter;
@@ -30,13 +29,13 @@ namespace Presenter
 
         private readonly Level model;
         private readonly AEndGamePopUp view;
-        private readonly Bootstrap bootstrap;
+        private readonly SceneLoader sceneLoader;
 
-        public EndGamePopUpPresenter(Level model, AEndGamePopUp view, Bootstrap bootstrap)
+        public EndGamePopUpPresenter(Level model, AEndGamePopUp view, SceneLoader sceneLoader)
         {
             this.model = model;
             this.view = view;
-            this.bootstrap = bootstrap;
+            this.sceneLoader = sceneLoader;
         }
 
         public void Enable()
@@ -66,7 +65,7 @@ namespace Presenter
             //TODO next level
             Debug.Log("Next Level");
         }
-        private void Quit() => bootstrap.LoadMetaGame();
+        private void Quit() => sceneLoader.LoadMetaGame();
         private void Replay()
         {
             //TODO replay

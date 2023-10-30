@@ -26,7 +26,7 @@ namespace Config
         public ACounterView goalCounterPrefab;
         public ACounterView restrictionCounterPrefab;
         public ACounterView scorePrefab;
-        public ASelectorView selectorPrefab;
+        public ALevelSelectionView selectorPrefab;
         public APausePopUp pausePopUpPrefab;
         public AEndGamePopUp endGamePopUpPrefab;
     }

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using Model.Infrastructure;
-using Model.Readonly;
 using View;
 using Utils;
+using Model.Objects;
 
 namespace Presenter
 {
@@ -11,7 +11,7 @@ namespace Presenter
         /// <summary>
         /// Реализация фабрики использующая класс презентера в котором находится.
         /// </summary>
-        public class Factory : AFactory<IBooster_Readonly, ABoosterView, IBoosterPresenter>
+        public class Factory : AFactory<IBooster, ABoosterView, IBoosterPresenter>
         {
             private readonly IGame game;
             public Factory(ABoosterView viewPrefab, IGame game, Transform parent = null) : base(viewPrefab)
@@ -19,10 +19,10 @@ namespace Presenter
                 this.game = game;
             }
 
-            public override IBoosterPresenter Connect(ABoosterView existingView, IBooster_Readonly model)
+            public override IBoosterPresenter Connect(ABoosterView existingView, IBooster model)
             {
                 var presenter = new BoosterPresenter(existingView, model, game);
-                existingView.Init(model.Icon, model.Amount);
+                //existingView.Init(model.Icon, model.Amount);
                 allPresenters.Add(presenter);
                 presenter.Enable();
                 return presenter;
@@ -30,10 +30,10 @@ namespace Presenter
         }
 
         private ABoosterView view;
-        private IBooster_Readonly model;
+        private IBooster model;
         private readonly IGame game;
 
-        public BoosterPresenter(ABoosterView view, IBooster_Readonly model, IGame game)
+        public BoosterPresenter(ABoosterView view, IBooster model, IGame game)
         {
             this.view = view;
             this.model = model;

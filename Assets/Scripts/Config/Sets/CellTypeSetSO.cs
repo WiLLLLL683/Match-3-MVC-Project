@@ -10,7 +10,6 @@ namespace Config
     {
         public List<CellTypeSO> cellTypes = new();
         public CellTypeSO defaultCellType;
-        public CellTypeSO invisibleCellType;
 
         public CellTypeSO GetSO(int id)
         {

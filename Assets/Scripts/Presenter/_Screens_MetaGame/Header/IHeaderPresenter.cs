@@ -1,7 +1,7 @@
 ﻿
 namespace Presenter
 {
-    public interface IHeaderPresenter : IPresenter
+    public interface IHeaderPresenter
     {
     }
 }

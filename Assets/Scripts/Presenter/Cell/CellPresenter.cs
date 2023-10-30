@@ -1,10 +1,9 @@
-﻿using Model.Readonly;
-using View;
-using UnityEngine;
-using Utils;
-using Config;
+﻿using Config;
 using Model.Objects;
 using Model.Services;
+using UnityEngine;
+using Utils;
+using View;
 
 namespace Presenter
 {

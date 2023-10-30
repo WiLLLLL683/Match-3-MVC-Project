@@ -1,6 +1,4 @@
-﻿using Model.Readonly;
-using System;
-using UnityEngine;
+﻿using System;
 
 namespace Model.Objects
 {

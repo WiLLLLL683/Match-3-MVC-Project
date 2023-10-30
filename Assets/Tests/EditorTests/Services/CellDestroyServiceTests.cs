@@ -1,13 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 using Model.Objects;
-using Config;
-using Model.Readonly;
+using NUnit.Framework;
 using TestUtils;
-using Model.Services;
+using UnityEngine;
 
 namespace Model.Services.UnitTests
 {
