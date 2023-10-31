@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Presenter;
+using Zenject;
 
 namespace View
 {
@@ -10,7 +11,6 @@ namespace View
     /// </summary>
     public class Input_Touch : AInput
     {
-        [SerializeField] private Camera mainCamera;
         [SerializeField] private float minSwipeDistance = 0.6f;
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
@@ -22,8 +22,11 @@ namespace View
         private Vector2 deltaWorldPositionClamped;
         private Directions swipeDirection;
         private float timer;
-        private IGameBoardPresenter gameBoardPresenter;
 
+        private IGameBoardPresenter gameBoardPresenter;
+        private Camera mainCamera;
+
+        [Inject]
         public override AInput Init(IGameBoardPresenter gameBoardPresenter)
         {
             mainCamera = Camera.main;

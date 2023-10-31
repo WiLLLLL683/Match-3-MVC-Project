@@ -23,7 +23,7 @@ namespace CompositionRoot
 
         private void BindModel()
         {
-            Container.Bind<Game>().AsSingle();
+            Container.BindInterfacesAndSelfTo<Game>().AsSingle();
             Container.Bind<StateMachine<AModelState>>().AsSingle();
             Container.Bind<StateFactory>().AsSingle();
             Container.Bind<LevelProgress>().AsSingle();
@@ -48,10 +48,12 @@ namespace CompositionRoot
             Container.Bind<IBlockDestroyService>().To<BlockDestroyService>().AsSingle();
             Container.Bind<IBlockMoveService>().To<BlockMoveService>().AsSingle();
             Container.Bind<IBlockSpawnService>().To<BlockSpawnService>().AsSingle();
-            Container.Bind<IBoosterService>().To<BoosterService>().AsSingle();
+
             Container.Bind<ICellChangeTypeService>().To<CellChangeTypeService>().AsSingle();
             Container.Bind<ICellSetBlockService>().To<CellSetBlockService>().AsSingle();
             Container.Bind<ICellDestroyService>().To<CellDestroyService>().AsSingle();
+
+            Container.Bind<IBoosterService>().To<BoosterService>().AsSingle();
             Container.Bind<ICounterService>().To<CounterService>().AsSingle();
             Container.Bind<ICurrencyService>().To<CurrencyService>().AsSingle();
             Container.Bind<IGravityService>().To<GravityService>().AsSingle();

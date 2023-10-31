@@ -4,40 +4,43 @@ using Model.Services;
 using UnityEngine;
 using Utils;
 using View;
+using Zenject;
 
 namespace Presenter
 {
     public class CellPresenter : ICellPresenter
     {
-        /// <summary>
-        /// Реализация фабрики использующая класс презентера в котором находится.
-        /// </summary>
-        public class Factory : AFactory<Cell, ACellView, ICellPresenter>
-        {
-            private readonly CellTypeSetSO allCellTypeSO;
-            private readonly ICellSetBlockService setBlockService;
-            private readonly ICellChangeTypeService changeTypeService;
-            private readonly ICellDestroyService cellDestroyService;
+        ///// <summary>
+        ///// Реализация фабрики использующая класс презентера в котором находится.
+        ///// </summary>
+        //public class Factory : AFactory<Cell, ACellView, ICellPresenter>
+        //{
+        //    private readonly CellTypeSetSO allCellTypeSO;
+        //    private readonly ICellSetBlockService setBlockService;
+        //    private readonly ICellChangeTypeService changeTypeService;
+        //    private readonly ICellDestroyService cellDestroyService;
 
-            public Factory(ACellView viewPrefab, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService, ICellDestroyService cellDestroyService, Transform parent = null) : base(viewPrefab)
-            {
-                this.allCellTypeSO = allCellTypeSO;
-                this.setBlockService = setBlockService;
-                this.changeTypeService = changeTypeService;
-                this.cellDestroyService = cellDestroyService;
-            }
+        //    public Factory(ACellView viewPrefab, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService, ICellDestroyService cellDestroyService, Transform parent = null) : base(viewPrefab)
+        //    {
+        //        this.allCellTypeSO = allCellTypeSO;
+        //        this.setBlockService = setBlockService;
+        //        this.changeTypeService = changeTypeService;
+        //        this.cellDestroyService = cellDestroyService;
+        //    }
 
-            public override ICellPresenter Connect(ACellView existingView, Cell model)
-            {
-                CellTypeSO cellTypeSO = allCellTypeSO.GetSO(model.Type.Id);
-                ICellPresenter presenter = new CellPresenter(model, existingView, cellTypeSO, allCellTypeSO, setBlockService, changeTypeService, cellDestroyService);
-                existingView.Init(model.Position, cellTypeSO.icon, model.Type.IsPlayable,
-                    cellTypeSO.destroyEffect, cellTypeSO.emptyEffect);
-                allPresenters.Add(presenter);
-                presenter.Enable();
-                return presenter;
-            }
-        }
+        //    public override ICellPresenter Connect(ACellView existingView, Cell model)
+        //    {
+        //        CellTypeSO cellTypeSO = allCellTypeSO.GetSO(model.Type.Id);
+        //        ICellPresenter presenter = new CellPresenter(model, existingView, cellTypeSO, allCellTypeSO, setBlockService, changeTypeService, cellDestroyService);
+        //        existingView.Init(model.Position, cellTypeSO.icon, model.Type.IsPlayable,
+        //            cellTypeSO.destroyEffect, cellTypeSO.emptyEffect);
+        //        allPresenters.Add(presenter);
+        //        presenter.Enable();
+        //        return presenter;
+        //    }
+        //}
+
+        public class Factory : PlaceholderFactory<Cell, ACellView, CellTypeSO, CellTypeSetSO, CellPresenter> { }
 
         private readonly Cell model;
         private readonly ACellView view;
@@ -63,12 +66,16 @@ namespace Presenter
             cellDestroyService.OnDestroy += Destroy;
             setBlockService.OnEmpty += Empty;
             changeTypeService.OnTypeChange += ChangeType;
+
+            view.Init(model.Position, typeSO.icon, model.Type.IsPlayable, typeSO.destroyEffect, typeSO.emptyEffect);
+            Debug.Log($"{this} enabled");
         }
         public void Disable()
         {
             cellDestroyService.OnDestroy -= Destroy;
             setBlockService.OnEmpty -= Empty;
             changeTypeService.OnTypeChange -= ChangeType;
+            Debug.Log($"{this} disabled");
         }
         public void Destroy() => Destroy(model);
 

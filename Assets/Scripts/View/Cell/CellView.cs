@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace View
 {
@@ -9,6 +10,8 @@ namespace View
     /// </summary>
     public class CellView : ACellView
     {
+        public class Factory : PlaceholderFactory<CellView> { }
+
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private SpriteRenderer fill;
         [SerializeField] private Sprite evenSprite;

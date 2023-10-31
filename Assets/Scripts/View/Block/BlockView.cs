@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 namespace View
 {
@@ -12,6 +13,8 @@ namespace View
     /// </summary>
     public class BlockView : ABlockView, IBlockInput
     {
+        public class Factory : PlaceholderFactory<BlockView> { }
+
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private float moveSpeed;
         [SerializeField] private float tapSpeed;
