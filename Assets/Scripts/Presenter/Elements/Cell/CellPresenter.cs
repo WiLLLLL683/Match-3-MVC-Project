@@ -9,17 +9,17 @@ namespace Presenter
 {
     public class CellPresenter : ICellPresenter
     {
-        public class Factory : PlaceholderFactory<Cell, ACellView, CellTypeSO, CellTypeSetSO, CellPresenter> { }
+        public class Factory : PlaceholderFactory<Cell, ICellView, CellTypeSO, CellTypeSetSO, CellPresenter> { }
 
         private readonly Cell model;
-        private readonly ACellView view;
+        private readonly ICellView view;
         private readonly CellTypeSetSO allCellTypeSO;
         private readonly ICellSetBlockService setBlockService;
         private readonly ICellChangeTypeService changeTypeService;
         private readonly ICellDestroyService cellDestroyService;
         private CellTypeSO typeSO;
 
-        public CellPresenter(Cell model, ACellView view, CellTypeSO typeSO, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService, ICellDestroyService cellDestroyService)
+        public CellPresenter(Cell model, ICellView view, CellTypeSO typeSO, CellTypeSetSO allCellTypeSO, ICellSetBlockService setBlockService, ICellChangeTypeService changeTypeService, ICellDestroyService cellDestroyService)
         {
             this.model = model;
             this.view = view;

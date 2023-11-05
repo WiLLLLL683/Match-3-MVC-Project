@@ -27,8 +27,8 @@ namespace Presenter
         private readonly CellTypeSetSO allCellTypes;
         private readonly BlockTypeSetSO blockTypeSet;
 
-        private readonly Dictionary<Cell, ACellView> cells = new();
-        private readonly Dictionary<Block, ABlockView> blocks = new();
+        private readonly Dictionary<Cell, ICellView> cells = new();
+        private readonly Dictionary<Block, IBlockView> blocks = new();
 
         public GameBoardPresenter(GameBoard model,
             IGameBoardView view,
@@ -70,13 +70,13 @@ namespace Presenter
             Debug.Log($"{this} disabled");
         }
 
-        public ACellView GetCellView(Vector2Int modelPosition)
+        public ICellView GetCellView(Vector2Int modelPosition)
         {
             Cell cellModel = model.Cells[modelPosition.x, modelPosition.y];
             return cells[cellModel];
         }
 
-        public ABlockView GetBlockView(Vector2Int modelPosition)
+        public IBlockView GetBlockView(Vector2Int modelPosition)
         {
             Block blockModel = model.Cells[modelPosition.x, modelPosition.y].Block;
             if (blockModel == null || !blocks.ContainsKey(blockModel))
@@ -101,12 +101,12 @@ namespace Presenter
 
                     if (cellModel.Type.IsPlayable)
                     {
-                        ACellView cellView = cellViewFactory.Create();
+                        ICellView cellView = cellViewFactory.Create();
                         CreateCellPresenter(cellModel, cellView);
                     }
                     else
                     {
-                        ACellView cellView = notPlayableCellViewFactory.Create();
+                        ICellView cellView = notPlayableCellViewFactory.Create();
                         CreateCellPresenter(cellModel, cellView);
                     }
                 }
@@ -146,14 +146,14 @@ namespace Presenter
 
         private void SpawnBlock(Block blockModel)
         {
-            ABlockView blockView = blockViewFactory.Create();
+            IBlockView blockView = blockViewFactory.Create();
             BlockTypeSO blockTypeSO = blockTypeSet.GetSO(blockModel.Type.Id);
             IBlockPresenter blockPresenter = blockPresenterFactory.Create(blockModel, blockView, blockTypeSO, blockTypeSet);
             blockPresenter.Enable();
             blocks.Add(blockModel, blockView);
         }
 
-        private void CreateCellPresenter(Cell cellModel, ACellView cellView)
+        private void CreateCellPresenter(Cell cellModel, ICellView cellView)
         {
             CellTypeSO cellTypeSO = allCellTypes.GetSO(cellModel.Type.Id);
             ICellPresenter cellPresenter = cellPresenterFactory.Create(cellModel, cellView, cellTypeSO, allCellTypes);

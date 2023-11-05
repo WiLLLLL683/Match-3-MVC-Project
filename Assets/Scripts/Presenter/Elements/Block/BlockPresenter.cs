@@ -10,10 +10,10 @@ namespace Presenter
 {
     public class BlockPresenter : IBlockPresenter
     {
-        public class Factory : PlaceholderFactory<Block, ABlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter> { }
+        public class Factory : PlaceholderFactory<Block, IBlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter> { }
 
         private readonly Block model;
-        private readonly ABlockView view;
+        private readonly IBlockView view;
         private readonly BlockTypeSetSO allTypeSO;
         private readonly IGame game;
         private readonly IBlockDestroyService destroyService;
@@ -21,7 +21,7 @@ namespace Presenter
         private readonly IBlockMoveService moveService;
         private BlockTypeSO typeSO;
 
-        public BlockPresenter(Block model, ABlockView view, BlockTypeSO typeSO, BlockTypeSetSO allTypeSO, IGame game,
+        public BlockPresenter(Block model, IBlockView view, BlockTypeSO typeSO, BlockTypeSetSO allTypeSO, IGame game,
             IBlockDestroyService destroyService, IBlockChangeTypeService changeTypeService, IBlockMoveService moveService)
         {
             this.model = model;

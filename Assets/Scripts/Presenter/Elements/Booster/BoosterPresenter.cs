@@ -10,11 +10,11 @@ namespace Presenter
     {
         public class Factory : PlaceholderFactory<BoosterPresenter> { }
 
-        private readonly ABoosterView view;
+        private readonly IBoosterView view;
         private readonly IBooster model;
         private readonly IGame game;
 
-        public BoosterPresenter(ABoosterView view, IBooster model, IGame game)
+        public BoosterPresenter(IBoosterView view, IBooster model, IGame game)
         {
             this.view = view;
             this.model = model;

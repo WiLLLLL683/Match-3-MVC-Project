@@ -11,7 +11,7 @@ namespace View
     /// Может перетаскиваться из IInput и передавать инпут для перемещения и активации блока.
     /// Может изменять свой тип и базовое положение, проигрывать анимацию нажатия и эффект разрушения.
     /// </summary>
-    public class BlockView : ABlockView, IBlockInput
+    public class BlockView : MonoBehaviour, IBlockView, IBlockInput
     {
         public class Factory : PlaceholderFactory<BlockView> { }
 
@@ -22,8 +22,8 @@ namespace View
 
         public Vector2Int ModelPosition => modelPosition;
 
-        public override event Action<Directions> OnMove;
-        public override event Action OnActivate;
+        public event Action<Directions> OnMove;
+        public event Action OnActivate;
 
         private Sprite iconSprite;
         private ParticleSystem destroyEffectPrefab;
@@ -31,13 +31,14 @@ namespace View
         private Vector2Int modelPosition;
         private ParticleSystem destroyEffect;
 
-        public override void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition)
+        public void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition)
         {
             ChangeType(iconSprite, destroyEffectPrefab);
             ChangeModelPosition(modelPosition);
 
             transform.localPosition = (Vector2)modelPosition.ToViewPos();
         }
+
         private void Update()
         {
             transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
@@ -48,20 +49,24 @@ namespace View
         public void Input_ActivateBlock() => OnActivate?.Invoke();
         public void Input_Drag(Directions direction, Vector2 deltaPosition) => targetPosition = modelPosition.ToViewPos() + deltaPosition;
         public void Input_Release() => targetPosition = modelPosition.ToViewPos();
+
         //View
-        public override void ChangeModelPosition(Vector2Int modelPosition)
+        public void ChangeModelPosition(Vector2Int modelPosition)
         {
             this.modelPosition = modelPosition;
             targetPosition = modelPosition.ToViewPos();
         }
-        public override void ChangeType(Sprite iconSprite, ParticleSystem destroyEffectPrefab)
+
+        public void ChangeType(Sprite iconSprite, ParticleSystem destroyEffectPrefab)
         {
             this.iconSprite = iconSprite;
             this.destroyEffectPrefab = destroyEffectPrefab;
             icon.sprite = iconSprite;
         }
-        public override void PlayClickAnimation() => StartCoroutine(TapAnimation());
-        public override void PlayDestroyEffect()
+
+        public void PlayClickAnimation() => StartCoroutine(TapAnimation());
+
+        public void PlayDestroyEffect()
         {
             if (destroyEffectPrefab == null)
                 return;
@@ -71,8 +76,6 @@ namespace View
 
             destroyEffect.Play();
         }
-
-
 
         private IEnumerator TapAnimation() //TODO заменить на обычную анимацию
         {

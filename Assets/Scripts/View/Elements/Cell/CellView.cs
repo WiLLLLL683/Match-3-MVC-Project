@@ -8,7 +8,7 @@ namespace View
     /// При инициализации выбирает цвет своей заливки для создания шахматного рисунка игрового поля.
     /// Может изменять свой тип и проигрывать эффекты.
     /// </summary>
-    public class CellView : ACellView
+    public class CellView : MonoBehaviour, ICellView
     {
         public class Factory : PlaceholderFactory<CellView> { }
 
@@ -23,14 +23,14 @@ namespace View
         private ParticleSystem destroyEffect;
         private ParticleSystem emptyEffect;
 
-        public override void Init(Vector2Int modelPosition, Sprite iconSprite, bool isPlayable, ParticleSystem destroyEffectPrefab, ParticleSystem emptyEffectPrefab)
+        public void Init(Vector2Int modelPosition, Sprite iconSprite, bool isPlayable, ParticleSystem destroyEffectPrefab, ParticleSystem emptyEffectPrefab)
         {
             ChangeModelPosition(modelPosition);
             ChangeType(iconSprite, isPlayable, destroyEffectPrefab, emptyEffectPrefab);
             SetCheckerBoardPattern();
         }
 
-        public override void ChangeType(Sprite iconSprite, bool isPlayable, ParticleSystem destroyEffectPrefab, ParticleSystem emptyEffectPrefab)
+        public void ChangeType(Sprite iconSprite, bool isPlayable, ParticleSystem destroyEffectPrefab, ParticleSystem emptyEffectPrefab)
         {
             this.destroyEffectPrefab = destroyEffectPrefab;
             this.emptyEffectPrefab = emptyEffectPrefab;
@@ -42,7 +42,7 @@ namespace View
             }
         }
 
-        public override void PlayDestroyEffect()
+        public void PlayDestroyEffect()
         {
             if (destroyEffectPrefab == null)
                 return;
@@ -53,7 +53,7 @@ namespace View
             destroyEffect.Play();
         }
 
-        public override void PlayEmptyEffect()
+        public void PlayEmptyEffect()
         {
             if (emptyEffectPrefab == null)
                 return;

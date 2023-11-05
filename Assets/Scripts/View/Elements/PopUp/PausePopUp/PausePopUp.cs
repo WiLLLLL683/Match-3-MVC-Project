@@ -5,8 +5,8 @@ namespace View
 {
     public class PausePopUp : PopUpView, IPausePopUp
     {
-        [SerializeField] private AToggleView soundToggle;
-        [SerializeField] private AToggleView vibrationToggle;
+        [SerializeField] private ToggleView soundToggle;
+        [SerializeField] private ToggleView vibrationToggle;
 
         public event Action<bool> OnSoundIsOn;
         public event Action<bool> OnVibrationIsOn;
