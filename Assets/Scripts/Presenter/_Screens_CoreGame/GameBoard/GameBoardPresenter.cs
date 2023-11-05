@@ -11,7 +11,7 @@ using System;
 
 namespace Presenter
 {
-    public class GameBoardPresenter : IGameBoardPresenter, IInitializable, IDisposable
+    public class GameBoardPresenter : IGameBoardPresenter
     {
         ///// <summary>
         ///// Реализация фабрики использующая класс презентера в котором находится.
@@ -93,7 +93,7 @@ namespace Presenter
             //this.invisibleCellFactory.SetParent(view.CellsParent);
         }
 
-        public void Initialize()
+        public void Enable()
         {
             SpawnAllCells();
             SpawnAllBlocks();
@@ -101,7 +101,7 @@ namespace Presenter
             Debug.Log($"{this} enabled");
         }
 
-        public void Dispose()
+        public void Disable()
         {
             blockSpawnService.OnBlockSpawn -= SpawnBlock;
             Debug.Log($"{this} disabled");

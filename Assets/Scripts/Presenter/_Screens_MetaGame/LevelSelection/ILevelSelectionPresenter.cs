@@ -1,6 +1,6 @@
 ﻿namespace Presenter
 {
-    public interface ILevelSelectionPresenter
+    public interface ILevelSelectionPresenter: IPresenter
     {
         void SelectNext();
         void SelectPrevious();

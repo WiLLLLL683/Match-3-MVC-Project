@@ -1,7 +1,4 @@
-using Config;
 using Presenter;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using View;
 using Zenject;
@@ -29,13 +26,13 @@ namespace CompositionRoot
             Container.BindFactory<CounterView, CounterView.Factory>()
                 .FromComponentInNewPrefab(scoreCounterPrefab)
                 .UnderTransform(headerView.ScoreParent);
-            Container.BindInterfacesAndSelfTo<HeaderPresenter>().AsSingle();
+            Container.Bind<IHeaderPresenter>().To<HeaderPresenter>().AsSingle();
         }
 
         private void BindLevelSelector()
         {
             Container.Bind<ALevelSelectionView>().FromInstance(levelSelectionView).AsSingle();
-            Container.BindInterfacesAndSelfTo<LevelSelectionPresenter>().AsSingle();
+            Container.Bind<ILevelSelectionPresenter>().To<LevelSelectionPresenter>().AsSingle();
         }
     }
 }

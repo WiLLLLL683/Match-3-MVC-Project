@@ -10,7 +10,7 @@ namespace Presenter
     /// <summary>
     /// Контроллер для HUD
     /// </summary>
-    public class HudPresenter : IHudPresenter, IInitializable, IDisposable
+    public class HudPresenter : IHudPresenter
     {
         //public class Factory : AFactory<Level, AHudView, IHudPresenter>
         //{
@@ -51,12 +51,12 @@ namespace Presenter
             this.goalViewFactory = goalViewFactory;
             this.restrictionViewFactory = restrictionViewFactory;
         }
-        public void Initialize()
+        public void Enable()
         {
             //TODO
             Debug.Log($"{this} enabled");
         }
-        public void Dispose()
+        public void Disable()
         {
             //TODO
             Debug.Log($"{this} disabled");

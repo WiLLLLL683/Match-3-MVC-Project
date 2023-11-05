@@ -59,18 +59,18 @@ namespace Utils
         /// </summary>
         public void SetParent(Transform parent) => this.parent = parent;
 
-        /// <summary>
-        /// Уничтожить все созданные вью и презентеры
-        /// </summary>
-        public void Clear()
-        {
-            for (int i = 0; i < allPresenters.Count; i++)
-            {
-                allPresenters[i].Destroy();
-            }
+        ///// <summary>
+        ///// Уничтожить все созданные вью и презентеры
+        ///// </summary>
+        //public void Clear()
+        //{
+        //    for (int i = 0; i < allPresenters.Count; i++)
+        //    {
+        //        allPresenters[i].Destroy();
+        //    }
 
-            allPresenters.Clear();
-        }
+        //    allPresenters.Clear();
+        //}
 
         /// <summary>
         /// Уничтожить все объекты в родительском объекте

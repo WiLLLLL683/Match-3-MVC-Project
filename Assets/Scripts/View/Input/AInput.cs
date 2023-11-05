@@ -8,8 +8,7 @@ namespace View
     /// </summary>
     public abstract class AInput : MonoBehaviour
     {
-        public abstract AInput Init(IGameBoardPresenter gameBoardScreen);
-        public abstract AInput Enable();
-        public abstract AInput Disable();
+        public abstract void Enable();
+        public abstract void Disable();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using View;
 using Config;
+using Infrastructure;
 using Model.Objects;
 using Zenject;
 using System;
@@ -10,7 +11,7 @@ namespace Presenter
     /// <summary>
     /// Контроллер для окна выбора уровня
     /// </summary>
-    public class LevelSelectionPresenter : ILevelSelectionPresenter, IInitializable, IDisposable
+    public class LevelSelectionPresenter : ILevelSelectionPresenter
     {
         private readonly LevelProgress model;
         private readonly ALevelSelectionView view;
@@ -27,7 +28,7 @@ namespace Presenter
             this.allLevels = allLevels;
         }
 
-        public void Initialize()
+        public void Enable()
         {
             view.OnStartSelected += StartSelected;
             view.OnSelectNext += SelectNext;
@@ -40,7 +41,7 @@ namespace Presenter
             Debug.Log($"{this} enabled");
         }
 
-        public void Dispose()
+        public void Disable()
         {
             view.OnStartSelected -= StartSelected;
             view.OnSelectNext -= SelectNext;

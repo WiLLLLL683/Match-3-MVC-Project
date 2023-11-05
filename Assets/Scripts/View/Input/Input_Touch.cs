@@ -27,12 +27,12 @@ namespace View
         private Camera mainCamera;
 
         [Inject]
-        public override AInput Init(IGameBoardPresenter gameBoardPresenter)
+        public void Construct(IGameBoardPresenter gameBoardPresenter)
         {
             mainCamera = Camera.main;
             this.gameBoardPresenter = gameBoardPresenter;
-            return this;
         }
+
         private void Update()
         {
             if (Input.touchCount <= 0)
@@ -71,15 +71,15 @@ namespace View
                 ClearSelection();
             }
         }
-        public override AInput Enable()
+        public override void Enable()
         {
             enabled = true;
-            return this;
+            Debug.Log($"{this.GetType().Name} enabled");
         }
-        public override AInput Disable()
+        public override void Disable()
         {
             enabled = false;
-            return this;
+            Debug.Log($"{this.GetType().Name} disabled");
         }
 
 

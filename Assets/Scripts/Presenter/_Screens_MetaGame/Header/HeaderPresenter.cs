@@ -11,7 +11,7 @@ namespace Presenter
     /// <summary>
     /// Верхняя панель с валютами в мета игре
     /// </summary>
-    public class HeaderPresenter : IHeaderPresenter, IInitializable, IDisposable
+    public class HeaderPresenter : IHeaderPresenter
     {
         private readonly ICurrencyService model;
         private readonly AHeaderView view;
@@ -25,11 +25,11 @@ namespace Presenter
             this.scoreFactory = scorePresenterFactory;
             this.scoreViewFactory = scoreViewFactory;
         }
-        public void Initialize()
+        public void Enable()
         {
             Debug.Log($"{this} enabled");
         }
-        public void Dispose()
+        public void Disable()
         {
             Debug.Log($"{this} disabled");
         }

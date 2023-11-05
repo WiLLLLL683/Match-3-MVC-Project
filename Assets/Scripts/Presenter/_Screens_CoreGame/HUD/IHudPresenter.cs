@@ -1,7 +1,7 @@
 ﻿
 namespace Presenter
 {
-    public interface IHudPresenter
+    public interface IHudPresenter: IPresenter
     {
     }
 }
