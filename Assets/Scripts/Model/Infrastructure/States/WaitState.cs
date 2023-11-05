@@ -9,7 +9,7 @@ namespace Model.Infrastructure
     public class WaitState : AModelState
     {
         private readonly Game game;
-        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IStateMachine<AModelState> stateMachine;
         private readonly IMatchService matchService;
         private readonly IWinLoseService winLoseService;
 
@@ -17,7 +17,7 @@ namespace Model.Infrastructure
         private HashSet<Cell> hintCells;
 
 
-        public WaitState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService, IWinLoseService winLoseService)
+        public WaitState(Game game, IStateMachine<AModelState> stateMachine, IMatchService matchService, IWinLoseService winLoseService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
@@ -25,23 +25,23 @@ namespace Model.Infrastructure
             this.winLoseService = winLoseService;
         }
 
-        public override void OnStart()
+        public override void OnEnter()
         {
             level = game.CurrentLevel;
 
             //проверка на проигрыш
             if (winLoseService.CheckLose())
-                stateMachine.SetState<LoseState>();
+                stateMachine.EnterState<LoseState>();
 
             //проверка на выигрыш
             if (winLoseService.CheckWin())
-                stateMachine.SetState<WinState>();
+                stateMachine.EnterState<WinState>();
 
             //поиск блоков для подсказки
             //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
         }
 
-        public override void OnEnd()
+        public override void OnExit()
         {
 
         }
@@ -49,19 +49,19 @@ namespace Model.Infrastructure
         public override void OnInputMoveBlock(Vector2Int startPos, Directions direction)
         {
             stateMachine.GetState<TurnState>().SetInput(startPos, direction);
-            stateMachine.SetState<TurnState>();
+            stateMachine.EnterState<TurnState>();
         }
 
         public override void OnInputActivateBlock(Vector2Int startPos)
         {
             stateMachine.GetState<TurnState>().SetInput(startPos, Directions.Zero);
-            stateMachine.SetState<TurnState>();
+            stateMachine.EnterState<TurnState>();
         }
 
         public override void OnInputBooster(IBooster booster)
         {
             stateMachine.GetState<BoosterState>().SetInput(booster);
-            stateMachine.SetState<BoosterState>();
+            stateMachine.EnterState<BoosterState>();
         }
     }
 }

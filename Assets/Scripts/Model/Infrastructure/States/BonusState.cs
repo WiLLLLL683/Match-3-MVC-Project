@@ -4,19 +4,19 @@ namespace Model.Infrastructure
 {
     public class BonusState : AModelState
     {
-        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IStateMachine<AModelState> stateMachine;
 
-        public BonusState(StateMachine<AModelState> stateMachine)
+        public BonusState(IStateMachine<AModelState> stateMachine)
         {
             this.stateMachine = stateMachine;
         }
 
-        public override void OnStart()
+        public override void OnEnter()
         {
 
         }
 
-        public override void OnEnd()
+        public override void OnExit()
         {
 
         }

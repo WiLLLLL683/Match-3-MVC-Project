@@ -25,7 +25,7 @@ namespace CompositionRoot
         private void BindModel()
         {
             Container.BindInterfacesAndSelfTo<Game>().AsSingle();
-            Container.Bind<StateMachine<AModelState>>().AsSingle();
+            Container.Bind<IStateMachine<AModelState>>().To<StateMachine<AModelState>>().AsSingle();
             Container.Bind<StateFactory>().AsSingle();
             Container.Bind<LevelProgress>().AsSingle();
             Container.Bind<PlayerSettings>().AsSingle();
@@ -62,6 +62,7 @@ namespace CompositionRoot
             Container.Bind<IRandomBlockTypeService>().To<RandomBlockTypeService>().AsSingle();
             Container.Bind<IValidationService>().To<ValidationService>().AsSingle();
             Container.Bind<IWinLoseService>().To<WinLoseService>().AsSingle();
+            Container.Bind<IModelInputService>().To<ModelInputService>().AsSingle();
         }
     }
 }

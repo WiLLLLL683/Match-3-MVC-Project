@@ -4,19 +4,19 @@ namespace Model.Infrastructure
 {
     public class LoseState : AModelState
     {
-        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IStateMachine<AModelState> stateMachine;
 
-        public LoseState(StateMachine<AModelState> stateMachine)
+        public LoseState(IStateMachine<AModelState> stateMachine)
         {
             this.stateMachine = stateMachine;
         }
 
-        public override void OnStart()
+        public override void OnEnter()
         {
 
         }
 
-        public override void OnEnd()
+        public override void OnExit()
         {
 
         }

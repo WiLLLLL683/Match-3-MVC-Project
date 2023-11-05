@@ -10,7 +10,7 @@ namespace Model.Infrastructure
     public class TurnState : AModelState
     {
         private readonly Game game;
-        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IStateMachine<AModelState> stateMachine;
         private readonly IMatchService matchService;
         private readonly IBlockMoveService blockMoveService;
         private readonly IBlockDestroyService blockDestroyService;
@@ -19,7 +19,7 @@ namespace Model.Infrastructure
         private Vector2Int startPos;
         private Directions direction;
 
-        public TurnState(Game game, StateMachine<AModelState> stateMachine, IMatchService matchService, IBlockMoveService moveService, IBlockDestroyService blockDestroyService)
+        public TurnState(Game game, IStateMachine<AModelState> stateMachine, IMatchService matchService, IBlockMoveService moveService, IBlockDestroyService blockDestroyService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
@@ -34,7 +34,7 @@ namespace Model.Infrastructure
             this.direction = direction;
         }
 
-        public override void OnStart()
+        public override void OnEnter()
         {
             gameBoard = game.CurrentLevel.gameBoard;
 
@@ -48,7 +48,7 @@ namespace Model.Infrastructure
             }
         }
 
-        public override void OnEnd()
+        public override void OnExit()
         {
 
         }
@@ -67,7 +67,7 @@ namespace Model.Infrastructure
             else
             {
                 moveAction?.Undo();
-                stateMachine.SetPreviousState();
+                stateMachine.EnterPreviousState();
             }
         }
 
@@ -83,7 +83,7 @@ namespace Model.Infrastructure
             }
             else
             {
-                stateMachine.SetPreviousState();
+                stateMachine.EnterPreviousState();
             }
         }
 
@@ -96,7 +96,7 @@ namespace Model.Infrastructure
                 //level.UpdateGoals(matches[i].Block.Type);
                 blockDestroyService.DestroyAt(match);
             }
-            stateMachine.SetState<SpawnState>();
+            stateMachine.EnterState<SpawnState>();
         }
     }
 }

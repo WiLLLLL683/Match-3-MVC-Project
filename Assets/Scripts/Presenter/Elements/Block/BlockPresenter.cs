@@ -15,19 +15,25 @@ namespace Presenter
         private readonly Block model;
         private readonly IBlockView view;
         private readonly BlockTypeSetSO allTypeSO;
-        private readonly IGame game;
+        private readonly IModelInputService modelInput;
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly IBlockMoveService moveService;
         private BlockTypeSO typeSO;
 
-        public BlockPresenter(Block model, IBlockView view, BlockTypeSO typeSO, BlockTypeSetSO allTypeSO, IGame game,
-            IBlockDestroyService destroyService, IBlockChangeTypeService changeTypeService, IBlockMoveService moveService)
+        public BlockPresenter(Block model,
+            IBlockView view,
+            BlockTypeSO typeSO,
+            BlockTypeSetSO allTypeSO,
+            IModelInputService modelInput,
+            IBlockDestroyService destroyService,
+            IBlockChangeTypeService changeTypeService,
+            IBlockMoveService moveService)
         {
             this.model = model;
             this.view = view;
             this.allTypeSO = allTypeSO;
-            this.game = game;
+            this.modelInput = modelInput;
             this.destroyService = destroyService;
             this.changeTypeService = changeTypeService;
             this.moveService = moveService;
@@ -60,13 +66,13 @@ namespace Presenter
         public void Move(Directions direction)
         {
             direction = direction.InvertUpDown();
-            game.MoveBlock(model.Position, direction);
+            modelInput.MoveBlock(model.Position, direction);
         }
         public void Activate()
         {
             Debug.Log("Activate");
             view.PlayClickAnimation();
-            game.ActivateBlock(model.Position);
+            modelInput.ActivateBlock(model.Position);
         }
 
         private void SyncPosition(Block model)

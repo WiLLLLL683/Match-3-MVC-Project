@@ -11,7 +11,7 @@ namespace Model.Infrastructure
     public class LoadLevelState : AModelState
     {
         private readonly Game game;
-        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IStateMachine<AModelState> stateMachine;
         private readonly ILevelFactory levelFactory;
         private readonly IMatchService matchService;
         private readonly IRandomBlockTypeService randomService;
@@ -27,8 +27,8 @@ namespace Model.Infrastructure
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
-        public LoadLevelState(Game game, 
-            StateMachine<AModelState> stateMachine,
+        public LoadLevelState(Game game,
+            IStateMachine<AModelState> stateMachine,
             ILevelFactory levelFactory,
             IValidationService validationService,
             IRandomBlockTypeService randomService,
@@ -54,7 +54,7 @@ namespace Model.Infrastructure
 
         public void SetLevelData(LevelSO levelData) => this.levelData = levelData;
 
-        public override void OnStart()
+        public override void OnEnter()
         {
             if (levelData == null)
             {
@@ -67,10 +67,10 @@ namespace Model.Infrastructure
             SwapMatchedBlocks();
 
             Debug.Log("Core Game Started");
-            stateMachine.SetState<WaitState>();
+            stateMachine.EnterState<WaitState>();
         }
 
-        public override void OnEnd()
+        public override void OnExit()
         {
 
         }

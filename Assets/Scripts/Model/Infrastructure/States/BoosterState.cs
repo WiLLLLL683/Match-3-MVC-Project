@@ -8,12 +8,12 @@ namespace Model.Infrastructure
     {
         private Game game;
         private Level level;
-        private StateMachine<AModelState> stateMachine;
+        private IStateMachine<AModelState> stateMachine;
         private IBoosterService boosterInventory;
 
         private IBooster booster;
 
-        public BoosterState(Game game, StateMachine<AModelState> stateMachine, IBoosterService boosterInventory)
+        public BoosterState(Game game, IStateMachine<AModelState> stateMachine, IBoosterService boosterInventory)
         {
             this.game = game;
             this.stateMachine = stateMachine;
@@ -25,7 +25,7 @@ namespace Model.Infrastructure
             this.booster = booster;
         }
 
-        public override void OnStart()
+        public override void OnEnter()
         {
             level = game.CurrentLevel;
             if (true)
@@ -36,7 +36,7 @@ namespace Model.Infrastructure
             SucsessfullTurn();
         }
 
-        public override void OnEnd()
+        public override void OnExit()
         {
 
         }
@@ -45,7 +45,7 @@ namespace Model.Infrastructure
         {
             //TODO засчитать ход в логгер
             //TODO обновить счетчики
-            stateMachine.SetState<SpawnState>();
+            stateMachine.EnterState<SpawnState>();
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Utils;
 
-namespace Model.Utils.UnitTests
+namespace Utils.UnitTests
 {
     public class GameStateMachineTests
     {
@@ -18,7 +18,7 @@ namespace Model.Utils.UnitTests
                     [typeof(TestState)] = new TestState()
                 });
 
-            stateMachine.SetState<TestState>();
+            stateMachine.EnterState<TestState>();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
@@ -33,8 +33,8 @@ namespace Model.Utils.UnitTests
                     [typeof(TestState2)] = new TestState2()
                 });
 
-            stateMachine.SetState<TestState>();
-            stateMachine.SetState<TestState2>();
+            stateMachine.EnterState<TestState>();
+            stateMachine.EnterState<TestState2>();
 
             Assert.AreEqual(typeof(TestState2), stateMachine.CurrentState.GetType());
             Assert.AreEqual(typeof(TestState), stateMachine.PreviousState.GetType());
@@ -49,8 +49,8 @@ namespace Model.Utils.UnitTests
                     [typeof(TestState)] = new TestState()
                 });
 
-            stateMachine.SetState<TestState>();
-            stateMachine.SetPreviousState();
+            stateMachine.EnterState<TestState>();
+            stateMachine.EnterPreviousState();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
@@ -65,9 +65,9 @@ namespace Model.Utils.UnitTests
                     [typeof(TestState2)] = new TestState2()
                 });
 
-            stateMachine.SetState<TestState>();
-            stateMachine.SetState<TestState2>();
-            stateMachine.SetPreviousState();
+            stateMachine.EnterState<TestState>();
+            stateMachine.EnterState<TestState2>();
+            stateMachine.EnterPreviousState();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }

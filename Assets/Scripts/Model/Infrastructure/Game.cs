@@ -11,7 +11,7 @@ namespace Model.Infrastructure
     /// Основной объект модели игры
     /// </summary>
     [Serializable]
-    public class Game : IGame
+    public class Game
     {
         //meta game
         public LevelProgress LevelProgress;
@@ -20,13 +20,16 @@ namespace Model.Infrastructure
 
         //core game
         public Level CurrentLevel;
-        public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name;
+        public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name; //For debug in inspector
 
-        private readonly StateMachine<AModelState> stateMachine = new();
+        private readonly IStateMachine<AModelState> stateMachine;
         private readonly StateFactory stateFactory;
 
-        public Game(StateMachine<AModelState> stateMachine, StateFactory stateFactory, LevelProgress levelProgress, 
-            PlayerSettings playerSettings, CurrencyInventory currencyInventory)
+        public Game(IStateMachine<AModelState> stateMachine,
+            StateFactory stateFactory,
+            LevelProgress levelProgress,
+            PlayerSettings playerSettings,
+            CurrencyInventory currencyInventory)
         {
             this.stateMachine = stateMachine;
             this.stateFactory = stateFactory;
@@ -48,23 +51,5 @@ namespace Model.Infrastructure
             stateMachine.AddState(stateFactory.Create<BonusState>());
             stateMachine.AddState(stateFactory.Create<ExitState>());
         }
-
-        /// <summary>
-        /// Запуск выбранного уровня кор-игры
-        /// </summary>
-        public void StartLevel(LevelSO levelData)
-        {
-            stateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
-            stateMachine.SetState<LoadLevelState>();
-        }
-
-        public void MoveBlock(Vector2Int blockPosition, Directions direction) =>
-            stateMachine.CurrentState.OnInputMoveBlock(blockPosition, direction);
-
-        public void ActivateBooster(IBooster booster) =>
-            stateMachine.CurrentState.OnInputBooster((IBooster)booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
-
-        public void ActivateBlock(Vector2Int blockPosition) =>
-            stateMachine.CurrentState.OnInputActivateBlock(blockPosition);
     }
 }
