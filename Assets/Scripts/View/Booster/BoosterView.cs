@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace View
 {
@@ -12,6 +13,8 @@ namespace View
     /// </summary>
     public class BoosterView : ABoosterView, IBoosterInput
     {
+        public class Factory : PlaceholderFactory<BoosterView> { }
+
         [SerializeField] private TMP_Text ammountText;
         [SerializeField] private Image icon;
         [SerializeField] private Button button;

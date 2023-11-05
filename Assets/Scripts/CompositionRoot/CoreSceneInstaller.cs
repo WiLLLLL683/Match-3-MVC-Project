@@ -27,12 +27,13 @@ namespace CompositionRoot
         [SerializeField] private ABlockView blockPrefab;
         [SerializeField] private ACellView cellPrefab;
         [SerializeField] private ACellView notPlayableCellPrefab;
+        [SerializeField] private ABoosterView boosterPrefab;
 
         private Game game;
-        private SceneLoader sceneLoader;
+        private LevelLoader sceneLoader;
 
         [Inject]
-        public void Construct(Game game, SceneLoader sceneLoader)
+        public void Construct(Game game, LevelLoader sceneLoader)
         {
             this.game = game;
             this.sceneLoader = sceneLoader;
@@ -44,7 +45,7 @@ namespace CompositionRoot
             BindCurrentLevel();
             BindHud();
             BindGameboard();
-            BindBoosters();
+            BindBoosterInventory();
             BindPause();
             BindEndGame();
         }
@@ -73,7 +74,7 @@ namespace CompositionRoot
                 .WithId("restrictionViewFactory")
                 .FromComponentInNewPrefab(restrictionCounterPrefab)
                 .UnderTransform(hudView.RestrictionsParent);
-            Container.BindInterfacesAndSelfTo<HudPresenter>().AsSingle();
+            Container.Bind<IHudPresenter>().To<HudPresenter>().AsSingle();
         }
 
         private void BindGameboard()
@@ -92,20 +93,29 @@ namespace CompositionRoot
                 .WithId("notPlayableCellViewFactory")
                 .FromComponentInNewPrefab(notPlayableCellPrefab)
                 .UnderTransform(gameBoardView.CellsParent);
-            Container.BindInterfacesAndSelfTo<GameBoardPresenter>().AsSingle();
+            Container.Bind<IGameBoardPresenter>().To<GameBoardPresenter>().AsSingle();
         }
 
-        private void BindBoosters()
+        private void BindBoosterInventory()
         {
-            // TODO: Add your implementation
+            Container.Bind<ABoosterInventoryView>().FromInstance(boosterInventoryView).AsSingle();
+            Container.BindFactory<BoosterPresenter, BoosterPresenter.Factory>();
+            Container.BindFactory<BoosterView, BoosterView.Factory>()
+                .FromComponentInNewPrefab(boosterPrefab)
+                .UnderTransform(boosterInventoryView.BoostersParent);
+            Container.Bind<IBoosterInventoryPresenter>().To<BoosterInventoryPresenter>().AsSingle();
         }
+
         private void BindPause()
         {
-            // TODO: Add your implementation
+            Container.Bind<APauseView>().FromInstance(pauseView).AsSingle();
+            Container.Bind<IPausePresenter>().To<PausePresenter>().AsSingle();
         }
+
         private void BindEndGame()
         {
-            // TODO: Add your implementation
+            Container.Bind<AEndGameView>().FromInstance(endGameView).AsSingle();
+            Container.Bind<IEndGamePresenter>().To<EndGamePresenter>().AsSingle();
         }
     }
 }

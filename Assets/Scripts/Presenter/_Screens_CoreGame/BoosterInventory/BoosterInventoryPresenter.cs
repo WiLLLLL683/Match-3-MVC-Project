@@ -11,37 +11,39 @@ namespace Presenter
     /// </summary>
     public class BoosterInventoryPresenter : IBoosterInventoryPresenter
     {
-        public class Factory : AFactory<IBoosterService, ABoosterInventoryView, IBoosterInventoryPresenter>
-        {
-            private readonly AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory;
+        //public class Factory : AFactory<IBoosterService, ABoosterInventoryView, IBoosterInventoryPresenter>
+        //{
+        //    private readonly AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory;
 
-            public Factory(ABoosterInventoryView viewPrefab,
-                AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory) : base(viewPrefab)
-            {
-                this.boosterFactory = boosterFactory;
-            }
+        //    public Factory(ABoosterInventoryView viewPrefab,
+        //        AFactory<IBooster, ABoosterView, IBoosterPresenter> boosterFactory) : base(viewPrefab)
+        //    {
+        //        this.boosterFactory = boosterFactory;
+        //    }
 
-            public override IBoosterInventoryPresenter Connect(ABoosterInventoryView existingView, IBoosterService model)
-            {
-                var presenter = new BoosterInventoryPresenter(model, existingView, boosterFactory);
-                presenter.Enable();
-                allPresenters.Add(presenter);
-                return presenter;
-            }
-        }
+        //    public override IBoosterInventoryPresenter Connect(ABoosterInventoryView existingView, IBoosterService model)
+        //    {
+        //        var presenter = new BoosterInventoryPresenter(model, existingView, boosterFactory);
+        //        presenter.Enable();
+        //        allPresenters.Add(presenter);
+        //        return presenter;
+        //    }
+        //}
 
         private readonly IBoosterService model;
         private readonly ABoosterInventoryView view;
-        private readonly AFactory<IBooster, ABoosterView, IBoosterPresenter> factory;
+        private readonly BoosterPresenter.Factory presenterFactory;
+        private readonly BoosterView.Factory viewFactory;
 
         public BoosterInventoryPresenter(IBoosterService model,
             ABoosterInventoryView view,
-            AFactory<IBooster, ABoosterView, IBoosterPresenter> factory)
+            BoosterPresenter.Factory presenterFactory,
+            BoosterView.Factory viewFactory)
         {
             this.model = model;
             this.view = view;
-            this.factory = factory;
-            this.factory.SetParent(view.BoostersParent);
+            this.presenterFactory = presenterFactory;
+            this.viewFactory = viewFactory;
         }
         public void Enable()
         {

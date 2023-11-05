@@ -12,10 +12,10 @@ namespace Infrastructure
         [NaughtyAttributes.ShowNativeProperty()] public string gameModelState => game?.CurrentStateName;
 
         [SerializeField] private Game game;
-        private SceneLoader sceneLoader;
+        private LevelLoader sceneLoader;
 
         [Inject]
-        public void Construct(Game game, SceneLoader sceneLoader)
+        public void Construct(Game game, LevelLoader sceneLoader)
         {
             this.game = game;
             this.sceneLoader = sceneLoader;

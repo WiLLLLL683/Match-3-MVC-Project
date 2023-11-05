@@ -3,34 +3,36 @@ using Model.Infrastructure;
 using View;
 using Utils;
 using Model.Objects;
+using Zenject;
 
 namespace Presenter
 {
     public class BoosterPresenter : IBoosterPresenter
     {
-        /// <summary>
-        /// Реализация фабрики использующая класс презентера в котором находится.
-        /// </summary>
-        public class Factory : AFactory<IBooster, ABoosterView, IBoosterPresenter>
-        {
-            private readonly IGame game;
-            public Factory(ABoosterView viewPrefab, IGame game, Transform parent = null) : base(viewPrefab)
-            {
-                this.game = game;
-            }
+        ///// <summary>
+        ///// Реализация фабрики использующая класс презентера в котором находится.
+        ///// </summary>
+        //public class Factory : AFactory<IBooster, ABoosterView, IBoosterPresenter>
+        //{
+        //    private readonly IGame game;
+        //    public Factory(ABoosterView viewPrefab, IGame game, Transform parent = null) : base(viewPrefab)
+        //    {
+        //        this.game = game;
+        //    }
 
-            public override IBoosterPresenter Connect(ABoosterView existingView, IBooster model)
-            {
-                var presenter = new BoosterPresenter(existingView, model, game);
-                //existingView.Init(model.Icon, model.Amount);
-                allPresenters.Add(presenter);
-                presenter.Enable();
-                return presenter;
-            }
-        }
+        //    public override IBoosterPresenter Connect(ABoosterView existingView, IBooster model)
+        //    {
+        //        var presenter = new BoosterPresenter(existingView, model, game);
+        //        //existingView.Init(model.Icon, model.Amount);
+        //        allPresenters.Add(presenter);
+        //        presenter.Enable();
+        //        return presenter;
+        //    }
+        //}
+        public class Factory : PlaceholderFactory<BoosterPresenter> { }
 
-        private ABoosterView view;
-        private IBooster model;
+        private readonly ABoosterView view;
+        private readonly IBooster model;
         private readonly IGame game;
 
         public BoosterPresenter(ABoosterView view, IBooster model, IGame game)

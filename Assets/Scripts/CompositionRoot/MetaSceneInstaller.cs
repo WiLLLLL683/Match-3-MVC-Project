@@ -10,6 +10,7 @@ namespace CompositionRoot
         [Header("Screens")]
         [SerializeField] private AHeaderView headerView;
         [SerializeField] private ALevelSelectionView levelSelectionView;
+
         [Header("Prefabs")]
         [SerializeField] private CounterView scoreCounterPrefab;
 

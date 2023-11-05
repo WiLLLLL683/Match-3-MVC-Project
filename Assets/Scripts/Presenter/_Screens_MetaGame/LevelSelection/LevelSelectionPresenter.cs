@@ -15,12 +15,13 @@ namespace Presenter
     {
         private readonly LevelProgress model;
         private readonly ALevelSelectionView view;
-        private readonly SceneLoader sceneLoader;
+        private readonly LevelLoader sceneLoader;
         private readonly LevelSO[] allLevels;
 
-        private LevelSO selectedLevel;
+        private LevelSO SelectedLevel => allLevels[selectedLevelIndex];
+        private int selectedLevelIndex;
 
-        public LevelSelectionPresenter(LevelProgress model, ALevelSelectionView view, SceneLoader sceneLoader, LevelSO[] allLevels)
+        public LevelSelectionPresenter(LevelProgress model, ALevelSelectionView view, LevelLoader sceneLoader, LevelSO[] allLevels)
         {
             this.model = model;
             this.view = view;
@@ -34,10 +35,14 @@ namespace Presenter
             view.OnSelectNext += SelectNext;
             view.OnSelectPrevious += SelectPrevious;
 
-            selectedLevel = allLevels[model.CurrentLevelIndex];
-            view.Init(selectedLevel.icon, selectedLevel.levelName);
-            view.gameObject.SetActive(true);
+            bool isLevelIndexValid = SetSelectedLevelIndex(model.CurrentLevelIndex);
 
+            if (!isLevelIndexValid)
+            {
+                Debug.LogError("Invalid Level Index, check AllLevels in config installer or LevelProgress in model");
+            }
+
+            UpdateView();
             Debug.Log($"{this} enabled");
         }
 
@@ -52,14 +57,34 @@ namespace Presenter
 
         public void SelectPrevious()
         {
-            //TODO
+            SetSelectedLevelIndex(selectedLevelIndex - 1);
+            UpdateView();
         }
 
         public void SelectNext()
         {
-            //TODO
+            SetSelectedLevelIndex(selectedLevelIndex + 1);
+            UpdateView();
         }
 
-        public void StartSelected() => sceneLoader.LoadCoreGame(selectedLevel);
+        public void StartSelected() => sceneLoader.LoadLevel(selectedLevelIndex);
+
+        private void UpdateView()
+        {
+            view.Init(SelectedLevel.icon, SelectedLevel.levelName);
+            view.gameObject.SetActive(true);
+        }
+
+        private bool SetSelectedLevelIndex(int index)
+        {
+            if (index >= allLevels.Length)
+                return false;
+
+            if (index < 0)
+                return false;
+
+            selectedLevelIndex = index;
+            return true;
+        }
     }
 }

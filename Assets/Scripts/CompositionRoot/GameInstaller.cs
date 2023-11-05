@@ -1,3 +1,4 @@
+using Config;
 using Infrastructure;
 using Model.Factories;
 using Model.Infrastructure;
@@ -19,7 +20,7 @@ namespace CompositionRoot
             BindServices();
         }
 
-        private void BindSceneLoader() => Container.Bind<SceneLoader>().AsSingle();
+        private void BindSceneLoader() => Container.Bind<LevelLoader>().AsSingle();
 
         private void BindModel()
         {
