@@ -1,38 +1,17 @@
-﻿using UnityEngine;
-using View;
-using Utils;
-using Model.Objects;
-using Zenject;
+﻿using Model.Objects;
 using System;
+using UnityEngine;
+using View;
+using Zenject;
 
 namespace Presenter
 {
     /// <summary>
-    /// Контроллер для HUD
+    /// Презентер для HUD
+    /// Отображает данные модели о счетчиках целей и ограничений
     /// </summary>
     public class HudPresenter : IHudPresenter
     {
-        //public class Factory : AFactory<Level, AHudView, IHudPresenter>
-        //{
-        //    private AFactory<Counter, ACounterView, ICounterPresenter> goalFactory;
-        //    private AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory;
-        //    public Factory(AHudView viewPrefab,
-        //        AFactory<Counter, ACounterView, ICounterPresenter> goalFactory,
-        //        AFactory<Counter, ACounterView, ICounterPresenter> restrictionFactory) : base(viewPrefab)
-        //    {
-        //        this.goalFactory = goalFactory;
-        //        this.restrictionFactory = restrictionFactory;
-        //    }
-
-        //    public override IHudPresenter Connect(AHudView existingView, Level model)
-        //    {
-        //        var presenter = new HudPresenter(model, existingView, goalFactory, restrictionFactory);
-        //        presenter.Enable();
-        //        allPresenters.Add(presenter);
-        //        return presenter;
-        //    }
-        //}
-        
         private readonly Level model;
         private readonly AHudView view;
         private readonly CounterPresenter.Factory counterPresenterFactory;

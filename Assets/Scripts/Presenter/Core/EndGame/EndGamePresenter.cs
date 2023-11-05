@@ -1,37 +1,18 @@
-﻿using UnityEngine;
-using Utils;
-using View;
+﻿using Infrastructure;
 using Model.Objects;
 using Model.Services;
-using Infrastructure;
+using UnityEngine;
+using View;
 
 namespace Presenter
 {
+    /// <summary>
+    /// Презентер экрана окончания игры
+    /// Отображает победу/поражение и набранные очки
+    /// Передает ипут для смены уровня, выхода из кор-игры
+    /// </summary>
     public class EndGamePresenter : IEndGamePresenter
     {
-        //public class Factory : AFactory<Level, AEndGameView, IEndGamePresenter>
-        //{
-        //    private readonly AInput input;
-        //    private readonly AFactory<Level, AEndGamePopUp, IPopUpPresenter> factory;
-        //    private readonly IWinLoseService winLoseService;
-
-        //    public Factory(AEndGameView viewPrefab, AInput input, AFactory<Level, AEndGamePopUp, IPopUpPresenter> factory,
-        //    IWinLoseService winLoseService) : base(viewPrefab)
-        //    {
-        //        this.input = input;
-        //        this.factory = factory;
-        //        this.winLoseService = winLoseService;
-        //    }
-
-        //    public override IEndGamePresenter Connect(AEndGameView existingView, Level model)
-        //    {
-        //        var presenter = new EndGamePresenter(model, existingView, input, factory, winLoseService);
-        //        presenter.Enable();
-        //        allPresenters.Add(presenter);
-        //        return presenter;
-        //    }
-        //}
-
         private readonly Level model;
         private readonly AEndGameView view;
         private readonly AInput input;

@@ -1,15 +1,13 @@
-﻿using Model.Objects;
+﻿using Model.Services;
+using System;
 using UnityEngine;
 using View;
-using Utils;
-using Zenject;
-using Model.Services;
-using System;
 
 namespace Presenter
 {
     /// <summary>
-    /// Верхняя панель с валютами в мета игре
+    /// Презентер для верхней панели в мета игре
+    /// Отображает количество очков из модели
     /// </summary>
     public class HeaderPresenter : IHeaderPresenter
     {

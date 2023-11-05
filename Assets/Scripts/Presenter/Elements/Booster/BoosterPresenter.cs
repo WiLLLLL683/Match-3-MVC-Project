@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Model.Infrastructure;
 using View;
-using Utils;
 using Model.Objects;
 using Zenject;
 
@@ -9,26 +8,6 @@ namespace Presenter
 {
     public class BoosterPresenter : IBoosterPresenter
     {
-        ///// <summary>
-        ///// Реализация фабрики использующая класс презентера в котором находится.
-        ///// </summary>
-        //public class Factory : AFactory<IBooster, ABoosterView, IBoosterPresenter>
-        //{
-        //    private readonly IGame game;
-        //    public Factory(ABoosterView viewPrefab, IGame game, Transform parent = null) : base(viewPrefab)
-        //    {
-        //        this.game = game;
-        //    }
-
-        //    public override IBoosterPresenter Connect(ABoosterView existingView, IBooster model)
-        //    {
-        //        var presenter = new BoosterPresenter(existingView, model, game);
-        //        //existingView.Init(model.Icon, model.Amount);
-        //        allPresenters.Add(presenter);
-        //        presenter.Enable();
-        //        return presenter;
-        //    }
-        //}
         public class Factory : PlaceholderFactory<BoosterPresenter> { }
 
         private readonly ABoosterView view;
@@ -45,18 +24,20 @@ namespace Presenter
         {
             view.OnActivate += ActivateBooster;
         }
+
         public void Disable()
         {
             view.OnActivate -= ActivateBooster;
         }
+
         public void Destroy()
         {
             Disable();
             GameObject.Destroy(view.gameObject);
         }
 
-
-
+        private void ChangeIcon(Sprite icon) => view.ChangeIcon(icon);
+        private void ActivateBooster() => game.ActivateBooster(model);
         private void ChangeAmount(int amount)
         {
             if (amount > 0)
@@ -66,7 +47,5 @@ namespace Presenter
 
             view.ChangeAmount(amount);
         }
-        private void ChangeIcon(Sprite icon) => view.ChangeIcon(icon);
-        private void ActivateBooster() => game.ActivateBooster(model);
     }
 }

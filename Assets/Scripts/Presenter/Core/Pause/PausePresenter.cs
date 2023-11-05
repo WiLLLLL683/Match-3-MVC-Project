@@ -5,30 +5,13 @@ using View;
 
 namespace Presenter
 {
+    /// <summary>
+    /// Презентер экрана паузы
+    /// Отображает настройки игры
+    /// Передает ипут для смены уровня, выхода из кор-игры, смены настроек
+    /// </summary>
     public class PausePresenter : IPausePresenter
     {
-        //public class Factory : AFactory<PlayerSettings, APauseView, IPausePresenter>
-        //{
-        //    private readonly AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> popUpFactory;
-        //    private readonly AInput input;
-
-        //    public Factory(APauseView viewPrefab,
-        //        AFactory<PlayerSettings, APausePopUp, IPopUpPresenter> popUpFactory,
-        //        AInput input) : base(viewPrefab)
-        //    {
-        //        this.popUpFactory = popUpFactory;
-        //        this.input = input;
-        //    }
-
-        //    public override IPausePresenter Connect(APauseView existingView, PlayerSettings model)
-        //    {
-        //        var presenter = new PausePresenter(model, existingView, popUpFactory, input);
-        //        presenter.Enable();
-        //        allPresenters.Add(presenter);
-        //        return presenter;
-        //    }
-        //}
-
         private readonly PlayerSettings model;
         private readonly APauseView view;
         private readonly AInput input;

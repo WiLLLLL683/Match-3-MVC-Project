@@ -12,7 +12,6 @@ namespace CompositionRoot
         [SerializeField] private LevelSO[] allLevels;
         [SerializeField] private CellTypeSetSO allCellTypes;
         [SerializeField] private CellTypeSO invisibleCellType;
-        //[SerializeField] private PrefabConfig prefabs;
 
         public override void InstallBindings()
         {

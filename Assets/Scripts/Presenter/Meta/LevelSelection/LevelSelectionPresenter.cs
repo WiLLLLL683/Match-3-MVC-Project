@@ -1,15 +1,16 @@
-﻿using UnityEngine;
-using View;
-using Config;
+﻿using Config;
 using Infrastructure;
 using Model.Objects;
-using Zenject;
 using System;
+using UnityEngine;
+using View;
 
 namespace Presenter
 {
     /// <summary>
-    /// Контроллер для окна выбора уровня
+    /// Презентер для окна выбора уровня
+    /// Отображает выбранный уровень
+    /// Передает инпут для выбора уровня и запуска выбранного уровня
     /// </summary>
     public class LevelSelectionPresenter : ILevelSelectionPresenter
     {

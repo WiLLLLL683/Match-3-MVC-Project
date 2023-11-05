@@ -1,47 +1,15 @@
-﻿using UnityEngine;
-using View;
-using Utils;
+﻿using Config;
 using Model.Infrastructure;
-using Config;
-using Model.Services;
 using Model.Objects;
+using Model.Services;
+using UnityEngine;
+using View;
 using Zenject;
 
 namespace Presenter
 {
     public class BlockPresenter : IBlockPresenter
     {
-        ///// <summary>
-        ///// Реализация фабрики использующая класс презентера в котором находится.
-        ///// </summary>
-        //public class Factory : AFactory<Block, ABlockView, IBlockPresenter>
-        //{
-        //    private readonly BlockTypeSetSO allTypeSO;
-        //    private readonly IGame game;
-        //    private readonly IBlockDestroyService destroyService;
-        //    private readonly IBlockChangeTypeService changeTypeService;
-        //    private readonly IBlockMoveService moveService;
-
-        //    public Factory(ABlockView viewPrefab, BlockTypeSetSO allTypeSO, IGame game, IBlockDestroyService destroyService, IBlockChangeTypeService changeTypeService, IBlockMoveService moveService) : base(viewPrefab)
-        //    {
-        //        this.allTypeSO = allTypeSO;
-        //        this.game = game;
-        //        this.destroyService = destroyService;
-        //        this.changeTypeService = changeTypeService;
-        //        this.moveService = moveService;
-        //    }
-
-        //    public override IBlockPresenter Connect(ABlockView existingView, Block model)
-        //    {
-        //        BlockTypeSO typeSO = allTypeSO.GetSO(model.Type.Id);
-        //        IBlockPresenter presenter = new BlockPresenter(model, existingView, typeSO, allTypeSO, game, destroyService, changeTypeService, moveService);
-        //        presenter.Enable();
-        //        existingView.Init(typeSO.icon, typeSO.destroyEffect, model.Position);
-        //        allPresenters.Add(presenter);
-        //        return presenter;
-        //    }
-        //}
-
         public class Factory : PlaceholderFactory<Block, ABlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter> { }
 
         private readonly Block model;

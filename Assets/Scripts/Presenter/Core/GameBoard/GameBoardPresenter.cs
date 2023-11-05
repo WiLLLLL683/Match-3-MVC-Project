@@ -1,48 +1,21 @@
-﻿using System.Collections.Generic;
-using NaughtyAttributes;
-using UnityEngine;
-using Model.Services;
+﻿using Config;
 using Model.Objects;
-using View;
-using Utils;
-using Zenject;
-using Config;
+using Model.Services;
+using NaughtyAttributes;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+using View;
+using Zenject;
 
 namespace Presenter
 {
+    /// <summary>
+    /// Презентер игрового поля
+    /// Создает визуальные элементы клеток и блоков, а также синхронизирует их с моделью
+    /// </summary>
     public class GameBoardPresenter : IGameBoardPresenter
     {
-        ///// <summary>
-        ///// Реализация фабрики использующая класс презентера в котором находится.
-        ///// </summary>
-        //public class Factory : AFactory<GameBoard, AGameBoardView, IGameBoardPresenter>
-        //{
-        //    private readonly IBlockSpawnService blockSpawnService;
-        //    private readonly AFactory<Block, ABlockView, IBlockPresenter> blockFactory;
-        //    private readonly AFactory<Cell, ACellView, ICellPresenter> cellFactory;
-        //    private readonly AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory;
-        //    public Factory(AGameBoardView viewPrefab,
-        //        IBlockSpawnService blockSpawnService,
-        //        AFactory<Block, ABlockView, IBlockPresenter> blockFactory,
-        //        AFactory<Cell, ACellView, ICellPresenter> cellFactory,
-        //        AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory) : base(viewPrefab)
-        //    {
-        //        this.blockSpawnService = blockSpawnService;
-        //        this.invisibleCellFactory = invisibleCellFactory;
-        //        this.blockFactory = blockFactory;
-        //        this.cellFactory = cellFactory;
-        //    }
-
-        //    public override IGameBoardPresenter Connect(AGameBoardView existingView, GameBoard model)
-        //    {
-        //        var presenter = new GameBoardPresenter(model, existingView, blockSpawnService, blockFactory, cellFactory, invisibleCellFactory);
-        //        presenter.Enable();
-        //        allPresenters.Add(presenter);
-        //        return presenter;
-        //    }
-        //}
-
         private readonly GameBoard model;
         private readonly AGameBoardView view;
         private readonly IBlockSpawnService blockSpawnService;
@@ -53,9 +26,6 @@ namespace Presenter
         private readonly CellView.Factory notPlayableCellViewFactory;
         private readonly CellTypeSetSO allCellTypes;
         private readonly BlockTypeSetSO blockTypeSet;
-        //private readonly AFactory<Block, ABlockView, IBlockPresenter> blockFactory;
-        //private readonly AFactory<Cell, ACellView, ICellPresenter> cellFactory;
-        //private readonly AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory;
 
         private readonly Dictionary<Cell, ACellView> cells = new();
         private readonly Dictionary<Block, ABlockView> blocks = new();
@@ -70,9 +40,6 @@ namespace Presenter
             [Inject(Id = "notPlayableCellViewFactory")] CellView.Factory notPlayableCellViewFactory,
             CellTypeSetSO allCellTypes,
             BlockTypeSetSO blockTypeSet)
-            //AFactory<Block, ABlockView, IBlockPresenter> blockFactory,
-            //AFactory<Cell, ACellView, ICellPresenter> cellFactory,
-            //AFactory<Cell, ACellView, ICellPresenter> invisibleCellFactory)
         {
             this.model = model;
             this.view = view;
@@ -84,26 +51,22 @@ namespace Presenter
             this.notPlayableCellViewFactory = notPlayableCellViewFactory;
             this.allCellTypes = allCellTypes;
             this.blockTypeSet = blockTypeSet;
-            //this.blockFactory = blockFactory;
-            //this.cellFactory = cellFactory;
-            //this.invisibleCellFactory = invisibleCellFactory;
-
-            //this.blockFactory.SetParent(view.BlocksParent);
-            //this.cellFactory.SetParent(view.CellsParent);
-            //this.invisibleCellFactory.SetParent(view.CellsParent);
         }
 
         public void Enable()
         {
             SpawnAllCells();
             SpawnAllBlocks();
+
             blockSpawnService.OnBlockSpawn += SpawnBlock;
+
             Debug.Log($"{this} enabled");
         }
 
         public void Disable()
         {
             blockSpawnService.OnBlockSpawn -= SpawnBlock;
+
             Debug.Log($"{this} disabled");
         }
 

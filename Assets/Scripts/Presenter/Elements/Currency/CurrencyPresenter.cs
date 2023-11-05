@@ -1,8 +1,4 @@
 ﻿using System;
-using UnityEngine;
-using Model.Objects;
-using Utils;
-using View;
 using Zenject;
 
 namespace Presenter

@@ -111,7 +111,6 @@ namespace CompositionRoot
             Container.Bind<APauseView>().FromInstance(pauseView).AsSingle();
             Container.Bind<IPausePresenter>().To<PausePresenter>().AsSingle();
         }
-
         private void BindEndGame()
         {
             Container.Bind<AEndGameView>().FromInstance(endGameView).AsSingle();
