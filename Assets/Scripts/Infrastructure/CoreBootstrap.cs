@@ -12,7 +12,7 @@ namespace Infrastructure
     /// </summary>
     public class CoreBootstrap : MonoBehaviour
     {
-        private AInput input;
+        private IInput input;
         private IHudPresenter hud;
         private IGameBoardPresenter gameBoard;
         private IBoosterInventoryPresenter boosterInventory;
@@ -20,7 +20,7 @@ namespace Infrastructure
         private IEndGamePresenter endGame;
 
         [Inject]
-        public void Construct(AInput input, IHudPresenter hud, IGameBoardPresenter gameBoard, IBoosterInventoryPresenter boosterInventory, IPausePresenter pause, IEndGamePresenter endGame)
+        public void Construct(IInput input, IHudPresenter hud, IGameBoardPresenter gameBoard, IBoosterInventoryPresenter boosterInventory, IPausePresenter pause, IEndGamePresenter endGame)
         {
             this.input = input;
             this.hud = hud;

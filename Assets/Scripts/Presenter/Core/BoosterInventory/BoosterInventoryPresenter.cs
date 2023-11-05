@@ -10,12 +10,12 @@ namespace Presenter
     public class BoosterInventoryPresenter : IBoosterInventoryPresenter
     {
         private readonly IBoosterService model;
-        private readonly ABoosterInventoryView view;
+        private readonly IBoosterInventoryView view;
         private readonly BoosterPresenter.Factory presenterFactory;
         private readonly BoosterView.Factory viewFactory;
 
         public BoosterInventoryPresenter(IBoosterService model,
-            ABoosterInventoryView view,
+            IBoosterInventoryView view,
             BoosterPresenter.Factory presenterFactory,
             BoosterView.Factory viewFactory)
         {
@@ -34,12 +34,6 @@ namespace Presenter
             //TODO
             Debug.Log($"{this} disabled");
         }
-        public void Destroy()
-        {
-            Disable();
-            GameObject.Destroy(view.gameObject);
-        }
-
 
         private void SpawnBoosters()
         {

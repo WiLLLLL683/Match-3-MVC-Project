@@ -13,13 +13,13 @@ namespace Presenter
     public class PausePresenter : IPausePresenter
     {
         private readonly PlayerSettings model;
-        private readonly APauseView view;
-        private readonly AInput input;
+        private readonly IPauseView view;
+        private readonly IInput input;
         private readonly LevelLoader levelLoader;
 
         public PausePresenter(PlayerSettings model,
-            APauseView view,
-            AInput input,
+            IPauseView view,
+            IInput input,
             LevelLoader sceneLoader)
         {
             this.model = model;

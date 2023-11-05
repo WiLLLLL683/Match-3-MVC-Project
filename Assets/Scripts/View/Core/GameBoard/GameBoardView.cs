@@ -2,12 +2,12 @@
 
 namespace View
 {
-    public class GameBoardView : AGameBoardView
+    public class GameBoardView : MonoBehaviour, IGameBoardView
     {
         [SerializeField] private Transform blocksParent;
         [SerializeField] private Transform cellsParent;
 
-        public override Transform BlocksParent => blocksParent;
-        public override Transform CellsParent => cellsParent;
+        public Transform BlocksParent => blocksParent;
+        public Transform CellsParent => cellsParent;
     }
 }

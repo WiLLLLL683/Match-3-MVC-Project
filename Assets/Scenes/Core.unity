@@ -457,7 +457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 730921600496646350, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
       propertyPath: m_Name
-      value: Booster_View
+      value: BoosterInventory_View
       objectReference: {fileID: 0}
     - target: {fileID: 730921600496646353, guid: 740929a71684d3641b8ae1bed7a20c86, type: 3}
       propertyPath: m_Pivot.x

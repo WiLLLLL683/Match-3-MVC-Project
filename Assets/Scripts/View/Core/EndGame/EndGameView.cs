@@ -2,12 +2,12 @@
 
 namespace View
 {
-    public class EndGameView : AEndGameView
+    public class EndGameView : MonoBehaviour, IEndGameView
     {
-        [SerializeField] private AEndGamePopUp completePopUp;
-        [SerializeField] private AEndGamePopUp defeatPopUp;
+        [SerializeField] private EndGamePopUp completePopUp;
+        [SerializeField] private EndGamePopUp defeatPopUp;
 
-        public override AEndGamePopUp CompletePopUp => completePopUp;
-        public override AEndGamePopUp DefeatPopUp => defeatPopUp;
+        public IEndGamePopUp CompletePopUp => completePopUp;
+        public IEndGamePopUp DefeatPopUp => defeatPopUp;
     }
 }

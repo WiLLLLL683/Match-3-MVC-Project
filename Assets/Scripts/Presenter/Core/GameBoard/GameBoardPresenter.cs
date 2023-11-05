@@ -17,7 +17,7 @@ namespace Presenter
     public class GameBoardPresenter : IGameBoardPresenter
     {
         private readonly GameBoard model;
-        private readonly AGameBoardView view;
+        private readonly IGameBoardView view;
         private readonly IBlockSpawnService blockSpawnService;
         private readonly BlockPresenter.Factory blockPresenterFactory;
         private readonly BlockView.Factory blockViewFactory;
@@ -31,7 +31,7 @@ namespace Presenter
         private readonly Dictionary<Block, ABlockView> blocks = new();
 
         public GameBoardPresenter(GameBoard model,
-            AGameBoardView view,
+            IGameBoardView view,
             IBlockSpawnService blockSpawnService,
             BlockPresenter.Factory blockPresenterFactory,
             BlockView.Factory blockViewFactory,

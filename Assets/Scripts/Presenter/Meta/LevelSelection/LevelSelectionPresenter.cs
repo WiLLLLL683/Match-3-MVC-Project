@@ -15,14 +15,14 @@ namespace Presenter
     public class LevelSelectionPresenter : ILevelSelectionPresenter
     {
         private readonly LevelProgress model;
-        private readonly ALevelSelectionView view;
+        private readonly ILevelSelectionView view;
         private readonly LevelLoader sceneLoader;
         private readonly LevelSO[] allLevels;
 
         private LevelSO SelectedLevel => allLevels[selectedLevelIndex];
         private int selectedLevelIndex;
 
-        public LevelSelectionPresenter(LevelProgress model, ALevelSelectionView view, LevelLoader sceneLoader, LevelSO[] allLevels)
+        public LevelSelectionPresenter(LevelProgress model, ILevelSelectionView view, LevelLoader sceneLoader, LevelSO[] allLevels)
         {
             this.model = model;
             this.view = view;
@@ -70,11 +70,7 @@ namespace Presenter
 
         public void StartSelected() => sceneLoader.LoadLevel(selectedLevelIndex);
 
-        private void UpdateView()
-        {
-            view.Init(SelectedLevel.icon, SelectedLevel.levelName);
-            view.gameObject.SetActive(true);
-        }
+        private void UpdateView() => view.UpdateSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
 
         private bool SetSelectedLevelIndex(int index)
         {

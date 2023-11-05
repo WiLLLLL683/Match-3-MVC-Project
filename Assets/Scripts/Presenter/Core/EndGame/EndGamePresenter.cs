@@ -14,14 +14,14 @@ namespace Presenter
     public class EndGamePresenter : IEndGamePresenter
     {
         private readonly Level model;
-        private readonly AEndGameView view;
-        private readonly AInput input;
+        private readonly IEndGameView view;
+        private readonly IInput input;
         private readonly IWinLoseService winLoseService;
         private readonly LevelLoader levelLoader;
 
         public EndGamePresenter(Level model,
-            AEndGameView view,
-            AInput input,
+            IEndGameView view,
+            IInput input,
             IWinLoseService winLoseService,
             LevelLoader levelLoader)
         {

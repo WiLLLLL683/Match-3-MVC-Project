@@ -2,10 +2,10 @@
 
 namespace View
 {
-    public class HeaderView : AHeaderView
+    public class HeaderView : MonoBehaviour, IHeaderView
     {
         [SerializeField] private Transform scoreParent;
 
-        public override Transform ScoreParent => scoreParent;
+        public Transform ScoreParent => scoreParent;
     }
 }

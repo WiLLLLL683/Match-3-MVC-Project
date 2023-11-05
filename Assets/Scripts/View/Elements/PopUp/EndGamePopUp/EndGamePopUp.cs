@@ -6,22 +6,19 @@ using UnityEngine.UI;
 namespace View
 {
     /// <summary>
-    /// Меню окончания игры, победы или поражения.<br/>
+    /// Всплываюшее окно для окончания игры, победы или поражения.<br/>
     /// Отображает результат игры в виде звезд и текста очков.
-    /// Передает инпут перехода на следующий уровень, рестарта и выхода из кор-игры.
     /// </summary>
-    public class EndGamePopUp : AEndGamePopUp
+    public class EndGamePopUp : PopUpView, IEndGamePopUp
     {
         [SerializeField] private List<Image> starVisuals;
         [SerializeField] private TMP_Text scoreText;
 
-        public override void UpdateScore(int score, int stars = 0)
+        public void UpdateScore(int score, int stars = 0)
         {
             ShowScore(score);
             ShowStars(stars);
         }
-
-
 
         private void ShowScore(int score) => scoreText.text = score.ToString();
         private void ShowStars(int stars)

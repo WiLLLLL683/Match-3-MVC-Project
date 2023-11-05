@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace View
 {
-    public class BoosterInventoryView : ABoosterInventoryView
+    public class BoosterInventoryView : MonoBehaviour, IBoosterInventoryView
     {
         [SerializeField] private Transform boostersParent;
 
-        public override Transform BoostersParent => boostersParent;
+        public Transform BoostersParent => boostersParent;
     }
 }

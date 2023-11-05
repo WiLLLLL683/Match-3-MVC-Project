@@ -9,7 +9,7 @@ namespace View
     /// Перетаскивает вью блоков при свайпе по экрану, вызывает соответствующий метод инпута во вью блока при отпускании.<br/>
     /// Нажатия на экран отслеживаются в Update, выделение блока происходит через raycast, противоположный блок получается из IGameBoardPresenter
     /// </summary>
-    public class Input_Touch : AInput
+    public class Input_Touch : MonoBehaviour, IInput
     {
         [SerializeField] private float minSwipeDistance = 0.6f;
         [SerializeField] private float maxSwipeDistance = 1f;
@@ -71,18 +71,16 @@ namespace View
                 ClearSelection();
             }
         }
-        public override void Enable()
+        public void Enable()
         {
             enabled = true;
             Debug.Log($"{this.GetType().Name} enabled");
         }
-        public override void Disable()
+        public void Disable()
         {
             enabled = false;
             Debug.Log($"{this.GetType().Name} disabled");
         }
-
-
 
         private void ResetTimer() => timer = tapDelay;
         private void UpdateTimer() => timer -= Time.deltaTime;

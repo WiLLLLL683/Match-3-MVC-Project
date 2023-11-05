@@ -8,8 +8,8 @@ namespace CompositionRoot
     public class MetaSceneInstaller : MonoInstaller
     {
         [Header("Screens")]
-        [SerializeField] private AHeaderView headerView;
-        [SerializeField] private ALevelSelectionView levelSelectionView;
+        [SerializeField] private HeaderView headerView;
+        [SerializeField] private LevelSelectionView levelSelectionView;
 
         [Header("Prefabs")]
         [SerializeField] private CounterView scoreCounterPrefab;
@@ -22,7 +22,7 @@ namespace CompositionRoot
 
         private void BindHeader()
         {
-            Container.Bind<AHeaderView>().FromInstance(headerView).AsSingle();
+            Container.Bind<IHeaderView>().FromInstance(headerView).AsSingle();
             Container.BindFactory<CurrencyPresenter, CurrencyPresenter.Factory>();
             Container.BindFactory<CounterView, CounterView.Factory>()
                 .FromComponentInNewPrefab(scoreCounterPrefab)
@@ -32,7 +32,7 @@ namespace CompositionRoot
 
         private void BindLevelSelector()
         {
-            Container.Bind<ALevelSelectionView>().FromInstance(levelSelectionView).AsSingle();
+            Container.Bind<ILevelSelectionView>().FromInstance(levelSelectionView).AsSingle();
             Container.Bind<ILevelSelectionPresenter>().To<LevelSelectionPresenter>().AsSingle();
         }
     }

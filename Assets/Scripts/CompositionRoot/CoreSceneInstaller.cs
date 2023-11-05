@@ -12,14 +12,14 @@ namespace CompositionRoot
 {
     public class CoreSceneInstaller : MonoInstaller
     {
-        [SerializeField] private AInput input;
+        [SerializeField] private Input_Touch input;
 
         [Header("Screens")]
-        [SerializeField] private AHudView hudView;
-        [SerializeField] private AGameBoardView gameBoardView;
-        [SerializeField] private ABoosterInventoryView boosterInventoryView;
-        [SerializeField] private APauseView pauseView;
-        [SerializeField] private AEndGameView endGameView;
+        [SerializeField] private HudView hudView;
+        [SerializeField] private GameBoardView gameBoardView;
+        [SerializeField] private BoosterInventoryView boosterInventoryView;
+        [SerializeField] private PauseView pauseView;
+        [SerializeField] private EndGameView endGameView;
 
         [Header("Prefabs")]
         [SerializeField] private ACounterView goalCounterPrefab;
@@ -52,7 +52,7 @@ namespace CompositionRoot
 
         private void BindInput()
         {
-            Container.BindInstance(input).AsSingle();
+            Container.Bind<IInput>().FromInstance(input).AsSingle();
         }
 
         private void BindCurrentLevel()
@@ -64,7 +64,7 @@ namespace CompositionRoot
 
         private void BindHud()
         {
-            Container.Bind<AHudView>().FromInstance(hudView).AsSingle();
+            Container.Bind<IHudView>().FromInstance(hudView).AsSingle();
             Container.BindFactory<CounterPresenter, CounterPresenter.Factory>();
             Container.BindFactory<CounterView, CounterView.Factory>()
                 .WithId("goalViewFactory")
@@ -79,7 +79,7 @@ namespace CompositionRoot
 
         private void BindGameboard()
         {
-            Container.Bind<AGameBoardView>().FromInstance(gameBoardView).AsSingle();
+            Container.Bind<IGameBoardView>().FromInstance(gameBoardView).AsSingle();
             Container.BindFactory<Block, ABlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter, BlockPresenter.Factory>();
             Container.BindFactory<Cell, ACellView, CellTypeSO, CellTypeSetSO, CellPresenter, CellPresenter.Factory>();
             Container.BindFactory<BlockView, BlockView.Factory>()
@@ -98,7 +98,7 @@ namespace CompositionRoot
 
         private void BindBoosterInventory()
         {
-            Container.Bind<ABoosterInventoryView>().FromInstance(boosterInventoryView).AsSingle();
+            Container.Bind<IBoosterInventoryView>().FromInstance(boosterInventoryView).AsSingle();
             Container.BindFactory<BoosterPresenter, BoosterPresenter.Factory>();
             Container.BindFactory<BoosterView, BoosterView.Factory>()
                 .FromComponentInNewPrefab(boosterPrefab)
@@ -108,12 +108,12 @@ namespace CompositionRoot
 
         private void BindPause()
         {
-            Container.Bind<APauseView>().FromInstance(pauseView).AsSingle();
+            Container.Bind<IPauseView>().FromInstance(pauseView).AsSingle();
             Container.Bind<IPausePresenter>().To<PausePresenter>().AsSingle();
         }
         private void BindEndGame()
         {
-            Container.Bind<AEndGameView>().FromInstance(endGameView).AsSingle();
+            Container.Bind<IEndGameView>().FromInstance(endGameView).AsSingle();
             Container.Bind<IEndGamePresenter>().To<EndGamePresenter>().AsSingle();
         }
     }

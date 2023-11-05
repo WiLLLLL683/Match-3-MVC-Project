@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace View
 {
-    public class PausePopUp : APausePopUp
+    public class PausePopUp : PopUpView, IPausePopUp
     {
         [SerializeField] private AToggleView soundToggle;
         [SerializeField] private AToggleView vibrationToggle;
 
-        public override event Action<bool> OnSoundIsOn;
-        public override event Action<bool> OnVibrationIsOn;
+        public event Action<bool> OnSoundIsOn;
+        public event Action<bool> OnVibrationIsOn;
 
-        public override void Init(bool soundOnStart, bool vibrationOnStart)
+        public void Init(bool soundOnStart, bool vibrationOnStart)
         {
             soundToggle.Init(soundOnStart);
             vibrationToggle.Init(vibrationOnStart);
@@ -19,15 +19,18 @@ namespace View
             soundToggle.OnToggle += SwitchSound;
             vibrationToggle.OnToggle += SwitchVibration;
         }
+
         private void OnDestroy()
         {
             soundToggle.OnToggle -= SwitchSound;
             vibrationToggle.OnToggle -= SwitchVibration;
         }
+
         private void SwitchSound(bool isOn)
         {
             OnSoundIsOn?.Invoke(isOn);
         }
+
         private void SwitchVibration(bool isOn)
         {
             OnVibrationIsOn?.Invoke(isOn);

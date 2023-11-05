@@ -12,11 +12,11 @@ namespace Presenter
     public class HeaderPresenter : IHeaderPresenter
     {
         private readonly ICurrencyService model;
-        private readonly AHeaderView view;
+        private readonly IHeaderView view;
         private readonly CurrencyPresenter.Factory scoreFactory;
         private readonly CounterView.Factory scoreViewFactory;
 
-        public HeaderPresenter(ICurrencyService model, AHeaderView view, CurrencyPresenter.Factory scorePresenterFactory, CounterView.Factory scoreViewFactory)
+        public HeaderPresenter(ICurrencyService model, IHeaderView view, CurrencyPresenter.Factory scorePresenterFactory, CounterView.Factory scoreViewFactory)
         {
             this.model = model;
             this.view = view;

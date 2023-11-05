@@ -2,10 +2,10 @@
 
 namespace View
 {
-    public class PauseView : APauseView
+    public class PauseView : MonoBehaviour, IPauseView
     {
-        [SerializeField] private APausePopUp pausePopUp;
+        [SerializeField] private PausePopUp pausePopUp;
 
-        public override APausePopUp PausePopUp => pausePopUp;
+        public IPausePopUp PausePopUp => pausePopUp;
     }
 }
