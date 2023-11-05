@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Presenter;
+using Zenject;
 
 namespace View
 {
@@ -8,9 +9,8 @@ namespace View
     /// Перетаскивает вью блоков при свайпе по экрану, вызывает соответствующий метод инпута во вью блока при отпускании.<br/>
     /// Нажатия на экран отслеживаются в Update, выделение блока происходит через raycast, противоположный блок получается из IGameBoardPresenter
     /// </summary>
-    public class Input_Touch : AInput
+    public class Input_Touch : MonoBehaviour, IInput
     {
-        [SerializeField] private Camera mainCamera;
         [SerializeField] private float minSwipeDistance = 0.6f;
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
@@ -22,14 +22,17 @@ namespace View
         private Vector2 deltaWorldPositionClamped;
         private Directions swipeDirection;
         private float timer;
-        private IGameBoardPresenter gameBoardPresenter;
 
-        public override AInput Init(IGameBoardPresenter gameBoardPresenter)
+        private IGameBoardPresenter gameBoardPresenter;
+        private Camera mainCamera;
+
+        [Inject]
+        public void Construct(IGameBoardPresenter gameBoardPresenter)
         {
             mainCamera = Camera.main;
             this.gameBoardPresenter = gameBoardPresenter;
-            return this;
         }
+
         private void Update()
         {
             if (Input.touchCount <= 0)
@@ -68,18 +71,16 @@ namespace View
                 ClearSelection();
             }
         }
-        public override AInput Enable()
+        public void Enable()
         {
             enabled = true;
-            return this;
+            Debug.Log($"{this.GetType().Name} enabled");
         }
-        public override AInput Disable()
+        public void Disable()
         {
             enabled = false;
-            return this;
+            Debug.Log($"{this.GetType().Name} disabled");
         }
-
-
 
         private void ResetTimer() => timer = tapDelay;
         private void UpdateTimer() => timer -= Time.deltaTime;

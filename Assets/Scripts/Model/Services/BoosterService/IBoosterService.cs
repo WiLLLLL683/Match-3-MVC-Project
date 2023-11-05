@@ -1,11 +1,11 @@
 ﻿using Model.Objects;
 
-namespace Model.Readonly
+namespace Model.Services
 {
     /// <summary>
     /// Сервис для работы с бустерами
     /// </summary>
-    public interface IBoosterService : IBoosterService_Readonly
+    public interface IBoosterService
     {
         /// <summary>
         /// Добавить бустер определенного типа
@@ -16,5 +16,10 @@ namespace Model.Readonly
         /// Забрать бустер определенного типа
         /// </summary>
         IBooster SpendBooster<T>() where T : IBooster, new();
+
+        /// <summary>
+        /// Получить количество бустеров определенного типа
+        /// </summary>
+        public int GetBoosterAmount<T>() where T : IBooster;
     }
 }
