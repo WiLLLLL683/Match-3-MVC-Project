@@ -1,4 +1,5 @@
 using Config;
+using Infrastructure;
 using Model.Factories;
 using Model.Objects;
 using Model.Services;
@@ -8,10 +9,10 @@ using Utils;
 
 namespace Model.Infrastructure
 {
-    public class LoadLevelState : AModelState
+    public class LoadLevelState : IPayLoadedState<LevelSO>
     {
         private readonly Game game;
-        private readonly IStateMachine<AModelState> stateMachine;
+        private readonly IStateMachine stateMachine;
         private readonly ILevelFactory levelFactory;
         private readonly IMatchService matchService;
         private readonly IRandomBlockTypeService randomService;
@@ -21,14 +22,14 @@ namespace Model.Infrastructure
         private readonly IBlockMoveService moveService;
         private readonly IBlockDestroyService destroyService;
         private readonly IWinLoseService winLoseService;
+        private readonly LevelLoader levelLoader;
 
-        private LevelSO levelData;
         private Level level;
 
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков
 
         public LoadLevelState(Game game,
-            IStateMachine<AModelState> stateMachine,
+            IStateMachine stateMachine,
             ILevelFactory levelFactory,
             IValidationService validationService,
             IRandomBlockTypeService randomService,
@@ -37,7 +38,8 @@ namespace Model.Infrastructure
             IGravityService gravityService,
             IBlockMoveService moveService,
             IBlockDestroyService destroyService,
-            IWinLoseService winLoseService)
+            IWinLoseService winLoseService,
+            LevelLoader levelLoader)
         {
             this.game = game;
             this.stateMachine = stateMachine;
@@ -50,19 +52,18 @@ namespace Model.Infrastructure
             this.moveService = moveService;
             this.destroyService = destroyService;
             this.winLoseService = winLoseService;
+            this.levelLoader = levelLoader;
         }
 
-        public void SetLevelData(LevelSO levelData) => this.levelData = levelData;
-
-        public override void OnEnter()
+        public void OnEnter(LevelSO payLoad)
         {
-            if (levelData == null)
+            if (payLoad == null)
             {
                 Debug.LogError("Invalid LevelData");
                 return;
             }
 
-            LoadLevel();
+            LoadLevel(payLoad);
             spawnService.FillGameBoard();
             SwapMatchedBlocks();
 
@@ -70,12 +71,18 @@ namespace Model.Infrastructure
             stateMachine.EnterState<WaitState>();
         }
 
-        public override void OnExit()
+        public void OnEnter()
+        {
+            Debug.LogWarning("Payloaded states should not be entered without payload, loading MetaGame");
+            levelLoader.LoadMetaGame();
+        }
+
+        public void OnExit()
         {
 
         }
 
-        private void LoadLevel()
+        private void LoadLevel(LevelSO levelData)
         {
             level = levelFactory.Create(levelData);
 

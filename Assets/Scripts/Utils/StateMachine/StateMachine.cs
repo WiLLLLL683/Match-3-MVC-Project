@@ -7,27 +7,35 @@ namespace Utils
     /// <summary>
     /// Стейт-машина, хранящая по одному экземпляру добавленных в нее стейтов типа TState
     /// </summary>
-    public class StateMachine<TState> : IStateMachine<TState> where TState : IState
+    public class StateMachine : IStateMachine
     {
-        public TState PreviousState { get; private set; }
-        public TState CurrentState { get; private set; }
+        public IState PreviousState { get; private set; }
+        public IState CurrentState { get; private set; }
 
-        private readonly Dictionary<Type, TState> states;
+        private readonly Dictionary<Type, IState> states;
 
         public StateMachine()
         {
             states = new();
         }
 
-        public StateMachine(Dictionary<Type, TState> states)
+        public StateMachine(Dictionary<Type, IState> states)
         {
             this.states = states;
         }
 
-        public void EnterState<T>() where T : TState
+        public void EnterState<T>() where T : IState
         {
             T newState = GetState<T>();
             ChangeState(newState);
+            newState.OnEnter();
+        }
+
+        public void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>
+        {
+            T newState = GetState<T>();
+            ChangeState(newState);
+            newState.OnEnter(payLoad);
         }
 
         public void EnterPreviousState()
@@ -41,13 +49,13 @@ namespace Utils
             ChangeState(PreviousState);
         }
 
-        public void AddState(TState state)
+        public void AddState(IState state)
         {
             Type type = state.GetType();
             states[type] = state;
         }
 
-        public T GetState<T>() where T : TState
+        public T GetState<T>() where T : IState
         {
             if (!states.ContainsKey(typeof(T)))
             {
@@ -58,7 +66,7 @@ namespace Utils
             return (T)states[typeof(T)];
         }
 
-        private void ChangeState(TState newState)
+        private void ChangeState(IState newState)
         {
             if (newState == null)
             {
@@ -69,7 +77,6 @@ namespace Utils
             PreviousState = CurrentState;
             PreviousState?.OnExit();
             CurrentState = newState;
-            CurrentState.OnEnter();
         }
     }
 }

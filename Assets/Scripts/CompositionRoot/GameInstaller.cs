@@ -24,8 +24,8 @@ namespace CompositionRoot
 
         private void BindModel()
         {
-            Container.BindInterfacesAndSelfTo<Game>().AsSingle();
-            Container.Bind<IStateMachine<AModelState>>().To<StateMachine<AModelState>>().AsSingle();
+            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
+            Container.Bind<Game>().AsSingle();
             Container.Bind<StateFactory>().AsSingle();
             Container.Bind<LevelProgress>().AsSingle();
             Container.Bind<PlayerSettings>().AsSingle();

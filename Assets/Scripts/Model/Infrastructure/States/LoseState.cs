@@ -2,21 +2,21 @@
 
 namespace Model.Infrastructure
 {
-    public class LoseState : AModelState
+    public class LoseState : IState
     {
-        private readonly IStateMachine<AModelState> stateMachine;
+        private readonly IStateMachine stateMachine;
 
-        public LoseState(IStateMachine<AModelState> stateMachine)
+        public LoseState(IStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
         }
 
-        public override void OnEnter()
+        public void OnEnter()
         {
 
         }
 
-        public override void OnExit()
+        public void OnExit()
         {
 
         }

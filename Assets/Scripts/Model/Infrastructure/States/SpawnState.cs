@@ -5,10 +5,10 @@ using Utils;
 
 namespace Model.Infrastructure
 {
-    public class SpawnState : AModelState
+    public class SpawnState : IState
     {
         private readonly Game game;
-        private readonly IStateMachine<AModelState> stateMachine;
+        private readonly IStateMachine stateMachine;
         private readonly IMatchService matchService;
         private readonly IBlockSpawnService spawnService;
         private readonly IGravityService gravityService;
@@ -18,7 +18,7 @@ namespace Model.Infrastructure
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, IStateMachine<AModelState> stateMachine, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService, IBlockDestroyService blockDestroyService)
+        public SpawnState(Game game, IStateMachine stateMachine, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService, IBlockDestroyService blockDestroyService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
@@ -28,7 +28,7 @@ namespace Model.Infrastructure
             this.blockDestroyService = blockDestroyService;
         }
 
-        public override void OnEnter()
+        public void OnEnter()
         {
             gameBoard = game.CurrentLevel.gameBoard;
 
@@ -57,7 +57,7 @@ namespace Model.Infrastructure
             stateMachine.EnterState<WaitState>();
         }
 
-        public override void OnExit()
+        public void OnExit()
         {
 
         }

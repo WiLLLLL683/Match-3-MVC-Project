@@ -22,10 +22,10 @@ namespace Model.Infrastructure
         public Level CurrentLevel;
         public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name; //For debug in inspector
 
-        private readonly IStateMachine<AModelState> stateMachine;
+        private readonly IStateMachine stateMachine;
         private readonly StateFactory stateFactory;
 
-        public Game(IStateMachine<AModelState> stateMachine,
+        public Game(IStateMachine stateMachine,
             StateFactory stateFactory,
             LevelProgress levelProgress,
             PlayerSettings playerSettings,
@@ -43,8 +43,10 @@ namespace Model.Infrastructure
             //game states
             stateMachine.AddState(stateFactory.Create<LoadLevelState>());
             stateMachine.AddState(stateFactory.Create<WaitState>());
-            stateMachine.AddState(stateFactory.Create<TurnState>());
-            stateMachine.AddState(stateFactory.Create<BoosterState>());
+            stateMachine.AddState(stateFactory.Create<InputMoveBlockState>());
+            stateMachine.AddState(stateFactory.Create<InputActivateBlockState>());
+            stateMachine.AddState(stateFactory.Create<InputBoosterState>());
+            stateMachine.AddState(stateFactory.Create<DestroyState>());
             stateMachine.AddState(stateFactory.Create<SpawnState>());
             stateMachine.AddState(stateFactory.Create<LoseState>());
             stateMachine.AddState(stateFactory.Create<WinState>());

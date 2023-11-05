@@ -10,21 +10,21 @@ namespace Model.Services
 {
     public class ModelInputService : IModelInputService
     {
-        private readonly IStateMachine<AModelState> stateMachine;
+        private readonly IStateMachine stateMachine;
 
-        public ModelInputService(IStateMachine<AModelState> stateMachine)
+        public ModelInputService(IStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
         }
 
-        public void StartLevel(LevelSO levelData)
+        public void StartLevel(LevelSO levelData) => stateMachine.EnterState<LoadLevelState, LevelSO>(levelData);
+        public void ActivateBlock(Vector2Int position) => stateMachine.EnterState<InputActivateBlockState, Vector2Int>(position);
+        public void MoveBlock(Vector2Int position, Directions direction)
         {
-            stateMachine.GetState<LoadLevelState>().SetLevelData(levelData);
-            stateMachine.EnterState<LoadLevelState>();
+            var touple = (position, direction);
+            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>(touple);
         }
-
-        public void MoveBlock(Vector2Int position, Directions direction) => stateMachine.CurrentState.OnInputMoveBlock(position, direction);
-        public void ActivateBooster(IBooster booster) => stateMachine.CurrentState.OnInputBooster(booster); //TODO нужен более надежный способ получения конкретного типа бустера, например id
-        public void ActivateBlock(Vector2Int position) => stateMachine.CurrentState.OnInputActivateBlock(position);
+        //TODO нужен более надежный способ получения конкретного типа бустера, например id
+        public void ActivateBooster(IBooster booster) => stateMachine.EnterState<InputBoosterState, IBooster>(booster);
     }
 }
