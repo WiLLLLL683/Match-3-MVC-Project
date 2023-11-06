@@ -9,6 +9,8 @@ namespace View
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text nameText;
+        [SerializeField] private Button previousButton;
+        [SerializeField] private Button nextButton;
 
         public event Action OnStartSelected;
         public event Action OnSelectNext;
@@ -19,6 +21,10 @@ namespace View
             SetIcon(iconSprite);
             SetName(name);
         }
+
+        public void SetPreviousButtonActive(bool isActive) => previousButton.gameObject.SetActive(isActive);
+        public void SetNextButtonActive(bool isActive) => nextButton.gameObject.SetActive(isActive);
+
         public void Input_StartSelected() => OnStartSelected?.Invoke();
         public void Input_SelectNext() => OnSelectNext?.Invoke();
         public void Input_SelectPrevious() => OnSelectPrevious?.Invoke();

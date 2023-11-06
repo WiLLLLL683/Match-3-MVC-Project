@@ -36,14 +36,7 @@ namespace Presenter
             view.OnSelectNext += SelectNext;
             view.OnSelectPrevious += SelectPrevious;
 
-            bool isLevelIndexValid = SetSelectedLevelIndex(model.CurrentLevelIndex);
-
-            if (!isLevelIndexValid)
-            {
-                Debug.LogError("Invalid Level Index, check AllLevels in config installer or LevelProgress in model");
-            }
-
-            UpdateView();
+            SetSelectedLevel(model.CurrentLevelIndex);
             Debug.Log($"{this} enabled");
         }
 
@@ -56,32 +49,23 @@ namespace Presenter
             Debug.Log($"{this} disabled");
         }
 
-        public void SelectPrevious()
-        {
-            SetSelectedLevelIndex(selectedLevelIndex - 1);
-            UpdateView();
-        }
-
-        public void SelectNext()
-        {
-            SetSelectedLevelIndex(selectedLevelIndex + 1);
-            UpdateView();
-        }
-
+        public void SelectPrevious() => SetSelectedLevel(selectedLevelIndex - 1);
+        public void SelectNext() => SetSelectedLevel(selectedLevelIndex + 1);
         public void StartSelected() => sceneLoader.LoadLevel(selectedLevelIndex);
 
-        private void UpdateView() => view.UpdateSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
-
-        private bool SetSelectedLevelIndex(int index)
+        private void SetSelectedLevel(int index)
         {
-            if (index >= allLevels.Length)
-                return false;
-
-            if (index < 0)
-                return false;
+            if (index >= allLevels.Length || index < 0)
+            {
+                Debug.LogError("Invalid Level Index, check AllLevels in config installer or LevelProgress in model"); 
+                return;
+            }
 
             selectedLevelIndex = index;
-            return true;
+
+            view.SetPreviousButtonActive(selectedLevelIndex != 0);
+            view.SetNextButtonActive(selectedLevelIndex != allLevels.Length - 1);
+            view.UpdateSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
         }
     }
 }

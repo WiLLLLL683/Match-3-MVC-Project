@@ -10,5 +10,7 @@ namespace View
         public event Action OnSelectPrevious;
 
         public void UpdateSelectedLevel(Sprite iconSprite, string name);
+        void SetPreviousButtonActive(bool isActive);
+        void SetNextButtonActive(bool isActive);
     }
 }

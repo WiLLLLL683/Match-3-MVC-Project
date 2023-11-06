@@ -1831,6 +1831,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 3696925754886703980}
   nameText: {fileID: 3696925755543472130}
+  previousButton: {fileID: 3696925756430270031}
+  nextButton: {fileID: 3696925756722556012}
 --- !u!223 &3696925756734983330
 Canvas:
   m_ObjectHideFlags: 0
