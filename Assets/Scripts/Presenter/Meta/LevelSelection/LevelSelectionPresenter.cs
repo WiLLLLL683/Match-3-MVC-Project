@@ -51,7 +51,16 @@ namespace Presenter
 
         public void SelectPrevious() => SetSelectedLevel(selectedLevelIndex - 1);
         public void SelectNext() => SetSelectedLevel(selectedLevelIndex + 1);
-        public void StartSelected() => sceneLoader.LoadLevel(selectedLevelIndex);
+        public void StartSelected()
+        {
+            if (selectedLevelIndex > model.CurrentLevelIndex)
+            {
+                view.PlayLockedAnimation();
+                return;
+            }
+
+            sceneLoader.LoadLevel(selectedLevelIndex);
+        }
 
         private void SetSelectedLevel(int index)
         {
@@ -65,7 +74,14 @@ namespace Presenter
 
             view.SetPreviousButtonActive(selectedLevelIndex != 0);
             view.SetNextButtonActive(selectedLevelIndex != allLevels.Length - 1);
-            view.UpdateSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
+            view.ShowSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
+
+            if (selectedLevelIndex == model.CurrentLevelIndex)
+                view.ShowNewMark();
+            if (selectedLevelIndex < model.CurrentLevelIndex)
+                view.ShowCompleteMark();
+            if (selectedLevelIndex > model.CurrentLevelIndex)
+                view.ShowLockedMark();
         }
     }
 }
