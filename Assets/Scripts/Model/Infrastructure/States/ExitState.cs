@@ -2,21 +2,21 @@
 
 namespace Model.Infrastructure
 {
-    public class ExitState : AModelState
+    public class ExitState : IState
     {
-        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IStateMachine stateMachine;
 
-        public ExitState(StateMachine<AModelState> stateMachine)
+        public ExitState(IStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
         }
 
-        public override void OnStart()
+        public void OnEnter()
         {
 
         }
 
-        public override void OnEnd()
+        public void OnExit()
         {
 
         }

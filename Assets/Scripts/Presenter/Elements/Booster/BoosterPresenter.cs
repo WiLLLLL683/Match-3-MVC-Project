@@ -3,6 +3,7 @@ using Model.Infrastructure;
 using View;
 using Model.Objects;
 using Zenject;
+using Model.Services;
 
 namespace Presenter
 {
@@ -12,13 +13,13 @@ namespace Presenter
 
         private readonly IBoosterView view;
         private readonly IBooster model;
-        private readonly IGame game;
+        private readonly IModelInput modelInput;
 
-        public BoosterPresenter(IBoosterView view, IBooster model, IGame game)
+        public BoosterPresenter(IBoosterView view, IBooster model, IModelInput modelInput)
         {
             this.view = view;
             this.model = model;
-            this.game = game;
+            this.modelInput = modelInput;
         }
         public void Enable()
         {
@@ -37,7 +38,7 @@ namespace Presenter
         }
 
         private void ChangeIcon(Sprite icon) => view.ChangeIcon(icon);
-        private void ActivateBooster() => game.ActivateBooster(model);
+        private void ActivateBooster() => modelInput.ActivateBooster(model);
         private void ChangeAmount(int amount)
         {
             if (amount > 0)

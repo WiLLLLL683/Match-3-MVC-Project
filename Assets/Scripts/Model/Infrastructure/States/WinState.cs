@@ -2,21 +2,21 @@
 
 namespace Model.Infrastructure
 {
-    public class WinState : AModelState
+    public class WinState : IState
     {
-        private readonly StateMachine<AModelState> stateMachine;
+        private readonly IStateMachine stateMachine;
 
-        public WinState(StateMachine<AModelState> stateMachine)
+        public WinState(IStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
         }
 
-        public override void OnStart()
+        public void OnEnter()
         {
 
         }
 
-        public override void OnEnd()
+        public void OnExit()
         {
 
         }

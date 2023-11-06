@@ -8,7 +8,7 @@ namespace Model.Services
     /// </summary>
     public interface IRandomBlockTypeService
     {
-        public void SetLevel(List<BlockType_Weight> typesWeight, BlockType defaultBlockType);
+        public void SetLevelConfig(List<BlockType_Weight> typesWeight, BlockType defaultBlockType);
         
         /// <summary>
         /// Получить рандомный тип блока с заданными вероятностями

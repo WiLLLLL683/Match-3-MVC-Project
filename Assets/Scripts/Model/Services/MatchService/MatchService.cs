@@ -5,37 +5,32 @@ namespace Model.Services
 {
     public class MatchService : IMatchService
     {
-        private readonly HashSet<Cell> matchedCells = new();
+        private readonly Game game;
         private readonly IMatcher matcher;
+        private readonly HashSet<Cell> matchedCells = new();
 
-        private GameBoard gameBoard;
-        private MatchPattern[] matchPatterns;
+        private GameBoard GameBoard => game.CurrentLevel.gameBoard;
+        private MatchPattern[] MatchPatterns => game.CurrentLevel.matchPatterns;
+        private bool PatternFitGameboard => yLength >= 0 && xLength >= 0;
 
         private int xStartPos;
         private int yStartPos;
         private int xLength;
         private int yLength;
 
-        private bool PatternFitGameboard => yLength >= 0 && xLength >= 0;
-
-        public MatchService(IValidationService validationService)
+        public MatchService(Game game, IValidationService validationService)
         {
+            this.game = game;
             matcher = new Matcher(validationService); //TODO вынести создание в Game
-        }
-
-        public void SetLevel(GameBoard gameBoard, MatchPattern[] matchPatterns)
-        {
-            this.gameBoard = gameBoard;
-            this.matchPatterns = matchPatterns;
         }
 
         public HashSet<Cell> FindAllMatches()
         {
             matchedCells.Clear();
 
-            for (int i = 0; i < matchPatterns.Length; i++)
+            for (int i = 0; i < MatchPatterns.Length; i++)
             {
-                CheckPattern(matchPatterns[i]);
+                CheckPattern(MatchPatterns[i]);
             }
 
             return matchedCells;
@@ -45,11 +40,11 @@ namespace Model.Services
         {
             matchedCells.Clear();
 
-            for (int i = 0; i < matchPatterns.Length; i++)
+            for (int i = 0; i < MatchPatterns.Length; i++)
             {
-                for (int j = 0; j < matchPatterns[i].hintPatterns.Length; j++)
+                for (int j = 0; j < MatchPatterns[i].hintPatterns.Length; j++)
                 {
-                    CheckPatternFirst(matchPatterns[i].hintPatterns[j]);
+                    CheckPatternFirst(MatchPatterns[i].hintPatterns[j]);
 
                     if (matchedCells.Count > 0)
                         break;
@@ -73,7 +68,7 @@ namespace Model.Services
             {
                 for (int x = xStartPos; x <= xLength; x++)
                 {
-                    HashSet<Cell> cells = matcher.MatchAt(new(x, y), pattern, gameBoard);
+                    HashSet<Cell> cells = matcher.MatchAt(new(x, y), pattern, GameBoard);
                     matchedCells.UnionWith(cells);
                 }
             }
@@ -93,7 +88,7 @@ namespace Model.Services
             {
                 for (int x = xStartPos; x <= xLength; x++)
                 {
-                    HashSet<Cell> cells = matcher.MatchAt(new(x, y), pattern, gameBoard);
+                    HashSet<Cell> cells = matcher.MatchAt(new(x, y), pattern, GameBoard);
                     matchedCells.UnionWith(cells);
 
                     if (matchedCells.Count > 0)
@@ -107,10 +102,10 @@ namespace Model.Services
         private void SetRegionToCheck(Pattern pattern)
         {
             xStartPos = 0;
-            xLength = gameBoard.Cells.GetLength(0) - pattern.grid.GetLength(0);
+            xLength = GameBoard.Cells.GetLength(0) - pattern.grid.GetLength(0);
 
-            yStartPos = gameBoard.RowsOfInvisibleCells;
-            yLength = gameBoard.Cells.GetLength(1) - pattern.grid.GetLength(1) - gameBoard.RowsOfInvisibleCells;
+            yStartPos = GameBoard.RowsOfInvisibleCells;
+            yLength = GameBoard.Cells.GetLength(1) - pattern.grid.GetLength(1) - GameBoard.RowsOfInvisibleCells;
         }
     }
 }

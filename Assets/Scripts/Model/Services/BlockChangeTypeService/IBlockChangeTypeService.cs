@@ -8,7 +8,6 @@ namespace Model.Services
     {
         event Action<Block> OnTypeChange;
 
-        void SetLevel(GameBoard gameBoard);
         void ChangeBlockType(Vector2Int position, BlockType targetType);
         void ChangeBlockType(Cell cell, BlockType targetType);
     }

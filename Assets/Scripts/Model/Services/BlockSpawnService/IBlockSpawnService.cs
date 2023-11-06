@@ -12,11 +12,6 @@ namespace Model.Services
         event Action<Block> OnBlockSpawn;
 
         /// <summary>
-        /// Задать данные о текущем уровне
-        /// </summary>
-        public void SetLevel(GameBoard gameBoard);
-
-        /// <summary>
         /// Заполнить пустые клетки случайными блоками только в рядах невидимых клеток
         /// </summary>
         public void FillInvisibleRows();

@@ -11,7 +11,7 @@ namespace Model.Services
         private BlockType defaultBlockType;
         private int totalWeight;
 
-        public void SetLevel(List<BlockType_Weight> typesWeight, BlockType defaultBlockType)
+        public void SetLevelConfig(List<BlockType_Weight> typesWeight, BlockType defaultBlockType)
         {
             this.defaultBlockType = defaultBlockType;
             this.typesWeight = typesWeight;

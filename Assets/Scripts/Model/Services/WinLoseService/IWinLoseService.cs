@@ -8,8 +8,6 @@ namespace Model.Services
         event Action OnLose;
         event Action OnWin;
 
-        public void SetLevel(Level level);
-
         /// <summary>
         /// Проверить закончились ли огранияения уровня
         /// </summary>

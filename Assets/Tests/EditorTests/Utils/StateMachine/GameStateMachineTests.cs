@@ -5,20 +5,20 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Utils;
 
-namespace Model.Utils.UnitTests
+namespace Utils.UnitTests
 {
     public class GameStateMachineTests
     {
         [Test]
         public void SetState_NullToLoadState_CurrentStateLoadState()
         {
-            StateMachine<IState> stateMachine = new StateMachine<IState>(
+            StateMachine stateMachine = new StateMachine(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState()
                 });
 
-            stateMachine.SetState<TestState>();
+            stateMachine.EnterState<TestState>();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
@@ -26,15 +26,15 @@ namespace Model.Utils.UnitTests
         [Test]
         public void SetState_LoadStateToWaitState_PreviousStateLoadState()
         {
-            StateMachine<IState> stateMachine = new StateMachine<IState>(
+            StateMachine stateMachine = new StateMachine(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState(),
                     [typeof(TestState2)] = new TestState2()
                 });
 
-            stateMachine.SetState<TestState>();
-            stateMachine.SetState<TestState2>();
+            stateMachine.EnterState<TestState>();
+            stateMachine.EnterState<TestState2>();
 
             Assert.AreEqual(typeof(TestState2), stateMachine.CurrentState.GetType());
             Assert.AreEqual(typeof(TestState), stateMachine.PreviousState.GetType());
@@ -43,14 +43,14 @@ namespace Model.Utils.UnitTests
         [Test]
         public void SetPreviousState_NullToLoadStateToNull_CurrentStateLoadState()
         {
-            StateMachine<IState> stateMachine = new StateMachine<IState>(
+            StateMachine stateMachine = new StateMachine(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState()
                 });
 
-            stateMachine.SetState<TestState>();
-            stateMachine.SetPreviousState();
+            stateMachine.EnterState<TestState>();
+            stateMachine.EnterPreviousState();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
@@ -58,16 +58,16 @@ namespace Model.Utils.UnitTests
         [Test]
         public void SetPreviousState_LoadStateToWaitStateToLoadState_CurrentStateLoadState()
         {
-            StateMachine<IState> stateMachine = new StateMachine<IState>(
+            StateMachine stateMachine = new StateMachine(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = new TestState(),
                     [typeof(TestState2)] = new TestState2()
                 });
 
-            stateMachine.SetState<TestState>();
-            stateMachine.SetState<TestState2>();
-            stateMachine.SetPreviousState();
+            stateMachine.EnterState<TestState>();
+            stateMachine.EnterState<TestState2>();
+            stateMachine.EnterPreviousState();
 
             Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
         }
@@ -75,7 +75,7 @@ namespace Model.Utils.UnitTests
         public void GetState_ValidState_ReferenceToValidState()
         {
             IState state = new TestState();
-            StateMachine<IState> stateMachine = new StateMachine<IState>(
+            StateMachine stateMachine = new StateMachine(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = state
@@ -88,7 +88,7 @@ namespace Model.Utils.UnitTests
         [Test]
         public void GetState_InValidState_Error()
         {
-            StateMachine<IState> stateMachine = new StateMachine<IState>(new Dictionary<System.Type, IState>());
+            StateMachine stateMachine = new StateMachine(new Dictionary<System.Type, IState>());
 
             IState receivedState = stateMachine.GetState<TestState>();
 
@@ -98,7 +98,7 @@ namespace Model.Utils.UnitTests
         public void AddState_NewState_StateAdded()
         {
             IState state = new TestState();
-            StateMachine<IState> stateMachine = new StateMachine<IState>();
+            StateMachine stateMachine = new StateMachine();
 
             stateMachine.AddState(state);
 
@@ -113,7 +113,7 @@ namespace Model.Utils.UnitTests
             state.testString = "state";
             TestState state2 = new TestState();
             state2.testString = "state2";
-            StateMachine<IState> stateMachine = new StateMachine<IState>(
+            StateMachine stateMachine = new StateMachine(
                 new Dictionary<System.Type, IState>
                 {
                     [typeof(TestState)] = state
@@ -125,6 +125,5 @@ namespace Model.Utils.UnitTests
 
             Assert.AreEqual("state2", receivedState.testString);
         }
-
     }
 }

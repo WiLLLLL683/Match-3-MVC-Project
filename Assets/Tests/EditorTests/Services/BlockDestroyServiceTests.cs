@@ -15,16 +15,14 @@ namespace Model.Services.UnitTests
 
         private (GameBoard gameBoard, BlockDestroyService service) Setup()
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
+            var game = TestLevelFactory.CreateGame(1, 1);
             var setBlock = new CellSetBlockService();
-            var validation = new ValidationService();
-            var service = new BlockDestroyService(validation, setBlock);
-            validation.SetLevel(gameBoard);
-            service.SetLevel(gameBoard);
+            var validation = new ValidationService(game);
+            var service = new BlockDestroyService(game, validation, setBlock);
             eventCount = 0;
             service.OnDestroy += (_) => eventCount++;
 
-            return (gameBoard, service);
+            return (game.CurrentLevel.gameBoard, service);
         }
 
         [Test]

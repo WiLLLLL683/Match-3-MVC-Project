@@ -8,16 +8,16 @@ namespace Model.Services.UnitTests
     {
         private (IValidationService validation, GameBoard gameBoard) Setup(CellType cellType, params int[] preSpawnedBlocks)
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0, preSpawnedBlocks);
+            var game = TestLevelFactory.CreateGame(1, 1);
+            game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0, preSpawnedBlocks);
+
             if (cellType != null)
-                gameBoard.Cells[0, 0].Type = cellType;
+                game.CurrentLevel.gameBoard.Cells[0, 0].Type = cellType;
             else
-                gameBoard.Cells[0, 0] = null;
+                game.CurrentLevel.gameBoard.Cells[0, 0] = null;
 
-            var validation = new ValidationService();
-            validation.SetLevel(gameBoard);
-
-            return (validation, gameBoard);
+            var validation = new ValidationService(game);
+            return (validation, game.CurrentLevel.gameBoard);
         }
 
         [Test]

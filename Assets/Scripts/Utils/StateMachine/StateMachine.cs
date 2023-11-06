@@ -7,39 +7,38 @@ namespace Utils
     /// <summary>
     /// Стейт-машина, хранящая по одному экземпляру добавленных в нее стейтов типа TState
     /// </summary>
-    public class StateMachine<TState> where TState : IState
+    public class StateMachine : IStateMachine
     {
-        public TState PreviousState { get; private set; }
-        public TState CurrentState { get; private set; }
-        
-        private Dictionary<Type, TState> states;
+        public IState PreviousState { get; private set; }
+        public IState CurrentState { get; private set; }
+
+        private readonly Dictionary<Type, IState> states;
 
         public StateMachine()
         {
             states = new();
         }
-        public StateMachine(Dictionary<Type, TState> _states)
+
+        public StateMachine(Dictionary<Type, IState> states)
         {
-            states = _states;
+            this.states = states;
         }
 
-        /// <summary>
-        /// Задать текущий стейт
-        /// </summary>
-        public void SetState<T>() where T: TState
+        public void EnterState<T>() where T : IState
         {
-            if (!states.ContainsKey(typeof(T)))
-            {
-                Debug.LogError("Can't change to state: " + typeof(T) + " - StateMachine doesn't contain this state");
-                return;
-            }
-
-            ChangeState(states[typeof(T)]);
+            T newState = GetState<T>();
+            ChangeState(newState);
+            newState.OnEnter();
         }
-        /// <summary>
-        /// Вернуться к предыдущему стейту
-        /// </summary>
-        public void SetPreviousState()
+
+        public void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>
+        {
+            T newState = GetState<T>();
+            ChangeState(newState);
+            newState.OnEnter(payLoad);
+        }
+
+        public void EnterPreviousState()
         {
             if (PreviousState == null)
             {
@@ -49,10 +48,14 @@ namespace Utils
 
             ChangeState(PreviousState);
         }
-        /// <summary>
-        /// Получить экземпляр стейта определенного типа
-        /// </summary>
-        public T GetState<T>() where T : TState
+
+        public void AddState(IState state)
+        {
+            Type type = state.GetType();
+            states[type] = state;
+        }
+
+        public T GetState<T>() where T : IState
         {
             if (!states.ContainsKey(typeof(T)))
             {
@@ -62,36 +65,18 @@ namespace Utils
 
             return (T)states[typeof(T)];
         }
-        /// <summary>
-        /// Добавить новый стейт в стейт-машину
-        /// </summary>
-        public void AddState(TState _state)
+
+        private void ChangeState(IState newState)
         {
-            Type type = _state.GetType();
-
-            if (states.ContainsKey(type))
-            {
-                states[type] = _state;
-            }
-            else
-            {
-                states.Add(type, _state);
-            }
-        }
-
-
-        private void ChangeState(TState _state)
-        {
-            if (_state == null)
+            if (newState == null)
             {
                 Debug.LogError("Attempt to load null state");
                 return;
             }
 
             PreviousState = CurrentState;
-            PreviousState?.OnEnd();
-            CurrentState = _state;
-            CurrentState.OnStart();
+            PreviousState?.OnExit();
+            CurrentState = newState;
         }
     }
 }

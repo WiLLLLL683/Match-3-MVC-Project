@@ -1,24 +1,26 @@
 using System;
 using UnityEngine;
 using Model.Objects;
+using Model.Infrastructure;
 
 namespace Model.Services
 {
     public class BlockMoveService : IBlockMoveService
     {
-        private readonly IValidationService validation;
-        private readonly ICellSetBlockService setBlockService;
-        private GameBoard gameBoard;
-
         public event Action<Block> OnPositionChange;
 
-        public BlockMoveService(IValidationService validationService, ICellSetBlockService setBlockService)
+        private readonly Game game;
+        private readonly IValidationService validation;
+        private readonly ICellSetBlockService setBlockService;
+
+        private GameBoard GameBoard => game.CurrentLevel.gameBoard;
+
+        public BlockMoveService(Game game, IValidationService validationService, ICellSetBlockService setBlockService)
         {
+            this.game = game;
             this.validation = validationService;
             this.setBlockService = setBlockService;
         }
-
-        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
         public bool Move(Vector2Int startPosition, Directions direction)
         {
@@ -34,8 +36,8 @@ namespace Model.Services
             if (!validation.CellExistsAt(targetPosition))
                 return false;
 
-            Cell startCell = gameBoard.Cells[startPosition.x, startPosition.y];
-            Cell targetCell = gameBoard.Cells[targetPosition.x, targetPosition.y];
+            Cell startCell = GameBoard.Cells[startPosition.x, startPosition.y];
+            Cell targetCell = GameBoard.Cells[targetPosition.x, targetPosition.y];
 
             SwapTwoBlocks(startCell, targetCell);
             return true;

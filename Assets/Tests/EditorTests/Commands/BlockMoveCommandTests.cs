@@ -13,15 +13,13 @@ namespace Model.Infrastructure.Commands.UnitTests
     {
         private (GameBoard gameBoard, BlockMoveCommand command) Setup()
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(1, 2, 0);
-            var validation = new ValidationService();
+            var game = TestLevelFactory.CreateGame(1, 2);
+            var validation = new ValidationService(game);
             var setBlock = new CellSetBlockService();
-            var service = new BlockMoveService(validation, setBlock);
-            validation.SetLevel(gameBoard);
-            service.SetLevel(gameBoard);
+            var service = new BlockMoveService(game, validation, setBlock);
             var command = new BlockMoveCommand(new(0, 0), new(0, 1), service);
 
-            return (gameBoard, command);
+            return (game.CurrentLevel.gameBoard, command);
         }
 
         [Test]

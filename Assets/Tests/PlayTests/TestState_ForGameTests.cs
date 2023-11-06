@@ -16,12 +16,12 @@ namespace Model.Infrastructure.FunctionalTests
             game = _game;
         }
 
-        public void OnStart()
+        public void OnEnter()
         {
             level = game.CurrentLevel;
         }
 
-        public void OnEnd()
+        public void OnExit()
         {
 
         }

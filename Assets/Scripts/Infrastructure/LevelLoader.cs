@@ -1,5 +1,6 @@
 ﻿using Config;
 using Model.Infrastructure;
+using Model.Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -11,7 +12,6 @@ namespace Infrastructure
         public LevelSO CurrentLevel => allLevels[currentLevelIndex];
 
         private readonly ZenjectSceneLoader loader;
-        private readonly Game game;
         private readonly LevelSO[] allLevels;
 
         private const string META_SCENE_NAME = "Meta";
@@ -19,10 +19,9 @@ namespace Infrastructure
 
         private int currentLevelIndex;
 
-        public LevelLoader(ZenjectSceneLoader loader, Game game, LevelSO[] allLevels)
+        public LevelLoader(ZenjectSceneLoader loader, LevelSO[] allLevels)
         {
             this.loader = loader;
-            this.game = game;
             this.allLevels = allLevels;
         }
 
@@ -36,8 +35,13 @@ namespace Infrastructure
 
             currentLevelIndex = levelIndex;
             Debug.Log($"Loading level: {CurrentLevel.levelName}");
-            game.StartLevel(CurrentLevel);
-            loader.LoadSceneAsync(CORE_SCENE_NAME);
+
+            loader.LoadSceneAsync(CORE_SCENE_NAME, LoadSceneMode.Single, (context) =>
+            {
+                //передача конфига уровня в кор-сцену
+                context.BindInstance(CurrentLevel).AsSingle();
+                context.BindInstance(CurrentLevel.blockTypeSet).AsSingle();
+            });
         }
     }
 }

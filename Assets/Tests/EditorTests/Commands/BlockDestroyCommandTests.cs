@@ -17,23 +17,19 @@ namespace Model.Infrastructure.Commands.UnitTests
 
         private (GameBoard gameBoard, IBlockDestroyService destroy, IBlockSpawnService spawn) Setup()
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
-            var validation = new ValidationService();
+            var game = TestLevelFactory.CreateGame(1, 1);
+            var validation = new ValidationService(game);
             var setBlock = new CellSetBlockService();
             var random = TestServicesFactory.CreateRandomBlockTypeService();
-            var changeType = new BlockChangeTypeService(validation);
+            var changeType = new BlockChangeTypeService(game, validation);
             var factory = new BlockFactory();
-            var spawn = new BlockSpawnService(factory, validation, random, changeType, setBlock);
-            var destroy = new BlockDestroyService(validation, setBlock);
-            validation.SetLevel(gameBoard);
-            destroy.SetLevel(gameBoard);
-            changeType.SetLevel(gameBoard);
-            spawn.SetLevel(gameBoard);
+            var spawn = new BlockSpawnService(game, factory, validation, random, changeType, setBlock);
+            var destroy = new BlockDestroyService(game, validation, setBlock);
 
             eventCount = 0;
             destroy.OnDestroy += (_) => eventCount++;
 
-            return (gameBoard, destroy, spawn);
+            return (game.CurrentLevel.gameBoard, destroy, spawn);
         }
 
         [Test]

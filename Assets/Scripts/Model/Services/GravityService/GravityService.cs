@@ -6,25 +6,26 @@ namespace Model.Services
 {
     public class GravityService : IGravityService
     {
+        private readonly Game game;
         private readonly IValidationService validationService;
         private readonly IBlockMoveService moveService;
-        private GameBoard gameBoard;
+
+        private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
         private int lowestY;
 
-        public GravityService(IValidationService validationService, IBlockMoveService moveService)
+        public GravityService(Game game, IValidationService validationService, IBlockMoveService moveService)
         {
+            this.game = game;
             this.validationService = validationService;
             this.moveService = moveService;
         }
 
-        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
-
         public void Execute()
         {
-            for (int y = gameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
+            for (int y = GameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
             {
-                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
+                for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
                 {
                     TryMoveBlockDown(x, y);
                 }
@@ -50,7 +51,7 @@ namespace Model.Services
         private void FindLowestEmptyCellUnderPos(int x, int y)
         {
             lowestY = y;
-            for (int i = gameBoard.Cells.GetLength(1) - 1; i > y; i--)
+            for (int i = GameBoard.Cells.GetLength(1) - 1; i > y; i--)
             {
                 if (validationService.CellIsEmptyAt(new(x, i)))
                 {

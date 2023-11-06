@@ -1,5 +1,6 @@
 using Model.Objects;
 using Model.Services;
+using NSubstitute;
 using NUnit.Framework;
 using TestUtils;
 
@@ -9,13 +10,11 @@ namespace Model.Infrastructure.Commands.UnitTests
     {
         private (GameBoard gameBoard, BlockChangeTypeService service) Setup()
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
-            var validation = new ValidationService();
-            var service = new BlockChangeTypeService(validation);
-            validation.SetLevel(gameBoard);
-            service.SetLevel(gameBoard);
+            var game = TestLevelFactory.CreateGame(1, 1);
+            var validation = new ValidationService(game);
+            var service = new BlockChangeTypeService(game, validation);
 
-            return (gameBoard, service);
+            return (game.CurrentLevel.gameBoard, service);
         }
 
         [Test]

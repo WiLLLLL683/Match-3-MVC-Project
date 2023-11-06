@@ -5,6 +5,7 @@ using Model.Objects;
 using Presenter;
 using System;
 using UnityEngine;
+using Utils;
 using View;
 using Zenject;
 
@@ -41,8 +42,8 @@ namespace CompositionRoot
 
         public override void InstallBindings()
         {
+            BindModelStateMachine();
             BindInput();
-            BindCurrentLevel();
             BindHud();
             BindGameboard();
             BindBoosterInventory();
@@ -50,16 +51,16 @@ namespace CompositionRoot
             BindEndGame();
         }
 
+        private void BindModelStateMachine()
+        {
+            Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
+            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
+        }
+
         private void BindInput()
         {
             Container.Bind<IInput>().FromInstance(input).AsSingle();
-        }
-
-        private void BindCurrentLevel()
-        {
-            Container.BindInstance(game.CurrentLevel).AsSingle();
-            Container.BindInstance(game.CurrentLevel.gameBoard).AsSingle();
-            Container.BindInstance(levelLoader.CurrentLevel.blockTypeSet).AsSingle();
+            Container.Bind<IModelInput>().To<ModelInput>().AsSingle();
         }
 
         private void BindHud()

@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
-namespace Model.Utils.UnitTests
+namespace Utils.UnitTests
 {
     public class TestState : IState
     {
         public string testString;
 
-        public void OnStart()
+        public void OnEnter()
         {
 
         }
 
-        public void OnEnd()
+        public void OnExit()
         {
 
         }

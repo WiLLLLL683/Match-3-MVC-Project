@@ -16,7 +16,7 @@ namespace Presenter
     /// </summary>
     public class GameBoardPresenter : IGameBoardPresenter
     {
-        private readonly GameBoard model;
+        private readonly Game model;
         private readonly IGameBoardView view;
         private readonly IBlockSpawnService blockSpawnService;
         private readonly BlockPresenter.Factory blockPresenterFactory;
@@ -30,7 +30,9 @@ namespace Presenter
         private readonly Dictionary<Cell, ICellView> cells = new();
         private readonly Dictionary<Block, IBlockView> blocks = new();
 
-        public GameBoardPresenter(GameBoard model,
+        private GameBoard gameBoard;
+
+        public GameBoardPresenter(Game model,
             IGameBoardView view,
             IBlockSpawnService blockSpawnService,
             BlockPresenter.Factory blockPresenterFactory,
@@ -55,6 +57,7 @@ namespace Presenter
 
         public void Enable()
         {
+            gameBoard = model.CurrentLevel.gameBoard;
             SpawnAllCells();
             SpawnAllBlocks();
 
@@ -72,13 +75,13 @@ namespace Presenter
 
         public ICellView GetCellView(Vector2Int modelPosition)
         {
-            Cell cellModel = model.Cells[modelPosition.x, modelPosition.y];
+            Cell cellModel = gameBoard.Cells[modelPosition.x, modelPosition.y];
             return cells[cellModel];
         }
 
         public IBlockView GetBlockView(Vector2Int modelPosition)
         {
-            Block blockModel = model.Cells[modelPosition.x, modelPosition.y].Block;
+            Block blockModel = gameBoard.Cells[modelPosition.x, modelPosition.y].Block;
             if (blockModel == null || !blocks.ContainsKey(blockModel))
                 return null;
 
@@ -90,14 +93,14 @@ namespace Presenter
         {
             ClearAllCells();
 
-            int xLength = model.Cells.GetLength(0);
-            int yLength = model.Cells.GetLength(1);
+            int xLength = gameBoard.Cells.GetLength(0);
+            int yLength = gameBoard.Cells.GetLength(1);
 
             for (int y = 0; y < yLength; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    Cell cellModel = model.Cells[x, y];
+                    Cell cellModel = gameBoard.Cells[x, y];
 
                     if (cellModel.Type.IsPlayable)
                     {
@@ -118,7 +121,7 @@ namespace Presenter
         {
             ClearAllBlocks();
 
-            foreach (var blockModel in model.Blocks)
+            foreach (var blockModel in gameBoard.Blocks)
             {
                 SpawnBlock(blockModel);
             }
