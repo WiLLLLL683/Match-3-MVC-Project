@@ -9,17 +9,14 @@ namespace Model.Services.UnitTests
     {
         private (GameBoard gameBoard, GravityService service) Setup(int xLength, int yLength)
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, 0);
-            var validation = new ValidationService();
+            var game = TestLevelFactory.CreateGame(xLength, yLength);
+            var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
-            var moveService = new BlockMoveService(validation, setBlockService);
-            validation.SetLevel(gameBoard);
-            moveService.SetLevel(gameBoard);
+            var moveService = new BlockMoveService(game, validation, setBlockService);
 
-            var service = new GravityService(validation, moveService);
-            service.SetLevel(gameBoard);
+            var service = new GravityService(game, validation, moveService);
 
-            return (gameBoard, service);
+            return (game.CurrentLevel.gameBoard, service);
         }
 
         [Test]

@@ -5,8 +5,6 @@ namespace Model.Services
 {
     public interface IValidationService
     {
-        public void SetLevel(GameBoard gameBoard);
-
         /// <summary>
         /// Блок существует в заданной позиции
         /// </summary>

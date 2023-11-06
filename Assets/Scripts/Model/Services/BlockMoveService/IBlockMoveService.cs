@@ -11,8 +11,6 @@ namespace Model.Services
     {
         event Action<Block> OnPositionChange;
 
-        public void SetLevel(GameBoard gameBoard);
-
         /// <summary>
         /// Сдвинуть блок в необходимую позицию со сменой блоков местами
         /// возвращает успех перемещения

@@ -6,11 +6,6 @@ namespace Model.Services
     public interface IMatchService
     {
         /// <summary>
-        /// Обновить данные об уровне
-        /// </summary>
-        public void SetLevel(GameBoard gameBoard, MatchPattern[] matchPatterns);
-
-        /// <summary>
         /// Найти все совпадения по всем паттернам
         /// </summary>
         public HashSet<Cell> FindAllMatches();

@@ -2,7 +2,6 @@
 using Model.Infrastructure;
 using Model.Objects;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
@@ -18,6 +17,8 @@ namespace Model.Services
         }
 
         public void StartLevel(LevelSO levelData) => stateMachine.EnterState<LoadLevelState, LevelSO>(levelData);
+        public void ExitLevel() => stateMachine.EnterState<ExitState>();
+
         public void ActivateBlock(Vector2Int position) => stateMachine.EnterState<InputActivateBlockState, Vector2Int>(position);
         public void MoveBlock(Vector2Int position, Directions direction)
         {

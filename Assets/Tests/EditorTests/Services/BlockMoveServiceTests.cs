@@ -14,16 +14,14 @@ namespace Model.Services.UnitTests
 
         private (BlockMoveService service, GameBoard gameBoard) Setup()
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(2, 1, 0);
-            var validation = new ValidationService();
-            var setBlock = new CellSetBlockService(); 
-            var service = new BlockMoveService(validation, setBlock);
-            validation.SetLevel(gameBoard);
-            service.SetLevel(gameBoard);
+            var game = TestLevelFactory.CreateGame(2, 1);
+            var validation = new ValidationService(game);
+            var setBlock = new CellSetBlockService();
+            var service = new BlockMoveService(game, validation, setBlock);
             eventCount = 0;
             service.OnPositionChange += (_) => eventCount++;
 
-            return (service, gameBoard);
+            return (service, game.CurrentLevel.gameBoard);
         }
 
         [Test]

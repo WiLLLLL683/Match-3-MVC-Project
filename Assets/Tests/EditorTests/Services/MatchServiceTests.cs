@@ -14,14 +14,12 @@ namespace Model.Services.UnitTests
             MatchPattern[] matchPatterns = default,
             params int[] preSpawnedBlocks)
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, 0, preSpawnedBlocks);
+            var game = TestLevelFactory.CreateGame(xLength, yLength);
+            game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, 0, preSpawnedBlocks);
 
-            var validation = new ValidationService();
-            validation.SetLevel(gameBoard);
-
-            var service = new MatchService(validation);
-            service.SetLevel(gameBoard, matchPatterns);
-            return (service, gameBoard);
+            var validation = new ValidationService(game);
+            var service = new MatchService(game, validation);
+            return (service, game.CurrentLevel.gameBoard);
         }
 
         [Test]

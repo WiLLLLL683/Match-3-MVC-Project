@@ -5,25 +5,25 @@ namespace Model.Services
 {
     public class WinLoseService : IWinLoseService
     {
+        private readonly Game game;
         private readonly ICounterService counterService;
 
-        private Level level;
+        private Level Level => game.CurrentLevel;
 
         public event Action OnWin;
         public event Action OnLose;
 
-        public WinLoseService(ICounterService counterService)
+        public WinLoseService(Game game, ICounterService counterService)
         {
+            this.game = game;
             this.counterService = counterService;
         }
 
-        public void SetLevel(Level level) => this.level = level;
-
         public bool CheckWin()
         {
-            for (int i = 0; i < level.goals.Length; i++)
+            for (int i = 0; i < Level.goals.Length; i++)
             {
-                if (!counterService.CheckCompletion(level.goals[i]))
+                if (!counterService.CheckCompletion(Level.goals[i]))
                     return false;
             }
 
@@ -33,9 +33,9 @@ namespace Model.Services
 
         public bool CheckLose()
         {
-            for (int i = 0; i < level.restrictions.Length; i++)
+            for (int i = 0; i < Level.restrictions.Length; i++)
             {
-                if (counterService.CheckCompletion(level.restrictions[i]))
+                if (counterService.CheckCompletion(Level.restrictions[i]))
                 {
                     OnLose?.Invoke();
                     return true;
@@ -47,17 +47,17 @@ namespace Model.Services
 
         public void UpdateGoals(ICounterTarget target)
         {
-            for (int i = 0; i < level.goals.Length; i++)
+            for (int i = 0; i < Level.goals.Length; i++)
             {
-                counterService.CheckTarget(level.goals[i], target);
+                counterService.CheckTarget(Level.goals[i], target);
             }
         }
 
         public void UpdateRestrictions(ICounterTarget target)
         {
-            for (int i = 0; i < level.restrictions.Length; i++)
+            for (int i = 0; i < Level.restrictions.Length; i++)
             {
-                counterService.CheckTarget(level.restrictions[i], target);
+                counterService.CheckTarget(Level.restrictions[i], target);
             }
         }
     }

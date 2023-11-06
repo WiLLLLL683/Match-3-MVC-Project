@@ -15,17 +15,16 @@ namespace Model.Services.UnitTests
 
         private (Level level, WinLoseService service) Setup()
         {
-            var level = TestLevelFactory.CreateLevel(1, 1);
+            var game = TestLevelFactory.CreateGame(1, 1);
             var counterService = new CounterService();
-            var service = new WinLoseService(counterService);
-            service.SetLevel(level);
+            var service = new WinLoseService(game, counterService);
 
             winEventCount = 0;
             loseEventCount = 0;
             service.OnWin += () => winEventCount++;
             service.OnLose += () => loseEventCount++;
 
-            return (level, service);
+            return (game.CurrentLevel, service);
         }
 
         [Test]

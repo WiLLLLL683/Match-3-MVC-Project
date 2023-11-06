@@ -1,5 +1,6 @@
 using Config;
 using Model.Factories;
+using Model.Infrastructure;
 using Model.Objects;
 using Model.Services;
 using NSubstitute;
@@ -19,18 +20,16 @@ namespace Model.Services.UnitTests
             int factoryReturnBlockType = TestBlockFactory.DEFAULT_BLOCK,
             params int[] preSpawnedBlocks)
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, invisibleRows, preSpawnedBlocks);
+            var game = TestLevelFactory.CreateGame(xLength, yLength);
+            game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, invisibleRows, preSpawnedBlocks);
             var blockFactory = new BlockFactory();
-            var validation = new ValidationService();
+            var validation = new ValidationService(game);
             var random = TestServicesFactory.CreateRandomBlockTypeService(factoryReturnBlockType);
-            var changeTypeService = new BlockChangeTypeService(validation);
+            var changeTypeService = new BlockChangeTypeService(game, validation);
             var setBlockService = new CellSetBlockService();
 
-            validation.SetLevel(gameBoard);
-
-            var service = new BlockSpawnService(blockFactory, validation, random, changeTypeService, setBlockService);
-            service.SetLevel(gameBoard);
-            return (service, gameBoard);
+            var service = new BlockSpawnService(game, blockFactory, validation, random, changeTypeService, setBlockService);
+            return (service, game.CurrentLevel.gameBoard);
         }
 
         [Test]

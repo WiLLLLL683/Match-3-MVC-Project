@@ -2,31 +2,33 @@
 using Model.Factories;
 using Model.Objects;
 using System;
+using Model.Infrastructure;
 
 namespace Model.Services
 {
     public class BlockDestroyService : IBlockDestroyService
     {
+        private readonly Game game;
         private readonly IValidationService validation;
         private readonly ICellSetBlockService setBlockService;
-        private GameBoard gameBoard;
 
         public event Action<Block> OnDestroy;
 
-        public BlockDestroyService(IValidationService validationService, ICellSetBlockService setBlockService)
+        private GameBoard GameBoard => game.CurrentLevel.gameBoard;
+
+        public BlockDestroyService(Game game, IValidationService validationService, ICellSetBlockService setBlockService)
         {
+            this.game = game;
             this.validation = validationService;
             this.setBlockService = setBlockService;
         }
-
-        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
         public void DestroyAt(Vector2Int position)
         {
             if (!validation.CellExistsAt(position))
                 return;
 
-            Cell cell = gameBoard.Cells[position.x, position.y];
+            Cell cell = GameBoard.Cells[position.x, position.y];
             DestroyAt(cell);
         }
 
@@ -36,7 +38,7 @@ namespace Model.Services
                 return;
 
             OnDestroy?.Invoke(cell.Block);
-            gameBoard.Blocks.Remove(cell.Block);
+            GameBoard.Blocks.Remove(cell.Block);
             setBlockService.SetEmpty(cell);
         }
     }

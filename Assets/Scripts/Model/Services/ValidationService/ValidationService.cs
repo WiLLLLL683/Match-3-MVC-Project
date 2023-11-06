@@ -5,17 +5,22 @@ namespace Model.Services
 {
     public class ValidationService : IValidationService
     {
-        private GameBoard gameBoard;
+        private readonly Game game;
+
+        private GameBoard GameBoard => game.CurrentLevel.gameBoard;
+        private bool BlockExists => GameBoard.Cells[position.x, position.y].Block != null;
+        private bool CellIsEmpty => GameBoard.Cells[position.x, position.y].Block == null;
+        private bool CellCanContainBlock => GameBoard.Cells[position.x, position.y].Type.CanContainBlock;
+        private bool CellExists => GameBoard.Cells[position.x, position.y] != null;
+        private bool CellIsInsideGameboard => 0 <= position.x && position.x < GameBoard.Cells.GetLength(0)
+                                           && 0 <= position.y && position.y < GameBoard.Cells.GetLength(1);
+
         private Vector2Int position;
 
-        private bool BlockExists => gameBoard.Cells[position.x, position.y].Block != null;
-        private bool CellIsEmpty => gameBoard.Cells[position.x, position.y].Block == null;
-        private bool CellCanContainBlock => gameBoard.Cells[position.x, position.y].Type.CanContainBlock;
-        private bool CellExists => gameBoard.Cells[position.x, position.y] != null;
-        private bool CellIsInsideGameboard => 0 <= position.x && position.x < gameBoard.Cells.GetLength(0)
-                                           && 0 <= position.y && position.y < gameBoard.Cells.GetLength(1);
-
-        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
+        public ValidationService(Game game)
+        {
+            this.game = game;
+        }
 
         public bool BlockExistsAt(Vector2Int position)
         {

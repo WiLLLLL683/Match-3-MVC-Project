@@ -12,7 +12,7 @@ namespace TestUtils
         public static RandomBlockTypeService CreateRandomBlockTypeService(params int[] typeIds)
         {
             var service = new RandomBlockTypeService();
-            service.SetLevel(CreateListOfWeights(typeIds), TestBlockFactory.DefaultBlockType);
+            service.SetLevelConfig(CreateListOfWeights(typeIds), TestBlockFactory.DefaultBlockType);
             return service;
         }
 

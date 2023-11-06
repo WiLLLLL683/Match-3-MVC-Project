@@ -11,6 +11,11 @@ namespace Model.Services
     public interface IModelInputService
     {
         /// <summary>
+        /// Завершение запущенного уровня, для безопасной выгрузки сцены
+        /// </summary>
+        void ExitLevel();
+
+        /// <summary>
         /// Запуск выбранного уровня кор-игры
         /// </summary>
         void StartLevel(LevelSO levelData);

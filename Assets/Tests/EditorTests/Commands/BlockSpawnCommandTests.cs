@@ -1,6 +1,7 @@
 using Model.Factories;
 using Model.Objects;
 using Model.Services;
+using NSubstitute;
 using NUnit.Framework;
 using TestUtils;
 
@@ -13,25 +14,22 @@ namespace Model.Infrastructure.Commands.UnitTests
 
         private (GameBoard gameBoard, BlockSpawnService spawn, BlockDestroyService destroy, BlockType type) Setup()
         {
-            var gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
-            var validation = new ValidationService();
+            var game = TestLevelFactory.CreateGame(1, 1);
+            var validation = new ValidationService(game);
             var setBlock = new CellSetBlockService();
-            var destroy = new BlockDestroyService(validation, setBlock);
+            var destroy = new BlockDestroyService(game, validation, setBlock);
             var random = TestServicesFactory.CreateRandomBlockTypeService();
-            var changeType = new BlockChangeTypeService(validation);
+            var changeType = new BlockChangeTypeService(game, validation);
             var factory = new BlockFactory();
-            var spawn = new BlockSpawnService(factory, validation, random, changeType, setBlock);
-            validation.SetLevel(gameBoard);
-            destroy.SetLevel(gameBoard);
-            changeType.SetLevel(gameBoard);
-            spawn.SetLevel(gameBoard);
+            var spawn = new BlockSpawnService(game, factory, validation, random, changeType, setBlock);
+
             spawnEventCount = 0;
             destroyEventCount = 0;
             spawn.OnBlockSpawn += (_) => spawnEventCount++;
             destroy.OnDestroy += (_) => destroyEventCount++;
             var type = TestBlockFactory.RedBlockType;
 
-            return (gameBoard, spawn, destroy, type);
+            return (game.CurrentLevel.gameBoard, spawn, destroy, type);
         }
 
         [Test]

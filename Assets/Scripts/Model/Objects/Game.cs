@@ -2,13 +2,15 @@ using System;
 using UnityEngine;
 using Config;
 using Model.Factories;
-using Model.Objects;
 using Utils;
+using Model.Infrastructure;
 
-namespace Model.Infrastructure
+namespace Model.Objects
 {
     /// <summary>
-    /// Основной объект модели игры
+    /// Точка входа для модели игры
+    /// Хранит объекты модели с текущим состоянием игры
+    /// Определяет стейты кор-игры
     /// </summary>
     [Serializable]
     public class Game

@@ -1,4 +1,5 @@
 ﻿using System;
+using Model.Infrastructure;
 using Model.Objects;
 using UnityEngine;
 
@@ -6,24 +7,25 @@ namespace Model.Services
 {
     public class BlockChangeTypeService : IBlockChangeTypeService
     {
+        private readonly Game game;
         private readonly IValidationService validation;
-        private GameBoard gameBoard;
 
         public event Action<Block> OnTypeChange;
 
-        public BlockChangeTypeService(IValidationService validationService)
+        private GameBoard GameBoard => game.CurrentLevel.gameBoard;
+
+        public BlockChangeTypeService(Game game, IValidationService validationService)
         {
+            this.game = game;
             this.validation = validationService;
         }
-
-        public void SetLevel(GameBoard gameBoard) => this.gameBoard = gameBoard;
 
         public void ChangeBlockType(Vector2Int position, BlockType targetType)
         {
             if (!validation.CellExistsAt(position))
                 return;
 
-            Cell cell = gameBoard.Cells[position.x, position.y];
+            Cell cell = GameBoard.Cells[position.x, position.y];
             ChangeBlockType(cell, targetType);
         }
 

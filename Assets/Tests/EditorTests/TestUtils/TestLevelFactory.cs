@@ -2,11 +2,27 @@
 using UnityEngine;
 using Model.Objects;
 using Model.Services;
+using Model.Infrastructure;
 
 namespace TestUtils
 {
     public static class TestLevelFactory
     {
+        /// <summary>
+        /// Создать игру с дефолтным уровенем со всеми компонентами (кроме стейт-машины)
+        /// Указать размеры игрового поля
+        /// </summary>
+        public static Game CreateGame(int xLength, int yLength)
+        {
+            var levelProgress = new LevelProgress();
+            var playerSettings = new PlayerSettings();
+            var currencyInventory = new CurrencyInventory();
+            var game = new Game(null, null, levelProgress, playerSettings, currencyInventory);
+            game.CurrentLevel = CreateLevel(xLength, yLength);
+
+            return game;
+        }
+
         /// <summary>
         /// Создать дефолтный уровень со всеми компонентами
         /// Указать размеры игрового поля
