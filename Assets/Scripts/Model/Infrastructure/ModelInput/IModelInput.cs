@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Model.Infrastructure
 {
     /// <summary>
-    /// Сервис обрабатывающий инпут приходящий в слой модели
+    /// Фасад обрабатывающий инпут приходящий в слой модели
     /// Все вызовы модели из презентеров должны проходить через этот сервис
     /// </summary>
     public interface IModelInput

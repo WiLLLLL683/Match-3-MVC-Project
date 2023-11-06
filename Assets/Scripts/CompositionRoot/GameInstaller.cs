@@ -43,22 +43,25 @@ namespace CompositionRoot
 
         private void BindServices()
         {
+            //block services
             Container.Bind<IBlockChangeTypeService>().To<BlockChangeTypeService>().AsSingle();
             Container.Bind<IBlockDestroyService>().To<BlockDestroyService>().AsSingle();
             Container.Bind<IBlockMoveService>().To<BlockMoveService>().AsSingle();
             Container.Bind<IBlockSpawnService>().To<BlockSpawnService>().AsSingle();
-
-            Container.Bind<ICellChangeTypeService>().To<CellChangeTypeService>().AsSingle();
-            Container.Bind<ICellSetBlockService>().To<CellSetBlockService>().AsSingle();
-            Container.Bind<ICellDestroyService>().To<CellDestroyService>().AsSingle();
-
-            Container.Bind<IBoosterService>().To<BoosterService>().AsSingle();
-            Container.Bind<ICounterService>().To<CounterService>().AsSingle();
-            Container.Bind<ICurrencyService>().To<CurrencyService>().AsSingle();
             Container.Bind<IGravityService>().To<GravityService>().AsSingle();
             Container.Bind<IMatchService>().To<MatchService>().AsSingle();
             Container.Bind<IRandomBlockTypeService>().To<RandomBlockTypeService>().AsSingle();
             Container.Bind<IValidationService>().To<ValidationService>().AsSingle();
+
+            //cell Services
+            Container.Bind<ICellChangeTypeService>().To<CellChangeTypeService>().AsSingle();
+            Container.Bind<ICellSetBlockService>().To<CellSetBlockService>().AsSingle();
+            Container.Bind<ICellDestroyService>().To<CellDestroyService>().AsSingle();
+
+            //other
+            Container.Bind<IBoosterService>().To<BoosterService>().AsSingle();
+            Container.Bind<ICounterService>().To<CounterService>().AsSingle();
+            Container.Bind<ICurrencyService>().To<CurrencyService>().AsSingle();
             Container.Bind<IWinLoseService>().To<WinLoseService>().AsSingle();
         }
     }

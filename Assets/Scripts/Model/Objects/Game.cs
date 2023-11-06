@@ -8,9 +8,8 @@ using Model.Infrastructure;
 namespace Model.Objects
 {
     /// <summary>
-    /// Точка входа для модели игры
-    /// Хранит объекты модели с текущим состоянием игры
-    /// Определяет стейты кор-игры
+    /// Корневой объект модели игры
+    /// Основная зависимость для сервисов и презентеров
     /// </summary>
     [Serializable]
     public class Game
@@ -23,8 +22,7 @@ namespace Model.Objects
         //core game
         public Level CurrentLevel;
 
-        public Game(
-            LevelProgress levelProgress,
+        public Game(LevelProgress levelProgress,
             PlayerSettings playerSettings,
             CurrencyInventory currencyInventory)
         {
