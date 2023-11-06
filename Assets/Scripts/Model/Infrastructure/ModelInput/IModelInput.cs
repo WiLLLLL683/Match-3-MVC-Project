@@ -2,13 +2,13 @@
 using Model.Objects;
 using UnityEngine;
 
-namespace Model.Services
+namespace Model.Infrastructure
 {
     /// <summary>
     /// Сервис обрабатывающий инпут приходящий в слой модели
     /// Все вызовы модели из презентеров должны проходить через этот сервис
     /// </summary>
-    public interface IModelInputService
+    public interface IModelInput
     {
         /// <summary>
         /// Завершение запущенного уровня, для безопасной выгрузки сцены

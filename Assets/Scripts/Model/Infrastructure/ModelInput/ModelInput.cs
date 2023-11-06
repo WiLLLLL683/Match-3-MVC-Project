@@ -1,17 +1,16 @@
 ﻿using Config;
-using Model.Infrastructure;
 using Model.Objects;
 using System;
 using UnityEngine;
 using Utils;
 
-namespace Model.Services
+namespace Model.Infrastructure
 {
-    public class ModelInputService : IModelInputService
+    public class ModelInput : IModelInput
     {
         private readonly IStateMachine stateMachine;
 
-        public ModelInputService(IStateMachine stateMachine)
+        public ModelInput(IStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
         }

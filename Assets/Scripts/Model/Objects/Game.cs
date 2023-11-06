@@ -22,38 +22,15 @@ namespace Model.Objects
 
         //core game
         public Level CurrentLevel;
-        public string CurrentStateName => stateMachine?.CurrentState?.GetType().Name; //For debug in inspector
 
-        private readonly IStateMachine stateMachine;
-        private readonly StateFactory stateFactory;
-
-        public Game(IStateMachine stateMachine,
-            StateFactory stateFactory,
+        public Game(
             LevelProgress levelProgress,
             PlayerSettings playerSettings,
             CurrencyInventory currencyInventory)
         {
-            this.stateMachine = stateMachine;
-            this.stateFactory = stateFactory;
             LevelProgress = levelProgress;
             PlayerSettings = playerSettings;
             CurrencyInventory = currencyInventory;
-        }
-
-        public void Init()
-        {
-            //game states
-            stateMachine.AddState(stateFactory.Create<LoadLevelState>());
-            stateMachine.AddState(stateFactory.Create<WaitState>());
-            stateMachine.AddState(stateFactory.Create<InputMoveBlockState>());
-            stateMachine.AddState(stateFactory.Create<InputActivateBlockState>());
-            stateMachine.AddState(stateFactory.Create<InputBoosterState>());
-            stateMachine.AddState(stateFactory.Create<DestroyState>());
-            stateMachine.AddState(stateFactory.Create<SpawnState>());
-            stateMachine.AddState(stateFactory.Create<LoseState>());
-            stateMachine.AddState(stateFactory.Create<WinState>());
-            stateMachine.AddState(stateFactory.Create<BonusState>());
-            stateMachine.AddState(stateFactory.Create<ExitState>());
         }
     }
 }

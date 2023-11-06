@@ -9,21 +9,16 @@ namespace Infrastructure
     /// </summary>
     public class Bootstrap : MonoBehaviour
     {
-        [NaughtyAttributes.ShowNativeProperty()] public string gameModelState => game?.CurrentStateName;
-
-        [SerializeField] private Game game;
         private LevelLoader sceneLoader;
 
         [Inject]
-        public void Construct(Game game, LevelLoader sceneLoader)
+        public void Construct(LevelLoader sceneLoader)
         {
-            this.game = game;
             this.sceneLoader = sceneLoader;
         }
 
         private void Start()
         {
-            game.Init();
             sceneLoader.LoadMetaGame();
         }
     }

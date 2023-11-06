@@ -13,9 +13,9 @@ namespace Presenter
 
         private readonly IBoosterView view;
         private readonly IBooster model;
-        private readonly IModelInputService modelInput;
+        private readonly IModelInput modelInput;
 
-        public BoosterPresenter(IBoosterView view, IBooster model, IModelInputService modelInput)
+        public BoosterPresenter(IBoosterView view, IBooster model, IModelInput modelInput)
         {
             this.view = view;
             this.model = model;

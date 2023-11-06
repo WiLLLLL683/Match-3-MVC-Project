@@ -12,7 +12,6 @@ namespace Infrastructure
         public LevelSO CurrentLevel => allLevels[currentLevelIndex];
 
         private readonly ZenjectSceneLoader loader;
-        private readonly IModelInputService modelInput;
         private readonly LevelSO[] allLevels;
 
         private const string META_SCENE_NAME = "Meta";
@@ -20,10 +19,9 @@ namespace Infrastructure
 
         private int currentLevelIndex;
 
-        public LevelLoader(ZenjectSceneLoader loader, IModelInputService modelInput, LevelSO[] allLevels)
+        public LevelLoader(ZenjectSceneLoader loader, LevelSO[] allLevels)
         {
             this.loader = loader;
-            this.modelInput = modelInput;
             this.allLevels = allLevels;
         }
 
@@ -37,8 +35,13 @@ namespace Infrastructure
 
             currentLevelIndex = levelIndex;
             Debug.Log($"Loading level: {CurrentLevel.levelName}");
-            modelInput.StartLevel(CurrentLevel);
-            loader.LoadSceneAsync(CORE_SCENE_NAME);
+
+            loader.LoadSceneAsync(CORE_SCENE_NAME, LoadSceneMode.Single, (context) =>
+            {
+                //передача конфига уровня в кор-сцену
+                context.BindInstance(CurrentLevel).AsSingle();
+                context.BindInstance(CurrentLevel.blockTypeSet).AsSingle();
+            });
         }
     }
 }

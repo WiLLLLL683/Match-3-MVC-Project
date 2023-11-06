@@ -15,7 +15,7 @@ namespace Presenter
         private readonly Block model;
         private readonly IBlockView view;
         private readonly BlockTypeSetSO allTypeSO;
-        private readonly IModelInputService modelInput;
+        private readonly IModelInput modelInput;
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly IBlockMoveService moveService;
@@ -25,7 +25,7 @@ namespace Presenter
             IBlockView view,
             BlockTypeSO typeSO,
             BlockTypeSetSO allTypeSO,
-            IModelInputService modelInput,
+            IModelInput modelInput,
             IBlockDestroyService destroyService,
             IBlockChangeTypeService changeTypeService,
             IBlockMoveService moveService)

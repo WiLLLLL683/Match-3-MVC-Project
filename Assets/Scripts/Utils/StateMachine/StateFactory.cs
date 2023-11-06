@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Utils
 {
-    public class StateFactory
+    public class StateFactory : IStateFactory
     {
         private readonly IInstantiator instantiator;
 

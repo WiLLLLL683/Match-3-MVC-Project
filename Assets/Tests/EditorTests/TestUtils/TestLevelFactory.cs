@@ -17,7 +17,7 @@ namespace TestUtils
             var levelProgress = new LevelProgress();
             var playerSettings = new PlayerSettings();
             var currencyInventory = new CurrencyInventory();
-            var game = new Game(null, null, levelProgress, playerSettings, currencyInventory);
+            var game = new Game(levelProgress, playerSettings, currencyInventory);
             game.CurrentLevel = CreateLevel(xLength, yLength);
 
             return game;

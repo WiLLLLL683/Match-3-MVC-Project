@@ -12,13 +12,13 @@ namespace Presenter
     /// </summary>
     public class HudPresenter : IHudPresenter
     {
-        private readonly Level model;
+        private readonly Game model;
         private readonly IHudView view;
         private readonly CounterPresenter.Factory counterPresenterFactory;
         private readonly CounterView.Factory goalViewFactory;
         private readonly CounterView.Factory restrictionViewFactory;
 
-        public HudPresenter(Level model,
+        public HudPresenter(Game model,
             IHudView view,
             CounterPresenter.Factory counterPresenterFactory,
             [Inject(Id = "goalViewFactory")] CounterView.Factory goalViewFactory,
