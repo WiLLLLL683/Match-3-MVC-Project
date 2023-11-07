@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c3e5216a757af4793c890bae04e2b0, type: 3}
+  m_Name: Level 2
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: a292bddf8693e00428dace4a7f770aa6, type: 3}
+  levelName: Level 2
+  goals:
+  - count: 6
+    target: {fileID: 11400000, guid: a718201386d955f418821abb1599e4d4, type: 2}
+  restrictions:
+  - count: 8
+    target: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
+  rowsOfInvisibleCells: 2
+  gameBoard:
+    gridSize: {x: 8, y: 8}
+    cellSize: {x: 32, y: 16}
+    cells:
+    - row: 0000000000000000010000000100000001000000010000000000000000000000
+    - row: 0000000000000000010000000100000001000000010000000000000000000000
+    - row: 0100000001000000010000000100000001000000010000000100000001000000
+    - row: 0100000001000000010000000100000001000000010000000100000001000000
+    - row: 0100000001000000010000000100000001000000010000000100000001000000
+    - row: 0100000001000000010000000100000001000000010000000100000001000000
+    - row: 0000000000000000010000000100000001000000010000000000000000000000
+    - row: 0000000000000000010000000100000001000000010000000000000000000000
+  blockTypeSet: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
+  matchPatterns:
+  - {fileID: 11400000, guid: 5686d21ead285d14a95fc071386cb3fe, type: 2}
+  - {fileID: 11400000, guid: 19763dbfb4cadd94cbd20c00a34e4e22, type: 2}

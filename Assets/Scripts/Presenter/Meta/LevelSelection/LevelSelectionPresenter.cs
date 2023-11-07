@@ -21,6 +21,8 @@ namespace Presenter
 
         private LevelSO SelectedLevel => allLevels[selectedLevelIndex];
         private int selectedLevelIndex;
+        private bool IsOpen => selectedLevelIndex <= model.OpenedLevels;
+        private bool IsComplete => selectedLevelIndex <= model.CompletedLevels;
 
         public LevelSelectionPresenter(LevelProgress model, ILevelSelectionView view, LevelLoader sceneLoader, LevelSO[] allLevels)
         {
@@ -36,14 +38,7 @@ namespace Presenter
             view.OnSelectNext += SelectNext;
             view.OnSelectPrevious += SelectPrevious;
 
-            bool isLevelIndexValid = SetSelectedLevelIndex(model.CurrentLevelIndex);
-
-            if (!isLevelIndexValid)
-            {
-                Debug.LogError("Invalid Level Index, check AllLevels in config installer or LevelProgress in model");
-            }
-
-            UpdateView();
+            SetSelectedLevel(model.CompletedLevels + 1); //изначально выбрать следующий за пройденным уровень
             Debug.Log($"{this} enabled");
         }
 
@@ -56,32 +51,33 @@ namespace Presenter
             Debug.Log($"{this} disabled");
         }
 
-        public void SelectPrevious()
+        public void SelectPrevious() => SetSelectedLevel(selectedLevelIndex - 1);
+        public void SelectNext() => SetSelectedLevel(selectedLevelIndex + 1);
+        public void StartSelected()
         {
-            SetSelectedLevelIndex(selectedLevelIndex - 1);
-            UpdateView();
+            if (!IsOpen)
+            {
+                view.PlayLockedAnimation();
+                return;
+            }
+
+            sceneLoader.LoadLevel(selectedLevelIndex);
         }
 
-        public void SelectNext()
+        private void SetSelectedLevel(int index)
         {
-            SetSelectedLevelIndex(selectedLevelIndex + 1);
-            UpdateView();
-        }
+            selectedLevelIndex = Mathf.Clamp(index, 0, allLevels.Length - 1);
 
-        public void StartSelected() => sceneLoader.LoadLevel(selectedLevelIndex);
+            view.SetPreviousButtonActive(selectedLevelIndex != 0);
+            view.SetNextButtonActive(selectedLevelIndex != allLevels.Length - 1);
+            view.ShowSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
 
-        private void UpdateView() => view.UpdateSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
-
-        private bool SetSelectedLevelIndex(int index)
-        {
-            if (index >= allLevels.Length)
-                return false;
-
-            if (index < 0)
-                return false;
-
-            selectedLevelIndex = index;
-            return true;
+            if (IsComplete)
+                view.ShowCompleteMark();
+            if (!IsOpen)
+                view.ShowLockedMark();
+            if (!IsComplete && IsOpen)
+                view.HideAllMarks();
         }
     }
 }

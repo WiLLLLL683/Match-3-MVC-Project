@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 3696925754775546293}
   - component: {fileID: 3696925754775546292}
   m_Layer: 5
-  m_Name: New_Bubble
+  m_Name: New_Mark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -437,7 +437,7 @@ GameObject:
   - component: {fileID: 3696925754799721759}
   - component: {fileID: 3696925754799721758}
   m_Layer: 5
-  m_Name: Done_Bubble
+  m_Name: Complete_Mark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,13 +665,14 @@ GameObject:
   - component: {fileID: 3696925755188036394}
   - component: {fileID: 3696925755188036392}
   - component: {fileID: 3696925755188036395}
+  - component: {fileID: 3603628151139275433}
   m_Layer: 5
-  m_Name: Locked_Bubble
+  m_Name: Locked_Mark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3696925755188036394
 RectTransform:
   m_ObjectHideFlags: 0
@@ -731,6 +732,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!111 &3603628151139275433
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3696925755188036437}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 6f6f28ed3feefbe4a853f02270239cd7, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 6f6f28ed3feefbe4a853f02270239cd7, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &3696925755343653379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,6 +1848,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 3696925754886703980}
   nameText: {fileID: 3696925755543472130}
+  completeMark: {fileID: 3696925754799721758}
+  newMark: {fileID: 3696925754775546292}
+  lockedMark: {fileID: 3696925755188036395}
+  lockedMarkAnimation: {fileID: 3603628151139275433}
+  previousButton: {fileID: 3696925756430270031}
+  nextButton: {fileID: 3696925756722556012}
 --- !u!223 &3696925756734983330
 Canvas:
   m_ObjectHideFlags: 0
