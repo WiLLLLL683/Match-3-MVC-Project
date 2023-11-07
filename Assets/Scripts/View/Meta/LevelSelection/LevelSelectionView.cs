@@ -10,7 +10,6 @@ namespace View
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private Image completeMark;
-        [SerializeField] private Image newMark;
         [SerializeField] private Image lockedMark;
         [SerializeField] private Animation lockedMarkAnimation;
         [SerializeField] private Button previousButton;
@@ -31,21 +30,18 @@ namespace View
 
         public void ShowLockedMark()
         {
-            newMark.gameObject.SetActive(false);
-            completeMark.gameObject.SetActive(false);
+            HideAllMarks();
             lockedMark.gameObject.SetActive(true);
         }
 
         public void ShowCompleteMark()
         {
-            newMark.gameObject.SetActive(false);
+            HideAllMarks();
             completeMark.gameObject.SetActive(true);
-            lockedMark.gameObject.SetActive(false);
         }
 
-        public void ShowNewMark()
+        public void HideAllMarks()
         {
-            newMark.gameObject.SetActive(true);
             completeMark.gameObject.SetActive(false);
             lockedMark.gameObject.SetActive(false);
         }

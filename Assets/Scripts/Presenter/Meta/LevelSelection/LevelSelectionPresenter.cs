@@ -21,6 +21,8 @@ namespace Presenter
 
         private LevelSO SelectedLevel => allLevels[selectedLevelIndex];
         private int selectedLevelIndex;
+        private bool IsOpen => selectedLevelIndex <= model.OpenedLevels;
+        private bool IsComplete => selectedLevelIndex <= model.CompletedLevels;
 
         public LevelSelectionPresenter(LevelProgress model, ILevelSelectionView view, LevelLoader sceneLoader, LevelSO[] allLevels)
         {
@@ -36,7 +38,7 @@ namespace Presenter
             view.OnSelectNext += SelectNext;
             view.OnSelectPrevious += SelectPrevious;
 
-            SetSelectedLevel(model.CurrentLevelIndex);
+            SetSelectedLevel(model.CompletedLevels + 1); //изначально выбрать следующий за пройденным уровень
             Debug.Log($"{this} enabled");
         }
 
@@ -53,7 +55,7 @@ namespace Presenter
         public void SelectNext() => SetSelectedLevel(selectedLevelIndex + 1);
         public void StartSelected()
         {
-            if (selectedLevelIndex > model.CurrentLevelIndex)
+            if (!IsOpen)
             {
                 view.PlayLockedAnimation();
                 return;
@@ -64,24 +66,18 @@ namespace Presenter
 
         private void SetSelectedLevel(int index)
         {
-            if (index >= allLevels.Length || index < 0)
-            {
-                Debug.LogError("Invalid Level Index, check AllLevels in config installer or LevelProgress in model"); 
-                return;
-            }
-
-            selectedLevelIndex = index;
+            selectedLevelIndex = Mathf.Clamp(index, 0, allLevels.Length - 1);
 
             view.SetPreviousButtonActive(selectedLevelIndex != 0);
             view.SetNextButtonActive(selectedLevelIndex != allLevels.Length - 1);
             view.ShowSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
 
-            if (selectedLevelIndex == model.CurrentLevelIndex)
-                view.ShowNewMark();
-            if (selectedLevelIndex < model.CurrentLevelIndex)
+            if (IsComplete)
                 view.ShowCompleteMark();
-            if (selectedLevelIndex > model.CurrentLevelIndex)
+            if (!IsOpen)
                 view.ShowLockedMark();
+            if (!IsComplete && IsOpen)
+                view.HideAllMarks();
         }
     }
 }

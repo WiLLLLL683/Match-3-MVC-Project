@@ -14,7 +14,7 @@ namespace View
         void SetNextButtonActive(bool isActive);
         void ShowLockedMark();
         void ShowCompleteMark();
-        void ShowNewMark();
+        void HideAllMarks();
         void PlayLockedAnimation();
     }
 }
