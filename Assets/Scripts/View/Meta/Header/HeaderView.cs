@@ -4,8 +4,8 @@ namespace View
 {
     public class HeaderView : MonoBehaviour, IHeaderView
     {
-        [SerializeField] private Transform scoreParent;
+        [SerializeField] private CounterView starsCounter;
 
-        public Transform ScoreParent => scoreParent;
+        public CounterView StarsCounter => starsCounter;
     }
 }

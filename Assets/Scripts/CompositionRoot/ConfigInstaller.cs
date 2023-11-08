@@ -11,13 +11,14 @@ namespace CompositionRoot
     {
         [SerializeField] private LevelSO[] allLevels;
         [SerializeField] private CellTypeSetSO allCellTypes;
-        [SerializeField] private CellTypeSO invisibleCellType;
+        [SerializeField] private CurrencySetSO allCurrencies;
 
         public override void InstallBindings()
         {
             Container.Bind<LevelSO[]>().FromInstance(allLevels).AsSingle();
             Container.Bind<CellTypeSetSO>().FromInstance(allCellTypes).AsSingle();
-            Container.Bind<CellType>().FromInstance(invisibleCellType.type).AsSingle().WhenInjectedInto<CellFactory>();
+            Container.Bind<CellType>().FromInstance(allCellTypes.invisibleCellType.type).AsSingle().WhenInjectedInto<CellFactory>();
+            Container.Bind<CurrencySetSO>().FromInstance(allCurrencies).AsSingle();
         }
     }
 }

@@ -8,13 +8,15 @@ namespace Model.Services
     [Serializable]
     public class CurrencyService : ICurrencyService
     {
+        public event Action<CurrencyType, int> OnChange;
+
         private readonly CurrencyInventory inventory;
 
         public CurrencyService(CurrencyInventory inventory) => this.inventory = inventory;
 
         public void AddCurrency(CurrencyType type, int ammount)
         {
-            if (ammount <= 0)
+            if (ammount < 0)
             {
                 Debug.LogError("Can't add negative ammount of " + type);
                 return;
@@ -32,7 +34,7 @@ namespace Model.Services
 
         public void SpendCurrency(CurrencyType type, int ammount)
         {
-            if (ammount <= 0)
+            if (ammount < 0)
             {
                 Debug.LogError("Can't remove negative ammount of " + type);
                 return;
@@ -63,5 +65,7 @@ namespace Model.Services
 
             return inventory.currencies[type];
         }
+
+        public void ClearAllCurrencies() => inventory.currencies.Clear();
     }
 }
