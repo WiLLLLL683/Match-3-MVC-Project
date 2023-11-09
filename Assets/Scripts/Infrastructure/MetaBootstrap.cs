@@ -13,20 +13,17 @@ namespace Infrastructure
     /// </summary>
     public class MetaBootstrap : MonoBehaviour
     {
-        [SerializeField] private Game game; //For debug in inspector
         private CurrencySetSO currencyConfig;
         private ICurrencyService currencyService;
         private IHeaderPresenter header;
         private ILevelSelectionPresenter levelSelection;
 
         [Inject]
-        public void Construct(Game game,
-            CurrencySetSO currencyConfig,
+        public void Construct(CurrencySetSO currencyConfig,
             ICurrencyService currencyService,
             IHeaderPresenter header,
             ILevelSelectionPresenter levelSelection)
         {
-            this.game = game;
             this.currencyConfig = currencyConfig;
             this.currencyService = currencyService;
             this.header = header;
@@ -52,8 +49,8 @@ namespace Infrastructure
         {
             currencyService.ClearAllCurrencies();
 
-            //TODO load save game
-
+            //TODO load save game, else =>
+            //loading defaults
             for (int i = 0; i < currencyConfig.currencies.Count; i++)
             {
                 var type = currencyConfig.currencies[i].type;

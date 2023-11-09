@@ -30,6 +30,8 @@ namespace Model.Services
             {
                 inventory.currencies.Add(type, ammount);
             }
+
+            OnChange?.Invoke(type, GetAmount(type));
         }
 
         public void SpendCurrency(CurrencyType type, int ammount)
@@ -53,6 +55,7 @@ namespace Model.Services
             }
 
             inventory.currencies[type] -= ammount;
+            OnChange?.Invoke(type, GetAmount(type));
         }
 
         public int GetAmount(CurrencyType type)

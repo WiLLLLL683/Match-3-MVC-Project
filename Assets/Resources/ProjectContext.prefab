@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &560459893197077516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5366793025875336656}
+  - component: {fileID: 7919948628129200460}
+  m_Layer: 0
+  m_Name: ModelDebugTool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5366793025875336656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560459893197077516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2329565440345250341}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7919948628129200460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560459893197077516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a980a152ac5ef49b64919ed375f986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  game:
+    LevelProgress:
+      CompletedLevels: -1
+      OpenedLevels: 0
+    PlayerSettings:
+      IsSoundOn: 0
+      IsVibrationOn: 0
+    CurrentLevel:
+      gameBoard:
+        RowsOfInvisibleCells: 0
+        Blocks: []
+      goals: []
+      restrictions: []
+      matchPatterns: []
 --- !u!1 &2912837689887973729
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,7 +87,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 5366793025875336656}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,4 +134,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cc25d780c6ab645b469f3c8caafda7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultLevel: {fileID: 11400000, guid: 5879a7ad4576a08429baa87bd58af051, type: 2}
