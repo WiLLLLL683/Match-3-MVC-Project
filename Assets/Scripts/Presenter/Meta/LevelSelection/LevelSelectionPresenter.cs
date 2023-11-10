@@ -21,8 +21,8 @@ namespace Presenter
 
         private int selectedLevelIndex;
         private LevelSO SelectedLevel => levelConfig.GetSO(selectedLevelIndex);
-        private bool IsOpen => selectedLevelIndex <= model.OpenedLevels;
-        private bool IsComplete => selectedLevelIndex <= model.CompletedLevels;
+        private bool IsOpen => selectedLevelIndex <= model.LastOpenedLevel;
+        private bool IsComplete => selectedLevelIndex <= model.LastCompletedLevel;
 
         public LevelSelectionPresenter(LevelProgress model, ILevelSelectionView view, ILevelLoader levelLoader, ILevelConfigProvider levelConfig)
         {
@@ -38,7 +38,7 @@ namespace Presenter
             view.OnSelectNext += SelectNext;
             view.OnSelectPrevious += SelectPrevious;
 
-            SetSelectedLevel(model.CompletedLevels + 1); //изначально выбрать следующий за пройденным уровень
+            SetSelectedLevel(model.LastCompletedLevel + 1); //изначально выбрать следующий за пройденным уровень
             Debug.Log($"{this} enabled");
         }
 
