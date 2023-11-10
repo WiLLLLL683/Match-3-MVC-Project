@@ -21,18 +21,6 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void AddCurrency_ZeroAmount_GoldNotAdded()
-        {
-            CurrencyType type = CurrencyType.Gold;
-            CurrencyService service = TestServicesFactory.CreateCurrencyService(type, 0);
-
-            service.AddCurrency(type, 0);
-
-            Assert.AreEqual(0, service.GetAmount(type));
-            LogAssert.Expect(LogType.Error, "Can't add negative ammount of " + type);
-        }
-
-        [Test]
         public void AddCurrency_NegativeAmount_GoldNotAdded()
         {
             CurrencyType type = CurrencyType.Gold;

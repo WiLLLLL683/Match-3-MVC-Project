@@ -42,7 +42,7 @@ namespace Config
         public class CounterConfig
         {
             public int count;
-            public CounterTargetSO target;
+            public ACounterTargetSO target;
         }
     }
 }

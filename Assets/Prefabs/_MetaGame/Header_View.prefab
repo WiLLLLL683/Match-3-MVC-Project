@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2115648653737930802}
   m_Layer: 5
-  m_Name: Score_Parent
+  m_Name: Stars_Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cdcf3db23d7dfa4baf0c28a101e641f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreParent: {fileID: 2115648653737930802}
+  starsCounter: {fileID: 8576282488732034375}
 --- !u!223 &2115648654558851451
 Canvas:
   m_ObjectHideFlags: 0
@@ -331,3 +331,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 983528570388174562, guid: 2020f896b9bd69a4d86fade5003e9572, type: 3}
   m_PrefabInstance: {fileID: 3455830598537488757}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8576282488732034375 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6408763980575542322, guid: 2020f896b9bd69a4d86fade5003e9572, type: 3}
+  m_PrefabInstance: {fileID: 3455830598537488757}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22426263862cc5b40bb63d9c3b7f9e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

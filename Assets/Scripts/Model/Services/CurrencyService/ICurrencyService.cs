@@ -1,5 +1,5 @@
 ﻿using Model.Objects;
-
+using System;
 
 namespace Model.Services
 {
@@ -8,6 +8,10 @@ namespace Model.Services
     /// </summary>
     public interface ICurrencyService
     {
+        event Action<CurrencyType, int> OnChange;
+
+        void ClearAllCurrencies();
+
         /// <summary>
         /// Добавить валюту определенного типа
         /// </summary>
