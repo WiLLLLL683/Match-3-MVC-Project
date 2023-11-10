@@ -4,6 +4,6 @@ namespace View
 {
     public interface IHeaderView
     {
-        public Transform ScoreParent { get; }
+        ICounterView StarsCounter { get; }
     }
 }

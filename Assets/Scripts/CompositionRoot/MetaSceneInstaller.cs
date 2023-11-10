@@ -24,12 +24,6 @@ namespace CompositionRoot
         {
             Container.Bind<IHeaderView>().FromInstance(headerView).AsSingle();
             Container.Bind<IHeaderPresenter>().To<HeaderPresenter>().AsSingle();
-
-            //factories
-            Container.BindFactory<CurrencyPresenter, CurrencyPresenter.Factory>();
-            Container.BindFactory<CounterView, CounterView.Factory>()
-                .FromComponentInNewPrefab(scoreCounterPrefab)
-                .UnderTransform(headerView.ScoreParent);
         }
 
         private void BindLevelSelector()

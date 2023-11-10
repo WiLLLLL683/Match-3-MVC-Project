@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Model.Objects;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Config
     {
         public List<CellTypeSO> cellTypes = new();
         public CellTypeSO defaultCellType;
+        public CellTypeSO invisibleCellType;
 
         public CellTypeSO GetSO(int id)
         {

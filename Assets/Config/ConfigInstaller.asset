@@ -18,3 +18,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fbfe6280370b3ee48868167fc1392c90, type: 2}
   allCellTypes: {fileID: 11400000, guid: 2f2af7c76be39b44fa16a0751eb911bc, type: 2}
   invisibleCellType: {fileID: 11400000, guid: 94d590edb7adb714daff1c9850a67d2f, type: 2}
+  allCurrencies: {fileID: 11400000, guid: 884b9c76120c88e47abcd6772c58ea5f, type: 2}

@@ -1,4 +1,6 @@
-﻿using Model.Services;
+﻿using Config;
+using Model.Objects;
+using Model.Services;
 using System;
 using UnityEngine;
 using View;
@@ -11,25 +13,45 @@ namespace Presenter
     /// </summary>
     public class HeaderPresenter : IHeaderPresenter
     {
-        private readonly ICurrencyService model;
+        private readonly ICurrencyService currencyService;
         private readonly IHeaderView view;
-        private readonly CurrencyPresenter.Factory scoreFactory;
-        private readonly CounterView.Factory scoreViewFactory;
+        private readonly ICurrencyConfigProvider currencyConfig;
 
-        public HeaderPresenter(ICurrencyService model, IHeaderView view, CurrencyPresenter.Factory scorePresenterFactory, CounterView.Factory scoreViewFactory)
+        public HeaderPresenter(ICurrencyService currencyService,
+            IHeaderView view,
+            ICurrencyConfigProvider currencyConfig)
         {
-            this.model = model;
+            this.currencyService = currencyService;
             this.view = view;
-            this.scoreFactory = scorePresenterFactory;
-            this.scoreViewFactory = scoreViewFactory;
+            this.currencyConfig = currencyConfig;
         }
         public void Enable()
         {
+            currencyService.OnChange += UpdateView;
+
+            InitView();
             Debug.Log($"{this} enabled");
         }
+
         public void Disable()
         {
+            currencyService.OnChange -= UpdateView;
+
             Debug.Log($"{this} disabled");
+        }
+
+        private void InitView()
+        {
+            var starsSO = currencyConfig.GetSO(CurrencyType.Star);
+            view.StarsCounter.Init(starsSO.icon, currencyService.GetAmount(CurrencyType.Star));
+        }
+
+        private void UpdateView(CurrencyType type, int amount)
+        {
+            if (type != CurrencyType.Star)
+                return;
+
+            view.StarsCounter.ChangeCount(amount);
         }
     }
 }
