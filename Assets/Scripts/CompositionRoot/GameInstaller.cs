@@ -20,7 +20,7 @@ namespace CompositionRoot
             BindServices();
         }
 
-        private void BindSceneLoader() => Container.Bind<LevelLoader>().AsSingle();
+        private void BindSceneLoader() => Container.Bind<ILevelLoader>().To<LevelLoader>().AsSingle();
 
         private void BindModel()
         {

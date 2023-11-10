@@ -17,13 +17,13 @@ namespace Presenter
         private readonly IEndGameView view;
         private readonly IInput input;
         private readonly IWinLoseService winLoseService;
-        private readonly LevelLoader levelLoader;
+        private readonly ILevelLoader levelLoader;
 
         public EndGamePresenter(Game model,
             IEndGameView view,
             IInput input,
             IWinLoseService winLoseService,
-            LevelLoader levelLoader)
+            ILevelLoader levelLoader)
         {
             this.model = model;
             this.view = view;

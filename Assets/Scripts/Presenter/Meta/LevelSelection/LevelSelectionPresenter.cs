@@ -16,20 +16,20 @@ namespace Presenter
     {
         private readonly LevelProgress model;
         private readonly ILevelSelectionView view;
-        private readonly LevelLoader sceneLoader;
-        private readonly LevelSO[] allLevels;
+        private readonly ILevelLoader levelLoader;
+        private readonly ILevelConfigProvider levelConfig;
 
-        private LevelSO SelectedLevel => allLevels[selectedLevelIndex];
         private int selectedLevelIndex;
+        private LevelSO SelectedLevel => levelConfig.GetSO(selectedLevelIndex);
         private bool IsOpen => selectedLevelIndex <= model.OpenedLevels;
         private bool IsComplete => selectedLevelIndex <= model.CompletedLevels;
 
-        public LevelSelectionPresenter(LevelProgress model, ILevelSelectionView view, LevelLoader sceneLoader, LevelSO[] allLevels)
+        public LevelSelectionPresenter(LevelProgress model, ILevelSelectionView view, ILevelLoader levelLoader, ILevelConfigProvider levelConfig)
         {
             this.model = model;
             this.view = view;
-            this.sceneLoader = sceneLoader;
-            this.allLevels = allLevels;
+            this.levelLoader = levelLoader;
+            this.levelConfig = levelConfig;
         }
 
         public void Enable()
@@ -61,15 +61,15 @@ namespace Presenter
                 return;
             }
 
-            sceneLoader.LoadLevel(selectedLevelIndex);
+            levelLoader.LoadLevel(selectedLevelIndex);
         }
 
         private void SetSelectedLevel(int index)
         {
-            selectedLevelIndex = Mathf.Clamp(index, 0, allLevels.Length - 1);
+            selectedLevelIndex = Mathf.Clamp(index, 0, levelConfig.LastLevelIndex);
 
             view.SetPreviousButtonActive(selectedLevelIndex != 0);
-            view.SetNextButtonActive(selectedLevelIndex != allLevels.Length - 1);
+            view.SetNextButtonActive(selectedLevelIndex != levelConfig.LastLevelIndex);
             view.ShowSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
 
             if (IsComplete)

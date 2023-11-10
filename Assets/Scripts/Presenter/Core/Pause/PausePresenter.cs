@@ -15,12 +15,12 @@ namespace Presenter
         private readonly PlayerSettings model;
         private readonly IPauseView view;
         private readonly IInput input;
-        private readonly LevelLoader levelLoader;
+        private readonly ILevelLoader levelLoader;
 
         public PausePresenter(PlayerSettings model,
             IPauseView view,
             IInput input,
-            LevelLoader sceneLoader)
+            ILevelLoader sceneLoader)
         {
             this.model = model;
             this.view = view;
