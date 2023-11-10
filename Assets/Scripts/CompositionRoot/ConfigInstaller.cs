@@ -18,7 +18,7 @@ namespace CompositionRoot
             Container.Bind<LevelSO[]>().FromInstance(allLevels).AsSingle();
             Container.Bind<CellTypeSetSO>().FromInstance(allCellTypes).AsSingle();
             Container.Bind<CellType>().FromInstance(allCellTypes.invisibleCellType.type).AsSingle().WhenInjectedInto<CellFactory>();
-            Container.Bind<CurrencySetSO>().FromInstance(allCurrencies).AsSingle();
+            Container.Bind<ICurrencyConfigProvider>().FromInstance(allCurrencies).AsSingle();
         }
     }
 }

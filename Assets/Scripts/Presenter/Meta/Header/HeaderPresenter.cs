@@ -13,21 +13,21 @@ namespace Presenter
     /// </summary>
     public class HeaderPresenter : IHeaderPresenter
     {
-        private readonly ICurrencyService model;
+        private readonly ICurrencyService currencyService;
         private readonly IHeaderView view;
-        private readonly CurrencySetSO allCurrencies;
+        private readonly ICurrencyConfigProvider currencyConfig;
 
-        public HeaderPresenter(ICurrencyService model,
+        public HeaderPresenter(ICurrencyService currencyService,
             IHeaderView view,
-            CurrencySetSO allCurrencies)
+            ICurrencyConfigProvider currencyConfig)
         {
-            this.model = model;
+            this.currencyService = currencyService;
             this.view = view;
-            this.allCurrencies = allCurrencies;
+            this.currencyConfig = currencyConfig;
         }
         public void Enable()
         {
-            model.OnChange += UpdateView;
+            currencyService.OnChange += UpdateView;
 
             InitView();
             Debug.Log($"{this} enabled");
@@ -35,15 +35,15 @@ namespace Presenter
 
         public void Disable()
         {
-            model.OnChange -= UpdateView;
+            currencyService.OnChange -= UpdateView;
 
             Debug.Log($"{this} disabled");
         }
 
         private void InitView()
         {
-            var starsSO = allCurrencies.GetSO(CurrencyType.Star);
-            view.StarsCounter.Init(starsSO.icon, model.GetAmount(CurrencyType.Star));
+            var starsSO = currencyConfig.GetSO(CurrencyType.Star);
+            view.StarsCounter.Init(starsSO.icon, currencyService.GetAmount(CurrencyType.Star));
         }
 
         private void UpdateView(CurrencyType type, int amount)

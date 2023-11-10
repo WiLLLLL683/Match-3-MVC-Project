@@ -4,6 +4,6 @@ namespace View
 {
     public interface IHeaderView
     {
-        CounterView StarsCounter { get; }
+        ICounterView StarsCounter { get; }
     }
 }

@@ -36,7 +36,7 @@ namespace Model.Services
 
         public void SpendCurrency(CurrencyType type, int ammount)
         {
-            if (ammount < 0)
+            if (ammount <= 0)
             {
                 Debug.LogError("Can't remove negative ammount of " + type);
                 return;

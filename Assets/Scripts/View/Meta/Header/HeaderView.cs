@@ -6,6 +6,6 @@ namespace View
     {
         [SerializeField] private CounterView starsCounter;
 
-        public CounterView StarsCounter => starsCounter;
+        public ICounterView StarsCounter => starsCounter;
     }
 }

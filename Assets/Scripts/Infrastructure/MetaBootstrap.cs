@@ -13,13 +13,13 @@ namespace Infrastructure
     /// </summary>
     public class MetaBootstrap : MonoBehaviour
     {
-        private CurrencySetSO currencyConfig;
+        private ICurrencyConfigProvider currencyConfig;
         private ICurrencyService currencyService;
         private IHeaderPresenter header;
         private ILevelSelectionPresenter levelSelection;
 
         [Inject]
-        public void Construct(CurrencySetSO currencyConfig,
+        public void Construct(ICurrencyConfigProvider currencyConfig,
             ICurrencyService currencyService,
             IHeaderPresenter header,
             ILevelSelectionPresenter levelSelection)
@@ -51,10 +51,11 @@ namespace Infrastructure
 
             //TODO load save game, else =>
             //loading defaults
-            for (int i = 0; i < currencyConfig.currencies.Count; i++)
+            var allCurrencies = currencyConfig.GetAllSO();
+            for (int i = 0; i < allCurrencies.Count; i++)
             {
-                var type = currencyConfig.currencies[i].type;
-                var amount = currencyConfig.currencies[i].defaultAmount;
+                var type = allCurrencies[i].type;
+                var amount = allCurrencies[i].defaultAmount;
                 currencyService.AddCurrency(type, amount);
             }
         }

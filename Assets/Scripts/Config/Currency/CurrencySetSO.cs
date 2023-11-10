@@ -6,7 +6,7 @@ namespace Config
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "NewCurrencySet", menuName = "Config/Currency/CurrencySet")]
-    public class CurrencySetSO : ScriptableObject
+    public class CurrencySetSO : ScriptableObject, ICurrencyConfigProvider
     {
         public List<CurrencySO> currencies = new();
 
@@ -20,5 +20,7 @@ namespace Config
 
             return null;
         }
+
+        public List<CurrencySO> GetAllSO() => currencies;
     }
 }
