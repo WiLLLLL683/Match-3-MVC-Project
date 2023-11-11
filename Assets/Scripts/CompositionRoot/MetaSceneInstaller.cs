@@ -11,9 +11,6 @@ namespace CompositionRoot
         [SerializeField] private HeaderView headerView;
         [SerializeField] private LevelSelectionView levelSelectionView;
 
-        [Header("Prefabs")]
-        [SerializeField] private CounterView scoreCounterPrefab;
-
         public override void InstallBindings()
         {
             BindHeader();

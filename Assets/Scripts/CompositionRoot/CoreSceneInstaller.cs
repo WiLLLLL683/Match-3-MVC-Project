@@ -31,10 +31,10 @@ namespace CompositionRoot
         [SerializeField] private BoosterView boosterPrefab;
 
         private Game game;
-        private LevelLoader levelLoader;
+        private ILevelLoader levelLoader;
 
         [Inject]
-        public void Construct(Game game, LevelLoader sceneLoader)
+        public void Construct(Game game, ILevelLoader sceneLoader)
         {
             this.game = game;
             this.levelLoader = sceneLoader;

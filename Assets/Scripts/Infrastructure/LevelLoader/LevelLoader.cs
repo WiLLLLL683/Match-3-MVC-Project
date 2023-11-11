@@ -7,19 +7,19 @@ using Zenject;
 
 namespace Infrastructure
 {
-    public class LevelLoader
+    public class LevelLoader : ILevelLoader
     {
-        public LevelSO CurrentLevel => allLevels[currentLevelIndex];
+        private LevelSO CurrentLevel => allLevels.GetSO(currentLevelIndex);
 
         private readonly ZenjectSceneLoader loader;
-        private readonly LevelSO[] allLevels;
+        private readonly ILevelConfigProvider allLevels;
 
         private const string META_SCENE_NAME = "Meta";
         private const string CORE_SCENE_NAME = "Core";
 
         private int currentLevelIndex;
 
-        public LevelLoader(ZenjectSceneLoader loader, LevelSO[] allLevels)
+        public LevelLoader(ZenjectSceneLoader loader, ILevelConfigProvider allLevels)
         {
             this.loader = loader;
             this.allLevels = allLevels;
@@ -30,7 +30,7 @@ namespace Infrastructure
         public void LoadNextLevel() => LoadLevel(currentLevelIndex + 1);
         public void LoadLevel(int levelIndex)
         {
-            if (levelIndex >= allLevels.Length)
+            if (levelIndex > allLevels.LastLevelIndex)
                 return;
 
             currentLevelIndex = levelIndex;

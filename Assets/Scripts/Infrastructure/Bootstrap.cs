@@ -9,10 +9,10 @@ namespace Infrastructure
     /// </summary>
     public class Bootstrap : MonoBehaviour
     {
-        private LevelLoader sceneLoader;
+        private ILevelLoader sceneLoader;
 
         [Inject]
-        public void Construct(LevelLoader sceneLoader)
+        public void Construct(ILevelLoader sceneLoader)
         {
             this.sceneLoader = sceneLoader;
         }

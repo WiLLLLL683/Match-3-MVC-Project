@@ -69,4 +69,9 @@ public static class Extensions
 
         return newArray;
     }
+
+    public static bool IsInBounds<T>(this T[] array, int index)
+    {
+        return 0 <= index && index < array.Length;
+    }
 }

@@ -9,7 +9,7 @@ namespace Config
     /// <summary>
     /// Данные об уровне
     /// </summary>
-    [CreateAssetMenu(fileName = "New Level", menuName = "Config/Level")]
+    [CreateAssetMenu(fileName = "New Level", menuName = "Config/Level/Level")]
     public class LevelSO : ScriptableObject
     {
         public Sprite icon;
