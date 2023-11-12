@@ -28,7 +28,7 @@ namespace Model.Services.UnitTests
             var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 10);
 
-            service.CheckTarget(goal, target);
+            service.DecreaseCount(goal, target, 1);
 
             Assert.AreEqual(9, goal.Count);
         }
@@ -40,7 +40,7 @@ namespace Model.Services.UnitTests
             var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 0);
 
-            service.CheckTarget(goal, target);
+            service.DecreaseCount(goal, target, 1);
 
             Assert.AreEqual(0, goal.Count);
         }
@@ -53,7 +53,7 @@ namespace Model.Services.UnitTests
             BasicBlockType target2 = TestBlockFactory.RedBlockType;
             var goal = new Counter(target1, 10);
 
-            service.CheckTarget(goal, target2);
+            service.DecreaseCount(goal, target2, 1);
 
             Assert.AreEqual(10, goal.Count);
         }
@@ -64,7 +64,7 @@ namespace Model.Services.UnitTests
             var service = Setup();
             var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 10);
-            service.CheckTarget(goal, target);
+            service.DecreaseCount(goal, target, 1);
 
             Assert.AreEqual(1, updatedEventCount);
             Assert.AreEqual(0, completedEventCount);
@@ -77,7 +77,7 @@ namespace Model.Services.UnitTests
             var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 1);
 
-            service.CheckTarget(goal, target);
+            service.DecreaseCount(goal, target, 1);
 
             Assert.AreEqual(1, updatedEventCount);
             Assert.AreEqual(1, completedEventCount);
@@ -90,8 +90,8 @@ namespace Model.Services.UnitTests
             var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 1);
 
-            service.CheckTarget(goal, target);
-            service.CheckTarget(goal, target);
+            service.DecreaseCount(goal, target, 1);
+            service.DecreaseCount(goal, target, 1);
 
             Assert.AreEqual(1, updatedEventCount);
             Assert.AreEqual(1, completedEventCount);

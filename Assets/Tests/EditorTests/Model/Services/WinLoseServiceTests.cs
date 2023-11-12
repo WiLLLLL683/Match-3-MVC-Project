@@ -120,7 +120,7 @@ namespace Model.Services.UnitTests
                 new Counter(TestBlockFactory.DefaultBlockType, 100),
                 new Counter(TestBlockFactory.RedBlockType, 100)};
 
-            service.UpdateGoals(target);
+            service.CountDownGoals(target);
 
             Assert.AreEqual(99, level.goals[0].Count);
             Assert.AreEqual(100, level.goals[1].Count);
@@ -135,7 +135,7 @@ namespace Model.Services.UnitTests
                 new Counter(TestBlockFactory.DefaultBlockType, 100),
                 new Counter(TestBlockFactory.RedBlockType, 100)};
 
-            service.UpdateGoals(target);
+            service.CountDownGoals(target);
 
             Assert.AreEqual(100, level.goals[0].Count);
             Assert.AreEqual(100, level.goals[1].Count);

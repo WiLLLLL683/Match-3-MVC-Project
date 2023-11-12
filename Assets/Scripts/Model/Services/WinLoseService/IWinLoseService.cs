@@ -5,6 +5,9 @@ namespace Model.Services
 {
     public interface IWinLoseService
     {
+        void DecreaseCountIfPossible(ICounterTarget target, int amount);
+        void IncreaseCountIfPossible(ICounterTarget target, int amount);
+
         event Action OnLose;
         event Action OnWin;
 
@@ -21,11 +24,11 @@ namespace Model.Services
         /// <summary>
         /// Пересчет счетчика целей уровня, с вычетом 1 цели
         /// </summary>
-        public void UpdateGoals(ICounterTarget _target);
+        public void CountDownGoals(ICounterTarget _target);
 
         /// <summary>
         /// Пересчет счетчика ограничений уровня, с вычетом 1 цели
         /// </summary>
-        public void UpdateRestrictions(ICounterTarget _target);
+        public void CountDownRestrictions(ICounterTarget _target);
     }
 }
