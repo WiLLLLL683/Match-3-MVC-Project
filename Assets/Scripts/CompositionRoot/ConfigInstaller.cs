@@ -12,6 +12,7 @@ namespace CompositionRoot
         [SerializeField] private LevelSetSO allLevels;
         [SerializeField] private CellTypeSetSO allCellTypes;
         [SerializeField] private CurrencySetSO allCurrencies;
+        [SerializeField] private CounterTargetSetSO allCounterTargets;
 
         public override void InstallBindings()
         {
@@ -19,6 +20,7 @@ namespace CompositionRoot
             Container.Bind<CellTypeSetSO>().FromInstance(allCellTypes).AsSingle();
             Container.Bind<CellType>().FromInstance(allCellTypes.invisibleCellType.type).AsSingle().WhenInjectedInto<CellFactory>();
             Container.Bind<ICurrencyConfigProvider>().FromInstance(allCurrencies).AsSingle();
+            Container.Bind<ICounterTargetConfigProvider>().FromInstance(allCounterTargets).AsSingle();
         }
     }
 }

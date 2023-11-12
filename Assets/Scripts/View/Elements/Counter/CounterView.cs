@@ -15,6 +15,7 @@ namespace View
 
         [SerializeField] private TMP_Text countText;
         [SerializeField] private Image icon;
+        [SerializeField] private Image completeIcon;
 
         public void Init(Sprite iconSprite, int initialCount)
         {
@@ -22,13 +23,29 @@ namespace View
             ChangeCount(initialCount);
         }
 
-        public void ChangeCount(int count) => countText.text = count.ToString();
+        public void ChangeCount(int count)
+        {
+            if (countText == null)
+                return;
+
+            countText.text = count.ToString();
+        }
+
         public void ChangeIcon(Sprite iconSprite)
         {
-            if (icon != null && iconSprite != null)
-            {
-                icon.sprite = iconSprite;
-            }
+            if (icon == null || iconSprite == null)
+                return;
+
+            icon.sprite = iconSprite;
+        }
+
+        public void ShowCompleteIcon()
+        {
+            if (countText == null || completeIcon == null)
+                return;
+
+            countText.enabled = false;
+            completeIcon.enabled = true;
         }
     }
 }

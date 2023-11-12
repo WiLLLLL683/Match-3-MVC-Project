@@ -7,8 +7,9 @@ namespace View
     /// </summary>
     public interface ICounterView
     {
-        public void Init(Sprite iconSprite, int initialNumber);
-        public void ChangeCount(int count);
-        public void ChangeIcon(Sprite iconSprite);
+        void Init(Sprite iconSprite, int initialNumber);
+        void ChangeCount(int count);
+        void ChangeIcon(Sprite iconSprite);
+        void ShowCompleteIcon();
     }
 }

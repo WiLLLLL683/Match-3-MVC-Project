@@ -11,6 +11,7 @@ using Zenject;
 
 namespace CompositionRoot
 {
+
     public class CoreSceneInstaller : MonoInstaller
     {
         [SerializeField] private Input_Touch input;
@@ -71,11 +72,11 @@ namespace CompositionRoot
             //factories
             Container.BindFactory<CounterPresenter, CounterPresenter.Factory>();
             Container.BindFactory<CounterView, CounterView.Factory>()
-                .WithId("goalViewFactory")
+                .WithId(ViewFactoryId.Goal)
                 .FromComponentInNewPrefab(goalCounterPrefab)
                 .UnderTransform(hudView.GoalsParent);
             Container.BindFactory<CounterView, CounterView.Factory>()
-                .WithId("restrictionViewFactory")
+                .WithId(ViewFactoryId.Restriction)
                 .FromComponentInNewPrefab(restrictionCounterPrefab)
                 .UnderTransform(hudView.RestrictionsParent);
         }
@@ -92,11 +93,11 @@ namespace CompositionRoot
                 .FromComponentInNewPrefab(blockPrefab)
                 .UnderTransform(gameBoardView.BlocksParent);
             Container.BindFactory<CellView, CellView.Factory>()
-                .WithId("cellViewFactory")
+                .WithId(ViewFactoryId.Cell)
                 .FromComponentInNewPrefab(cellPrefab)
                 .UnderTransform(gameBoardView.CellsParent);
             Container.BindFactory<CellView, CellView.Factory>()
-                .WithId("notPlayableCellViewFactory")
+                .WithId(ViewFactoryId.CellNotPlayable)
                 .FromComponentInNewPrefab(notPlayableCellPrefab)
                 .UnderTransform(gameBoardView.CellsParent);
         }
