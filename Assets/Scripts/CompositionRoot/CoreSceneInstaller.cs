@@ -70,7 +70,6 @@ namespace CompositionRoot
             Container.Bind<IHudPresenter>().To<HudPresenter>().AsSingle();
 
             //factories
-            Container.BindFactory<CounterPresenter, CounterPresenter.Factory>();
             Container.BindFactory<CounterView, CounterView.Factory>()
                 .WithId(ViewFactoryId.Goal)
                 .FromComponentInNewPrefab(goalCounterPrefab)
