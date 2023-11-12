@@ -8,6 +8,7 @@ namespace Config
     [CreateAssetMenu(fileName = "New CounterTargetSet", menuName = "Config/CounterTargetSet")]
     public class CounterTargetSetSO : ScriptableObject, ICounterTargetConfigProvider
     {
+        public TurnSO turnSO;
         [SerializeField] private List<ACounterTargetSO> targets = new();
         [SerializeField] private ACounterTargetSO defaultTarget;
 

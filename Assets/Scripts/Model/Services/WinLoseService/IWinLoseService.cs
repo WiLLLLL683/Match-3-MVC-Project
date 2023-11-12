@@ -5,11 +5,18 @@ namespace Model.Services
 {
     public interface IWinLoseService
     {
-        void DecreaseCountIfPossible(ICounterTarget target, int amount);
-        void IncreaseCountIfPossible(ICounterTarget target, int amount);
-
         event Action OnLose;
         event Action OnWin;
+
+        /// <summary>
+        /// Уменьшить счетчик заданной цели, если он существует в целях или ограничениях текущего уровня
+        /// </summary>
+        void DecreaseCountIfPossible(ICounterTarget target, int amount = 1);
+
+        /// <summary>
+        /// Увеличить счетчик заданной цели, если он существует в целях или ограничениях текущего уровня
+        /// </summary>
+        void IncreaseCountIfPossible(ICounterTarget target, int amount = 1);
 
         /// <summary>
         /// Проверить закончились ли огранияения уровня
@@ -20,15 +27,5 @@ namespace Model.Services
         /// Проверить все ли цели уровня выполнены
         /// </summary>
         public bool CheckWin();
-
-        /// <summary>
-        /// Пересчет счетчика целей уровня, с вычетом 1 цели
-        /// </summary>
-        public void CountDownGoals(ICounterTarget _target);
-
-        /// <summary>
-        /// Пересчет счетчика ограничений уровня, с вычетом 1 цели
-        /// </summary>
-        public void CountDownRestrictions(ICounterTarget _target);
     }
 }

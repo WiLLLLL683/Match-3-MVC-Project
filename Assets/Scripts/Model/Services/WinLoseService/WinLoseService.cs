@@ -45,7 +45,7 @@ namespace Model.Services
             return false;
         }
 
-        public void IncreaseCountIfPossible(ICounterTarget target, int amount)
+        public void IncreaseCountIfPossible(ICounterTarget target, int amount = 1)
         {
             for (int i = 0; i < Level.goals.Length; i++)
             {
@@ -58,7 +58,7 @@ namespace Model.Services
             }
         }
 
-        public void DecreaseCountIfPossible(ICounterTarget target, int amount)
+        public void DecreaseCountIfPossible(ICounterTarget target, int amount = 1)
         {
             for (int i = 0; i < Level.goals.Length; i++)
             {
@@ -68,22 +68,6 @@ namespace Model.Services
             for (int i = 0; i < Level.restrictions.Length; i++)
             {
                 counterService.DecreaseCount(Level.restrictions[i], target, amount);
-            }
-        }
-
-        public void CountDownGoals(ICounterTarget target)
-        {
-            for (int i = 0; i < Level.goals.Length; i++)
-            {
-                counterService.DecreaseCount(Level.goals[i], target, 1);
-            }
-        }
-
-        public void CountDownRestrictions(ICounterTarget target)
-        {
-            for (int i = 0; i < Level.restrictions.Length; i++)
-            {
-                counterService.DecreaseCount(Level.restrictions[i], target, 1);
             }
         }
     }

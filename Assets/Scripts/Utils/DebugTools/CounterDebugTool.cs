@@ -26,10 +26,6 @@ namespace Utils
         [Button, EnableIf("ShowButtons")] public void Remove() => winLoseService.DecreaseCountIfPossible(counterTarget.CounterTarget, amount);
 
         [Button, EnableIf("ShowButtons")]
-        public void CountDown()
-        {
-            winLoseService.CountDownGoals(counterTarget.CounterTarget);
-            winLoseService.CountDownRestrictions(counterTarget.CounterTarget);
-        }
+        public void CountDown() => winLoseService.DecreaseCountIfPossible(counterTarget.CounterTarget, 1);
     }
 }
