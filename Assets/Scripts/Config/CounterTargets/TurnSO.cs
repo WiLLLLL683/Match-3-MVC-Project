@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Model.Objects;
 using Model.Services;
+using NaughtyAttributes;
 
 namespace Config
 {
@@ -8,7 +9,13 @@ namespace Config
     [CreateAssetMenu(fileName = "Turn", menuName = "Config/Turn")]
     public class TurnSO : ACounterTargetSO
     {
-        private const int TURN_ID = -100;
-        public override ICounterTarget CounterTarget { get; } = new Turn(TURN_ID);
+        [SerializeField] private int id = -100;
+        public override ICounterTarget CounterTarget => counterTarget;
+        private ICounterTarget counterTarget;
+
+        private void OnValidate()
+        {
+            counterTarget = new Turn(id);
+        }
     }
 }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: VerticalLine
   m_EditorClassIdentifier: 
   array2d:
-    gridSize: {x: 3, y: 3}
+    gridSize: {x: 1, y: 3}
     cellSize: {x: 16, y: 16}
     cells:
-    - row: 000100
-    - row: 000100
-    - row: 000100
+    - row: 01
+    - row: 01
+    - row: 01
   hintPatterns:
   - {fileID: 11400000, guid: c18024ae2bf303c4cac78da105bf5597, type: 2}
   - {fileID: 11400000, guid: 303b6266cfa16514b9d2095ed41ef9c8, type: 2}

@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: b7481a4c424715542a70ac1efc7468db, type: 3}
   destroyEffect: {fileID: 1653460736588825326, guid: 7b87fedbd0d08c045a741dfd16402747, type: 3}
-  blockType:
-    rid: 6504100759048552449
+  type:
+    rid: 4273483035793948676
   references:
     version: 2
     RefIds:
-    - rid: 6504100759048552449
+    - rid: 4273483035793948676
       type: {class: BasicBlockType, ns: Model.Objects, asm: GameAssembly}
       data:
-        id: 1
+        Id: 10
