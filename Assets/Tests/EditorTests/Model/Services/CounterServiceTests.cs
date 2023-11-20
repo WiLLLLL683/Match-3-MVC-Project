@@ -21,8 +21,80 @@ namespace Model.Services.UnitTests
             return service;
         }
 
+        //Increase
         [Test]
-        public void CheckTarget_CorrectTarget_CountMinusOne()
+        public void IncreaseCount_PositiveAmount_CountIncreaseUpdateEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            var goal = new Counter(target, 10);
+
+            service.IncreaseCount(goal, target, 10);
+
+            Assert.AreEqual(20, goal.Count);
+            Assert.AreEqual(1, updatedEventCount);
+        }
+
+        [Test]
+        public void IncreaseCount_NegativeAmount_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            var goal = new Counter(target, 10);
+
+            service.IncreaseCount(goal, target, -10);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        [Test]
+        public void IncreaseCount_IsCompleted_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            var goal = new Counter(target, 10);
+            goal.IsCompleted = true;
+
+            service.IncreaseCount(goal, target, 10);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        [Test]
+        public void IncreaseCount_WrongTargetType_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            var target2 = TestBlockFactory.RedBlockType;
+            var goal = new Counter(target, 10);
+
+            service.IncreaseCount(goal, target2, 10);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        [Test]
+        public void IncreaseCount_WrongTargetId_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
+            target.Id = 0;
+            var target2 = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
+            target2.Id = 999;
+            var goal = new Counter(target, 10);
+
+            service.IncreaseCount(goal, target2, 10);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        //Decrease
+        [Test]
+        public void DecreaseCount_PositiveAmount_CountDecreaseUpdateEvent()
         {
             var service = Setup();
             var target = TestBlockFactory.BlueBlockType;
@@ -31,72 +103,98 @@ namespace Model.Services.UnitTests
             service.DecreaseCount(goal, target, 1);
 
             Assert.AreEqual(9, goal.Count);
+            Assert.AreEqual(1, updatedEventCount);
         }
 
         [Test]
-        public void CheckTarget_BelowZero_CountZero()
-        {
-            var service = Setup();
-            var target = TestBlockFactory.BlueBlockType;
-            var goal = new Counter(target, 0);
-
-            service.DecreaseCount(goal, target, 1);
-
-            Assert.AreEqual(0, goal.Count);
-        }
-
-        [Test]
-        public void CheckTarget_IncorrectTarget_CountSame()
-        {
-            var service = Setup();
-            BasicBlockType target1 = TestBlockFactory.BlueBlockType;
-            BasicBlockType target2 = TestBlockFactory.RedBlockType;
-            var goal = new Counter(target1, 10);
-
-            service.DecreaseCount(goal, target2, 1);
-
-            Assert.AreEqual(10, goal.Count);
-        }
-
-        [Test]
-        public void CheckTarget_UpdateCountNotZero_UpdatedEvent()
+        public void DecreaseCount_ToZero_CountZeroUpdateEventCompleteEvent()
         {
             var service = Setup();
             var target = TestBlockFactory.BlueBlockType;
             var goal = new Counter(target, 10);
-            service.DecreaseCount(goal, target, 1);
 
-            Assert.AreEqual(1, updatedEventCount);
-            Assert.AreEqual(0, completedEventCount);
-        }
+            service.DecreaseCount(goal, target, 10);
 
-        [Test]
-        public void CheckTarget_UpdateCountToZero_CompleteEvent()
-        {
-            var service = Setup();
-            var target = TestBlockFactory.BlueBlockType;
-            var goal = new Counter(target, 1);
-
-            service.DecreaseCount(goal, target, 1);
-
+            Assert.AreEqual(0, goal.Count);
+            Assert.AreEqual(true, goal.IsCompleted);
             Assert.AreEqual(1, updatedEventCount);
             Assert.AreEqual(1, completedEventCount);
         }
 
         [Test]
-        public void CheckTarget_CountToZeroTwice_OneCompleteEvent()
+        public void DecreaseCount_ToZeroTwice_CountZeroUpdateEventCompleteEvent()
         {
             var service = Setup();
             var target = TestBlockFactory.BlueBlockType;
-            var goal = new Counter(target, 1);
+            var goal = new Counter(target, 10);
 
-            service.DecreaseCount(goal, target, 1);
-            service.DecreaseCount(goal, target, 1);
+            service.DecreaseCount(goal, target, 10);
+            service.DecreaseCount(goal, target, 10);
 
+            Assert.AreEqual(0, goal.Count);
+            Assert.AreEqual(true, goal.IsCompleted);
             Assert.AreEqual(1, updatedEventCount);
             Assert.AreEqual(1, completedEventCount);
         }
 
+        [Test]
+        public void DecreaseCount_NegativeAmount_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            var goal = new Counter(target, 10);
+
+            service.DecreaseCount(goal, target, -1);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        [Test]
+        public void DecreaseCount_IsCompleted_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            var goal = new Counter(target, 10);
+            goal.IsCompleted = true;
+
+            service.DecreaseCount(goal, target, 1);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        [Test]
+        public void DecreaseCount_WrongTargetType_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            var target2 = TestBlockFactory.RedBlockType;
+            var goal = new Counter(target, 10);
+
+            service.DecreaseCount(goal, target2, 1);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        [Test]
+        public void DecreaseCount_WrongTargetId_CountSameNoEvent()
+        {
+            var service = Setup();
+            var target = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
+            target.Id = 0;
+            var target2 = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
+            target2.Id = 999;
+            var goal = new Counter(target, 10);
+
+            service.DecreaseCount(goal, target2, 1);
+
+            Assert.AreEqual(10, goal.Count);
+            Assert.AreEqual(0, updatedEventCount);
+        }
+
+        //CheckCompletion
         [Test]
         public void CheckCompletion_CountIsZero_TrueEvent()
         {
@@ -125,7 +223,7 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void CheckCompletion_CountIsPositive_False()
+        public void CheckCompletion_CountIsPositive_FalseNoEvent()
         {
             var service = Setup();
             var target = TestBlockFactory.BlueBlockType;
@@ -153,7 +251,7 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void CheckCompletion_Null_False()
+        public void CheckCompletion_Null_FalseNoEvent()
         {
             var service = Setup();
             Counter goal = null;
