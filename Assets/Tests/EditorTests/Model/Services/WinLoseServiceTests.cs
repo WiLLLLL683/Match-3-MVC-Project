@@ -112,13 +112,43 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void UpdateGoals_ValidTarget_CounterMinusOne()
+        public void IncreaseCountIfPossible_TargetExistsInLevel_CounterPlusOne()
         {
             var (level, service) = Setup();
             var target = TestBlockFactory.DefaultBlockType;
             level.goals = new Counter[2] {
-                new Counter(TestBlockFactory.DefaultBlockType, 100),
-                new Counter(TestBlockFactory.RedBlockType, 100)};
+                    new Counter(target, 100),
+                    new Counter(TestBlockFactory.RedBlockType, 100)};
+
+            service.IncreaseCountIfPossible(target);
+
+            Assert.AreEqual(101, level.goals[0].Count);
+            Assert.AreEqual(100, level.goals[1].Count);
+        }
+
+        [Test]
+        public void IncreaseCountIfPossible_TargetNotInLevel_CounterPlusOne()
+        {
+            var (level, service) = Setup();
+            var target = TestBlockFactory.BlueBlockType;
+            level.goals = new Counter[2] {
+                    new Counter(TestBlockFactory.DefaultBlockType, 100),
+                    new Counter(TestBlockFactory.RedBlockType, 100)};
+
+            service.IncreaseCountIfPossible(target);
+
+            Assert.AreEqual(100, level.goals[0].Count);
+            Assert.AreEqual(100, level.goals[1].Count);
+        }
+
+        [Test]
+        public void DecreaseCountIfPossible_TargetExistsInLevel_CounterMinusOne()
+        {
+            var (level, service) = Setup();
+            var target = TestBlockFactory.DefaultBlockType;
+            level.goals = new Counter[2] {
+                    new Counter(target, 100),
+                    new Counter(TestBlockFactory.RedBlockType, 100)};
 
             service.DecreaseCountIfPossible(target);
 
@@ -127,13 +157,13 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void UpdateGoals_InValidTarget_NoChange()
+        public void DecreaseCountIfPossible_TargetNotInLevel_CounterMinusOne()
         {
             var (level, service) = Setup();
             var target = TestBlockFactory.BlueBlockType;
             level.goals = new Counter[2] {
-                new Counter(TestBlockFactory.DefaultBlockType, 100),
-                new Counter(TestBlockFactory.RedBlockType, 100)};
+                    new Counter(TestBlockFactory.DefaultBlockType, 100),
+                    new Counter(TestBlockFactory.RedBlockType, 100)};
 
             service.DecreaseCountIfPossible(target);
 
