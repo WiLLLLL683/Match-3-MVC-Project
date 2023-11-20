@@ -39,8 +39,8 @@ namespace Presenter
             BlockPresenter.Factory blockPresenterFactory,
             BlockView.Factory blockViewFactory,
             CellPresenter.Factory cellPresenterFactory,
-            [Inject(Id = ViewFactoryId.Cell)] CellView.Factory cellViewFactory,
-            [Inject(Id = ViewFactoryId.CellNotPlayable)] CellView.Factory notPlayableCellViewFactory,
+            [Inject(Id = BindId.CellViewFactory)] CellView.Factory cellViewFactory,
+            [Inject(Id = BindId.CellNotPlayableViewFactory)] CellView.Factory notPlayableCellViewFactory,
             CellTypeSetSO allCellTypes,
             BlockTypeSetSO blockTypeSet)
         {

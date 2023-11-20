@@ -1,12 +1,10 @@
-﻿using CompositionRoot;
-using Config;
+﻿using System;
+using System.Collections.Generic;
 using Model.Objects;
 using Model.Services;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using View;
-using Zenject;
+using View.Factories;
 
 namespace Presenter
 {
@@ -19,9 +17,7 @@ namespace Presenter
         private readonly Game model;
         private readonly IHudView view;
         private readonly ICounterService counterService;
-        private readonly ICounterTargetConfigProvider counterConfig;
-        private readonly CounterView.Factory goalViewFactory;
-        private readonly CounterView.Factory restrictionViewFactory;
+        private readonly ICounterViewFactory counterViewFactory;
         private readonly Dictionary<Counter, ICounterView> counterViews = new();
 
         private Counter[] GoalsModel => model.CurrentLevel.goals;
@@ -30,16 +26,12 @@ namespace Presenter
         public HudPresenter(Game model,
             IHudView view,
             ICounterService counterService,
-            ICounterTargetConfigProvider counterConfig,
-            [Inject(Id = ViewFactoryId.Goal)] CounterView.Factory goalViewFactory,
-            [Inject(Id = ViewFactoryId.Restriction)] CounterView.Factory restrictionViewFactory)
+            ICounterViewFactory counterViewFactory)
         {
             this.model = model;
             this.view = view;
             this.counterService = counterService;
-            this.counterConfig = counterConfig;
-            this.goalViewFactory = goalViewFactory;
-            this.restrictionViewFactory = restrictionViewFactory;
+            this.counterViewFactory = counterViewFactory;
         }
         public void Enable()
         {
@@ -52,6 +44,7 @@ namespace Presenter
 
             Debug.Log($"{this} enabled");
         }
+
         public void Disable()
         {
             counterService.OnUpdateEvent -= UpdateView;
@@ -79,8 +72,8 @@ namespace Presenter
         {
             for (int i = 0; i <GoalsModel.Length; i++)
             {
-                ICounterView view = goalViewFactory.Create();
-                InitView(view, GoalsModel[i]);
+                ICounterView counterView = counterViewFactory.CreateGoal(GoalsModel[i]);
+                counterViews.Add(GoalsModel[i], counterView);
             }
         }
 
@@ -88,8 +81,8 @@ namespace Presenter
         {
             for (int i = 0; i < RestrictionsModel.Length; i++)
             {
-                ICounterView view = restrictionViewFactory.Create();
-                InitView(view, RestrictionsModel[i]);
+                ICounterView counterView = counterViewFactory.CreateRestriction(RestrictionsModel[i]);
+                counterViews.Add(RestrictionsModel[i], counterView);
             }
         }
 
@@ -107,14 +100,6 @@ namespace Presenter
                 return;
 
             counterViews[model].ShowCompleteIcon();
-        }
-
-        private void InitView(ICounterView view, Counter model)
-        {
-            var icon = counterConfig.GetSO(model.Target.Id).icon;
-            var count = model.Count;
-            view.Init(icon, count);
-            counterViews.Add(model, view);
         }
     }
 }

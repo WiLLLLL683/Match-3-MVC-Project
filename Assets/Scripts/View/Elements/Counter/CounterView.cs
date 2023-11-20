@@ -11,8 +11,6 @@ namespace View
     /// </summary>
     public class CounterView : MonoBehaviour, ICounterView
     {
-        public class Factory : PlaceholderFactory<CounterView> { }
-
         [SerializeField] private TMP_Text countText;
         [SerializeField] private Image icon;
         [SerializeField] private Image completeIcon;
