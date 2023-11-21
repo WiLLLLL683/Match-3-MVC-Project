@@ -323,3 +323,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   countText: {fileID: 3650687168358507347}
   icon: {fileID: 0}
+  completeIcon: {fileID: 0}

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5366793025875336656}
   - component: {fileID: 7919948628129200460}
+  - component: {fileID: 5644877898533448463}
   m_Layer: 0
   m_Name: ModelDebugTool
   m_TagString: Untagged
@@ -44,20 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a980a152ac5ef49b64919ed375f986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game:
-    LevelProgress:
-      CompletedLevels: -1
-      OpenedLevels: 0
-    PlayerSettings:
-      IsSoundOn: 0
-      IsVibrationOn: 0
-    CurrentLevel:
-      gameBoard:
-        RowsOfInvisibleCells: 0
-        Blocks: []
-      goals: []
-      restrictions: []
-      matchPatterns: []
+--- !u!114 &5644877898533448463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560459893197077516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc2f86a723a42094693fa55c6839ccd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counterTarget: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
 --- !u!1 &2912837689887973729
 GameObject:
   m_ObjectHideFlags: 0

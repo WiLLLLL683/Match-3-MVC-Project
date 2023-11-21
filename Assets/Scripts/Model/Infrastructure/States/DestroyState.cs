@@ -10,11 +10,18 @@ namespace Model.Infrastructure
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockDestroyService blockDestroyService;
+        private readonly IWinLoseService winLoseService;
+        private readonly ICounterTarget turnTarget;
 
-        public DestroyState(IStateMachine stateMachine, IBlockDestroyService blockDestroyService)
+        public DestroyState(IStateMachine stateMachine,
+            IBlockDestroyService blockDestroyService,
+            IWinLoseService winLoseService,
+            ICounterTarget turnTarget)
         {
             this.stateMachine = stateMachine;
             this.blockDestroyService = blockDestroyService;
+            this.winLoseService = winLoseService;
+            this.turnTarget = turnTarget;
         }
 
         public void OnEnter(HashSet<Cell> payLoad)
@@ -37,10 +44,11 @@ namespace Model.Infrastructure
         private void DestroyBlocks(HashSet<Cell> matches)
         {
             //TODO засчитать ход в логгер
-            //TODO обновить счетчики
+            winLoseService.DecreaseCountIfPossible(turnTarget);
+
             foreach (Cell match in matches)
             {
-                //level.UpdateGoals(matches[i].Block.Type);
+                winLoseService.DecreaseCountIfPossible(match.Block.Type);
                 blockDestroyService.DestroyAt(match);
             }
         }

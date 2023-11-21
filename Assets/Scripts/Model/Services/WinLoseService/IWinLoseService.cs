@@ -9,6 +9,16 @@ namespace Model.Services
         event Action OnWin;
 
         /// <summary>
+        /// Уменьшить счетчик заданной цели, если он существует в целях или ограничениях текущего уровня
+        /// </summary>
+        void DecreaseCountIfPossible(ICounterTarget target, int amount = 1);
+
+        /// <summary>
+        /// Увеличить счетчик заданной цели, если он существует в целях или ограничениях текущего уровня
+        /// </summary>
+        void IncreaseCountIfPossible(ICounterTarget target, int amount = 1);
+
+        /// <summary>
         /// Проверить закончились ли огранияения уровня
         /// </summary>
         public bool CheckLose();
@@ -17,15 +27,5 @@ namespace Model.Services
         /// Проверить все ли цели уровня выполнены
         /// </summary>
         public bool CheckWin();
-
-        /// <summary>
-        /// Пересчет счетчика целей уровня, с вычетом 1 цели
-        /// </summary>
-        public void UpdateGoals(ICounterTarget _target);
-
-        /// <summary>
-        /// Пересчет счетчика ограничений уровня, с вычетом 1 цели
-        /// </summary>
-        public void UpdateRestrictions(ICounterTarget _target);
     }
 }

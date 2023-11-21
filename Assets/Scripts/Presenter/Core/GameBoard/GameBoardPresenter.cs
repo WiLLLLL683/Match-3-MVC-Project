@@ -1,4 +1,5 @@
-﻿using Config;
+﻿using CompositionRoot;
+using Config;
 using Model.Objects;
 using Model.Services;
 using NaughtyAttributes;
@@ -38,8 +39,8 @@ namespace Presenter
             BlockPresenter.Factory blockPresenterFactory,
             BlockView.Factory blockViewFactory,
             CellPresenter.Factory cellPresenterFactory,
-            [Inject(Id = "cellViewFactory")] CellView.Factory cellViewFactory,
-            [Inject(Id = "notPlayableCellViewFactory")] CellView.Factory notPlayableCellViewFactory,
+            [Inject(Id = BindId.CellViewFactory)] CellView.Factory cellViewFactory,
+            [Inject(Id = BindId.CellNotPlayableViewFactory)] CellView.Factory notPlayableCellViewFactory,
             CellTypeSetSO allCellTypes,
             BlockTypeSetSO blockTypeSet)
         {

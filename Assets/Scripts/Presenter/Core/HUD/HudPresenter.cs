@@ -1,8 +1,10 @@
-﻿using Model.Objects;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using Model.Objects;
+using Model.Services;
 using UnityEngine;
 using View;
-using Zenject;
+using View.Factories;
 
 namespace Presenter
 {
@@ -14,31 +16,90 @@ namespace Presenter
     {
         private readonly Game model;
         private readonly IHudView view;
-        private readonly CounterPresenter.Factory counterPresenterFactory;
-        private readonly CounterView.Factory goalViewFactory;
-        private readonly CounterView.Factory restrictionViewFactory;
+        private readonly ICounterService counterService;
+        private readonly ICounterViewFactory counterViewFactory;
+        private readonly Dictionary<Counter, ICounterView> counterViews = new();
+
+        private Counter[] GoalsModel => model.CurrentLevel.goals;
+        private Counter[] RestrictionsModel => model.CurrentLevel.restrictions;
 
         public HudPresenter(Game model,
             IHudView view,
-            CounterPresenter.Factory counterPresenterFactory,
-            [Inject(Id = "goalViewFactory")] CounterView.Factory goalViewFactory,
-            [Inject(Id = "restrictionViewFactory")] CounterView.Factory restrictionViewFactory)
+            ICounterService counterService,
+            ICounterViewFactory counterViewFactory)
         {
             this.model = model;
             this.view = view;
-            this.counterPresenterFactory = counterPresenterFactory;
-            this.goalViewFactory = goalViewFactory;
-            this.restrictionViewFactory = restrictionViewFactory;
+            this.counterService = counterService;
+            this.counterViewFactory = counterViewFactory;
         }
         public void Enable()
         {
-            //TODO
+            ClearViews();
+            SpawnGoalViews();
+            SpawnRestrictionViews();
+
+            counterService.OnUpdateEvent += UpdateView;
+            counterService.OnCompleteEvent += CompleteView;
+
             Debug.Log($"{this} enabled");
         }
+
         public void Disable()
         {
-            //TODO
+            counterService.OnUpdateEvent -= UpdateView;
+            counterService.OnCompleteEvent -= CompleteView;
+
             Debug.Log($"{this} disabled");
+        }
+
+        private void ClearViews()
+        {
+            for (int i = 0; i < view.GoalsParent.childCount; i++)
+            {
+                GameObject.Destroy(view.GoalsParent.GetChild(i).gameObject);
+            }
+
+            for (int i = 0; i < view.RestrictionsParent.childCount; i++)
+            {
+                GameObject.Destroy(view.RestrictionsParent.GetChild(i).gameObject);
+            }
+
+            counterViews.Clear();
+        }
+
+        private void SpawnGoalViews()
+        {
+            for (int i = 0; i <GoalsModel.Length; i++)
+            {
+                ICounterView counterView = counterViewFactory.CreateGoal(GoalsModel[i]);
+                counterViews.Add(GoalsModel[i], counterView);
+            }
+        }
+
+        private void SpawnRestrictionViews()
+        {
+            for (int i = 0; i < RestrictionsModel.Length; i++)
+            {
+                ICounterView counterView = counterViewFactory.CreateRestriction(RestrictionsModel[i]);
+                counterViews.Add(RestrictionsModel[i], counterView);
+            }
+        }
+
+        private void UpdateView(Counter model)
+        {
+            if (!counterViews.ContainsKey(model))
+                return;
+
+            counterViews[model].ChangeCount(model.Count);
+        }
+
+        private void CompleteView(Counter model)
+        {
+            if (!counterViews.ContainsKey(model))
+                return;
+
+            counterViews[model].ShowCompleteIcon();
         }
     }
 }

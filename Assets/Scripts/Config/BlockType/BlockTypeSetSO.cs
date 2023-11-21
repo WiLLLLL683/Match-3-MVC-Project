@@ -1,20 +1,15 @@
 ﻿using Model.Services;
+using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Config
 {
     [CreateAssetMenu(fileName = "NewBlockTypeSet", menuName = "Config/BlockTypeSet")]
     public class BlockTypeSetSO: ScriptableObject
     {
-        [Serializable]
-        public class BlockTypeSO_Weight
-        {
-            public BlockTypeSO blockTypeSO;
-            public int weight;
-        }
-
         public List<BlockTypeSO_Weight> typeWeights = new();
         public BlockTypeSO defaultBlockType;
 
@@ -39,5 +34,13 @@ namespace Config
 
             return weights;
         }
+
+#if UNITY_EDITOR
+        private readonly AssetFinder assetFinder = new();
+        private readonly UniqueIdChecker idChecker = new();
+
+        [Button] public void CheckUniqueId() => idChecker.CheckBlockTypeWeight(typeWeights);
+        [Button] public void FindAllBlockTypesInProject() => assetFinder.FindAllBlockTypes(ref typeWeights, this);
+#endif
     }
 }

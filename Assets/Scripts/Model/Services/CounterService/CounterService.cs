@@ -8,13 +8,26 @@ namespace Model.Services
         public event Action<Counter> OnUpdateEvent;
         public event Action<Counter> OnCompleteEvent;
 
-        public void CheckTarget(Counter counter, ICounterTarget target)
+        public void IncreaseCount(Counter counter, ICounterTarget target, int amount)
         {
-            if (!counter.IsCompleted &&
+            if (amount >= 0 &&
+                !counter.IsCompleted &&
                 target.GetType() == counter.Target.GetType() &&
                 target.Id == counter.Target.Id)
             {
-                counter.Count--;
+                counter.Count += amount;
+                OnUpdateEvent?.Invoke(counter);
+            }
+        }
+
+        public void DecreaseCount(Counter counter, ICounterTarget target, int amount)
+        {
+            if (amount >= 0 &&
+                !counter.IsCompleted &&
+                target.GetType() == counter.Target.GetType() &&
+                target.Id == counter.Target.Id)
+            {
+                counter.Count -= amount;
                 CheckCompletion(counter);
                 OnUpdateEvent?.Invoke(counter);
             }

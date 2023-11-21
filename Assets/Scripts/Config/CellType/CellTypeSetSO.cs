@@ -1,7 +1,11 @@
 ﻿using Model.Objects;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
+using Utils;
 
 namespace Config
 {
@@ -23,5 +27,14 @@ namespace Config
 
             return defaultCellType;
         }
+
+#if UNITY_EDITOR
+
+        private readonly AssetFinder assetFinder = new();
+        private readonly UniqueIdChecker idChecker = new();
+
+        [Button] public void CheckUniqueId() => idChecker.CheckCounterTarget(cellTypes);
+        [Button] public void FindAllCellTypesInProject() => assetFinder.FindAllAssetsOfType(ref cellTypes, this);
+#endif
     }
 }

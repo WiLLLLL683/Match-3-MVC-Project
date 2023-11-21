@@ -8,14 +8,22 @@ namespace Model.Services
     /// </summary>
     public interface ICounterService
     {
-        bool CheckCompletion(Counter counter);
-
         event Action<Counter> OnCompleteEvent;
         event Action<Counter> OnUpdateEvent;
 
         /// <summary>
-        /// Проверка на совпадение с целью счетчика, уменьшение счета при совпадении
+        /// Увеличить счет если цель счетчика совпадает
         /// </summary>
-        public void CheckTarget(Counter counter, ICounterTarget target);
+        void IncreaseCount(Counter counter, ICounterTarget target, int amount);
+
+        /// <summary>
+        /// Уменьшить счет если цель счетчика совпадает
+        /// </summary>
+        void DecreaseCount(Counter counter, ICounterTarget target, int amount);
+
+        /// <summary>
+        /// Проверить завершен ли отсчет
+        /// </summary>
+        bool CheckCompletion(Counter counter);
     }
 }

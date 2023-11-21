@@ -4,13 +4,16 @@ using Model.Infrastructure;
 using Model.Objects;
 using Presenter;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 using View;
+using View.Factories;
 using Zenject;
 
 namespace CompositionRoot
 {
+
     public class CoreSceneInstaller : MonoInstaller
     {
         [SerializeField] private Input_Touch input;
@@ -29,16 +32,6 @@ namespace CompositionRoot
         [SerializeField] private CellView cellPrefab;
         [SerializeField] private CellView notPlayableCellPrefab;
         [SerializeField] private BoosterView boosterPrefab;
-
-        private Game game;
-        private ILevelLoader levelLoader;
-
-        [Inject]
-        public void Construct(Game game, ILevelLoader sceneLoader)
-        {
-            this.game = game;
-            this.levelLoader = sceneLoader;
-        }
 
         public override void InstallBindings()
         {
@@ -69,15 +62,9 @@ namespace CompositionRoot
             Container.Bind<IHudPresenter>().To<HudPresenter>().AsSingle();
 
             //factories
-            Container.BindFactory<CounterPresenter, CounterPresenter.Factory>();
-            Container.BindFactory<CounterView, CounterView.Factory>()
-                .WithId("goalViewFactory")
-                .FromComponentInNewPrefab(goalCounterPrefab)
-                .UnderTransform(hudView.GoalsParent);
-            Container.BindFactory<CounterView, CounterView.Factory>()
-                .WithId("restrictionViewFactory")
-                .FromComponentInNewPrefab(restrictionCounterPrefab)
-                .UnderTransform(hudView.RestrictionsParent);
+            var counterViewFactory = Container.Instantiate<CounterViewFactory>(
+                new object[] { goalCounterPrefab, restrictionCounterPrefab });
+            Container.Bind<ICounterViewFactory>().FromInstance(counterViewFactory);
         }
 
         private void BindGameboard()
@@ -92,11 +79,11 @@ namespace CompositionRoot
                 .FromComponentInNewPrefab(blockPrefab)
                 .UnderTransform(gameBoardView.BlocksParent);
             Container.BindFactory<CellView, CellView.Factory>()
-                .WithId("cellViewFactory")
+                .WithId(BindId.CellViewFactory)
                 .FromComponentInNewPrefab(cellPrefab)
                 .UnderTransform(gameBoardView.CellsParent);
             Container.BindFactory<CellView, CellView.Factory>()
-                .WithId("notPlayableCellViewFactory")
+                .WithId(BindId.CellNotPlayableViewFactory)
                 .FromComponentInNewPrefab(notPlayableCellPrefab)
                 .UnderTransform(gameBoardView.CellsParent);
         }

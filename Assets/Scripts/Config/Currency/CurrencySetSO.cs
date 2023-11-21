@@ -1,6 +1,9 @@
 ﻿using Model.Objects;
+using NaughtyAttributes;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Utils;
 
 namespace Config
 {
@@ -22,5 +25,12 @@ namespace Config
         }
 
         public List<CurrencySO> GetAllSO() => currencies;
+
+#if UNITY_EDITOR
+
+        private readonly AssetFinder assetFinder = new();
+
+        [Button] public void FindAllCurrenciesInProject() => assetFinder.FindAllAssetsOfType(ref currencies, this);
+#endif
     }
 }

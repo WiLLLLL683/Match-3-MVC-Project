@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeWeights:
   - blockTypeSO: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
-    weight: 50
+    weight: 100
   - blockTypeSO: {fileID: 11400000, guid: a718201386d955f418821abb1599e4d4, type: 2}
-    weight: 50
+    weight: 100
   - blockTypeSO: {fileID: 11400000, guid: 4790cd615efdf9544bf17a4a2a4046b0, type: 2}
-    weight: 50
+    weight: 100
   - blockTypeSO: {fileID: 11400000, guid: 8a442fbef8f3e704a83b4dd663f6705c, type: 2}
-    weight: 50
+    weight: 100
   defaultBlockType: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}

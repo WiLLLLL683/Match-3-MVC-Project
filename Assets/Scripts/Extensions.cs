@@ -74,4 +74,9 @@ public static class Extensions
     {
         return 0 <= index && index < array.Length;
     }
+
+    public static bool IsInBounds<T>(this List<T> list, int index)
+    {
+        return 0 <= index && index < list.Count;
+    }
 }
