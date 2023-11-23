@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Model.Services
 {
+    /// <summary>
+    /// Сервис для поиска паттернов из одинаковых блоков на игровом поле,
+    /// проверяет все паттерны текущего уровня
+    /// </summary>
     public interface IBlockMatchService
     {
         /// <summary>
