@@ -5,7 +5,7 @@ using Model.Objects;
 namespace Model.Services
 {
     [Serializable]
-    public class RandomBlockTypeService : IRandomBlockTypeService
+    public class BlockRandomTypeService : IBlockRandomTypeService
     {
         private List<BlockType_Weight> typesWeight = new();
         private BlockType defaultBlockType;

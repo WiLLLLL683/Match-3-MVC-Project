@@ -6,7 +6,7 @@ namespace Model.Services
     /// <summary>
     /// Сервис генерации рандомных типов блоков
     /// </summary>
-    public interface IRandomBlockTypeService
+    public interface IBlockRandomTypeService
     {
         public void SetLevelConfig(List<BlockType_Weight> typesWeight, BlockType defaultBlockType);
         

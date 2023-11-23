@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Model.Services
 {
-    public class MatchService : IMatchService
+    public class BlockMatchService : IBlockMatchService
     {
         private readonly Game game;
         private readonly IMatcher matcher;
@@ -18,10 +18,10 @@ namespace Model.Services
         private int xLength;
         private int yLength;
 
-        public MatchService(Game game, IValidationService validationService)
+        public BlockMatchService(Game game, IMatcher matcher)
         {
             this.game = game;
-            matcher = new Matcher(validationService); //TODO вынести создание в Game
+            this.matcher = matcher;
         }
 
         public HashSet<Cell> FindAllMatches()

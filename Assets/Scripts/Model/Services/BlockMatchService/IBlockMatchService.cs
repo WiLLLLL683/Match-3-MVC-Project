@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Model.Services
 {
-    public interface IMatchService
+    public interface IBlockMatchService
     {
         /// <summary>
         /// Найти все совпадения по всем паттернам

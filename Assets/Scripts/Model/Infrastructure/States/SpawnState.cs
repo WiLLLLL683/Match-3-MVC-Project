@@ -9,16 +9,16 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly IStateMachine stateMachine;
-        private readonly IMatchService matchService;
+        private readonly IBlockMatchService matchService;
         private readonly IBlockSpawnService spawnService;
-        private readonly IGravityService gravityService;
+        private readonly IBlockGravityService gravityService;
         private readonly IBlockDestroyService blockDestroyService;
 
         private GameBoard gameBoard;
 
         private const int MAX_SPAWN_ITERATIONS = 10; //максимальное количество итераций спавна/проверки до
 
-        public SpawnState(Game game, IStateMachine stateMachine, IBlockSpawnService spawnService, IMatchService matchService, IGravityService gravityService, IBlockDestroyService blockDestroyService)
+        public SpawnState(Game game, IStateMachine stateMachine, IBlockSpawnService spawnService, IBlockMatchService matchService, IBlockGravityService gravityService, IBlockDestroyService blockDestroyService)
         {
             this.game = game;
             this.stateMachine = stateMachine;

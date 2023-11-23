@@ -10,13 +10,13 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly IStateMachine stateMachine;
-        private readonly IMatchService matchService;
+        private readonly IBlockMatchService matchService;
         private readonly IWinLoseService winLoseService;
 
         private Level level;
         private HashSet<Cell> hintCells;
 
-        public WaitState(Game game, IStateMachine stateMachine, IMatchService matchService, IWinLoseService winLoseService)
+        public WaitState(Game game, IStateMachine stateMachine, IBlockMatchService matchService, IWinLoseService winLoseService)
         {
             this.game = game;
             this.stateMachine = stateMachine;

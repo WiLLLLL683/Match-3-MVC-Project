@@ -9,9 +9,9 @@ namespace TestUtils
         /// <summary>
         /// Указать размеры и типы блоков построчно
         /// </summary>
-        public static RandomBlockTypeService CreateRandomBlockTypeService(params int[] typeIds)
+        public static BlockRandomTypeService CreateRandomBlockTypeService(params int[] typeIds)
         {
-            var service = new RandomBlockTypeService();
+            var service = new BlockRandomTypeService();
             service.SetLevelConfig(CreateListOfWeights(typeIds), TestBlockFactory.DefaultBlockType);
             return service;
         }

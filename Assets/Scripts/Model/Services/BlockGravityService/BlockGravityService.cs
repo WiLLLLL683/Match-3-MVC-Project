@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Model.Services
 {
-    public class GravityService : IGravityService
+    public class BlockGravityService : IBlockGravityService
     {
         private readonly Game game;
         private readonly IValidationService validationService;
@@ -14,7 +14,7 @@ namespace Model.Services
 
         private int lowestY;
 
-        public GravityService(Game game, IValidationService validationService, IBlockMoveService moveService)
+        public BlockGravityService(Game game, IValidationService validationService, IBlockMoveService moveService)
         {
             this.game = game;
             this.validationService = validationService;
