@@ -6,6 +6,6 @@ namespace Model.Factories
     public interface ICellFactory
     {
         Cell Create(Vector2Int position, CellType type);
-        Cell CreateInvisible(Vector2Int position);
+        Cell CreateHidden(Vector2Int position);
     }
 }

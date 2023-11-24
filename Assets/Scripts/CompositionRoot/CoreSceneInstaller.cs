@@ -72,20 +72,16 @@ namespace CompositionRoot
             Container.Bind<IGameBoardView>().FromInstance(gameBoardView).AsSingle();
             Container.Bind<IGameBoardPresenter>().To<GameBoardPresenter>().AsSingle();
 
+            var cellViewFactory = Container.Instantiate<CellViewFactory>(
+                new object[] { cellPrefab, notPlayableCellPrefab });
+            Container.Bind<ICellViewFactory>().FromInstance(cellViewFactory).AsSingle();
+
             //factories
             Container.BindFactory<Block, IBlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter, BlockPresenter.Factory>();
-            Container.BindFactory<Cell, ICellView, CellTypeSO, CellTypeSetSO, CellPresenter, CellPresenter.Factory>();
+            Container.BindFactory<Cell, ICellView, CellTypeSO, ICellTypeConfigProvider, CellPresenter, CellPresenter.Factory>();
             Container.BindFactory<BlockView, BlockView.Factory>()
                 .FromComponentInNewPrefab(blockPrefab)
                 .UnderTransform(gameBoardView.BlocksParent);
-            Container.BindFactory<CellView, CellView.Factory>()
-                .WithId(BindId.CellViewFactory)
-                .FromComponentInNewPrefab(cellPrefab)
-                .UnderTransform(gameBoardView.CellsParent);
-            Container.BindFactory<CellView, CellView.Factory>()
-                .WithId(BindId.CellNotPlayableViewFactory)
-                .FromComponentInNewPrefab(notPlayableCellPrefab)
-                .UnderTransform(gameBoardView.CellsParent);
         }
 
         private void BindBoosterInventory()

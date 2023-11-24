@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using View;
+using View.Factories;
 using Zenject;
 
 namespace Presenter
@@ -23,9 +24,8 @@ namespace Presenter
         private readonly BlockPresenter.Factory blockPresenterFactory;
         private readonly BlockView.Factory blockViewFactory;
         private readonly CellPresenter.Factory cellPresenterFactory;
-        private readonly CellView.Factory cellViewFactory;
-        private readonly CellView.Factory notPlayableCellViewFactory;
-        private readonly CellTypeSetSO allCellTypes;
+        private readonly ICellViewFactory cellViewFactory;
+        private readonly ICellTypeConfigProvider allCellTypes;
         private readonly BlockTypeSetSO blockTypeSet;
 
         private readonly Dictionary<Cell, ICellView> cells = new();
@@ -39,9 +39,8 @@ namespace Presenter
             BlockPresenter.Factory blockPresenterFactory,
             BlockView.Factory blockViewFactory,
             CellPresenter.Factory cellPresenterFactory,
-            [Inject(Id = BindId.CellViewFactory)] CellView.Factory cellViewFactory,
-            [Inject(Id = BindId.CellNotPlayableViewFactory)] CellView.Factory notPlayableCellViewFactory,
-            CellTypeSetSO allCellTypes,
+            ICellViewFactory cellViewFactory,
+            ICellTypeConfigProvider allCellTypes,
             BlockTypeSetSO blockTypeSet)
         {
             this.model = model;
@@ -51,7 +50,6 @@ namespace Presenter
             this.blockViewFactory = blockViewFactory;
             this.cellPresenterFactory = cellPresenterFactory;
             this.cellViewFactory = cellViewFactory;
-            this.notPlayableCellViewFactory = notPlayableCellViewFactory;
             this.allCellTypes = allCellTypes;
             this.blockTypeSet = blockTypeSet;
         }
@@ -105,12 +103,12 @@ namespace Presenter
 
                     if (cellModel.Type.IsPlayable)
                     {
-                        ICellView cellView = cellViewFactory.Create();
+                        ICellView cellView = cellViewFactory.Create(cellModel);
                         CreateCellPresenter(cellModel, cellView);
                     }
                     else
                     {
-                        ICellView cellView = notPlayableCellViewFactory.Create();
+                        ICellView cellView = cellViewFactory.CreateInvisible(cellModel);
                         CreateCellPresenter(cellModel, cellView);
                     }
                 }

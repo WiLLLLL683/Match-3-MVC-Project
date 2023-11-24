@@ -7,14 +7,14 @@ namespace Model.Factories
     public class GameBoardFactory : IGameBoardFactory
     {
         private readonly ICellFactory cellFactory;
-        private readonly CellTypeSetSO allCellTypes;
+        private readonly ICellTypeConfigProvider allCellTypes;
 
         private LevelSO config;
         private Cell[,] cells;
         private int xLength;
         private int yLength;
 
-        public GameBoardFactory(ICellFactory cellFactory, CellTypeSetSO allCellTypes)
+        public GameBoardFactory(ICellFactory cellFactory, ICellTypeConfigProvider allCellTypes)
         {
             this.cellFactory = cellFactory;
             this.allCellTypes = allCellTypes;
@@ -25,22 +25,22 @@ namespace Model.Factories
             this.config = config;
 
             xLength = config.gameBoard.GridSize.x;
-            yLength = config.gameBoard.GridSize.y + config.rowsOfInvisibleCells;
+            yLength = config.gameBoard.GridSize.y + config.rowsOfHiddenCells;
             cells = new Cell[xLength, yLength];
-            CreateInvisibleCells();
+            CreateHiddenCells();
             CreateCells();
 
-            return new GameBoard(cells, config.rowsOfInvisibleCells);
+            return new GameBoard(cells, config.rowsOfHiddenCells);
         }
 
-        private void CreateInvisibleCells()
+        private void CreateHiddenCells()
         {
             //спавн невидимых клеток
-            for (int y = 0; y < config.rowsOfInvisibleCells; y++)
+            for (int y = 0; y < config.rowsOfHiddenCells; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    cells[x, y] = cellFactory.CreateInvisible(new Vector2Int(x, y));
+                    cells[x, y] = cellFactory.CreateHidden(new Vector2Int(x, y));
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace Model.Factories
         private void CreateCells()
         {
             //спавн обычных клеток после рядов невидимых клеток
-            for (int y = config.rowsOfInvisibleCells; y < yLength; y++)
+            for (int y = config.rowsOfHiddenCells; y < yLength; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
@@ -61,7 +61,7 @@ namespace Model.Factories
         private CellType GetCellTypeFromConfig(int x, int y)
         {
             //сдвиг на количество невидимых рядов, в конфиге они заданы отдельно, а не в 2д массиве
-            y -= config.rowsOfInvisibleCells;
+            y -= config.rowsOfHiddenCells;
 
             int cellTypeId = config.gameBoard.GetCell(x, y);
 

@@ -20,7 +20,7 @@ MonoBehaviour:
   restrictions:
   - count: 10
     target: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
-  rowsOfInvisibleCells: 2
+  rowsOfHiddenCells: 2
   gameBoard:
     gridSize: {x: 10, y: 10}
     cellSize: {x: 32, y: 16}

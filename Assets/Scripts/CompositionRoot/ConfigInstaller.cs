@@ -30,11 +30,7 @@ namespace CompositionRoot
 
         private void BindCellTypes()
         {
-            Container.Bind<CellTypeSetSO>().FromInstance(allCellTypes).AsSingle();
-            Container.Bind<CellType>()
-                .FromInstance(allCellTypes.invisibleCellType.type)
-                .AsSingle()
-                .WhenInjectedInto<CellFactory>();
+            Container.Bind<ICellTypeConfigProvider>().FromInstance(allCellTypes).AsSingle();
         }
 
         private void BindCurrencies()

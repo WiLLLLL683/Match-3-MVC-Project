@@ -11,11 +11,13 @@ namespace Config
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "NewCellTypeSet", menuName = "Config/Cell/CellTypeSet")]
-    public class CellTypeSetSO : ScriptableObject
+    public class CellTypeSetSO : ScriptableObject, ICellTypeConfigProvider
     {
         public List<CellTypeSO> cellTypes = new();
         public CellTypeSO defaultCellType;
-        public CellTypeSO invisibleCellType;
+        public CellTypeSO hiddenCellType;
+
+        public CellTypeSO HiddenCellType => hiddenCellType;
 
         public CellTypeSO GetSO(int id)
         {
