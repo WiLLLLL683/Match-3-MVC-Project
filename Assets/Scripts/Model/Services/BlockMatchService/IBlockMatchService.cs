@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 namespace Model.Services
 {
-    public interface IMatchService
+    /// <summary>
+    /// Сервис для поиска паттернов из одинаковых блоков на игровом поле,
+    /// проверяет все паттерны текущего уровня
+    /// </summary>
+    public interface IBlockMatchService
     {
         /// <summary>
         /// Найти все совпадения по всем паттернам

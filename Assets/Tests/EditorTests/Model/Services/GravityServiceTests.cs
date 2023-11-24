@@ -7,14 +7,14 @@ namespace Model.Services.UnitTests
 {
     public class GravityServiceTests
     {
-        private (GameBoard gameBoard, GravityService service) Setup(int xLength, int yLength)
+        private (GameBoard gameBoard, BlockGravityService service) Setup(int xLength, int yLength)
         {
             var game = TestLevelFactory.CreateGame(xLength, yLength);
             var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
 
-            var service = new GravityService(game, validation, moveService);
+            var service = new BlockGravityService(game, validation, moveService);
 
             return (game.CurrentLevel.gameBoard, service);
         }

@@ -10,11 +10,11 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly IStateMachine stateMachine;
-        private readonly IMatchService matchService;
+        private readonly IBlockMatchService matchService;
 
         private GameBoard gameBoard;
 
-        public InputActivateBlockState(Game game, IStateMachine stateMachine, IMatchService matchService)
+        public InputActivateBlockState(Game game, IStateMachine stateMachine, IBlockMatchService matchService)
         {
             this.game = game;
             this.stateMachine = stateMachine;

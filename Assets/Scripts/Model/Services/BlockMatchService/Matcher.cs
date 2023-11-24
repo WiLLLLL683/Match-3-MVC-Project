@@ -12,11 +12,8 @@ namespace Model.Services
         private GameBoard gameBoard;
         private Pattern pattern;
         private Vector2Int startPosition;
-
-        private bool PatternIsEmpty => pattern.totalSum == 0;
-        private bool AllCellsMatched => matchedCells.Count == pattern.totalSum;
-        private Vector2Int OriginPos => new(pattern.originPosition.x + startPosition.x, pattern.originPosition.y + startPosition.y);
-        private int OriginTypeId => gameBoard.Cells[OriginPos.x, OriginPos.y].Block.Type.Id;
+        private Vector2Int originPos;
+        private int originTypeId;
 
         public Matcher(IValidationService validation)
         {
@@ -28,13 +25,27 @@ namespace Model.Services
             this.startPosition = startPosition;
             this.pattern = pattern;
             this.gameBoard = gameBoard;
+
             matchedCells.Clear();
 
-            if (PatternIsEmpty)
+            if (pattern.totalSum == 0)
                 return matchedCells;
 
-            if (!validation.BlockExistsAt(OriginPos))
+            CalculateOriginPosition();
+
+            if (!validation.BlockExistsAt(originPos))
                 return matchedCells;
+
+            FindSimilarBlocks(pattern, gameBoard);
+            CheckResult();
+            return matchedCells;
+        }
+
+        private void CalculateOriginPosition() => originPos = pattern.originPosition + startPosition;
+
+        private void FindSimilarBlocks(Pattern pattern, GameBoard gameBoard)
+        {
+            originTypeId = gameBoard.Cells[originPos.x, originPos.y].Block.Type.Id;
 
             for (int x = 0; x < pattern.grid.GetLength(0); x++)
             {
@@ -43,11 +54,15 @@ namespace Model.Services
                     CompareBlockWithOrigin(x, y);
                 }
             }
+        }
 
-            if (!AllCellsMatched)
+        private void CheckResult()
+        {
+            //для успеха должны совпасть все блоки помеченные в паттерне, иначе возвращается пустой набор клеток
+            if (matchedCells.Count != pattern.totalSum)
+            {
                 matchedCells.Clear();
-
-            return matchedCells;
+            }
         }
 
         private void CompareBlockWithOrigin(int x, int y)
@@ -62,7 +77,7 @@ namespace Model.Services
             Cell cell = gameBoard.Cells[posOnGameboard.x, posOnGameboard.y];
             int cerrentTypeId = cell.Block.Type.Id;
 
-            if (cerrentTypeId == OriginTypeId)
+            if (cerrentTypeId == originTypeId)
             {
                 matchedCells.Add(cell);
             }

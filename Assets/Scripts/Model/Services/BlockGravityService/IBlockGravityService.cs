@@ -5,7 +5,7 @@ namespace Model.Services
     /// <summary>
     /// Сервис с правилами работы гравитации
     /// </summary>
-    public interface IGravityService
+    public interface IBlockGravityService
     {
         /// <summary>
         /// Переместить все "висящие в воздухе" блоки вниз

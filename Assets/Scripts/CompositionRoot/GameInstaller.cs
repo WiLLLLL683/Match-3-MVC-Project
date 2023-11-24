@@ -48,9 +48,10 @@ namespace CompositionRoot
             Container.Bind<IBlockDestroyService>().To<BlockDestroyService>().AsSingle();
             Container.Bind<IBlockMoveService>().To<BlockMoveService>().AsSingle();
             Container.Bind<IBlockSpawnService>().To<BlockSpawnService>().AsSingle();
-            Container.Bind<IGravityService>().To<GravityService>().AsSingle();
-            Container.Bind<IMatchService>().To<MatchService>().AsSingle();
-            Container.Bind<IRandomBlockTypeService>().To<RandomBlockTypeService>().AsSingle();
+            Container.Bind<IMatcher>().To<Matcher>().AsSingle();
+            Container.Bind<IBlockMatchService>().To<BlockMatchService>().AsSingle();
+            Container.Bind<IBlockGravityService>().To<BlockGravityService>().AsSingle();
+            Container.Bind<IBlockRandomTypeService>().To<BlockRandomTypeService>().AsSingle();
             Container.Bind<IValidationService>().To<ValidationService>().AsSingle();
 
             //cell Services

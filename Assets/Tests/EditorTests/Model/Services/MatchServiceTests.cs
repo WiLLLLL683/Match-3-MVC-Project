@@ -8,7 +8,7 @@ namespace Model.Services.UnitTests
 {
     public class MatchServiceTests
     {
-        private (MatchService service, GameBoard gameBoard) Setup(
+        private (BlockMatchService service, GameBoard gameBoard) Setup(
             int xLength,
             int yLength,
             MatchPattern[] matchPatterns = default,
@@ -18,7 +18,8 @@ namespace Model.Services.UnitTests
             game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, 0, preSpawnedBlocks);
 
             var validation = new ValidationService(game);
-            var service = new MatchService(game, validation);
+            var matcher = new Matcher(validation);
+            var service = new BlockMatchService(game, matcher);
             return (service, game.CurrentLevel.gameBoard);
         }
 

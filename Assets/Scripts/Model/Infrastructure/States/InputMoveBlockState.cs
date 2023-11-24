@@ -11,7 +11,7 @@ namespace Model.Infrastructure
     {
         private readonly Game game;
         private readonly IStateMachine stateMachine;
-        private readonly IMatchService matchService;
+        private readonly IBlockMatchService matchService;
         private readonly IBlockMoveService moveService;
 
         private GameBoard gameBoard;
@@ -20,7 +20,7 @@ namespace Model.Infrastructure
 
         public InputMoveBlockState(Game game,
             IStateMachine stateMachine,
-            IMatchService matchService,
+            IBlockMatchService matchService,
             IBlockMoveService moveService)
         {
             this.game = game;

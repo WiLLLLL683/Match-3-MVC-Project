@@ -11,12 +11,12 @@ namespace Model.Services
         private readonly Game game;
         private readonly IBlockFactory blockFactory;
         private readonly IValidationService validationService;
-        private readonly IRandomBlockTypeService randomService;
+        private readonly IBlockRandomTypeService randomService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly ICellSetBlockService setBlockService;
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
-        public BlockSpawnService(Game game, IBlockFactory blockFactory, IValidationService validationService, IRandomBlockTypeService randomService, IBlockChangeTypeService changeTypeService, ICellSetBlockService setBlockService)
+        public BlockSpawnService(Game game, IBlockFactory blockFactory, IValidationService validationService, IBlockRandomTypeService randomService, IBlockChangeTypeService changeTypeService, ICellSetBlockService setBlockService)
         {
             this.game = game;
             this.blockFactory = blockFactory;

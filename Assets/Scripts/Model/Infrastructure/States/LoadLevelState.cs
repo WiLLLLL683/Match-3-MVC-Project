@@ -14,8 +14,8 @@ namespace Model.Infrastructure
         private readonly Game game;
         private readonly IStateMachine stateMachine;
         private readonly ILevelFactory levelFactory;
-        private readonly IMatchService matchService;
-        private readonly IRandomBlockTypeService randomService;
+        private readonly IBlockMatchService matchService;
+        private readonly IBlockRandomTypeService randomService;
         private readonly IBlockSpawnService spawnService;
         private readonly ILevelLoader levelLoader;
 
@@ -26,9 +26,9 @@ namespace Model.Infrastructure
         public LoadLevelState(Game game,
             IStateMachine stateMachine,
             ILevelFactory levelFactory,
-            IRandomBlockTypeService randomService,
+            IBlockRandomTypeService randomService,
             IBlockSpawnService spawnService,
-            IMatchService matchService,
+            IBlockMatchService matchService,
             ILevelLoader levelLoader)
         {
             this.game = game;

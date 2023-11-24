@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Model.Services
 {
+    /// <summary>
+    /// Компонент BlockMatchService для сравнения одного паттерна в одной точке игрового поля
+    /// </summary>
     public interface IMatcher
     {
         /// <summary>
