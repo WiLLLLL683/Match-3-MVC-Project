@@ -24,7 +24,8 @@ namespace Infrastructure
         private LevelSO currentLevel;
         private IInput input;
         private IHudPresenter hud;
-        private IGameBoardPresenter gameBoard;
+        private ICellsPresenter cells;
+        private IBlocksPresenter blocks;
         private IBoosterInventoryPresenter boosterInventory;
         private IPausePresenter pause;
         private IEndGamePresenter endGame;
@@ -35,7 +36,8 @@ namespace Infrastructure
             LevelSO currentLevel,
             IInput input,
             IHudPresenter hud,
-            IGameBoardPresenter gameBoard,
+            ICellsPresenter cells,
+            IBlocksPresenter blocks,
             IBoosterInventoryPresenter boosterInventory,
             IPausePresenter pause,
             IEndGamePresenter endGame)
@@ -45,7 +47,8 @@ namespace Infrastructure
             this.currentLevel = currentLevel;
             this.input = input;
             this.hud = hud;
-            this.gameBoard = gameBoard;
+            this.cells = cells;
+            this.blocks = blocks;
             this.boosterInventory = boosterInventory;
             this.pause = pause;
             this.endGame = endGame;
@@ -70,7 +73,8 @@ namespace Infrastructure
 
             input.Enable();
             hud.Enable();
-            gameBoard.Enable();
+            cells.Enable();
+            blocks.Enable();
             boosterInventory.Enable();
             pause.Enable();
             endGame.Enable();
@@ -80,7 +84,8 @@ namespace Infrastructure
         {
             //input?.Disable(); //MonoBehavior будет уничтожен при выгрузке сцены и не требует отключения
             hud?.Disable();
-            gameBoard?.Disable();
+            cells?.Disable();
+            blocks?.Disable();
             boosterInventory?.Disable();
             pause?.Disable();
             endGame.Disable();

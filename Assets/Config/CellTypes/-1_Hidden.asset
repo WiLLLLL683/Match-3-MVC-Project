@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: -1_Hidden
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
+  prefab: {fileID: 5919296878604722895, guid: 3011fe3940f1c0146962aad3d86215a7, type: 3}
   destroyEffect: {fileID: 0}
   emptyEffect: {fileID: 0}
   type:

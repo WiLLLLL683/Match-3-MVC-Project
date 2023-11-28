@@ -23,14 +23,14 @@ namespace View
         private Directions swipeDirection;
         private float timer;
 
-        private IGameBoardPresenter gameBoardPresenter;
+        private IBlocksPresenter blocksPresenter;
         private Camera mainCamera;
 
         [Inject]
-        public void Construct(IGameBoardPresenter gameBoardPresenter)
+        public void Construct(IBlocksPresenter blocksPresenter)
         {
             mainCamera = Camera.main;
-            this.gameBoardPresenter = gameBoardPresenter;
+            this.blocksPresenter = blocksPresenter;
         }
 
         private void Update()
@@ -142,7 +142,7 @@ namespace View
             if (swipeDirection == Directions.Zero)
                 return false;
 
-            IBlockInput newOppositeBlock = (IBlockInput)gameBoardPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int().ToViewPos());
+            IBlockInput newOppositeBlock = (IBlockInput)blocksPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int().ToViewPos());
 
             if (oppositeBlock != newOppositeBlock)
             {

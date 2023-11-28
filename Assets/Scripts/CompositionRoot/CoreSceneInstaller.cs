@@ -29,8 +29,6 @@ namespace CompositionRoot
         [SerializeField] private CounterView goalCounterPrefab;
         [SerializeField] private CounterView restrictionCounterPrefab;
         [SerializeField] private BlockView blockPrefab;
-        [SerializeField] private CellView cellPrefab;
-        [SerializeField] private CellView notPlayableCellPrefab;
         [SerializeField] private BoosterView boosterPrefab;
 
         public override void InstallBindings()
@@ -70,15 +68,12 @@ namespace CompositionRoot
         private void BindGameboard()
         {
             Container.Bind<IGameBoardView>().FromInstance(gameBoardView).AsSingle();
-            Container.Bind<IGameBoardPresenter>().To<GameBoardPresenter>().AsSingle();
 
-            var cellViewFactory = Container.Instantiate<CellViewFactory>(
-                new object[] { cellPrefab, notPlayableCellPrefab });
-            Container.Bind<ICellViewFactory>().FromInstance(cellViewFactory).AsSingle();
+            Container.Bind<ICellViewFactory>().To<CellViewFactory>().AsSingle();
+            Container.Bind<ICellsPresenter>().To<CellsPresenter>().AsSingle();
 
-            //factories
+            Container.Bind<IBlocksPresenter>().To<BlocksPresenter>().AsSingle();
             Container.BindFactory<Block, IBlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter, BlockPresenter.Factory>();
-            Container.BindFactory<Cell, ICellView, CellTypeSO, ICellTypeConfigProvider, CellPresenter, CellPresenter.Factory>();
             Container.BindFactory<BlockView, BlockView.Factory>()
                 .FromComponentInNewPrefab(blockPrefab)
                 .UnderTransform(gameBoardView.BlocksParent);

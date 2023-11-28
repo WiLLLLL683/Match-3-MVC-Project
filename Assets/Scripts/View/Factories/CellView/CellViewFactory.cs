@@ -12,40 +12,22 @@ namespace View.Factories
         private readonly IInstantiator instantiator;
         private readonly IGameBoardView gameBoardView;
         private readonly ICellTypeConfigProvider configProvider;
-        private readonly CellView cellPrefab;
-        private readonly CellView invisibleCellPrefab;
 
         public CellViewFactory(IInstantiator instantiator,
             IGameBoardView gameBoardView,
-            ICellTypeConfigProvider configProvider,
-            CellView cellPrefab,
-            CellView invisibleCellPrefab)
+            ICellTypeConfigProvider configProvider)
         {
             this.instantiator = instantiator;
             this.gameBoardView = gameBoardView;
             this.configProvider = configProvider;
-            this.cellPrefab = cellPrefab;
-            this.invisibleCellPrefab = invisibleCellPrefab;
         }
 
         public ICellView Create(Cell model)
         {
-            CellView view = instantiator.InstantiatePrefabForComponent<CellView>(cellPrefab, gameBoardView.CellsParent);
-            InitView(view, model);
+            CellTypeSO config = configProvider.GetSO(model.Type.Id);
+            CellView view = instantiator.InstantiatePrefabForComponent<CellView>(config.prefab, gameBoardView.CellsParent);
+            view.Init(model.Position, config.icon, model.Type.IsPlayable, config.destroyEffect, config.emptyEffect);
             return view;
-        }
-
-        public ICellView CreateInvisible(Cell model)
-        {
-            CellView view = instantiator.InstantiatePrefabForComponent<CellView>(invisibleCellPrefab, gameBoardView.CellsParent);
-            InitView(view, model);
-            return view;
-        }
-
-        private void InitView(ICellView view, Cell model)
-        {
-            CellTypeSO SO = configProvider.GetSO(model.Type.Id);
-            view.Init(model.Position, SO.icon, model.Type.IsPlayable, SO.destroyEffect, SO.emptyEffect);
         }
     }
 }

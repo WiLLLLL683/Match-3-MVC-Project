@@ -7,9 +7,8 @@ namespace Presenter
     /// Менеджер игрового поля
     /// Управляет жизненным циклом клеток и блоков, предоставляет к ним доступ
     /// </summary>
-    public interface IGameBoardPresenter : IPresenter
+    public interface IBlocksPresenter : IPresenter
     {
         public abstract IBlockView GetBlockView(Vector2Int modelPosition);
-        public abstract ICellView GetCellView(Vector2Int modelPosition);
     }
 }
