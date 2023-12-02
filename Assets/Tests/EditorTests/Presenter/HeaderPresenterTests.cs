@@ -5,8 +5,10 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using TestUtils;
 using UnityEngine;
 using View;
+using View.Factories;
 
 namespace Presenter.UnitTests
 {

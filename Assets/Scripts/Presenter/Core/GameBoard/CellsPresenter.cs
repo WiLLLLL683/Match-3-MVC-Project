@@ -23,6 +23,7 @@ namespace Presenter
         private readonly ICellSetBlockService setBlockService;
         private readonly ICellChangeTypeService changeTypeService;
         private readonly ICellDestroyService cellDestroyService;
+        private readonly IValidationService validationService;
 
         private readonly Dictionary<Cell, ICellView> cells = new();
 
@@ -34,7 +35,8 @@ namespace Presenter
             ICellTypeConfigProvider configProvider,
             ICellSetBlockService setBlockService,
             ICellChangeTypeService changeTypeService,
-            ICellDestroyService cellDestroyService)
+            ICellDestroyService cellDestroyService,
+            IValidationService validationService)
         {
             this.model = model;
             this.view = view;
@@ -43,6 +45,7 @@ namespace Presenter
             this.setBlockService = setBlockService;
             this.changeTypeService = changeTypeService;
             this.cellDestroyService = cellDestroyService;
+            this.validationService = validationService;
         }
 
         public void Enable()
@@ -68,8 +71,11 @@ namespace Presenter
 
         public ICellView GetCellView(Vector2Int modelPosition)
         {
+            if (!validationService.CellExistsAt(modelPosition))
+                return null;
+
             Cell model = gameBoard.Cells[modelPosition.x, modelPosition.y];
-            if (model == null || !cells.ContainsKey(model))
+            if (!cells.ContainsKey(model))
                 return null;
 
             return cells[model];
