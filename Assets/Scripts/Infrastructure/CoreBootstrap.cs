@@ -22,6 +22,7 @@ namespace Infrastructure
         private IStateMachine stateMachine;
         private IStateFactory stateFactory;
         private LevelSO currentLevel;
+        private ILevelLoader levelLoader;
         private IInput input;
         private IHudPresenter hud;
         private ICellsPresenter cells;
@@ -34,6 +35,7 @@ namespace Infrastructure
         public void Construct(IStateMachine stateMachine,
             IStateFactory stateFactory,
             LevelSO currentLevel,
+            ILevelLoader levelLoader,
             IInput input,
             IHudPresenter hud,
             ICellsPresenter cells,
@@ -45,6 +47,7 @@ namespace Infrastructure
             this.stateMachine = stateMachine;
             this.stateFactory = stateFactory;
             this.currentLevel = currentLevel;
+            this.levelLoader = levelLoader;
             this.input = input;
             this.hud = hud;
             this.cells = cells;
@@ -78,10 +81,14 @@ namespace Infrastructure
             boosterInventory.Enable();
             pause.Enable();
             endGame.Enable();
+
+            levelLoader.OnLoadStart += DisableAllPresenters;
         }
 
-        private void OnDestroy()
+        private void DisableAllPresenters() //TODO Запускать перед уничтожением сцены
         {
+            levelLoader.OnLoadStart -= DisableAllPresenters;
+
             //input?.Disable(); //MonoBehavior будет уничтожен при выгрузке сцены и не требует отключения
             hud?.Disable();
             cells?.Disable();

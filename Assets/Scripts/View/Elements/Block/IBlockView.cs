@@ -10,8 +10,8 @@ namespace View
     {
         public GameObject gameObject { get; }
 
-        public event Action<Directions> OnMove;
-        public event Action OnActivate;
+        public event Action<Vector2Int, Directions> OnInputMove;
+        public event Action<Vector2Int> OnInputActivate;
 
         //инициализация
         public void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition);

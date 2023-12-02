@@ -19,7 +19,7 @@ namespace Presenter
         private readonly Game model;
         private readonly IGameBoardView view;
         private readonly ICellViewFactory cellViewFactory;
-        private readonly ICellTypeConfigProvider allCellTypes;
+        private readonly ICellTypeConfigProvider configProvider;
         private readonly ICellSetBlockService setBlockService;
         private readonly ICellChangeTypeService changeTypeService;
         private readonly ICellDestroyService cellDestroyService;
@@ -31,7 +31,7 @@ namespace Presenter
         public CellsPresenter(Game model,
             IGameBoardView view,
             ICellViewFactory cellViewFactory,
-            ICellTypeConfigProvider allCellTypes,
+            ICellTypeConfigProvider configProvider,
             ICellSetBlockService setBlockService,
             ICellChangeTypeService changeTypeService,
             ICellDestroyService cellDestroyService)
@@ -39,7 +39,7 @@ namespace Presenter
             this.model = model;
             this.view = view;
             this.cellViewFactory = cellViewFactory;
-            this.allCellTypes = allCellTypes;
+            this.configProvider = configProvider;
             this.setBlockService = setBlockService;
             this.changeTypeService = changeTypeService;
             this.cellDestroyService = cellDestroyService;
@@ -48,7 +48,7 @@ namespace Presenter
         public void Enable()
         {
             gameBoard = model.CurrentLevel.gameBoard;
-            SpawnAllCells();
+            SpawnAll();
 
             cellDestroyService.OnDestroy += Destroy;
             setBlockService.OnEmpty += Empty;
@@ -68,25 +68,27 @@ namespace Presenter
 
         public ICellView GetCellView(Vector2Int modelPosition)
         {
-            Cell cellModel = gameBoard.Cells[modelPosition.x, modelPosition.y];
-            return cells[cellModel];
+            Cell model = gameBoard.Cells[modelPosition.x, modelPosition.y];
+            if (model == null || !cells.ContainsKey(model))
+                return null;
+
+            return cells[model];
         }
 
-        [Button]
-        private void SpawnAllCells()
+        private void SpawnAll()
         {
-            ClearAllCells();
+            ClearAll();
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1); y++)
             {
                 for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
                 {
-                    SpawnCell(y, x);
+                    Spawn(y, x);
                 }
             }
         }
 
-        private void ClearAllCells()
+        private void ClearAll()
         {
             foreach (Transform cell in view.CellsParent)
             {
@@ -96,10 +98,11 @@ namespace Presenter
             cells.Clear();
         }
 
-        private void SpawnCell(int y, int x)
+        private void Spawn(int y, int x)
         {
-            Cell cellModel = gameBoard.Cells[x, y];
-            cells[cellModel] = cellViewFactory.Create(cellModel);
+            Cell model = gameBoard.Cells[x, y];
+            ICellView view = cellViewFactory.Create(model);
+            cells.Add(model, view);
         }
 
         private void Destroy(Cell model)
@@ -107,8 +110,8 @@ namespace Presenter
             if (!cells.ContainsKey(model))
                 return;
 
-            var cellView = cells[model];
-            cellView.PlayDestroyEffect();
+            ICellView view = cells[model];
+            view.PlayDestroyEffect();
         }
 
         private void ChangeType(Cell model)
@@ -116,9 +119,9 @@ namespace Presenter
             if (!cells.ContainsKey(model))
                 return;
 
-            var cellView = cells[model];
-            CellTypeSO typeSO = allCellTypes.GetSO(model.Type.Id);
-            cellView.ChangeType(typeSO.icon, model.Type.IsPlayable, typeSO.destroyEffect, typeSO.emptyEffect);
+            ICellView view = cells[model];
+            CellTypeSO config = configProvider.GetSO(model.Type.Id);
+            view.ChangeType(config.icon, model.Type.IsPlayable, config.destroyEffect, config.emptyEffect);
         }
 
         private void Empty(Cell model)
@@ -126,8 +129,8 @@ namespace Presenter
             if (!cells.ContainsKey(model))
                 return;
 
-            var cellView = cells[model];
-            cellView.PlayEmptyEffect();
+            ICellView view = cells[model];
+            view.PlayEmptyEffect();
         }
     }
 }

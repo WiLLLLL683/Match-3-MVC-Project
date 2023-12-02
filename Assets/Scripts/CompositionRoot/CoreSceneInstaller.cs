@@ -68,15 +68,12 @@ namespace CompositionRoot
         private void BindGameboard()
         {
             Container.Bind<IGameBoardView>().FromInstance(gameBoardView).AsSingle();
-
-            Container.Bind<ICellViewFactory>().To<CellViewFactory>().AsSingle();
             Container.Bind<ICellsPresenter>().To<CellsPresenter>().AsSingle();
-
             Container.Bind<IBlocksPresenter>().To<BlocksPresenter>().AsSingle();
-            Container.BindFactory<Block, IBlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter, BlockPresenter.Factory>();
-            Container.BindFactory<BlockView, BlockView.Factory>()
-                .FromComponentInNewPrefab(blockPrefab)
-                .UnderTransform(gameBoardView.BlocksParent);
+
+            //factories
+            Container.Bind<ICellViewFactory>().To<CellViewFactory>().AsSingle();
+            Container.Bind<IBlockViewFactory>().To<BlockViewFactory>().AsSingle();
         }
 
         private void BindBoosterInventory()

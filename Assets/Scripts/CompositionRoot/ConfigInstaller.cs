@@ -11,6 +11,7 @@ namespace CompositionRoot
     public class ConfigInstaller : ScriptableObjectInstaller<ConfigInstaller>
     {
         [SerializeField] private LevelSetSO allLevels;
+        [SerializeField] private BlockTypeSetSO allBlockTypes;
         [SerializeField] private CellTypeSetSO allCellTypes;
         [SerializeField] private CurrencySetSO allCurrencies;
         [SerializeField] private CounterTargetSetSO allCounterTargets;
@@ -18,6 +19,7 @@ namespace CompositionRoot
         public override void InstallBindings()
         {
             BindLevels();
+            BindBlockTypes();
             BindCellTypes();
             BindCurrencies();
             BindCounterTargets();
@@ -26,6 +28,11 @@ namespace CompositionRoot
         private void BindLevels()
         {
             Container.Bind<ILevelConfigProvider>().FromInstance(allLevels).AsSingle();
+        }
+
+        private void BindBlockTypes()
+        {
+            Container.Bind<IBlockTypeConfigProvider>().FromInstance(allBlockTypes).AsSingle();
         }
 
         private void BindCellTypes()

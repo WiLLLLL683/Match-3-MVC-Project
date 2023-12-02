@@ -13,8 +13,6 @@ namespace View
     /// </summary>
     public class BlockView : MonoBehaviour, IBlockView, IBlockInput
     {
-        public class Factory : PlaceholderFactory<BlockView> { }
-
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private float moveSpeed;
         [SerializeField] private float tapSpeed;
@@ -22,8 +20,8 @@ namespace View
 
         public Vector2Int ModelPosition => modelPosition;
 
-        public event Action<Directions> OnMove;
-        public event Action OnActivate;
+        public event Action<Vector2Int, Directions> OnInputMove;
+        public event Action<Vector2Int> OnInputActivate;
 
         private Sprite iconSprite;
         private ParticleSystem destroyEffectPrefab;
@@ -45,8 +43,8 @@ namespace View
         }
 
         //Input
-        public void Input_MoveBlock(Directions direction) => OnMove?.Invoke(direction);
-        public void Input_ActivateBlock() => OnActivate?.Invoke();
+        public void Input_MoveBlock(Directions direction) => OnInputMove?.Invoke(modelPosition, direction);
+        public void Input_ActivateBlock() => OnInputActivate?.Invoke(modelPosition);
         public void Input_Drag(Directions direction, Vector2 deltaPosition) => targetPosition = modelPosition.ToViewPos() + deltaPosition;
         public void Input_Release() => targetPosition = modelPosition.ToViewPos();
 
