@@ -9,7 +9,7 @@ namespace Model.Factories
     {
         private readonly CellType hiddenCellType;
 
-        public CellFactory(ICellTypeConfigProvider configProvider)
+        public CellFactory(IConfigProvider configProvider)
         {
             hiddenCellType = configProvider.HiddenCellType.type;
         }

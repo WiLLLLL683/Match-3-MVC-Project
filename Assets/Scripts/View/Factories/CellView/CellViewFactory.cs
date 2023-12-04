@@ -11,11 +11,11 @@ namespace View.Factories
     {
         private readonly IInstantiator instantiator;
         private readonly IGameBoardView gameBoardView;
-        private readonly ICellTypeConfigProvider configProvider;
+        private readonly IConfigProvider configProvider;
 
         public CellViewFactory(IInstantiator instantiator,
             IGameBoardView gameBoardView,
-            ICellTypeConfigProvider configProvider)
+            IConfigProvider configProvider)
         {
             this.instantiator = instantiator;
             this.gameBoardView = gameBoardView;
@@ -24,7 +24,7 @@ namespace View.Factories
 
         public ICellView Create(Cell model)
         {
-            CellTypeSO config = configProvider.GetSO(model.Type.Id);
+            CellTypeSO config = configProvider.GetCellTypeSO(model.Type.Id);
             CellView view = instantiator.InstantiatePrefabForComponent<CellView>(config.prefab, gameBoardView.CellsParent);
             view.Init(model.Position, config.icon, model.Type.IsPlayable, config.destroyEffect, config.emptyEffect);
             return view;

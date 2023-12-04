@@ -20,11 +20,10 @@ namespace CompositionRoot
 
         public override void InstallBindings()
         {
-            ConfigProvider configProvider = new(allBlockTypes, blockViewPrefab);
+            ConfigProvider configProvider = new(allBlockTypes, blockViewPrefab, allCellTypes);
             Container.Bind<IConfigProvider>().FromInstance(configProvider).AsSingle();
 
             BindLevels();
-            BindCellTypes();
             BindCurrencies();
             BindCounterTargets();
         }
@@ -32,11 +31,6 @@ namespace CompositionRoot
         private void BindLevels()
         {
             Container.Bind<ILevelConfigProvider>().FromInstance(allLevels).AsSingle();
-        }
-
-        private void BindCellTypes()
-        {
-            Container.Bind<ICellTypeConfigProvider>().FromInstance(allCellTypes).AsSingle();
         }
 
         private void BindCurrencies()

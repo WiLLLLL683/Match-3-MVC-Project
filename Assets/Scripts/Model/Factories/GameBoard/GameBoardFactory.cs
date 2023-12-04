@@ -7,17 +7,17 @@ namespace Model.Factories
     public class GameBoardFactory : IGameBoardFactory
     {
         private readonly ICellFactory cellFactory;
-        private readonly ICellTypeConfigProvider allCellTypes;
+        private readonly IConfigProvider configProvider;
 
         private LevelSO config;
         private Cell[,] cells;
         private int xLength;
         private int yLength;
 
-        public GameBoardFactory(ICellFactory cellFactory, ICellTypeConfigProvider allCellTypes)
+        public GameBoardFactory(ICellFactory cellFactory, IConfigProvider configProvider)
         {
             this.cellFactory = cellFactory;
-            this.allCellTypes = allCellTypes;
+            this.configProvider = configProvider;
         }
 
         public GameBoard Create(LevelSO config)
@@ -65,7 +65,7 @@ namespace Model.Factories
 
             int cellTypeId = config.gameBoard.GetCell(x, y);
 
-            return allCellTypes.GetSO(cellTypeId).type;
+            return configProvider.GetCellTypeSO(cellTypeId).type;
         }
     }
 }

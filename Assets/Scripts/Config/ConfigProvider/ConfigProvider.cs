@@ -9,13 +9,16 @@ namespace Config
     public class ConfigProvider : IConfigProvider
     {
         public BlockView BlockViewPrefab { get; }
+        public CellTypeSO HiddenCellType => allCellTypes.hiddenCellType;
 
         private readonly BlockTypeSetSO allBlockTypes;
+        private readonly CellTypeSetSO allCellTypes;
 
-        public ConfigProvider(BlockTypeSetSO allBlockTypes, BlockView blockViewPrefab)
+        public ConfigProvider(BlockTypeSetSO allBlockTypes, BlockView blockViewPrefab, CellTypeSetSO allCellTypes)
         {
             this.allBlockTypes = allBlockTypes;
             this.BlockViewPrefab = blockViewPrefab;
+            this.allCellTypes = allCellTypes;
         }
 
         public BlockTypeSO GetBlockTypeSO(int id)
@@ -29,6 +32,19 @@ namespace Config
             }
 
             return allBlockTypes.defaultBlockType;
+        }
+
+        public CellTypeSO GetCellTypeSO(int id)
+        {
+            var types = allCellTypes.cellTypes;
+
+            for (int i = 0; i < types.Count; i++)
+            {
+                if (types[i].type.Id == id)
+                    return types[i];
+            }
+
+            return allCellTypes.defaultCellType;
         }
     }
 }

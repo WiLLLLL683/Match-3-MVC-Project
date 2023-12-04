@@ -8,5 +8,8 @@ namespace Config
     {
         BlockView BlockViewPrefab { get; }
         BlockTypeSO GetBlockTypeSO(int id);
+        CellTypeSO HiddenCellType { get; }
+
+        CellTypeSO GetCellTypeSO(int id);
     }
 }
