@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Config;
+using Model.Objects;
 using Model.Services;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,12 +17,12 @@ namespace Model.Infrastructure
         public DestroyState(IStateMachine stateMachine,
             IBlockDestroyService blockDestroyService,
             IWinLoseService winLoseService,
-            ICounterTarget turnTarget)
+            IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
             this.blockDestroyService = blockDestroyService;
             this.winLoseService = winLoseService;
-            this.turnTarget = turnTarget;
+            this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
         public void OnEnter(HashSet<Cell> payLoad)

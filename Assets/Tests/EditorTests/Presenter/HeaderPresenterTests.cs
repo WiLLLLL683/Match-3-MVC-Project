@@ -30,11 +30,11 @@ namespace Presenter.UnitTests
             viewCounter.When(x => x.ChangeCount(Arg.Any<int>())).Do(x => viewUpdatedTimes++);
             viewCounter.When(x => x.Init(Arg.Any<Sprite>(), Arg.Any<int>())).Do(x => viewInitializedTimes++);
 
-            var currencyConfig = Substitute.For<ICurrencyConfigProvider>();
+            var configProvider = Substitute.For<IConfigProvider>();
             var SO = Substitute.For<CurrencySO>();
-            currencyConfig.GetSO(Arg.Any<CurrencyType>()).Returns(SO);
+            configProvider.GetCurrencySO(Arg.Any<CurrencyType>()).Returns(SO);
 
-            var presenter = new HeaderPresenter(service, view, currencyConfig);
+            var presenter = new HeaderPresenter(service, view, configProvider);
 
             return (service, presenter);
         }

@@ -69,9 +69,9 @@ namespace Presenter.UnitTests
             modelInput.When(x => x.ActivateBlock(Arg.Any<Vector2Int>())).Do(x => inputActivateCount++);
 
             //config
-            var configProvider = Substitute.For<IBlockTypeConfigProvider>();
+            var configProvider = Substitute.For<IConfigProvider>();
             var config = Substitute.For<BlockTypeSO>();
-            configProvider.GetSO(Arg.Any<int>()).Returns(config);
+            configProvider.GetBlockTypeSO(Arg.Any<int>()).Returns(config);
 
             var spawnService = Substitute.For<IBlockSpawnService>();
             var destroyService = Substitute.For<IBlockDestroyService>();

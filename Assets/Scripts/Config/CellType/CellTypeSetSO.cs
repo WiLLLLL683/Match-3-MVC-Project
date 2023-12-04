@@ -11,24 +11,11 @@ namespace Config
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "NewCellTypeSet", menuName = "Config/Cell/CellTypeSet")]
-    public class CellTypeSetSO : ScriptableObject, ICellTypeConfigProvider
+    public class CellTypeSetSO : ScriptableObject
     {
         public List<CellTypeSO> cellTypes = new();
         public CellTypeSO defaultCellType;
         public CellTypeSO hiddenCellType;
-
-        public CellTypeSO HiddenCellType => hiddenCellType;
-
-        public CellTypeSO GetSO(int id)
-        {
-            for (int i = 0; i < cellTypes.Count; i++)
-            {
-                if (cellTypes[i].type.Id == id)
-                    return cellTypes[i];
-            }
-
-            return defaultCellType;
-        }
 
 #if UNITY_EDITOR
 

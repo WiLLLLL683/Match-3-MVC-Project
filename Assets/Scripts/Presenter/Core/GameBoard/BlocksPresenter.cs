@@ -22,7 +22,7 @@ namespace Presenter
         private readonly Game model;
         private readonly IGameBoardView view;
         private readonly IBlockViewFactory blockViewFactory;
-        private readonly IBlockTypeConfigProvider configProvider;
+        private readonly IConfigProvider configProvider;
         private readonly IBlockSpawnService spawnService;
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockChangeTypeService changeTypeService;
@@ -36,7 +36,7 @@ namespace Presenter
         public BlocksPresenter(Game model,
             IGameBoardView view,
             IBlockViewFactory blockViewFactory,
-            IBlockTypeConfigProvider configProvider,
+            IConfigProvider configProvider,
             IBlockSpawnService spawnService,
             IBlockDestroyService destroyService,
             IBlockChangeTypeService changeTypeService,
@@ -149,7 +149,7 @@ namespace Presenter
                 return;
 
             IBlockView view = blocks[model];
-            BlockTypeSO config = configProvider.GetSO(model.Type.Id);
+            BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
             view.ChangeType(config.icon, config.destroyEffect);
         }
 

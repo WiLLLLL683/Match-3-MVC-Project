@@ -13,18 +13,18 @@ namespace Infrastructure
     /// </summary>
     public class MetaBootstrap : MonoBehaviour
     {
-        private ICurrencyConfigProvider currencyConfig;
+        private IConfigProvider configProvider;
         private ICurrencyService currencyService;
         private IHeaderPresenter header;
         private ILevelSelectionPresenter levelSelection;
 
         [Inject]
-        public void Construct(ICurrencyConfigProvider currencyConfig,
+        public void Construct(IConfigProvider configProvider,
             ICurrencyService currencyService,
             IHeaderPresenter header,
             ILevelSelectionPresenter levelSelection)
         {
-            this.currencyConfig = currencyConfig;
+            this.configProvider = configProvider;
             this.currencyService = currencyService;
             this.header = header;
             this.levelSelection = levelSelection;
@@ -51,7 +51,7 @@ namespace Infrastructure
 
             //TODO load save game, else =>
             //loading defaults
-            var allCurrencies = currencyConfig.GetAllSO();
+            var allCurrencies = configProvider.GetAllCurrenciesSO();
             for (int i = 0; i < allCurrencies.Count; i++)
             {
                 var type = allCurrencies[i].type;

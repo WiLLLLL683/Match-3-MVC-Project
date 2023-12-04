@@ -19,7 +19,7 @@ namespace Presenter
         private readonly Game model;
         private readonly IGameBoardView view;
         private readonly ICellViewFactory cellViewFactory;
-        private readonly ICellTypeConfigProvider configProvider;
+        private readonly IConfigProvider configProvider;
         private readonly ICellSetBlockService setBlockService;
         private readonly ICellChangeTypeService changeTypeService;
         private readonly ICellDestroyService cellDestroyService;
@@ -32,7 +32,7 @@ namespace Presenter
         public CellsPresenter(Game model,
             IGameBoardView view,
             ICellViewFactory cellViewFactory,
-            ICellTypeConfigProvider configProvider,
+            IConfigProvider configProvider,
             ICellSetBlockService setBlockService,
             ICellChangeTypeService changeTypeService,
             ICellDestroyService cellDestroyService,
@@ -128,7 +128,7 @@ namespace Presenter
                 return;
 
             ICellView view = cells[model];
-            CellTypeSO config = configProvider.GetSO(model.Type.Id);
+            CellTypeSO config = configProvider.GetCellTypeSO(model.Type.Id);
             view.ChangeType(config.icon, model.Type.IsPlayable, config.destroyEffect, config.emptyEffect);
         }
 

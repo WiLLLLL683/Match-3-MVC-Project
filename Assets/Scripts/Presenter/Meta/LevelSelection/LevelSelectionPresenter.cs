@@ -17,22 +17,22 @@ namespace Presenter
         private readonly LevelProgress model;
         private readonly ILevelSelectionView view;
         private readonly ILevelLoader levelLoader;
-        private readonly ILevelConfigProvider levelConfig;
+        private readonly IConfigProvider configProvider;
 
         private int selectedLevelIndex;
-        private LevelSO SelectedLevel => levelConfig.GetSO(selectedLevelIndex);
+        private LevelSO SelectedLevel => configProvider.GetSO(selectedLevelIndex);
         private bool IsOpen => selectedLevelIndex <= model.LastOpenedLevel;
         private bool IsComplete => selectedLevelIndex <= model.LastCompletedLevel;
 
         public LevelSelectionPresenter(LevelProgress model,
             ILevelSelectionView view,
             ILevelLoader levelLoader,
-            ILevelConfigProvider levelConfig)
+            IConfigProvider configProvider)
         {
             this.model = model;
             this.view = view;
             this.levelLoader = levelLoader;
-            this.levelConfig = levelConfig;
+            this.configProvider = configProvider;
         }
 
         public void Enable()
@@ -69,10 +69,10 @@ namespace Presenter
 
         private void SetSelectedLevel(int index)
         {
-            selectedLevelIndex = Mathf.Clamp(index, 0, levelConfig.LastLevelIndex);
+            selectedLevelIndex = Mathf.Clamp(index, 0, configProvider.LastLevelIndex);
 
             view.SetPreviousButtonActive(selectedLevelIndex != 0);
-            view.SetNextButtonActive(selectedLevelIndex != levelConfig.LastLevelIndex);
+            view.SetNextButtonActive(selectedLevelIndex != configProvider.LastLevelIndex);
             view.ShowSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
 
             if (IsComplete)

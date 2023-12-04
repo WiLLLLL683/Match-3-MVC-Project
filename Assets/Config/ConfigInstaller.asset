@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allLevels: {fileID: 11400000, guid: 8e7f081a8d5efa4439087443ead144ed, type: 2}
   allBlockTypes: {fileID: 11400000, guid: 21647ef9ca280de459e69e445dfb5d9c, type: 2}
+  blockViewPrefab: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}
   allCellTypes: {fileID: 11400000, guid: 2f2af7c76be39b44fa16a0751eb911bc, type: 2}
   allCurrencies: {fileID: 11400000, guid: 884b9c76120c88e47abcd6772c58ea5f, type: 2}
   allCounterTargets: {fileID: 11400000, guid: 8561611075ae2bc40ac90b449f79ab76, type: 2}

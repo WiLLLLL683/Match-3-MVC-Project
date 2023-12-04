@@ -51,9 +51,9 @@ namespace Presenter.UnitTests
             cellView.When(x => x.ChangeType(Arg.Any<Sprite>(), Arg.Any<bool>(), Arg.Any<ParticleSystem>(), Arg.Any<ParticleSystem>())).Do(x => cellChangedTypeCount++);
 
             //config
-            var configProvider = Substitute.For<ICellTypeConfigProvider>();
+            var configProvider = Substitute.For<IConfigProvider>();
             var config = Substitute.For<CellTypeSO>();
-            configProvider.GetSO(Arg.Any<int>()).Returns(config);
+            configProvider.GetCellTypeSO(Arg.Any<int>()).Returns(config);
 
             var setBlockService = Substitute.For<ICellSetBlockService>();
             var changeTypeService = Substitute.For<ICellChangeTypeService>();

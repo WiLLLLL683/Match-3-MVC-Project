@@ -30,7 +30,7 @@ namespace Presenter.UnitTests
             var view = Substitute.For<ILevelSelectionView>();
             view.ShowSelectedLevel(Arg.Any<Sprite>(), Arg.Do<string>(x => selectedLevelName = x));
             //config
-            var configProvider = Substitute.For<ILevelConfigProvider>();
+            var configProvider = Substitute.For<IConfigProvider>();
             configProvider.LastLevelIndex.Returns(1);
             var level0 = ScriptableObject.CreateInstance<LevelSO>();
             var level1 = ScriptableObject.CreateInstance<LevelSO>();

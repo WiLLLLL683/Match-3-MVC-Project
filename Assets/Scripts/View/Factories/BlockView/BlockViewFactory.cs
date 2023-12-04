@@ -11,9 +11,9 @@ namespace View.Factories
     {
         private readonly IInstantiator instantiator;
         private readonly IGameBoardView gameBoardView;
-        private readonly IBlockTypeConfigProvider configProvider;
+        private readonly IConfigProvider configProvider;
 
-        public BlockViewFactory(IInstantiator instantiator, IGameBoardView gameBoardView, IBlockTypeConfigProvider configProvider)
+        public BlockViewFactory(IInstantiator instantiator, IGameBoardView gameBoardView, IConfigProvider configProvider)
         {
             this.instantiator = instantiator;
             this.gameBoardView = gameBoardView;
@@ -22,8 +22,8 @@ namespace View.Factories
 
         public IBlockView Create(Block model)
         {
-            BlockTypeSO config = configProvider.GetSO(model.Type.Id);
-            BlockView view = instantiator.InstantiatePrefabForComponent<BlockView>(configProvider.Prefab, gameBoardView.BlocksParent);
+            BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
+            BlockView view = instantiator.InstantiatePrefabForComponent<BlockView>(configProvider.BlockViewPrefab, gameBoardView.BlocksParent);
             view.Init(config.icon, config.destroyEffect, model.Position);
             return view;
         }
