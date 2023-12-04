@@ -24,7 +24,10 @@ namespace Presenter
         private bool IsOpen => selectedLevelIndex <= model.LastOpenedLevel;
         private bool IsComplete => selectedLevelIndex <= model.LastCompletedLevel;
 
-        public LevelSelectionPresenter(LevelProgress model, ILevelSelectionView view, ILevelLoader levelLoader, ILevelConfigProvider levelConfig)
+        public LevelSelectionPresenter(LevelProgress model,
+            ILevelSelectionView view,
+            ILevelLoader levelLoader,
+            ILevelConfigProvider levelConfig)
         {
             this.model = model;
             this.view = view;

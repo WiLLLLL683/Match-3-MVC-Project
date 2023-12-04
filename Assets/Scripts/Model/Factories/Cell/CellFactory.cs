@@ -1,19 +1,20 @@
 ﻿using System;
 using UnityEngine;
 using Model.Objects;
+using Config;
 
 namespace Model.Factories
 {
     public class CellFactory : ICellFactory
     {
-        private readonly CellType invisibleCellType;
+        private readonly CellType hiddenCellType;
 
-        public CellFactory(CellType invisibleCellType)
+        public CellFactory(ICellTypeConfigProvider configProvider)
         {
-            this.invisibleCellType = invisibleCellType;
+            hiddenCellType = configProvider.HiddenCellType.type;
         }
 
         public Cell Create(Vector2Int position, CellType type) => new Cell(type.Clone(), position);
-        public Cell CreateInvisible(Vector2Int position) => new Cell(invisibleCellType.Clone(), position);
+        public Cell CreateHidden(Vector2Int position) => new Cell(hiddenCellType.Clone(), position);
     }
 }

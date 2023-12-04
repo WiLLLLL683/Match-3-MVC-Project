@@ -10,8 +10,6 @@ namespace View
     /// </summary>
     public class CellView : MonoBehaviour, ICellView
     {
-        public class Factory : PlaceholderFactory<CellView> { }
-
         [SerializeField] private SpriteRenderer icon;
         [SerializeField] private SpriteRenderer fill;
         [SerializeField] private Sprite evenSprite;
@@ -63,8 +61,6 @@ namespace View
 
             emptyEffect.Play();
         }
-
-
 
         private void ChangeModelPosition(Vector2Int modelPosition)
         {

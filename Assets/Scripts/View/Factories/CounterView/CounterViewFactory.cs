@@ -1,6 +1,7 @@
 ﻿using Config;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Model.Objects;
 using Zenject;
 
@@ -46,8 +47,8 @@ namespace View.Factories
 
         private void InitView(ICounterView view, Counter model)
         {
-            var icon = counterConfig.GetSO(model.Target.Id).icon;
-            var count = model.Count;
+            Sprite icon = counterConfig.GetSO(model.Target.Id).icon;
+            int count = model.Count;
             view.Init(icon, count);
         }
     }

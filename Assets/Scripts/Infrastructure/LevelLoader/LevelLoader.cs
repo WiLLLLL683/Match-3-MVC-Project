@@ -1,6 +1,7 @@
 ﻿using Config;
 using Model.Infrastructure;
 using Model.Services;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -9,7 +10,7 @@ namespace Infrastructure
 {
     public class LevelLoader : ILevelLoader
     {
-        private LevelSO CurrentLevel => allLevels.GetSO(currentLevelIndex);
+        public event Action OnLoadStart; //TODO избавиться от ивента - заменить на явный порядок запуска
 
         private readonly ZenjectSceneLoader loader;
         private readonly ILevelConfigProvider allLevels;
@@ -25,7 +26,11 @@ namespace Infrastructure
             this.allLevels = allLevels;
         }
 
-        public void LoadMetaGame() => loader.LoadSceneAsync(META_SCENE_NAME);
+        public void LoadMetaGame()
+        {
+            OnLoadStart?.Invoke();
+            loader.LoadSceneAsync(META_SCENE_NAME);
+        }
         public void ReloadCurrentLevel() => LoadLevel(currentLevelIndex);
         public void LoadNextLevel() => LoadLevel(currentLevelIndex + 1);
         public void LoadLevel(int levelIndex)
@@ -33,14 +38,16 @@ namespace Infrastructure
             if (levelIndex > allLevels.LastLevelIndex)
                 return;
 
+            OnLoadStart?.Invoke();
             currentLevelIndex = levelIndex;
-            Debug.Log($"Loading level: {CurrentLevel.levelName}");
+            LevelSO currentLevel = allLevels.GetSO(currentLevelIndex);
+            Debug.Log($"Loading level: {currentLevel.levelName}");
 
-            loader.LoadSceneAsync(CORE_SCENE_NAME, LoadSceneMode.Single, (context) =>
+            loader.LoadSceneAsync(CORE_SCENE_NAME, LoadSceneMode.Single, (context) => //TODO вынести в сервис?
             {
                 //передача конфига уровня в кор-сцену
-                context.BindInstance(CurrentLevel).AsSingle();
-                context.BindInstance(CurrentLevel.blockTypeSet).AsSingle();
+                context.BindInstance(currentLevel).AsSingle();
+                context.BindInstance(currentLevel.blockTypeSet).AsSingle();
             });
         }
     }

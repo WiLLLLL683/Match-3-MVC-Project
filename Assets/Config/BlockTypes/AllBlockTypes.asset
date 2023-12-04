@@ -22,3 +22,4 @@ MonoBehaviour:
   - blockTypeSO: {fileID: 11400000, guid: 8a442fbef8f3e704a83b4dd663f6705c, type: 2}
     weight: 100
   defaultBlockType: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
+  prefab: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}

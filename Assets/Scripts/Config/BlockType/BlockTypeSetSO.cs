@@ -4,14 +4,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
+using View;
 
 namespace Config
 {
     [CreateAssetMenu(fileName = "NewBlockTypeSet", menuName = "Config/BlockTypeSet")]
-    public class BlockTypeSetSO: ScriptableObject
+    public class BlockTypeSetSO : ScriptableObject, IBlockTypeConfigProvider
     {
         public List<BlockTypeSO_Weight> typeWeights = new();
         public BlockTypeSO defaultBlockType;
+        public BlockView prefab;
+
+        public BlockView Prefab => prefab;
 
         public BlockTypeSO GetSO(int id)
         {

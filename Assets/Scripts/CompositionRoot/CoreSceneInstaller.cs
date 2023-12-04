@@ -29,8 +29,6 @@ namespace CompositionRoot
         [SerializeField] private CounterView goalCounterPrefab;
         [SerializeField] private CounterView restrictionCounterPrefab;
         [SerializeField] private BlockView blockPrefab;
-        [SerializeField] private CellView cellPrefab;
-        [SerializeField] private CellView notPlayableCellPrefab;
         [SerializeField] private BoosterView boosterPrefab;
 
         public override void InstallBindings()
@@ -70,22 +68,12 @@ namespace CompositionRoot
         private void BindGameboard()
         {
             Container.Bind<IGameBoardView>().FromInstance(gameBoardView).AsSingle();
-            Container.Bind<IGameBoardPresenter>().To<GameBoardPresenter>().AsSingle();
+            Container.Bind<ICellsPresenter>().To<CellsPresenter>().AsSingle();
+            Container.Bind<IBlocksPresenter>().To<BlocksPresenter>().AsSingle();
 
             //factories
-            Container.BindFactory<Block, IBlockView, BlockTypeSO, BlockTypeSetSO, BlockPresenter, BlockPresenter.Factory>();
-            Container.BindFactory<Cell, ICellView, CellTypeSO, CellTypeSetSO, CellPresenter, CellPresenter.Factory>();
-            Container.BindFactory<BlockView, BlockView.Factory>()
-                .FromComponentInNewPrefab(blockPrefab)
-                .UnderTransform(gameBoardView.BlocksParent);
-            Container.BindFactory<CellView, CellView.Factory>()
-                .WithId(BindId.CellViewFactory)
-                .FromComponentInNewPrefab(cellPrefab)
-                .UnderTransform(gameBoardView.CellsParent);
-            Container.BindFactory<CellView, CellView.Factory>()
-                .WithId(BindId.CellNotPlayableViewFactory)
-                .FromComponentInNewPrefab(notPlayableCellPrefab)
-                .UnderTransform(gameBoardView.CellsParent);
+            Container.Bind<ICellViewFactory>().To<CellViewFactory>().AsSingle();
+            Container.Bind<IBlockViewFactory>().To<BlockViewFactory>().AsSingle();
         }
 
         private void BindBoosterInventory()

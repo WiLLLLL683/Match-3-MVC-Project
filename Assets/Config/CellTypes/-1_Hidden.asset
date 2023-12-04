@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37235cc6cf6bfd541bfb3800d579af0e, type: 3}
-  m_Name: -1_Invisible
+  m_Name: -1_Hidden
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
+  prefab: {fileID: 5919296878604722895, guid: 3011fe3940f1c0146962aad3d86215a7, type: 3}
   destroyEffect: {fileID: 0}
   emptyEffect: {fileID: 0}
   type:

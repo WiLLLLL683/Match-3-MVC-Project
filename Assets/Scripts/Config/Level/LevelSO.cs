@@ -26,8 +26,8 @@ namespace Config
         [Header("----------GameBoard configuration----------")]
         [Space]
 
-        [Tooltip("Invisible Cells are used for seamlessly spawn new Blocks on top of the Gameboard")]
-        public int rowsOfInvisibleCells;
+        [Tooltip("Hidden Cells are used for seamlessly spawn new Blocks on top of the Gameboard")]
+        public int rowsOfHiddenCells = 2;
         [InfoBox("Use Cell Type Id to configure the initial arrangement of Cells on the Gameboard")]
         public Array2DInt gameBoard;
 
