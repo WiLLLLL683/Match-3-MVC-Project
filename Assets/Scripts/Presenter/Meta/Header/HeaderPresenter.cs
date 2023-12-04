@@ -15,15 +15,15 @@ namespace Presenter
     {
         private readonly ICurrencyService currencyService;
         private readonly IHeaderView view;
-        private readonly ICurrencyConfigProvider currencyConfig;
+        private readonly IConfigProvider configProvider;
 
         public HeaderPresenter(ICurrencyService currencyService,
             IHeaderView view,
-            ICurrencyConfigProvider currencyConfig)
+            IConfigProvider configProvider)
         {
             this.currencyService = currencyService;
             this.view = view;
-            this.currencyConfig = currencyConfig;
+            this.configProvider = configProvider;
         }
         public void Enable()
         {
@@ -42,7 +42,7 @@ namespace Presenter
 
         private void InitView()
         {
-            var starsSO = currencyConfig.GetSO(CurrencyType.Star);
+            var starsSO = configProvider.GetCurrencySO(CurrencyType.Star);
             view.StarsCounter.Init(starsSO.icon, currencyService.GetAmount(CurrencyType.Star));
         }
 

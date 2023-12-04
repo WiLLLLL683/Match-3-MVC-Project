@@ -1,4 +1,5 @@
-﻿using Model.Services;
+﻿using Model.Objects;
+using Model.Services;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,16 +16,19 @@ namespace Config
         private readonly BlockTypeSetSO allBlockTypes;
         private readonly CellTypeSetSO allCellTypes;
         private readonly CounterTargetSetSO allCounterTargets;
+        private readonly CurrencySetSO allCurrencies;
 
         public ConfigProvider(BlockTypeSetSO allBlockTypes,
             BlockView blockViewPrefab,
             CellTypeSetSO allCellTypes,
-            CounterTargetSetSO allCounterTargets)
+            CounterTargetSetSO allCounterTargets,
+            CurrencySetSO allCurrencies)
         {
             this.allBlockTypes = allBlockTypes;
             this.BlockViewPrefab = blockViewPrefab;
             this.allCellTypes = allCellTypes;
             this.allCounterTargets = allCounterTargets;
+            this.allCurrencies = allCurrencies;
         }
 
         public BlockTypeSO GetBlockTypeSO(int id)
@@ -67,5 +71,20 @@ namespace Config
 
             return allCounterTargets.defaultTarget;
         }
+
+        public CurrencySO GetCurrencySO(CurrencyType type)
+        {
+            List<CurrencySO> currencies = allCurrencies.currencies;
+
+            for (int i = 0; i < currencies.Count; i++)
+            {
+                if (currencies[i].type == type)
+                    return currencies[i];
+            }
+
+            return null;
+        }
+
+        public List<CurrencySO> GetAllCurrenciesSO() => allCurrencies.currencies;
     }
 }
