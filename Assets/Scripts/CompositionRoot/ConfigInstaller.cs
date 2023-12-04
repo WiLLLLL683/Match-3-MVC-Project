@@ -3,6 +3,7 @@ using Model.Factories;
 using Model.Infrastructure;
 using Model.Objects;
 using UnityEngine;
+using View;
 using Zenject;
 
 namespace CompositionRoot
@@ -12,14 +13,17 @@ namespace CompositionRoot
     {
         [SerializeField] private LevelSetSO allLevels;
         [SerializeField] private BlockTypeSetSO allBlockTypes;
+        [SerializeField] private BlockView blockViewPrefab;
         [SerializeField] private CellTypeSetSO allCellTypes;
         [SerializeField] private CurrencySetSO allCurrencies;
         [SerializeField] private CounterTargetSetSO allCounterTargets;
 
         public override void InstallBindings()
         {
+            ConfigProvider configProvider = new(allBlockTypes, blockViewPrefab);
+            Container.Bind<IConfigProvider>().FromInstance(configProvider).AsSingle();
+
             BindLevels();
-            BindBlockTypes();
             BindCellTypes();
             BindCurrencies();
             BindCounterTargets();
@@ -28,11 +32,6 @@ namespace CompositionRoot
         private void BindLevels()
         {
             Container.Bind<ILevelConfigProvider>().FromInstance(allLevels).AsSingle();
-        }
-
-        private void BindBlockTypes()
-        {
-            Container.Bind<IBlockTypeConfigProvider>().FromInstance(allBlockTypes).AsSingle();
         }
 
         private void BindCellTypes()
