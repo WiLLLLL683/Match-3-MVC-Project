@@ -23,7 +23,7 @@ namespace Presenter
         private readonly IGameBoardView view;
         private readonly IBlockViewFactory blockViewFactory;
         private readonly IBlockTypeConfigProvider configProvider;
-        private readonly IBlockSpawnService blockSpawnService;
+        private readonly IBlockSpawnService spawnService;
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly IBlockMoveService moveService;
@@ -37,7 +37,7 @@ namespace Presenter
             IGameBoardView view,
             IBlockViewFactory blockViewFactory,
             IBlockTypeConfigProvider configProvider,
-            IBlockSpawnService blockSpawnService,
+            IBlockSpawnService spawnService,
             IBlockDestroyService destroyService,
             IBlockChangeTypeService changeTypeService,
             IBlockMoveService moveService,
@@ -47,7 +47,7 @@ namespace Presenter
             this.view = view;
             this.blockViewFactory = blockViewFactory;
             this.configProvider = configProvider;
-            this.blockSpawnService = blockSpawnService;
+            this.spawnService = spawnService;
             this.destroyService = destroyService;
             this.changeTypeService = changeTypeService;
             this.moveService = moveService;
@@ -59,7 +59,7 @@ namespace Presenter
             gameBoard = model.CurrentLevel.gameBoard;
             SpawnAll();
 
-            blockSpawnService.OnBlockSpawn += Spawn;
+            spawnService.OnBlockSpawn += Spawn;
             destroyService.OnDestroy += Destroy;
             moveService.OnPositionChange += SyncPosition;
             changeTypeService.OnTypeChange += ChangeType;
@@ -71,7 +71,7 @@ namespace Presenter
         {
             ClearAll();
 
-            blockSpawnService.OnBlockSpawn -= Spawn;
+            spawnService.OnBlockSpawn -= Spawn;
             destroyService.OnDestroy -= Destroy;
             moveService.OnPositionChange -= SyncPosition;
             changeTypeService.OnTypeChange -= ChangeType;

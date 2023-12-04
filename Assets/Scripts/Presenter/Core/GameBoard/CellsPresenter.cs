@@ -62,6 +62,8 @@ namespace Presenter
 
         public void Disable()
         {
+            ClearAll();
+
             cellDestroyService.OnDestroy -= Destroy;
             setBlockService.OnEmpty -= Empty;
             changeTypeService.OnTypeChange -= ChangeType;

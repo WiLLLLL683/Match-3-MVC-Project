@@ -14,11 +14,11 @@ namespace TestUtils
         public const int GREEN_BLOCK = 3;
         public const int YELLOW_BLOCK = 4;
 
-        public static BasicBlockType DefaultBlockType = CreateBlockType(DEFAULT_BLOCK);
-        public static BasicBlockType RedBlockType = CreateBlockType(RED_BLOCK);
-        public static BasicBlockType BlueBlockType = CreateBlockType(BLUE_BLOCK);
-        public static BasicBlockType GreenBlockType = CreateBlockType(GREEN_BLOCK);
-        public static BasicBlockType YellowBlockType = CreateBlockType(YELLOW_BLOCK);
+        public static BasicBlockType DefaultBlockType => CreateBlockType(DEFAULT_BLOCK);
+        public static BasicBlockType RedBlockType => CreateBlockType(RED_BLOCK);
+        public static BasicBlockType BlueBlockType => CreateBlockType(BLUE_BLOCK);
+        public static BasicBlockType GreenBlockType => CreateBlockType(GREEN_BLOCK);
+        public static BasicBlockType YellowBlockType => CreateBlockType(YELLOW_BLOCK);
 
         /// <summary>
         /// Создание блока указанного типа
