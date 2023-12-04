@@ -8,20 +8,10 @@ using Utils;
 namespace Config
 {
     [CreateAssetMenu(fileName = "New LevelSet", menuName = "Config/Level/LevelSet")]
-    public class LevelSetSO : ScriptableObject, ILevelConfigProvider
+    public class LevelSetSO : ScriptableObject
     {
-        [SerializeField] private List<LevelSO> levels;
-        [SerializeField] private LevelSO defaultLevel;
-
-        public int LastLevelIndex => levels.Count - 1;
-
-        public LevelSO GetSO(int index)
-        {
-            if (!levels.IsInBounds(index))
-                return defaultLevel;
-
-            return levels[index];
-        }
+        public List<LevelSO> levels;
+        public LevelSO defaultLevel;
 
 #if UNITY_EDITOR
 

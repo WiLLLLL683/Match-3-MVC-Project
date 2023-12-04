@@ -12,23 +12,27 @@ namespace Config
         public BlockView BlockViewPrefab { get; }
         public CellTypeSO HiddenCellType => allCellTypes.hiddenCellType;
         public TurnSO Turn => allCounterTargets.turnSO;
+        public int LastLevelIndex => allLevels.levels.Count - 1;
 
         private readonly BlockTypeSetSO allBlockTypes;
         private readonly CellTypeSetSO allCellTypes;
         private readonly CounterTargetSetSO allCounterTargets;
         private readonly CurrencySetSO allCurrencies;
+        private readonly LevelSetSO allLevels;
 
         public ConfigProvider(BlockTypeSetSO allBlockTypes,
             BlockView blockViewPrefab,
             CellTypeSetSO allCellTypes,
             CounterTargetSetSO allCounterTargets,
-            CurrencySetSO allCurrencies)
+            CurrencySetSO allCurrencies,
+            LevelSetSO allLevels)
         {
             this.allBlockTypes = allBlockTypes;
             this.BlockViewPrefab = blockViewPrefab;
             this.allCellTypes = allCellTypes;
             this.allCounterTargets = allCounterTargets;
             this.allCurrencies = allCurrencies;
+            this.allLevels = allLevels;
         }
 
         public BlockTypeSO GetBlockTypeSO(int id)
@@ -86,5 +90,15 @@ namespace Config
         }
 
         public List<CurrencySO> GetAllCurrenciesSO() => allCurrencies.currencies;
+
+        public LevelSO GetSO(int index)
+        {
+            List<LevelSO> levels = allLevels.levels;
+
+            if (!levels.IsInBounds(index))
+                return allLevels.defaultLevel;
+
+            return levels[index];
+        }
     }
 }

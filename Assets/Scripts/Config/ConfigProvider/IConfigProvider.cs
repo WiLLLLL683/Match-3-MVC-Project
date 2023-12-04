@@ -7,15 +7,16 @@ namespace Config
 {
     public interface IConfigProvider
     {
-        List<CurrencySO> GetAllCurrenciesSO();
-        CurrencySO GetCurrencySO(CurrencyType type);
-
-        TurnSO Turn { get; }
         BlockView BlockViewPrefab { get; }
-        BlockTypeSO GetBlockTypeSO(int id);
         CellTypeSO HiddenCellType { get; }
+        TurnSO Turn { get; }
+        int LastLevelIndex { get; }
 
+        BlockTypeSO GetBlockTypeSO(int id);
         CellTypeSO GetCellTypeSO(int id);
         ACounterTargetSO GetCounterTargetSO(int id);
+        CurrencySO GetCurrencySO(CurrencyType type);
+        List<CurrencySO> GetAllCurrenciesSO();
+        LevelSO GetSO(int index);
     }
 }
