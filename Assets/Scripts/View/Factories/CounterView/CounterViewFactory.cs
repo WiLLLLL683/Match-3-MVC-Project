@@ -13,19 +13,19 @@ namespace View.Factories
     public class CounterViewFactory : ICounterViewFactory
     {
         private readonly IInstantiator instantiator;
-        private readonly ICounterTargetConfigProvider counterConfig;
+        private readonly IConfigProvider configProvider;
         private readonly IHudView hudView;
         private readonly CounterView goalPrefab;
         private readonly CounterView restrictionPrefab;
 
         public CounterViewFactory(IInstantiator instantiator,
-            ICounterTargetConfigProvider counterConfig,
+            IConfigProvider configProvider,
             IHudView hudView,
             CounterView goalPrefab,
             CounterView restrictionPrefab)
         {
             this.instantiator = instantiator;
-            this.counterConfig = counterConfig;
+            this.configProvider = configProvider;
             this.hudView = hudView;
             this.goalPrefab = goalPrefab;
             this.restrictionPrefab = restrictionPrefab;
@@ -47,7 +47,7 @@ namespace View.Factories
 
         private void InitView(ICounterView view, Counter model)
         {
-            Sprite icon = counterConfig.GetSO(model.Target.Id).icon;
+            Sprite icon = configProvider.GetCounterTargetSO(model.Target.Id).icon;
             int count = model.Count;
             view.Init(icon, count);
         }

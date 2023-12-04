@@ -10,15 +10,21 @@ namespace Config
     {
         public BlockView BlockViewPrefab { get; }
         public CellTypeSO HiddenCellType => allCellTypes.hiddenCellType;
+        public TurnSO Turn => allCounterTargets.turnSO;
 
         private readonly BlockTypeSetSO allBlockTypes;
         private readonly CellTypeSetSO allCellTypes;
+        private readonly CounterTargetSetSO allCounterTargets;
 
-        public ConfigProvider(BlockTypeSetSO allBlockTypes, BlockView blockViewPrefab, CellTypeSetSO allCellTypes)
+        public ConfigProvider(BlockTypeSetSO allBlockTypes,
+            BlockView blockViewPrefab,
+            CellTypeSetSO allCellTypes,
+            CounterTargetSetSO allCounterTargets)
         {
             this.allBlockTypes = allBlockTypes;
             this.BlockViewPrefab = blockViewPrefab;
             this.allCellTypes = allCellTypes;
+            this.allCounterTargets = allCounterTargets;
         }
 
         public BlockTypeSO GetBlockTypeSO(int id)
@@ -36,7 +42,7 @@ namespace Config
 
         public CellTypeSO GetCellTypeSO(int id)
         {
-            var types = allCellTypes.cellTypes;
+            List<CellTypeSO> types = allCellTypes.cellTypes;
 
             for (int i = 0; i < types.Count; i++)
             {
@@ -45,6 +51,21 @@ namespace Config
             }
 
             return allCellTypes.defaultCellType;
+        }
+
+        public ACounterTargetSO GetCounterTargetSO(int id)
+        {
+            List<ACounterTargetSO> targets = allCounterTargets.targets;
+
+            for (int i = 0; i < targets.Count; i++)
+            {
+                if (id == targets[i].CounterTarget.Id)
+                {
+                    return targets[i];
+                }
+            }
+
+            return allCounterTargets.defaultTarget;
         }
     }
 }
