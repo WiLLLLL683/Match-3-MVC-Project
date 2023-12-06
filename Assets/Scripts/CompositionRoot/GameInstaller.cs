@@ -12,19 +12,27 @@ namespace CompositionRoot
 {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private CoroutineRunner coroutineRunner;
+
         public override void InstallBindings()
         {
-            BindSceneLoader();
+            BindGameStateMachine();
             BindModel();
             BindFactories();
             BindServices();
+            BindCoroutineRunner();
         }
 
-        private void BindSceneLoader() => Container.Bind<ILevelLoader>().To<LevelLoader>().AsSingle();
+        private void BindGameStateMachine()
+        {
+            Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
+            Container.Bind<GameStateMachine>().AsSingle();
+        }
 
         private void BindModel()
         {
             Container.Bind<Game>().AsSingle();
+            //TODO убрать?
             Container.Bind<LevelProgress>().AsSingle();
             Container.Bind<PlayerSettings>().AsSingle();
             Container.Bind<CurrencyInventory>().AsSingle();
@@ -64,6 +72,11 @@ namespace CompositionRoot
             Container.Bind<ICounterService>().To<CounterService>().AsSingle();
             Container.Bind<ICurrencyService>().To<CurrencyService>().AsSingle();
             Container.Bind<IWinLoseService>().To<WinLoseService>().AsSingle();
+        }
+
+        private void BindCoroutineRunner()
+        {
+            Container.Bind<ICoroutineRunner>().FromInstance(coroutineRunner);
         }
     }
 }

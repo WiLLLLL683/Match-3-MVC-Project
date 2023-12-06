@@ -17,19 +17,19 @@ namespace Presenter
         private readonly IEndGameView view;
         private readonly IInput input;
         private readonly IWinLoseService winLoseService;
-        private readonly ILevelLoader levelLoader;
+        private readonly GameStateMachine gameStateMachine;
 
         public EndGamePresenter(Game model,
             IEndGameView view,
             IInput input,
             IWinLoseService winLoseService,
-            ILevelLoader levelLoader)
+            GameStateMachine gameStateMachine)
         {
             this.model = model;
             this.view = view;
             this.input = input;
             this.winLoseService = winLoseService;
-            this.levelLoader = levelLoader;
+            this.gameStateMachine = gameStateMachine;
         }
 
         public void Enable()
@@ -80,9 +80,13 @@ namespace Presenter
             view.DefeatPopUp.Show();
         }
 
-        private void LoadNextLevel() => levelLoader.LoadNextLevel();
-        private void Quit() => levelLoader.LoadMetaGame();
-        private void Replay() => levelLoader.ReloadCurrentLevel();
+        private void LoadNextLevel()
+        {
+            model.LevelProgress.CurrentLevelIndex++;
+            gameStateMachine.EnterState<CoreState>();
+        }
+        private void Quit() => gameStateMachine.EnterState<MetaState>();
+        private void Replay() => gameStateMachine.EnterState<CoreState>();
         private void UpdateScore()
         {
             view.CompletePopUp.UpdateScore(4221, 3); //TODO брать счет из модели

@@ -16,5 +16,10 @@ namespace Model.Objects
         /// Индекс последнего открытого уровня, все уровни после считаются закрытыми
         /// </summary>
         public int LastOpenedLevel;
+
+        /// <summary>
+        /// Индекс текущего уровня, он будет использован для загрузки кор-игры
+        /// </summary>
+        public int CurrentLevelIndex;
     }
 }

@@ -91,7 +91,7 @@ namespace Config
 
         public List<CurrencySO> GetAllCurrenciesSO() => allCurrencies.currencies;
 
-        public LevelSO GetSO(int index)
+        public LevelSO GetLevelSO(int index)
         {
             List<LevelSO> levels = allLevels.levels;
 

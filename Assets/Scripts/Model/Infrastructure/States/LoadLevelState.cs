@@ -17,7 +17,6 @@ namespace Model.Infrastructure
         private readonly IBlockMatchService matchService;
         private readonly IBlockRandomTypeService randomService;
         private readonly IBlockSpawnService spawnService;
-        private readonly ILevelLoader levelLoader;
 
         private Level level;
 
@@ -28,8 +27,7 @@ namespace Model.Infrastructure
             ILevelFactory levelFactory,
             IBlockRandomTypeService randomService,
             IBlockSpawnService spawnService,
-            IBlockMatchService matchService,
-            ILevelLoader levelLoader)
+            IBlockMatchService matchService)
         {
             this.game = game;
             this.stateMachine = stateMachine;
@@ -37,7 +35,6 @@ namespace Model.Infrastructure
             this.randomService = randomService;
             this.spawnService = spawnService;
             this.matchService = matchService;
-            this.levelLoader = levelLoader;
         }
 
         public void OnEnter(LevelSO payLoad)
@@ -58,7 +55,7 @@ namespace Model.Infrastructure
         public void OnEnter()
         {
             Debug.LogWarning("Payloaded states should not be entered without payload, loading MetaGame");
-            levelLoader.LoadMetaGame();
+            stateMachine.EnterState<ExitState>();
         }
 
         public void OnExit()

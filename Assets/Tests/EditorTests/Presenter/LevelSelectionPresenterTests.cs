@@ -18,14 +18,13 @@ namespace Presenter.UnitTests
         private const int NO_LEVEL_INDEX = -999;
 
         private string selectedLevelName;
-        private int startedLevelIndex;
 
         private (LevelSelectionPresenter presenter, ILevelSelectionView view, LevelProgress levelProgress) Setup()
         {
             selectedLevelName = "";
-            startedLevelIndex = NO_LEVEL_INDEX;
 
             var levelProgress = new LevelProgress();
+            levelProgress.CurrentLevelIndex = NO_LEVEL_INDEX;
             //view
             var view = Substitute.For<ILevelSelectionView>();
             view.ShowSelectedLevel(Arg.Any<Sprite>(), Arg.Do<string>(x => selectedLevelName = x));
@@ -36,13 +35,12 @@ namespace Presenter.UnitTests
             var level1 = ScriptableObject.CreateInstance<LevelSO>();
             level0.levelName = LEVEL_0;
             level1.levelName = LEVEL_1;
-            configProvider.GetSO(0).Returns(level0);
-            configProvider.GetSO(1).Returns(level1);
+            configProvider.GetLevelSO(0).Returns(level0);
+            configProvider.GetLevelSO(1).Returns(level1);
             //levelLoader
-            var levelLoader = Substitute.For<ILevelLoader>();
-            levelLoader.LoadLevel(Arg.Do<int>(x => startedLevelIndex = x));
+            var gameStateMachine = Substitute.For<GameStateMachine>();
 
-            var presenter = new LevelSelectionPresenter(levelProgress, view, levelLoader, configProvider);
+            var presenter = new LevelSelectionPresenter(levelProgress, view, gameStateMachine, configProvider);
 
             return (presenter, view, levelProgress);
         }
@@ -88,7 +86,7 @@ namespace Presenter.UnitTests
             view.OnStartSelected += Raise.Event<Action>();
 
             Assert.AreEqual(LEVEL_0, selectedLevelName);
-            Assert.AreEqual(0, startedLevelIndex);
+            Assert.AreEqual(0, levelProgress.CurrentLevelIndex);
         }
 
         [Test]
@@ -101,7 +99,7 @@ namespace Presenter.UnitTests
             view.OnStartSelected += Raise.Event<Action>();
 
             Assert.AreEqual(LEVEL_0, selectedLevelName);
-            Assert.AreEqual(NO_LEVEL_INDEX, startedLevelIndex);
+            Assert.AreEqual(NO_LEVEL_INDEX, levelProgress.CurrentLevelIndex);
         }
 
         [Test]

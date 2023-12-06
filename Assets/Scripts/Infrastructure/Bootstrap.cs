@@ -1,25 +1,32 @@
 ﻿using Model.Objects;
 using UnityEngine;
+using Utils;
 using Zenject;
 
 namespace Infrastructure
 {
     /// <summary>
-    /// Точка входа для boot сцены
+    /// Точка входа для всего приложения
     /// </summary>
     public class Bootstrap : MonoBehaviour
     {
-        private ILevelLoader sceneLoader;
+        private GameStateMachine gameStateMachine;
+        private IStateFactory stateFactory;
 
         [Inject]
-        public void Construct(ILevelLoader sceneLoader)
+        public void Construct(GameStateMachine gameStateMachine, IStateFactory stateFactory)
         {
-            this.sceneLoader = sceneLoader;
+            this.gameStateMachine = gameStateMachine;
+            this.stateFactory = stateFactory;
         }
 
         private void Start()
         {
-            sceneLoader.LoadMetaGame();
+            gameStateMachine.AddState(stateFactory.Create<LoadGameState>());
+            gameStateMachine.AddState(stateFactory.Create<MetaState>());
+            gameStateMachine.AddState(stateFactory.Create<CoreState>());
+
+            gameStateMachine.EnterState<LoadGameState>();
         }
     }
 }
