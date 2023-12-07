@@ -1,6 +1,7 @@
 ﻿using Config;
 using Model.Objects;
 using Model.Services;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -25,21 +26,16 @@ namespace Model.Infrastructure
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public void OnEnter(HashSet<Cell> payLoad)
+        public IEnumerator OnEnter(HashSet<Cell> payLoad)
         {
             DestroyBlocks(payLoad);
             stateMachine.EnterState<SpawnState>();
+            yield break;
         }
 
-        public void OnEnter()
+        public IEnumerator OnExit()
         {
-            Debug.LogWarning("Payloaded states should not be entered without payload, returning to WaitState state");
-            stateMachine.EnterState<WaitState>();
-        }
-
-        public void OnExit()
-        {
-
+            yield break;
         }
 
         private void DestroyBlocks(HashSet<Cell> matches)

@@ -1,22 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using System;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Utils;
+using Infrastructure;
 
 namespace Utils.UnitTests
 {
-    public class GameStateMachineTests
+    public class StateMachineTests
     {
+        private StateMachine Setup(params IExitableState[] states)
+        {
+            var coroutineRunner = new GameObject().AddComponent<CoroutineRunner>();
+            var stateMachine = new StateMachine(coroutineRunner);
+
+            for (int i = 0; i < states.Length; i++)
+            {
+                stateMachine.AddState(states[i]);
+            }
+
+            return stateMachine;
+        }
+
         [Test]
         public void SetState_NullToLoadState_CurrentStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
-                new Dictionary<System.Type, IState>
-                {
-                    [typeof(TestState)] = new TestState()
-                });
+            StateMachine stateMachine = Setup(new TestState());
 
             stateMachine.EnterState<TestState>();
 
@@ -26,12 +37,7 @@ namespace Utils.UnitTests
         [Test]
         public void SetState_LoadStateToWaitState_PreviousStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
-                new Dictionary<System.Type, IState>
-                {
-                    [typeof(TestState)] = new TestState(),
-                    [typeof(TestState2)] = new TestState2()
-                });
+            StateMachine stateMachine = Setup(new TestState(), new TestState2());
 
             stateMachine.EnterState<TestState>();
             stateMachine.EnterState<TestState2>();
@@ -43,11 +49,7 @@ namespace Utils.UnitTests
         [Test]
         public void SetPreviousState_NullToLoadStateToNull_CurrentStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
-                new Dictionary<System.Type, IState>
-                {
-                    [typeof(TestState)] = new TestState()
-                });
+            StateMachine stateMachine = Setup(new TestState());
 
             stateMachine.EnterState<TestState>();
             stateMachine.EnterPreviousState();
@@ -58,12 +60,7 @@ namespace Utils.UnitTests
         [Test]
         public void SetPreviousState_LoadStateToWaitStateToLoadState_CurrentStateLoadState()
         {
-            StateMachine stateMachine = new StateMachine(
-                new Dictionary<System.Type, IState>
-                {
-                    [typeof(TestState)] = new TestState(),
-                    [typeof(TestState2)] = new TestState2()
-                });
+            StateMachine stateMachine = Setup(new TestState(), new TestState2());
 
             stateMachine.EnterState<TestState>();
             stateMachine.EnterState<TestState2>();
@@ -75,11 +72,7 @@ namespace Utils.UnitTests
         public void GetState_ValidState_ReferenceToValidState()
         {
             IState state = new TestState();
-            StateMachine stateMachine = new StateMachine(
-                new Dictionary<System.Type, IState>
-                {
-                    [typeof(TestState)] = state
-                });
+            StateMachine stateMachine = Setup(state);
 
             IState receivedState = stateMachine.GetState<TestState>();
 
@@ -88,7 +81,7 @@ namespace Utils.UnitTests
         [Test]
         public void GetState_InValidState_Error()
         {
-            StateMachine stateMachine = new StateMachine(new Dictionary<System.Type, IState>());
+            StateMachine stateMachine = Setup();
 
             IState receivedState = stateMachine.GetState<TestState>();
 
@@ -98,7 +91,7 @@ namespace Utils.UnitTests
         public void AddState_NewState_StateAdded()
         {
             IState state = new TestState();
-            StateMachine stateMachine = new StateMachine();
+            StateMachine stateMachine = Setup();
 
             stateMachine.AddState(state);
 
@@ -113,11 +106,7 @@ namespace Utils.UnitTests
             state.testString = "state";
             TestState state2 = new TestState();
             state2.testString = "state2";
-            StateMachine stateMachine = new StateMachine(
-                new Dictionary<System.Type, IState>
-                {
-                    [typeof(TestState)] = state
-                });
+            StateMachine stateMachine = Setup(state);
 
             stateMachine.AddState(state2);
 

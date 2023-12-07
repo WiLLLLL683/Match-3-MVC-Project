@@ -1,5 +1,6 @@
 ﻿using Model.Objects;
 using Model.Services;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -21,21 +22,16 @@ namespace Model.Infrastructure
             this.matchService = matchService;
         }
 
-        public void OnEnter(Vector2Int payLoad)
+        public IEnumerator OnEnter(Vector2Int payLoad)
         {
             gameBoard = game.CurrentLevel.gameBoard;
             PressBlock(payLoad);
+            yield break;
         }
 
-        public void OnEnter()
+        public IEnumerator OnExit()
         {
-            Debug.LogWarning("Payloaded states should not be entered without payload, returning to WaitState state");
-            stateMachine.EnterState<WaitState>();
-        }
-
-        public void OnExit()
-        {
-
+            yield break;
         }
 
         private void PressBlock(Vector2Int position)

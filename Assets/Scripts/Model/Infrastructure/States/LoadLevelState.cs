@@ -3,6 +3,7 @@ using Infrastructure;
 using Model.Factories;
 using Model.Objects;
 using Model.Services;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -37,12 +38,12 @@ namespace Model.Infrastructure
             this.matchService = matchService;
         }
 
-        public void OnEnter(LevelSO payLoad)
+        public IEnumerator OnEnter(LevelSO payLoad)
         {
             if (payLoad == null)
             {
                 Debug.LogError("Invalid LevelData");
-                return;
+                yield break;
             }
 
             LoadLevel(payLoad);
@@ -52,15 +53,10 @@ namespace Model.Infrastructure
             stateMachine.EnterState<WaitState>();
         }
 
-        public void OnEnter()
-        {
-            Debug.LogWarning("Payloaded states should not be entered without payload, loading MetaGame");
-            stateMachine.EnterState<ExitState>();
-        }
-
-        public void OnExit()
+        public IEnumerator OnExit()
         {
             Debug.Log("Core Game Started");
+            yield break;
         }
 
         private void LoadLevel(LevelSO levelData)

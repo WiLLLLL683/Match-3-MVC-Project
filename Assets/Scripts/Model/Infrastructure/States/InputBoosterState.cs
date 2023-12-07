@@ -1,5 +1,6 @@
 ﻿using Model.Objects;
 using Model.Services;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -22,7 +23,7 @@ namespace Model.Infrastructure
             this.boosterInventory = boosterInventory;
         }
 
-        public void OnEnter(IBooster payLoad)
+        public IEnumerator OnEnter(IBooster payLoad)
         {
             level = game.CurrentLevel;
 
@@ -30,17 +31,12 @@ namespace Model.Infrastructure
             HashSet<Cell> matches = null;
 
             stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
+            yield break;
         }
 
-        public void OnEnter()
+        public IEnumerator OnExit()
         {
-            Debug.LogWarning("Payloaded states should not be entered without payload, returning to WaitState state");
-            stateMachine.EnterState<WaitState>();
-        }
-
-        public void OnExit()
-        {
-
+            yield break;
         }
     }
 }

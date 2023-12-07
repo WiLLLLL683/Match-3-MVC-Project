@@ -4,6 +4,7 @@ using Model.Objects;
 using Model.Services;
 using Utils;
 using Model.Infrastructure.Commands;
+using System.Collections;
 
 namespace Model.Infrastructure
 {
@@ -29,7 +30,7 @@ namespace Model.Infrastructure
             this.moveService = moveService;
         }
 
-        public void OnEnter((Vector2Int startPos, Directions direction) payLoad)
+        public IEnumerator OnEnter((Vector2Int startPos, Directions direction) payLoad)
         {
             startPos = payLoad.startPos;
             direction = payLoad.direction;
@@ -37,20 +38,14 @@ namespace Model.Infrastructure
 
             //бездействие при долгом зажатии блока на одном месте
             if (direction == Directions.Zero)
-                return;
+                yield break;
 
             MoveBlock();
         }
 
-        public void OnEnter()
+        public IEnumerator OnExit()
         {
-            Debug.LogWarning("Payloaded states should not be entered without payload, returning to WaitState state");
-            stateMachine.EnterState<WaitState>();
-        }
-
-        public void OnExit()
-        {
-
+            yield break;
         }
 
         private void MoveBlock()

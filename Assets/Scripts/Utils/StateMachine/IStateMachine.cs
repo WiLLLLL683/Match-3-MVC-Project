@@ -5,8 +5,8 @@
     /// </summary>
     public interface IStateMachine
     {
-        IState CurrentState { get; }
-        IState PreviousState { get; }
+        IExitableState CurrentState { get; }
+        IExitableState PreviousState { get; }
 
         /// <summary>
         /// Запустить текущий стейт
@@ -26,11 +26,11 @@
         /// <summary>
         /// Добавить новый стейт в стейт-машину
         /// </summary>
-        void AddState(IState state);
+        void AddState(IExitableState state);
 
         /// <summary>
         /// Получить экземпляр стейта определенного типа
         /// </summary>
-        T GetState<T>() where T : IState;
+        T GetState<T>() where T : IExitableState;
     }
 }

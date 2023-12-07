@@ -7,14 +7,15 @@ namespace Utils.UnitTests
 {
     public class TestState2 : IState
     {
-        public void OnEnter()
-        {
 
+        public IEnumerator OnEnter()
+        {
+            yield break;
         }
 
-        public void OnExit()
+        public IEnumerator OnExit()
         {
-
+            yield break;
         }
     }
 }

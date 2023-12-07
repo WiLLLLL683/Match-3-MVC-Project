@@ -18,10 +18,12 @@ namespace Presenter.UnitTests
         private const int NO_LEVEL_INDEX = -999;
 
         private string selectedLevelName;
+        private int coreGameStartedCount;
 
         private (LevelSelectionPresenter presenter, ILevelSelectionView view, LevelProgress levelProgress) Setup()
         {
             selectedLevelName = "";
+            coreGameStartedCount = 0;
 
             var levelProgress = new LevelProgress();
             levelProgress.CurrentLevelIndex = NO_LEVEL_INDEX;
@@ -37,8 +39,10 @@ namespace Presenter.UnitTests
             level1.levelName = LEVEL_1;
             configProvider.GetLevelSO(0).Returns(level0);
             configProvider.GetLevelSO(1).Returns(level1);
-            //levelLoader
-            var gameStateMachine = Substitute.For<GameStateMachine>();
+            //gameStateMachine
+            var coroutineRunner = new GameObject().AddComponent<CoroutineRunner>();
+            var gameStateMachine = Substitute.For<GameStateMachine>(coroutineRunner);
+            gameStateMachine.When(x => x.EnterState<CoreState>()).Do(x => coreGameStartedCount++);
 
             var presenter = new LevelSelectionPresenter(levelProgress, view, gameStateMachine, configProvider);
 
@@ -87,6 +91,7 @@ namespace Presenter.UnitTests
 
             Assert.AreEqual(LEVEL_0, selectedLevelName);
             Assert.AreEqual(0, levelProgress.CurrentLevelIndex);
+            Assert.AreEqual(1, coreGameStartedCount);
         }
 
         [Test]
@@ -99,7 +104,7 @@ namespace Presenter.UnitTests
             view.OnStartSelected += Raise.Event<Action>();
 
             Assert.AreEqual(LEVEL_0, selectedLevelName);
-            Assert.AreEqual(NO_LEVEL_INDEX, levelProgress.CurrentLevelIndex);
+            Assert.AreEqual(0, coreGameStartedCount);
         }
 
         [Test]

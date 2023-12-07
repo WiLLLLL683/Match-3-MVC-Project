@@ -1,5 +1,6 @@
 ﻿using Model.Objects;
 using Model.Services;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -24,7 +25,7 @@ namespace Model.Infrastructure
             this.winLoseService = winLoseService;
         }
 
-        public void OnEnter()
+        public IEnumerator OnEnter()
         {
             level = game.CurrentLevel;
 
@@ -38,11 +39,12 @@ namespace Model.Infrastructure
 
             //поиск блоков для подсказки
             //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
+            yield break;
         }
 
-        public void OnExit()
+        public IEnumerator OnExit()
         {
-
+            yield break;
         }
     }
 }

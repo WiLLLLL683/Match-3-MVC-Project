@@ -11,25 +11,24 @@ namespace Infrastructure
 {
     public class MetaState : IState
     {
-        private readonly ICoroutineRunner coroutineRunner;
         private const string META_SCENE_NAME = "Meta";
 
         private MetaDependencies meta;
 
-        public MetaState(ICoroutineRunner coroutineRunner)
+        public IEnumerator OnEnter()
         {
-            this.coroutineRunner = coroutineRunner;
+            yield return SceneManager.LoadSceneAsync(META_SCENE_NAME, LoadSceneMode.Single);
+            GetSceneDependencies();
+            EnablePresenters();
         }
 
-        public void OnEnter()
-        {
-            coroutineRunner.StartCoroutine(LoadMeta());
-        }
-
-        public void OnExit()
+        public IEnumerator OnExit()
         {
             DisablePresenters();
+            yield break;
         }
+
+        private void GetSceneDependencies() => meta = GameObject.FindObjectOfType<MetaDependencies>();
 
         private void EnablePresenters()
         {
@@ -41,18 +40,6 @@ namespace Infrastructure
         {
             meta.header.Disable();
             meta.levelSelection.Disable();
-        }
-
-        private IEnumerator LoadMeta()
-        {
-            yield return SceneManager.LoadSceneAsync(META_SCENE_NAME, LoadSceneMode.Single);
-            GetSceneDependencies();
-            EnablePresenters();
-        }
-
-        private void GetSceneDependencies()
-        {
-            meta = GameObject.FindObjectOfType<MetaDependencies>();
         }
     }
 }

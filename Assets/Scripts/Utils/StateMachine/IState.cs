@@ -1,9 +1,9 @@
-﻿
+﻿using System.Collections;
+
 namespace Utils
 {
-    public interface IState
+    public interface IState : IExitableState
     {
-        public void OnEnter();
-        public void OnExit();
+        public IEnumerator OnEnter();
     }
 }

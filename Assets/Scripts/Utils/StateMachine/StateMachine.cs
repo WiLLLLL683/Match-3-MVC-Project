@@ -1,6 +1,8 @@
+using Infrastructure;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Utils
 {
@@ -9,33 +11,32 @@ namespace Utils
     /// </summary>
     public class StateMachine : IStateMachine
     {
-        public IState PreviousState { get; private set; }
-        public IState CurrentState { get; private set; }
+        public IExitableState PreviousState { get; private set; }
+        public IExitableState CurrentState { get; private set; }
 
-        private readonly Dictionary<Type, IState> states;
+        private readonly Dictionary<Type, IExitableState> states = new();
+        private readonly ICoroutineRunner coroutineRunner;
 
-        public StateMachine()
-        {
-            states = new();
-        }
-
-        public StateMachine(Dictionary<Type, IState> states)
-        {
-            this.states = states;
-        }
+        public StateMachine(ICoroutineRunner coroutineRunner) => this.coroutineRunner = coroutineRunner;
 
         public void EnterState<T>() where T : IState
         {
             T newState = GetState<T>();
             ChangeState(newState);
-            newState.OnEnter();
+            coroutineRunner.StartCoroutine(newState.OnEnter());
         }
 
         public void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>
         {
             T newState = GetState<T>();
+            if (newState == null)
+            {
+                Debug.LogError("Attempt to load null state");
+                return;
+            }
+
             ChangeState(newState);
-            newState.OnEnter(payLoad);
+            coroutineRunner.StartCoroutine(newState.OnEnter(payLoad));
         }
 
         public void EnterPreviousState()
@@ -49,13 +50,13 @@ namespace Utils
             ChangeState(PreviousState);
         }
 
-        public void AddState(IState state)
+        public void AddState(IExitableState state)
         {
             Type type = state.GetType();
             states[type] = state;
         }
 
-        public T GetState<T>() where T : IState
+        public T GetState<T>() where T : IExitableState
         {
             if (!states.ContainsKey(typeof(T)))
             {
@@ -66,16 +67,14 @@ namespace Utils
             return (T)states[typeof(T)];
         }
 
-        private void ChangeState(IState newState)
+        private void ChangeState(IExitableState newState)
         {
-            if (newState == null)
+            if (CurrentState != null)
             {
-                Debug.LogError("Attempt to load null state");
-                return;
+                coroutineRunner.StartCoroutine(CurrentState.OnExit());
             }
 
             PreviousState = CurrentState;
-            PreviousState?.OnExit();
             CurrentState = newState;
         }
     }

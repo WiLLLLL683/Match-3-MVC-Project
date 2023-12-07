@@ -1,8 +1,9 @@
-﻿
+﻿using System.Collections;
+
 namespace Utils
 {
-    public interface IPayLoadedState<TPayLoad> : IState
+    public interface IPayLoadedState<TPayLoad> : IExitableState
     {
-        public void OnEnter(TPayLoad payLoad);
+        public IEnumerator OnEnter(TPayLoad payLoad);
     }
 }

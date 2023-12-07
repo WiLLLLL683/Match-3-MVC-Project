@@ -1,6 +1,7 @@
 ﻿using Config;
 using Model.Services;
 using System;
+using System.Collections;
 using Utils;
 
 namespace Infrastructure
@@ -18,17 +19,18 @@ namespace Infrastructure
             this.currencyService = currencyService;
         }
 
-        public void OnEnter()
+        public IEnumerator OnEnter()
         {
             //загрузка игры
             LoadCurrencies();
 
             gameStateMachine.EnterState<MetaState>();
+            yield break;
         }
 
-        public void OnExit()
+        public IEnumerator OnExit()
         {
-
+            yield break;
         }
 
         private void LoadCurrencies()

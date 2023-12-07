@@ -1,4 +1,5 @@
-﻿using Utils;
+﻿using System.Collections;
+using Utils;
 
 namespace Model.Infrastructure
 {
@@ -11,14 +12,14 @@ namespace Model.Infrastructure
             this.stateMachine = stateMachine;
         }
 
-        public void OnEnter()
+        public IEnumerator OnEnter()
         {
-
+            yield break;
         }
 
-        public void OnExit()
+        public IEnumerator OnExit()
         {
-
+            yield break;
         }
     }
 }

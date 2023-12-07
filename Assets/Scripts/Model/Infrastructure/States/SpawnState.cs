@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Model.Objects;
 using Model.Services;
 using Utils;
@@ -28,7 +29,7 @@ namespace Model.Infrastructure
             this.blockDestroyService = blockDestroyService;
         }
 
-        public void OnEnter()
+        public IEnumerator OnEnter()
         {
             gameBoard = game.CurrentLevel.gameBoard;
 
@@ -55,11 +56,12 @@ namespace Model.Infrastructure
             }
 
             stateMachine.EnterState<WaitState>();
+            yield break;
         }
 
-        public void OnExit()
+        public IEnumerator OnExit()
         {
-
+            yield break;
         }
     }
 }

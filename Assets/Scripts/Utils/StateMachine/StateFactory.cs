@@ -9,6 +9,6 @@ namespace Utils
 
         public StateFactory(IInstantiator instantiator) => this.instantiator = instantiator;
 
-        public T Create<T>() where T : IState => instantiator.Instantiate<T>();
+        public T Create<T>() where T : IExitableState => instantiator.Instantiate<T>();
     }
 }
