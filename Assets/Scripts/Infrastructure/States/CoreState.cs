@@ -12,13 +12,13 @@ namespace Infrastructure
     public class CoreState : IState
     {
         private readonly Game model;
-        private readonly GameStateMachine gameStateMachine;
+        private readonly IGameStateMachine gameStateMachine;
         private readonly IConfigProvider configProvider;
         private const string CORE_SCENE_NAME = "Core";
 
         private CoreDependencies core;
 
-        public CoreState(Game model, GameStateMachine gameStateMachine, IConfigProvider configProvider)
+        public CoreState(Game model, IGameStateMachine gameStateMachine, IConfigProvider configProvider)
         {
             this.model = model;
             this.gameStateMachine = gameStateMachine;
@@ -61,23 +61,23 @@ namespace Infrastructure
         
         private void CreateModelStates()
         {
-            core.stateMachine.AddState(core.stateFactory.Create<LoadLevelState>());
-            core.stateMachine.AddState(core.stateFactory.Create<WaitState>());
-            core.stateMachine.AddState(core.stateFactory.Create<InputMoveBlockState>());
-            core.stateMachine.AddState(core.stateFactory.Create<InputActivateBlockState>());
-            core.stateMachine.AddState(core.stateFactory.Create<InputBoosterState>());
-            core.stateMachine.AddState(core.stateFactory.Create<DestroyState>());
-            core.stateMachine.AddState(core.stateFactory.Create<SpawnState>());
-            core.stateMachine.AddState(core.stateFactory.Create<LoseState>());
-            core.stateMachine.AddState(core.stateFactory.Create<WinState>());
-            core.stateMachine.AddState(core.stateFactory.Create<BonusState>());
-            core.stateMachine.AddState(core.stateFactory.Create<ExitState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<LoadLevelState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<WaitState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<InputMoveBlockState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<InputActivateBlockState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<InputBoosterState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<DestroyState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<SpawnState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<LoseState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<WinState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<BonusState>());
+            core.coreStateMachine.AddState(core.stateFactory.Create<ExitState>());
         }
 
         private void StartModel()
         {
             LevelSO currentLevel = configProvider.GetLevelSO(model.LevelProgress.CurrentLevelIndex);
-            core.stateMachine.EnterState<LoadLevelState, LevelSO>(currentLevel);
+            core.coreStateMachine.EnterState<LoadLevelState, LevelSO>(currentLevel);
         }
 
         private void EnablePresenters()

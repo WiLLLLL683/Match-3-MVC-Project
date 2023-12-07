@@ -40,8 +40,7 @@ namespace Presenter.UnitTests
             configProvider.GetLevelSO(0).Returns(level0);
             configProvider.GetLevelSO(1).Returns(level1);
             //gameStateMachine
-            var coroutineRunner = new GameObject().AddComponent<CoroutineRunner>();
-            var gameStateMachine = Substitute.For<GameStateMachine>(coroutineRunner);
+            var gameStateMachine = Substitute.For<IGameStateMachine>();
             gameStateMachine.When(x => x.EnterState<CoreState>()).Do(x => coreGameStartedCount++);
 
             var presenter = new LevelSelectionPresenter(levelProgress, view, gameStateMachine, configProvider);

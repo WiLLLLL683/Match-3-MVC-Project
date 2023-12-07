@@ -15,12 +15,12 @@ namespace Presenter
         private readonly Game model;
         private readonly IPauseView view;
         private readonly IInput input;
-        private readonly GameStateMachine gameStateMachine;
+        private readonly IGameStateMachine gameStateMachine;
 
         public PausePresenter(Game model,
             IPauseView view,
             IInput input,
-            GameStateMachine gameStateMachine)
+            IGameStateMachine gameStateMachine)
         {
             this.model = model;
             this.view = view;

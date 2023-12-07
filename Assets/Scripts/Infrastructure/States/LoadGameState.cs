@@ -8,11 +8,11 @@ namespace Infrastructure
 {
     public class LoadGameState : IState
     {
-        private readonly GameStateMachine gameStateMachine;
+        private readonly IGameStateMachine gameStateMachine;
         private readonly IConfigProvider configProvider;
         private readonly ICurrencyService currencyService;
 
-        public LoadGameState(GameStateMachine gameStateMachine, IConfigProvider configProvider, ICurrencyService currencyService)
+        public LoadGameState(IGameStateMachine gameStateMachine, IConfigProvider configProvider, ICurrencyService currencyService)
         {
             this.gameStateMachine = gameStateMachine;
             this.configProvider = configProvider;

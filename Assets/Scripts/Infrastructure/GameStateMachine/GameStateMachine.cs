@@ -3,7 +3,7 @@ using Utils;
 
 namespace Infrastructure
 {
-    public class GameStateMachine : StateMachine
+   public class GameStateMachine : StateMachine, IGameStateMachine
     {
         public GameStateMachine(ICoroutineRunner coroutineRunner) : base(coroutineRunner)
         {

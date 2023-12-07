@@ -15,7 +15,7 @@ namespace Infrastructure
     /// </summary>
     public class CoreDependencies : MonoBehaviour
     {
-        public IStateMachine stateMachine;
+        public IStateMachine coreStateMachine;
         public IStateFactory stateFactory;
         public IInput input;
         public IHudPresenter hud;
@@ -26,7 +26,7 @@ namespace Infrastructure
         public IEndGamePresenter endGame;
 
         [Inject]
-        public void Construct(IStateMachine stateMachine,
+        public void Construct(IStateMachine coreStateMachine,
             IStateFactory stateFactory,
             IInput input,
             IHudPresenter hud,
@@ -36,7 +36,7 @@ namespace Infrastructure
             IPausePresenter pause,
             IEndGamePresenter endGame)
         {
-            this.stateMachine = stateMachine;
+            this.coreStateMachine = coreStateMachine;
             this.stateFactory = stateFactory;
             this.input = input;
             this.hud = hud;

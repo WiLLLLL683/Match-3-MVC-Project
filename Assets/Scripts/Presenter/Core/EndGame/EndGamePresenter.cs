@@ -17,13 +17,13 @@ namespace Presenter
         private readonly IEndGameView view;
         private readonly IInput input;
         private readonly IWinLoseService winLoseService;
-        private readonly GameStateMachine gameStateMachine;
+        private readonly IGameStateMachine gameStateMachine;
 
         public EndGamePresenter(Game model,
             IEndGameView view,
             IInput input,
             IWinLoseService winLoseService,
-            GameStateMachine gameStateMachine)
+            IGameStateMachine gameStateMachine)
         {
             this.model = model;
             this.view = view;

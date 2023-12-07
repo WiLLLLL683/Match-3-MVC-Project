@@ -10,11 +10,11 @@ namespace Infrastructure
     /// </summary>
     public class Bootstrap : MonoBehaviour
     {
-        private GameStateMachine gameStateMachine;
+        private IGameStateMachine gameStateMachine;
         private IStateFactory stateFactory;
 
         [Inject]
-        public void Construct(GameStateMachine gameStateMachine, IStateFactory stateFactory)
+        public void Construct(IGameStateMachine gameStateMachine, IStateFactory stateFactory)
         {
             this.gameStateMachine = gameStateMachine;
             this.stateFactory = stateFactory;

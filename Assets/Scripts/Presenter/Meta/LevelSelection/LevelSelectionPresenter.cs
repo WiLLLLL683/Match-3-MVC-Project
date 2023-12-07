@@ -16,12 +16,12 @@ namespace Presenter
     {
         private readonly LevelProgress model;
         private readonly ILevelSelectionView view;
-        private readonly GameStateMachine gameStateMachine;
+        private readonly IGameStateMachine gameStateMachine;
         private readonly IConfigProvider configProvider;
 
         public LevelSelectionPresenter(LevelProgress model,
             ILevelSelectionView view,
-            GameStateMachine gameStateMachine,
+            IGameStateMachine gameStateMachine,
             IConfigProvider configProvider)
         {
             this.model = model;
