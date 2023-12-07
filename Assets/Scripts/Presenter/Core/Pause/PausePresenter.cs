@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Model.Objects;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -15,17 +16,17 @@ namespace Presenter
         private readonly Game model;
         private readonly IPauseView view;
         private readonly IInput input;
-        private readonly IGameStateMachine gameStateMachine;
+        private readonly IStateMachine stateMachine;
 
         public PausePresenter(Game model,
             IPauseView view,
             IInput input,
-            IGameStateMachine gameStateMachine)
+            IStateMachine stateMachine)
         {
             this.model = model;
             this.view = view;
             this.input = input;
-            this.gameStateMachine = gameStateMachine;
+            this.stateMachine = stateMachine;
         }
 
         public void Enable()
@@ -59,10 +60,10 @@ namespace Presenter
         private void LoadNextLevel()
         {
             model.LevelProgress.CurrentLevelIndex++;
-            gameStateMachine.EnterState<CoreState>();
+            stateMachine.EnterState<CleanUpState, bool>(false);
         }
-        private void Quit() => gameStateMachine.EnterState<MetaState>();
-        private void Replay() => gameStateMachine.EnterState<CoreState>();
+        private void Quit() => stateMachine.EnterState<CleanUpState, bool>(true);
+        private void Replay() => stateMachine.EnterState<CleanUpState, bool>(false);
         private void SwitchSound(bool isOn) => model.PlayerSettings.IsSoundOn = isOn;
         private void SwitchVibration(bool isOn) => model.PlayerSettings.IsSoundOn = isOn;
     }

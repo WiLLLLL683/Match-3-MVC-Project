@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
-namespace Model.Infrastructure
+namespace Infrastructure
 {
     public class DestroyState : IPayLoadedState<HashSet<Cell>>
     {

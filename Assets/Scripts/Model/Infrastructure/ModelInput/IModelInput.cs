@@ -14,12 +14,12 @@ namespace Model.Infrastructure
         /// <summary>
         /// Завершение запущенного уровня, для безопасной выгрузки сцены
         /// </summary>
-        void ExitLevel();
+        //void ExitLevel();
 
         /// <summary>
         /// Запуск выбранного уровня кор-игры
         /// </summary>
-        void StartLevel(LevelSO levelData);
+        //void StartLevel(LevelSO levelData);
 
         /// <summary>
         /// Попытаться активировать блок в заданных координатах

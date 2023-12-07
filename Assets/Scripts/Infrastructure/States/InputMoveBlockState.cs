@@ -6,7 +6,7 @@ using Utils;
 using Model.Infrastructure.Commands;
 using System.Collections;
 
-namespace Model.Infrastructure
+namespace Infrastructure
 {
     public class InputMoveBlockState : IPayLoadedState<(Vector2Int startPos, Directions direction)>
     {

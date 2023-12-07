@@ -4,7 +4,7 @@ using Model.Objects;
 using Model.Services;
 using Utils;
 
-namespace Model.Infrastructure
+namespace Infrastructure
 {
     public class SpawnState : IState
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
-namespace Model.Infrastructure
+namespace Infrastructure
 {
     public class WaitState : IState
     {

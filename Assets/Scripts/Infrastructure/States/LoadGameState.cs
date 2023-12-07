@@ -8,13 +8,13 @@ namespace Infrastructure
 {
     public class LoadGameState : IState
     {
-        private readonly IGameStateMachine gameStateMachine;
+        private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
         private readonly ICurrencyService currencyService;
 
-        public LoadGameState(IGameStateMachine gameStateMachine, IConfigProvider configProvider, ICurrencyService currencyService)
+        public LoadGameState(IStateMachine stateMachine, IConfigProvider configProvider, ICurrencyService currencyService)
         {
-            this.gameStateMachine = gameStateMachine;
+            this.stateMachine = stateMachine;
             this.configProvider = configProvider;
             this.currencyService = currencyService;
         }
@@ -24,7 +24,7 @@ namespace Infrastructure
             //загрузка игры
             LoadCurrencies();
 
-            gameStateMachine.EnterState<MetaState>();
+            stateMachine.EnterState<MetaState>();
             yield break;
         }
 

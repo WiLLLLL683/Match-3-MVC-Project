@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using Utils;
 
-namespace Model.Infrastructure
+namespace Infrastructure
 {
-    public class WinState : IState
+    public class BonusState : IState
     {
         private readonly IStateMachine stateMachine;
 
-        public WinState(IStateMachine stateMachine)
+        public BonusState(IStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
         }

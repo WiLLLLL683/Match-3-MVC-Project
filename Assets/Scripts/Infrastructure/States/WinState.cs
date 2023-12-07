@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using Utils;
 
-namespace Model.Infrastructure
+namespace Infrastructure
 {
-    public class LoseState : IState
+    public class WinState : IState
     {
         private readonly IStateMachine stateMachine;
 
-        public LoseState(IStateMachine stateMachine)
+        public WinState(IStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
         }

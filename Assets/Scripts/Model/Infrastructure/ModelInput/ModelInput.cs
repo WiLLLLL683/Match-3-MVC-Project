@@ -1,4 +1,5 @@
 ﻿using Config;
+using Infrastructure;
 using Model.Objects;
 using System;
 using UnityEngine;
@@ -14,9 +15,6 @@ namespace Model.Infrastructure
         {
             this.stateMachine = stateMachine;
         }
-
-        public void StartLevel(LevelSO levelData) => stateMachine.EnterState<LoadLevelState, LevelSO>(levelData);
-        public void ExitLevel() => stateMachine.EnterState<ExitState>();
 
         public void ActivateBlock(Vector2Int position) => stateMachine.EnterState<InputActivateBlockState, Vector2Int>(position);
         public void MoveBlock(Vector2Int position, Directions direction)

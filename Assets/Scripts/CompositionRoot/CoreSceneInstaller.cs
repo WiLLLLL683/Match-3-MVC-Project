@@ -33,19 +33,12 @@ namespace CompositionRoot
 
         public override void InstallBindings()
         {
-            BindModelStateMachine();
             BindInput();
             BindHud();
             BindGameboard();
             BindBoosterInventory();
             BindPause();
             BindEndGame();
-        }
-
-        private void BindModelStateMachine()
-        {
-            Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
-            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
         }
 
         private void BindInput()

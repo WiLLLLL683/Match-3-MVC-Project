@@ -7,6 +7,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter.UnitTests
@@ -40,10 +41,10 @@ namespace Presenter.UnitTests
             configProvider.GetLevelSO(0).Returns(level0);
             configProvider.GetLevelSO(1).Returns(level1);
             //gameStateMachine
-            var gameStateMachine = Substitute.For<IGameStateMachine>();
-            gameStateMachine.When(x => x.EnterState<CoreState>()).Do(x => coreGameStartedCount++);
+            var stateMachine = Substitute.For<IStateMachine>();
+            stateMachine.When(x => x.EnterState<LoadLevelState>()).Do(x => coreGameStartedCount++);
 
-            var presenter = new LevelSelectionPresenter(levelProgress, view, gameStateMachine, configProvider);
+            var presenter = new LevelSelectionPresenter(levelProgress, view, stateMachine, configProvider);
 
             return (presenter, view, levelProgress);
         }

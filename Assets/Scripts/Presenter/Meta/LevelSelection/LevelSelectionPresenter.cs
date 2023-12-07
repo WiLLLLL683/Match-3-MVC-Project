@@ -3,6 +3,7 @@ using Infrastructure;
 using Model.Objects;
 using System;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -16,17 +17,17 @@ namespace Presenter
     {
         private readonly LevelProgress model;
         private readonly ILevelSelectionView view;
-        private readonly IGameStateMachine gameStateMachine;
+        private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
 
         public LevelSelectionPresenter(LevelProgress model,
             ILevelSelectionView view,
-            IGameStateMachine gameStateMachine,
+            IStateMachine stateMachine,
             IConfigProvider configProvider)
         {
             this.model = model;
             this.view = view;
-            this.gameStateMachine = gameStateMachine;
+            this.stateMachine = stateMachine;
             this.configProvider = configProvider;
         }
 
@@ -59,7 +60,7 @@ namespace Presenter
                 return;
             }
 
-            gameStateMachine.EnterState<CoreState>();
+            stateMachine.EnterState<LoadLevelState>();
         }
 
         public void SelectPrevious() => SelectLevel(model.CurrentLevelIndex - 1);
