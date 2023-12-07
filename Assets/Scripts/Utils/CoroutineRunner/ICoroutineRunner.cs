@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Infrastructure
+namespace Utils
 {
     public interface ICoroutineRunner
     {

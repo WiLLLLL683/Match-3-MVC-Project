@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Infrastructure
+namespace Utils
 {
     public class CoroutineRunner : MonoBehaviour, ICoroutineRunner
     {

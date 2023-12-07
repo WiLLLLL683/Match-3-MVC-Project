@@ -25,10 +25,10 @@ namespace CompositionRoot
         [SerializeField] private PauseView pauseView;
         [SerializeField] private EndGameView endGameView;
 
+        //TODO перенести в ConfigInstaller
         [Header("Prefabs")]
         [SerializeField] private CounterView goalCounterPrefab;
         [SerializeField] private CounterView restrictionCounterPrefab;
-        [SerializeField] private BlockView blockPrefab;
         [SerializeField] private BoosterView boosterPrefab;
 
         public override void InstallBindings()

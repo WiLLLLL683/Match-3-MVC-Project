@@ -5,6 +5,7 @@ using NUnit.Framework;
 using TestUtils;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Utils;
 
 namespace Model.Services.UnitTests
 {

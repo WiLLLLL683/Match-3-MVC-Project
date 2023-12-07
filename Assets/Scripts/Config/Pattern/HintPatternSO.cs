@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Model.Objects;
+using UnityEngine;
+using Utils;
 
 namespace Config
 {

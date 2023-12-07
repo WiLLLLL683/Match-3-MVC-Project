@@ -1,9 +1,8 @@
-﻿using Model.Readonly; //TODO удалить!
-
-namespace Model.Objects
+﻿namespace Model.Objects
 {
-    public interface IBooster : IBooster_Readonly
+    public interface IBooster
     {
-        //TODO
+        public int Id { get; }
+        public int Amount { get; }
     }
 }

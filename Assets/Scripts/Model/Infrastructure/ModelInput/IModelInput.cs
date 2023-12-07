@@ -1,6 +1,7 @@
 ﻿using Config;
 using Model.Objects;
 using UnityEngine;
+using Utils;
 
 namespace Model.Infrastructure
 {

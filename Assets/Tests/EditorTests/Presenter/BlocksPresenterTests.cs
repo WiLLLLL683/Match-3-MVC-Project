@@ -8,6 +8,7 @@ using System;
 using TestUtils;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Utils;
 using View;
 using View.Factories;
 
@@ -158,7 +159,7 @@ namespace Presenter.UnitTests
             var setup = Setup();
             setup.presenter.Enable();
 
-            setup.blockView.OnInputMove += Raise.Event<Action<Vector2Int,Directions>>(new Vector2Int(0,0), Directions.Right);
+            setup.blockView.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0,0), Directions.Right);
 
             Assert.AreEqual(1, inputMoveCount);
         }
