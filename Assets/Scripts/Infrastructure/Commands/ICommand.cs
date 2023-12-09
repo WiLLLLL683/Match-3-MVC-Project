@@ -1,4 +1,4 @@
-namespace Model.Infrastructure.Commands
+namespace Infrastructure.Commands
 {
     public interface ICommand
     {

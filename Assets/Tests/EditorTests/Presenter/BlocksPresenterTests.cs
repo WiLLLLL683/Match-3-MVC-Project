@@ -1,5 +1,5 @@
 ﻿using Config;
-using Model.Infrastructure;
+using Infrastructure;
 using Model.Objects;
 using Model.Services;
 using NSubstitute;
@@ -64,10 +64,10 @@ namespace Presenter.UnitTests
             blockView.When(x => x.ChangeModelPosition(Arg.Any<Vector2Int>())).Do(x => blockChangedPositionCount++);
             blockView.When(x => x.ChangeType(Arg.Any<Sprite>(), Arg.Any<ParticleSystem>())).Do(x => blockChangedTypeCount++);
 
-            //modelInput
-            var modelInput = Substitute.For<IModelInput>();
-            modelInput.When(x => x.MoveBlock(Arg.Any<Vector2Int>(), Arg.Any<Directions>())).Do(x => inputMoveCount++);
-            modelInput.When(x => x.ActivateBlock(Arg.Any<Vector2Int>())).Do(x => inputActivateCount++);
+            //stateMachine
+            var stateMachine = Substitute.For<IStateMachine>();
+            stateMachine.When(x => x.EnterState<InputMoveBlockState, (Vector2Int, Directions)>(Arg.Any<(Vector2Int, Directions)>())).Do(x => inputMoveCount++);
+            stateMachine.When(x => x.EnterState<InputActivateBlockState, Vector2Int>(Arg.Any<Vector2Int>())).Do(x => inputActivateCount++);
 
             //config
             var configProvider = Substitute.For<IConfigProvider>();
@@ -78,7 +78,7 @@ namespace Presenter.UnitTests
             var destroyService = Substitute.For<IBlockDestroyService>();
             var changeTypeService = Substitute.For<IBlockChangeTypeService>();
             var moveService = Substitute.For<IBlockMoveService>();
-            var presenter = new BlocksPresenter(model, view, blockViewFactory, configProvider, spawnService, destroyService, changeTypeService, moveService, modelInput);
+            var presenter = new BlocksPresenter(model, view, blockViewFactory, configProvider, spawnService, destroyService, changeTypeService, moveService, stateMachine);
 
             return new SetupArgs()
             {

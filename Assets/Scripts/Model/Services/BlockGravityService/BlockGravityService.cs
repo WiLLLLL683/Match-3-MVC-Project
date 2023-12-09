@@ -1,4 +1,4 @@
-using Model.Infrastructure.Commands;
+using Infrastructure.Commands;
 using Model.Objects;
 using UnityEngine;
 

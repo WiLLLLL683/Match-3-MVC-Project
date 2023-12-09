@@ -2,7 +2,7 @@ using Model.Objects;
 using Model.Services;
 using System;
 
-namespace Model.Infrastructure.Commands
+namespace Infrastructure.Commands
 {
     /// <summary>
     /// смена типа блока

@@ -1,7 +1,7 @@
 using Model.Objects;
 using Model.Services;
 
-namespace Model.Infrastructure.Commands
+namespace Infrastructure.Commands
 {
     /// <summary>
     /// Спавн блока заданного типа в заданной позиции

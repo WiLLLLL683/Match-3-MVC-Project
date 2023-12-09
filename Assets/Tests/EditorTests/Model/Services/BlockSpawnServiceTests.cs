@@ -1,13 +1,7 @@
-using Config;
 using Model.Factories;
-using Model.Infrastructure;
 using Model.Objects;
-using Model.Services;
-using NSubstitute;
 using NUnit.Framework;
 using TestUtils;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Model.Services.UnitTests
 {

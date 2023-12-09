@@ -1,7 +1,3 @@
-using Config;
-using log4net.Core;
-using Model.Infrastructure;
-using Model.Services;
 using Presenter;
 using UnityEngine;
 using Utils;

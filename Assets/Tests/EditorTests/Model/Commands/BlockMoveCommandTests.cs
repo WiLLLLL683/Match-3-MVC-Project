@@ -7,7 +7,7 @@ using Model.Objects;
 using TestUtils;
 using Model.Services;
 
-namespace Model.Infrastructure.Commands.UnitTests
+namespace Infrastructure.Commands.UnitTests
 {
     public class BlockMoveCommandTests
     {

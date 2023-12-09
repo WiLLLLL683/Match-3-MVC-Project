@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using Model.Objects;
+﻿using Model.Objects;
 using Model.Services;
-using Model.Infrastructure;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace TestUtils
 {

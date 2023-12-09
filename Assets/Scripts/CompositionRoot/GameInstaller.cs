@@ -1,7 +1,4 @@
-using Config;
-using Infrastructure;
 using Model.Factories;
-using Model.Infrastructure;
 using Model.Objects;
 using Model.Services;
 using UnityEngine;

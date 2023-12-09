@@ -1,7 +1,4 @@
 using Config;
-using Model.Factories;
-using Model.Infrastructure;
-using Model.Objects;
 using UnityEngine;
 using View;
 using Zenject;

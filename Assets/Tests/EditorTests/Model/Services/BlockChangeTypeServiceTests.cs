@@ -1,10 +1,6 @@
-﻿using Model.Infrastructure;
-using Model.Objects;
-using Model.Services;
-using NSubstitute;
+﻿using Model.Objects;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using TestUtils;
 using UnityEngine;
 

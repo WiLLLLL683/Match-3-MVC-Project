@@ -1,12 +1,6 @@
-using Config;
-using Infrastructure;
-using Model.Infrastructure;
-using Model.Objects;
-using Presenter;
 using System;
-using System.Collections.Generic;
+using Presenter;
 using UnityEngine;
-using Utils;
 using View;
 using View.Factories;
 using Zenject;
@@ -44,7 +38,6 @@ namespace CompositionRoot
         private void BindInput()
         {
             Container.Bind<IInput>().FromInstance(input).AsSingle();
-            Container.Bind<IModelInput>().To<ModelInput>().AsSingle();
         }
 
         private void BindHud()

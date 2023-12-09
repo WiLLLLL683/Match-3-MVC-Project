@@ -40,7 +40,7 @@ namespace Presenter.UnitTests
             level1.levelName = LEVEL_1;
             configProvider.GetLevelSO(0).Returns(level0);
             configProvider.GetLevelSO(1).Returns(level1);
-            //gameStateMachine
+            //stateMachine
             var stateMachine = Substitute.For<IStateMachine>();
             stateMachine.When(x => x.EnterState<LoadLevelState>()).Do(x => coreGameStartedCount++);
 

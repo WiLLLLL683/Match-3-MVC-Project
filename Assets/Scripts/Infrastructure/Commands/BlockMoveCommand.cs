@@ -2,7 +2,7 @@ using Model.Objects;
 using Model.Services;
 using UnityEngine;
 
-namespace Model.Infrastructure.Commands
+namespace Infrastructure.Commands
 {
     /// <summary>
     /// Смена блоков местами в двух клетках
