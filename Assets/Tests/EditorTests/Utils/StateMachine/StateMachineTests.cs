@@ -43,31 +43,8 @@ namespace Utils.UnitTests
             stateMachine.EnterState<TestState2>();
 
             Assert.AreEqual(typeof(TestState2), stateMachine.CurrentState.GetType());
-            Assert.AreEqual(typeof(TestState), stateMachine.PreviousState.GetType());
         }
 
-        [Test]
-        public void SetPreviousState_NullToLoadStateToNull_CurrentStateLoadState()
-        {
-            StateMachine stateMachine = Setup(new TestState());
-
-            stateMachine.EnterState<TestState>();
-            stateMachine.EnterPreviousState();
-
-            Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
-        }
-
-        [Test]
-        public void SetPreviousState_LoadStateToWaitStateToLoadState_CurrentStateLoadState()
-        {
-            StateMachine stateMachine = Setup(new TestState(), new TestState2());
-
-            stateMachine.EnterState<TestState>();
-            stateMachine.EnterState<TestState2>();
-            stateMachine.EnterPreviousState();
-
-            Assert.AreEqual(typeof(TestState), stateMachine.CurrentState.GetType());
-        }
         [Test]
         public void GetState_ValidState_ReferenceToValidState()
         {
@@ -78,6 +55,7 @@ namespace Utils.UnitTests
 
             Assert.AreEqual(state, receivedState);
         }
+
         [Test]
         public void GetState_InValidState_Error()
         {
@@ -87,6 +65,7 @@ namespace Utils.UnitTests
 
             LogAssert.Expect(LogType.Error, "Can't get state: " + typeof(TestState) + " - StateMachine doesn't contain this state");
         }
+
         [Test]
         public void AddState_NewState_StateAdded()
         {
@@ -99,6 +78,7 @@ namespace Utils.UnitTests
 
             Assert.AreEqual(state, receivedState);
         }
+
         [Test]
         public void AddState_ExistingState_StateReplaced()
         {

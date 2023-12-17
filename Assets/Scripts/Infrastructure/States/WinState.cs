@@ -3,7 +3,7 @@ using Utils;
 
 namespace Infrastructure
 {
-    public class WinState : IState
+    public class WinState : StateBase
     {
         private readonly IStateMachine stateMachine;
 
@@ -12,12 +12,7 @@ namespace Infrastructure
             this.stateMachine = stateMachine;
         }
 
-        public IEnumerator OnEnter()
-        {
-            yield break;
-        }
-
-        public IEnumerator OnExit()
+        public override IEnumerator OnEnter()
         {
             yield break;
         }

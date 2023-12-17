@@ -10,7 +10,7 @@ namespace Infrastructure
     /// Стейт кор-игры для создания моделей блоков в рядах скрытых клеток.
     /// Далее переход в GravityState.
     /// </summary>
-    public class SpawnState : IState
+    public class SpawnState : StateBase
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockSpawnService spawnService;
@@ -21,15 +21,10 @@ namespace Infrastructure
             this.spawnService = spawnService;
         }
 
-        public IEnumerator OnEnter()
+        public override IEnumerator OnEnter()
         {
             spawnService.FillInvisibleRows();
             stateMachine.EnterState<GravityState>();
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
     }

@@ -7,7 +7,7 @@ namespace Infrastructure
     /// <summary>
     /// Стейт кор-игры для запуска гравитации
     /// </summary>
-    public class GravityState : IState
+    public class GravityState : StateBase
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockGravityService gravityService;
@@ -18,15 +18,10 @@ namespace Infrastructure
             this.gravityService = gravityService;
         }
 
-        public IEnumerator OnEnter()
+        public override IEnumerator OnEnter()
         {
             gravityService.Execute();
             stateMachine.EnterState<MatchState>();
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
     }

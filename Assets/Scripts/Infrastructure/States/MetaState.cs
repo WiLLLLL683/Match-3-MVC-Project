@@ -13,23 +13,17 @@ namespace Infrastructure
     /// Стейт мета-игры для включения/отключения презентеров.
     /// Переход в кор-игру происходит в презентерах.
     /// </summary>
-    public class MetaState : IState
+    public class MetaState : StateBase
     {
         private const string META_SCENE_NAME = "Meta";
 
         private MetaDependencies meta;
 
-        public IEnumerator OnEnter()
+        public override IEnumerator OnEnter()
         {
             yield return SceneManager.LoadSceneAsync(META_SCENE_NAME, LoadSceneMode.Single);
             GetSceneDependencies();
             EnablePresenters();
-        }
-
-        public IEnumerator OnExit()
-        {
-            DisablePresenters();
-            yield break;
         }
 
         private void GetSceneDependencies() => meta = GameObject.FindObjectOfType<MetaDependencies>();

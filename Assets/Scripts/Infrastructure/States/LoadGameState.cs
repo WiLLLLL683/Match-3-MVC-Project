@@ -10,7 +10,7 @@ namespace Infrastructure
     /// Стейт для загрузки всей игры, в том числе: сохранения, конфигов
     /// После загрузки переход в MetaState
     /// </summary>
-    public class LoadGameState : IState
+    public class LoadGameState : StateBase
     {
         private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
@@ -23,17 +23,12 @@ namespace Infrastructure
             this.currencyService = currencyService;
         }
 
-        public IEnumerator OnEnter()
+        public override IEnumerator OnEnter()
         {
             //загрузка игры
             LoadCurrencies();
 
             stateMachine.EnterState<MetaState>();
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
 

@@ -12,7 +12,7 @@ namespace Infrastructure
     /// Стейт кор-игры для уничтожения блоков в модели.
     /// PayLoad(HashSet<Cell>) - набор клеток для уничтожения блоков в них.
     /// </summary>
-    public class DestroyState : IPayLoadedState<HashSet<Cell>>
+    public class DestroyState : PayLoadedStateBase<HashSet<Cell>>
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockDestroyService blockDestroyService;
@@ -30,15 +30,10 @@ namespace Infrastructure
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public IEnumerator OnEnter(HashSet<Cell> payLoad)
+        public override IEnumerator OnEnter(HashSet<Cell> payLoad)
         {
             DestroyBlocks(payLoad);
             stateMachine.EnterState<SpawnState>();
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
 

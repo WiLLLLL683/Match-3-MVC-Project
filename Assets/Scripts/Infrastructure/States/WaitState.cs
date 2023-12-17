@@ -10,7 +10,7 @@ namespace Infrastructure
     /// <summary>
     /// Стейт кор-игры для ожидания инпута.
     /// </summary>
-    public class WaitState : IState
+    public class WaitState : StateBase
     {
         private readonly IStateMachine stateMachine;
         private readonly IWinLoseService winLoseService;
@@ -23,7 +23,7 @@ namespace Infrastructure
             this.winLoseService = winLoseService;
         }
 
-        public IEnumerator OnEnter()
+        public override IEnumerator OnEnter()
         {
             //проверка на проигрыш
             if (winLoseService.CheckLose())
@@ -35,11 +35,6 @@ namespace Infrastructure
 
             //поиск блоков для подсказки
             //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
     }

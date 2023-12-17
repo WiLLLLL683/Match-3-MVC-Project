@@ -11,7 +11,7 @@ namespace Infrastructure
     /// Стейт кор-игры для изменения модели в ответ на инпут(нажатие на блок)
     /// PayLoad(Vector2Int) - позиция нажатого блока
     /// </summary>
-    public class InputActivateBlockState : IPayLoadedState<Vector2Int>
+    public class InputActivateBlockState : PayLoadedStateBase<Vector2Int>
     {
         private readonly Game game;
         private readonly IStateMachine stateMachine;
@@ -26,15 +26,10 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public IEnumerator OnEnter(Vector2Int payLoad)
+        public override IEnumerator OnEnter(Vector2Int payLoad)
         {
             gameBoard = game.CurrentLevel.gameBoard;
             PressBlock(payLoad);
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
 

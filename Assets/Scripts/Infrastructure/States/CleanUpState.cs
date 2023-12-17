@@ -9,7 +9,7 @@ namespace Infrastructure
     /// Тут происходит отключение презентеров, отписка от событий, удаление объектов.
     /// PayLoad(bool) - после очистки возвращаться в мета-игру(true) или снова загружать кор-игру(false).
     /// </summary>
-    public class CleanUpState : IPayLoadedState<bool>
+    public class CleanUpState : PayLoadedStateBase<bool>
     {
         private readonly IStateMachine stateMachine;
 
@@ -20,7 +20,7 @@ namespace Infrastructure
             this.stateMachine = stateMachine;
         }
 
-        public IEnumerator OnEnter(bool isReturnToMeta)
+        public override IEnumerator OnEnter(bool isReturnToMeta)
         {
             GetSceneDependencies();
             DisablePresenters();
@@ -34,11 +34,6 @@ namespace Infrastructure
                 stateMachine.EnterState<LoadLevelState>();
             }
 
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
 

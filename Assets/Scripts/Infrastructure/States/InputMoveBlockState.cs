@@ -12,7 +12,7 @@ namespace Infrastructure
     /// Стейт кор-игры для изменения модели в ответ на инпут(перемещение блока)
     /// PayLoad(Vector2Int, Directions) - позиция блока направление перемещения
     /// </summary>
-    public class InputMoveBlockState : IPayLoadedState<(Vector2Int startPos, Directions direction)>
+    public class InputMoveBlockState : PayLoadedStateBase<(Vector2Int startPos, Directions direction)>
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
@@ -30,7 +30,7 @@ namespace Infrastructure
             this.moveService = moveService;
         }
 
-        public IEnumerator OnEnter((Vector2Int startPos, Directions direction) payLoad)
+        public override IEnumerator OnEnter((Vector2Int startPos, Directions direction) payLoad)
         {
             startPos = payLoad.startPos;
             direction = payLoad.direction;
@@ -40,11 +40,6 @@ namespace Infrastructure
                 yield break;
 
             MoveBlock();
-        }
-
-        public IEnumerator OnExit()
-        {
-            yield break;
         }
 
         private void MoveBlock()

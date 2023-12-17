@@ -11,7 +11,6 @@ namespace Utils
     /// </summary>
     public class StateMachine : IStateMachine
     {
-        public IExitableState PreviousState { get; private set; }
         public IExitableState CurrentState { get; private set; }
 
         private readonly Dictionary<Type, IExitableState> states = new();
@@ -22,6 +21,9 @@ namespace Utils
         public void EnterState<T>() where T : IState
         {
             T newState = GetState<T>();
+            if (newState == null)
+                return;
+
             ChangeState(newState);
             coroutineRunner.StartCoroutine(newState.OnEnter());
         }
@@ -30,24 +32,10 @@ namespace Utils
         {
             T newState = GetState<T>();
             if (newState == null)
-            {
-                Debug.LogError("Attempt to load null state");
                 return;
-            }
 
             ChangeState(newState);
             coroutineRunner.StartCoroutine(newState.OnEnter(payLoad));
-        }
-
-        public void EnterPreviousState()
-        {
-            if (PreviousState == null)
-            {
-                Debug.LogWarning("There's no previous state");
-                return;
-            }
-
-            ChangeState(PreviousState);
         }
 
         public void AddState(IExitableState state)
@@ -74,7 +62,6 @@ namespace Utils
                 coroutineRunner.StartCoroutine(CurrentState.OnExit());
             }
 
-            PreviousState = CurrentState;
             CurrentState = newState;
         }
     }

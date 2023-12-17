@@ -6,7 +6,6 @@
     public interface IStateMachine
     {
         IExitableState CurrentState { get; }
-        IExitableState PreviousState { get; }
 
         /// <summary>
         /// Запустить текущий стейт
@@ -17,11 +16,6 @@
         /// Запустить текущий стейт с передачей параметра
         /// </summary>
         void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>;
-
-        /// <summary>
-        /// Вернуться к предыдущему стейту
-        /// </summary>
-        void EnterPreviousState();
 
         /// <summary>
         /// Добавить новый стейт в стейт-машину

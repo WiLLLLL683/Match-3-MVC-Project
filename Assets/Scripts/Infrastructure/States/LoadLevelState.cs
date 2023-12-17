@@ -15,7 +15,7 @@ namespace Infrastructure
     /// Стейт для загрузки уровня кор-игры, заполнения игрового поля и подключения презентеров
     /// После загрузки переход в WaitState, при неудаче в CleanUpState -> MetaState
     /// </summary>
-    public class LoadLevelState : IState
+    public class LoadLevelState : StateBase
     {
         private readonly Game model;
         private readonly IStateMachine stateMachine;
@@ -47,7 +47,7 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public IEnumerator OnEnter()
+        public override IEnumerator OnEnter()
         {
             if (!ValidateSelectedLevel())
             {
@@ -68,11 +68,6 @@ namespace Infrastructure
             SwapMatchedBlocks();
             EnablePresenters();
             stateMachine.EnterState<WaitState>();
-        }
-
-        public IEnumerator OnExit()
-        {
-            yield break;
         }
 
         private bool ValidateSelectedLevel()

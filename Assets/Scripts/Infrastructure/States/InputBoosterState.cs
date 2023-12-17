@@ -11,32 +11,25 @@ namespace Infrastructure
     /// Стейт кор-игры для изменения модели в ответ на инпут(использование бустера)
     /// PayLoad(IBooster) - выбранный бустер
     /// </summary>
-    public class InputBoosterState : IPayLoadedState<IBooster>
+    public class InputBoosterState : PayLoadedStateBase<IBooster>
     {
-        private Game game;
         private IStateMachine stateMachine;
         private IBoosterService boosterInventory;
 
         private IBooster booster;
 
-        public InputBoosterState(Game game, IStateMachine stateMachine, IBoosterService boosterInventory)
+        public InputBoosterState(IStateMachine stateMachine, IBoosterService boosterInventory)
         {
-            this.game = game;
             this.stateMachine = stateMachine;
             this.boosterInventory = boosterInventory;
         }
 
-        public IEnumerator OnEnter(IBooster payLoad)
+        public override IEnumerator OnEnter(IBooster payLoad)
         {
             //TODO использовать бустер
             HashSet<Cell> matches = null;
 
             stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
     }

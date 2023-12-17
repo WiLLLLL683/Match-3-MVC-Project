@@ -11,7 +11,7 @@ namespace Infrastructure
     /// При наличии совпадений - переход в DestroyState.
     /// При отсутствии - переход в WaitState
     /// </summary>
-    public class MatchState : IState
+    public class MatchState : StateBase
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
@@ -22,7 +22,7 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public IEnumerator OnEnter()
+        public override IEnumerator OnEnter()
         {
             HashSet<Cell> matches = matchService.FindAllMatches();
 
@@ -35,11 +35,6 @@ namespace Infrastructure
                 stateMachine.EnterState<WaitState>();
             }
 
-            yield break;
-        }
-
-        public IEnumerator OnExit()
-        {
             yield break;
         }
     }
