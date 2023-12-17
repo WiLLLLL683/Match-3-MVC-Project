@@ -7,10 +7,13 @@ using Utils;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Стейт кор-игры для изменения модели в ответ на инпут(использование бустера)
+    /// PayLoad(IBooster) - выбранный бустер
+    /// </summary>
     public class InputBoosterState : IPayLoadedState<IBooster>
     {
         private Game game;
-        private Level level;
         private IStateMachine stateMachine;
         private IBoosterService boosterInventory;
 
@@ -25,8 +28,6 @@ namespace Infrastructure
 
         public IEnumerator OnEnter(IBooster payLoad)
         {
-            level = game.CurrentLevel;
-
             //TODO использовать бустер
             HashSet<Cell> matches = null;
 

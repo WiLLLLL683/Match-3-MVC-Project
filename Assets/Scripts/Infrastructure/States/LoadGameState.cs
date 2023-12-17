@@ -6,6 +6,10 @@ using Utils;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Стейт для загрузки всей игры, в том числе: сохранения, конфигов
+    /// После загрузки переход в MetaState
+    /// </summary>
     public class LoadGameState : IState
     {
         private readonly IStateMachine stateMachine;

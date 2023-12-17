@@ -7,6 +7,10 @@ using Utils;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Стейт кор-игры для изменения модели в ответ на инпут(нажатие на блок)
+    /// PayLoad(Vector2Int) - позиция нажатого блока
+    /// </summary>
     public class InputActivateBlockState : IPayLoadedState<Vector2Int>
     {
         private readonly Game game;

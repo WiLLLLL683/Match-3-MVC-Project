@@ -8,6 +8,10 @@ using Utils;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Стейт кор-игры для уничтожения блоков в модели.
+    /// PayLoad(HashSet<Cell>) - набор клеток для уничтожения блоков в них.
+    /// </summary>
     public class DestroyState : IPayLoadedState<HashSet<Cell>>
     {
         private readonly IStateMachine stateMachine;

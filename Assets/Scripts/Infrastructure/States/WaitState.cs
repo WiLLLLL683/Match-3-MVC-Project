@@ -7,28 +7,24 @@ using Utils;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Стейт кор-игры для ожидания инпута.
+    /// </summary>
     public class WaitState : IState
     {
-        private readonly Game game;
         private readonly IStateMachine stateMachine;
-        private readonly IBlockMatchService matchService;
         private readonly IWinLoseService winLoseService;
 
-        private Level level;
         private HashSet<Cell> hintCells;
 
-        public WaitState(Game game, IStateMachine stateMachine, IBlockMatchService matchService, IWinLoseService winLoseService)
+        public WaitState(IStateMachine stateMachine, IWinLoseService winLoseService)
         {
-            this.game = game;
             this.stateMachine = stateMachine;
-            this.matchService = matchService;
             this.winLoseService = winLoseService;
         }
 
         public IEnumerator OnEnter()
         {
-            level = game.CurrentLevel;
-
             //проверка на проигрыш
             if (winLoseService.CheckLose())
                 stateMachine.EnterState<LoseState>();

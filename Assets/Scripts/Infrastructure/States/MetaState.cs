@@ -9,6 +9,10 @@ using Utils;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Стейт мета-игры для включения/отключения презентеров.
+    /// Переход в кор-игру происходит в презентерах.
+    /// </summary>
     public class MetaState : IState
     {
         private const string META_SCENE_NAME = "Meta";

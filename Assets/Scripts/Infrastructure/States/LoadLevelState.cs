@@ -11,6 +11,10 @@ using Utils;
 
 namespace Infrastructure
 {
+    /// <summary>
+    /// Стейт для загрузки уровня кор-игры, заполнения игрового поля и подключения презентеров
+    /// После загрузки переход в WaitState, при неудаче в CleanUpState -> MetaState
+    /// </summary>
     public class LoadLevelState : IState
     {
         private readonly Game model;
