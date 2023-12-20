@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Services
@@ -19,5 +20,10 @@ namespace Model.Services
         /// Клетка пуста и может содержать в себе блок
         /// </summary>
         public bool CellIsEmptyAt(Vector2Int position);
+
+        /// <summary>
+        /// Найти все пустые клетки, которые могу содержать блок
+        /// </summary>
+        HashSet<Cell> FindEmptyCells();
     }
 }

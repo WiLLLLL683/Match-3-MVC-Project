@@ -31,7 +31,6 @@ namespace Infrastructure
             stateMachine.AddState(stateFactory.Create<InputBoosterState>());
             stateMachine.AddState(stateFactory.Create<MatchState>());
             stateMachine.AddState(stateFactory.Create<DestroyState>());
-            stateMachine.AddState(stateFactory.Create<GravityState>());
             stateMachine.AddState(stateFactory.Create<SpawnState>());
             stateMachine.AddState(stateFactory.Create<LoseState>());
             stateMachine.AddState(stateFactory.Create<WinState>());

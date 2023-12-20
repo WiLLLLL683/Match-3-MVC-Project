@@ -29,13 +29,10 @@ namespace Infrastructure
             if (matches.Count > 0)
             {
                 stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
-            }
-            else
-            {
-                stateMachine.EnterState<WaitState>();
+                yield break;
             }
 
-            yield break;
+            stateMachine.EnterState<WaitState>();
         }
     }
 }
