@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Cysharp.Threading.Tasks;
+using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Infrastructure
     /// Стейт кор-игры для изменения модели в ответ на инпут(нажатие на блок)
     /// PayLoad(Vector2Int) - позиция нажатого блока
     /// </summary>
-    public class InputActivateBlockState : PayLoadedStateBase<Vector2Int>
+    public class InputActivateBlockState : IPayLoadedState<Vector2Int>
     {
         private readonly Game game;
         private readonly IStateMachine stateMachine;
@@ -26,11 +27,15 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public override IEnumerator OnEnter(Vector2Int payLoad)
+        public async UniTask OnEnter(Vector2Int payLoad)
         {
             gameBoard = game.CurrentLevel.gameBoard;
             PressBlock(payLoad);
-            yield break;
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
 
         private void PressBlock(Vector2Int position)

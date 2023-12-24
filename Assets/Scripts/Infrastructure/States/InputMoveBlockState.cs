@@ -1,4 +1,5 @@
-﻿using Infrastructure.Commands;
+﻿using Cysharp.Threading.Tasks;
+using Infrastructure.Commands;
 using Model.Objects;
 using Model.Services;
 using System.Collections;
@@ -12,7 +13,7 @@ namespace Infrastructure
     /// Стейт кор-игры для изменения модели в ответ на инпут(перемещение блока)
     /// PayLoad(Vector2Int, Directions) - позиция блока направление перемещения
     /// </summary>
-    public class InputMoveBlockState : PayLoadedStateBase<(Vector2Int startPos, Directions direction)>
+    public class InputMoveBlockState : IPayLoadedState<(Vector2Int startPos, Directions direction)>
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
@@ -30,16 +31,21 @@ namespace Infrastructure
             this.moveService = moveService;
         }
 
-        public override IEnumerator OnEnter((Vector2Int startPos, Directions direction) payLoad)
+        public async UniTask OnEnter((Vector2Int startPos, Directions direction) payLoad)
         {
             startPos = payLoad.startPos;
             direction = payLoad.direction;
 
             //бездействие при долгом зажатии блока на одном месте
             if (direction == Directions.Zero)
-                yield break;
+                return;
 
             MoveBlock();
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
 
         private void MoveBlock()

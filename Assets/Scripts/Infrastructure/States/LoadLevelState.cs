@@ -1,4 +1,5 @@
 ﻿using Config;
+using Cysharp.Threading.Tasks;
 using Model.Factories;
 using Model.Objects;
 using Model.Services;
@@ -15,7 +16,7 @@ namespace Infrastructure
     /// Стейт для загрузки уровня кор-игры, заполнения игрового поля и подключения презентеров
     /// После загрузки переход в WaitState, при неудаче в CleanUpState -> MetaState
     /// </summary>
-    public class LoadLevelState : StateBase
+    public class LoadLevelState : IState
     {
         private readonly Game model;
         private readonly IStateMachine stateMachine;
@@ -47,27 +48,32 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public override IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
             if (!ValidateSelectedLevel())
             {
                 stateMachine.EnterState<CleanUpState, bool>(true);
-                yield break;
+                return;
             }
 
-            yield return SceneManager.LoadSceneAsync(CORE_SCENE_NAME, LoadSceneMode.Single);
+            await SceneManager.LoadSceneAsync(CORE_SCENE_NAME, LoadSceneMode.Single);
             GetSceneDependencies();
 
             if (!LoadLevel())
             {
                 stateMachine.EnterState<CleanUpState, bool>(true);
-                yield break;
+                return;
             }
 
             FillGameBoardModel();
             SwapMatchedBlocks();
             EnablePresenters();
             stateMachine.EnterState<WaitState>();
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
 
         private bool ValidateSelectedLevel()

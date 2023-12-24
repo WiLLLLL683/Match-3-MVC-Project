@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 using Utils;
 
 namespace Infrastructure
 {
-    public class BonusState : StateBase
+    public class BonusState : IState
     {
         private readonly IStateMachine stateMachine;
 
@@ -12,9 +13,14 @@ namespace Infrastructure
             this.stateMachine = stateMachine;
         }
 
-        public override IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
-            yield break;
+
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
     }
 }

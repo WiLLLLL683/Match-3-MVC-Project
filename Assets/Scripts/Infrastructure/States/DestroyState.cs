@@ -1,4 +1,5 @@
 ﻿using Config;
+using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
 using System.Collections;
@@ -12,7 +13,7 @@ namespace Infrastructure
     /// Стейт кор-игры для уничтожения блоков в модели.
     /// PayLoad(HashSet<Cell>) - набор клеток для уничтожения блоков в них.
     /// </summary>
-    public class DestroyState : PayLoadedStateBase<HashSet<Cell>>
+    public class DestroyState : IPayLoadedState<HashSet<Cell>>
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockDestroyService blockDestroyService;
@@ -30,11 +31,15 @@ namespace Infrastructure
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public override IEnumerator OnEnter(HashSet<Cell> payLoad)
+        public async UniTask OnEnter(HashSet<Cell> payLoad)
         {
             DestroyBlocks(payLoad);
             stateMachine.EnterState<SpawnState>();
-            yield break;
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
 
         private void DestroyBlocks(HashSet<Cell> matches)

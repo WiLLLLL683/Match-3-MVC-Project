@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Cysharp.Threading.Tasks;
+using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Infrastructure
     /// <summary>
     /// Стейт кор-игры для ожидания инпута.
     /// </summary>
-    public class WaitState : StateBase
+    public class WaitState : IState
     {
         private readonly IStateMachine stateMachine;
         private readonly IWinLoseService winLoseService;
@@ -23,7 +24,7 @@ namespace Infrastructure
             this.winLoseService = winLoseService;
         }
 
-        public override IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
             //проверка на проигрыш
             if (winLoseService.CheckLose())
@@ -35,7 +36,11 @@ namespace Infrastructure
 
             //поиск блоков для подсказки
             //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
-            yield break;
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
     }
 }

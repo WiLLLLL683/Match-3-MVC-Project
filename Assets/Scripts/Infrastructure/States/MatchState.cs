@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
 using Utils;
@@ -11,7 +12,7 @@ namespace Infrastructure
     /// При наличии совпадений - переход в DestroyState.
     /// При отсутствии - переход в WaitState
     /// </summary>
-    public class MatchState : StateBase
+    public class MatchState : IState
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
@@ -22,17 +23,22 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public override IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
             HashSet<Cell> matches = matchService.FindAllMatches();
 
             if (matches.Count > 0)
             {
                 stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
-                yield break;
+                return;
             }
 
             stateMachine.EnterState<WaitState>();
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
     }
 }

@@ -9,15 +9,12 @@ namespace CompositionRoot
 {
     public class GameInstaller : MonoInstaller
     {
-        [SerializeField] private CoroutineRunner coroutineRunner;
-
         public override void InstallBindings()
         {
             BindGameStateMachine();
             BindModel();
             BindFactories();
             BindServices();
-            BindCoroutineRunner();
         }
 
         private void BindGameStateMachine()
@@ -69,11 +66,6 @@ namespace CompositionRoot
             Container.Bind<ICounterService>().To<CounterService>().AsSingle();
             Container.Bind<ICurrencyService>().To<CurrencyService>().AsSingle();
             Container.Bind<IWinLoseService>().To<WinLoseService>().AsSingle();
-        }
-
-        private void BindCoroutineRunner()
-        {
-            Container.Bind<ICoroutineRunner>().FromInstance(coroutineRunner);
         }
     }
 }

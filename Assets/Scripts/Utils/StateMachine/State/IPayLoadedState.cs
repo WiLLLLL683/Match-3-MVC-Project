@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 
 namespace Utils
 {
     public interface IPayLoadedState<TPayLoad> : IExitableState
     {
-        public IEnumerator OnEnter(TPayLoad payLoad);
+        public UniTask OnEnter(TPayLoad payLoad);
     }
 }

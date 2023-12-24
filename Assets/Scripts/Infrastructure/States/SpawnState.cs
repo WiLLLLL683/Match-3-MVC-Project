@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
 using Utils;
@@ -10,7 +11,7 @@ namespace Infrastructure
     /// Стейт кор-игры для создания моделей блоков в рядах скрытых клеток.
     /// Далее переход в GravityState.
     /// </summary>
-    public class SpawnState : StateBase
+    public class SpawnState : IState
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockSpawnService spawnService;
@@ -28,7 +29,7 @@ namespace Infrastructure
             this.validationService = validationService;
         }
 
-        public override IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
             int emptyCellsCount = validationService.FindEmptyCells().Count;
 
@@ -40,7 +41,11 @@ namespace Infrastructure
             }
 
             stateMachine.EnterState<MatchState>();
-            yield break;
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
     }
 }

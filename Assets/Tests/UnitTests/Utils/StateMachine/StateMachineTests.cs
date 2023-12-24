@@ -13,8 +13,7 @@ namespace Utils.UnitTests
     {
         private StateMachine Setup(params IExitableState[] states)
         {
-            var coroutineRunner = new GameObject().AddComponent<CoroutineRunner>();
-            var stateMachine = new StateMachine(coroutineRunner);
+            var stateMachine = new StateMachine();
 
             for (int i = 0; i < states.Length; i++)
             {

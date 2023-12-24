@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Cysharp.Threading.Tasks;
+using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Infrastructure
     /// Стейт кор-игры для изменения модели в ответ на инпут(использование бустера)
     /// PayLoad(IBooster) - выбранный бустер
     /// </summary>
-    public class InputBoosterState : PayLoadedStateBase<IBooster>
+    public class InputBoosterState : IPayLoadedState<IBooster>
     {
         private IStateMachine stateMachine;
         private IBoosterService boosterInventory;
@@ -24,13 +25,17 @@ namespace Infrastructure
             this.boosterInventory = boosterInventory;
         }
 
-        public override IEnumerator OnEnter(IBooster payLoad)
+        public async UniTask OnEnter(IBooster payLoad)
         {
             //TODO использовать бустер
             HashSet<Cell> matches = null;
 
             stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
-            yield break;
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
     }
 }

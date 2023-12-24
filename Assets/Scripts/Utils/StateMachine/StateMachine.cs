@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -14,28 +15,30 @@ namespace Utils
         public IExitableState CurrentState { get; private set; }
 
         private readonly Dictionary<Type, IExitableState> states = new();
-        private readonly ICoroutineRunner coroutineRunner;
 
-        public StateMachine(ICoroutineRunner coroutineRunner) => this.coroutineRunner = coroutineRunner;
+        public void EnterState<T>() where T : IState => EnterStateAsync<T>().Forget();
 
-        public void EnterState<T>() where T : IState
+        public void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad> =>
+            EnterStateAsync<T, TPayLoad>(payLoad).Forget();
+
+        public async UniTask EnterStateAsync<T>() where T : IState
         {
             T newState = GetState<T>();
             if (newState == null)
                 return;
 
-            ChangeState(newState);
-            coroutineRunner.StartCoroutine(newState.OnEnter());
+            await ChangeState(newState);
+            await newState.OnEnter();
         }
 
-        public void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>
+        public async UniTask EnterStateAsync<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>
         {
             T newState = GetState<T>();
             if (newState == null)
                 return;
 
-            ChangeState(newState);
-            coroutineRunner.StartCoroutine(newState.OnEnter(payLoad));
+            await ChangeState(newState);
+            await newState.OnEnter(payLoad);
         }
 
         public void AddState(IExitableState state)
@@ -55,11 +58,11 @@ namespace Utils
             return (T)states[typeof(T)];
         }
 
-        private void ChangeState(IExitableState newState)
+        private async UniTask ChangeState(IExitableState newState)
         {
             if (CurrentState != null)
             {
-                coroutineRunner.StartCoroutine(CurrentState.OnExit());
+                await CurrentState.OnExit();
             }
 
             CurrentState = newState;

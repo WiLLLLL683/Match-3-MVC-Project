@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -8,14 +9,14 @@ namespace Utils.UnitTests
     public class TestState2 : IState
     {
 
-        public IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
-            yield break;
+
         }
 
-        public IEnumerator OnExit()
+        public async UniTask OnExit()
         {
-            yield break;
+
         }
     }
 }

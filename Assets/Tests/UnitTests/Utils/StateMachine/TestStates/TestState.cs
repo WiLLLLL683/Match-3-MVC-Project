@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Cysharp.Threading.Tasks;
+using Model.Objects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,14 @@ namespace Utils.UnitTests
     {
         public string testString;
 
-        public IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
-            yield break;
+
         }
 
-        public IEnumerator OnExit()
+        public async UniTask OnExit()
         {
-            yield break;
+
         }
     }
 }

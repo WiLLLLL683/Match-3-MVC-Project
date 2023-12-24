@@ -1,4 +1,5 @@
 ﻿using Config;
+using Cysharp.Threading.Tasks;
 using Model.Services;
 using System;
 using System.Collections;
@@ -10,7 +11,7 @@ namespace Infrastructure
     /// Стейт для загрузки всей игры, в том числе: сохранения, конфигов
     /// После загрузки переход в MetaState
     /// </summary>
-    public class LoadGameState : StateBase
+    public class LoadGameState : IState
     {
         private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
@@ -23,13 +24,17 @@ namespace Infrastructure
             this.currencyService = currencyService;
         }
 
-        public override IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
             //загрузка игры
             LoadCurrencies();
 
             stateMachine.EnterState<MetaState>();
-            yield break;
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
 
         private void LoadCurrencies()

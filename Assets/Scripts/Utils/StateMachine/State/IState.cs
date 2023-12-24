@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 
 namespace Utils
 {
     public interface IState : IExitableState
     {
-        public IEnumerator OnEnter();
+        public UniTask OnEnter();
     }
 }

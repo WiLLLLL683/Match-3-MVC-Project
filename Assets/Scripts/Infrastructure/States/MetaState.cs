@@ -1,4 +1,5 @@
 ﻿using Config;
+using Cysharp.Threading.Tasks;
 using Model.Services;
 using System;
 using System.Collections;
@@ -13,17 +14,22 @@ namespace Infrastructure
     /// Стейт мета-игры для включения/отключения презентеров.
     /// Переход в кор-игру происходит в презентерах.
     /// </summary>
-    public class MetaState : StateBase
+    public class MetaState : IState
     {
         private const string META_SCENE_NAME = "Meta";
 
         private MetaDependencies meta;
 
-        public override IEnumerator OnEnter()
+        public async UniTask OnEnter()
         {
-            yield return SceneManager.LoadSceneAsync(META_SCENE_NAME, LoadSceneMode.Single);
+            await SceneManager.LoadSceneAsync(META_SCENE_NAME, LoadSceneMode.Single);
             GetSceneDependencies();
             EnablePresenters();
+        }
+
+        public async UniTask OnExit()
+        {
+
         }
 
         private void GetSceneDependencies() => meta = GameObject.FindObjectOfType<MetaDependencies>();

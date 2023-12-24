@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 using Utils;
 
@@ -9,7 +10,7 @@ namespace Infrastructure
     /// Тут происходит отключение презентеров, отписка от событий, удаление объектов.
     /// PayLoad(bool) - после очистки возвращаться в мета-игру(true) или снова загружать кор-игру(false).
     /// </summary>
-    public class CleanUpState : PayLoadedStateBase<bool>
+    public class CleanUpState : IPayLoadedState<bool>
     {
         private readonly IStateMachine stateMachine;
 
@@ -20,7 +21,7 @@ namespace Infrastructure
             this.stateMachine = stateMachine;
         }
 
-        public override IEnumerator OnEnter(bool isReturnToMeta)
+        public async UniTask OnEnter(bool isReturnToMeta)
         {
             GetSceneDependencies();
             DisablePresenters();
@@ -33,8 +34,11 @@ namespace Infrastructure
             {
                 stateMachine.EnterState<LoadLevelState>();
             }
+        }
 
-            yield break;
+        public async UniTask OnExit()
+        {
+
         }
 
         private void GetSceneDependencies() => core = GameObject.FindAnyObjectByType<CoreDependencies>();
