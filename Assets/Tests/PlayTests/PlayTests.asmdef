@@ -6,7 +6,9 @@
         "UnityEditor.TestRunner",
         "GameAssembly"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

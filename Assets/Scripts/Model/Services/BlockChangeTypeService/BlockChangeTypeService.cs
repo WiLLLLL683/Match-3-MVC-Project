@@ -1,6 +1,5 @@
-﻿using System;
-using Model.Infrastructure;
-using Model.Objects;
+﻿using Model.Objects;
+using System;
 using UnityEngine;
 
 namespace Model.Services

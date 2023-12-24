@@ -1,7 +1,4 @@
-using Config;
-using Infrastructure;
 using Model.Factories;
-using Model.Infrastructure;
 using Model.Objects;
 using Model.Services;
 using UnityEngine;
@@ -14,17 +11,22 @@ namespace CompositionRoot
     {
         public override void InstallBindings()
         {
-            BindSceneLoader();
+            BindGameStateMachine();
             BindModel();
             BindFactories();
             BindServices();
         }
 
-        private void BindSceneLoader() => Container.Bind<ILevelLoader>().To<LevelLoader>().AsSingle();
+        private void BindGameStateMachine()
+        {
+            Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
+            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
+        }
 
         private void BindModel()
         {
             Container.Bind<Game>().AsSingle();
+            //TODO убрать?
             Container.Bind<LevelProgress>().AsSingle();
             Container.Bind<PlayerSettings>().AsSingle();
             Container.Bind<CurrencyInventory>().AsSingle();

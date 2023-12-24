@@ -2,6 +2,7 @@
 using Model.Objects;
 using Model.Services;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -17,19 +18,19 @@ namespace Presenter
         private readonly IEndGameView view;
         private readonly IInput input;
         private readonly IWinLoseService winLoseService;
-        private readonly ILevelLoader levelLoader;
+        private readonly IStateMachine stateMachine;
 
         public EndGamePresenter(Game model,
             IEndGameView view,
             IInput input,
             IWinLoseService winLoseService,
-            ILevelLoader levelLoader)
+            IStateMachine stateMachine)
         {
             this.model = model;
             this.view = view;
             this.input = input;
             this.winLoseService = winLoseService;
-            this.levelLoader = levelLoader;
+            this.stateMachine = stateMachine;
         }
 
         public void Enable()
@@ -80,9 +81,13 @@ namespace Presenter
             view.DefeatPopUp.Show();
         }
 
-        private void LoadNextLevel() => levelLoader.LoadNextLevel();
-        private void Quit() => levelLoader.LoadMetaGame();
-        private void Replay() => levelLoader.ReloadCurrentLevel();
+        private void LoadNextLevel()
+        {
+            model.LevelProgress.CurrentLevelIndex++;
+            stateMachine.EnterState<CleanUpState, bool>(false);
+        }
+        private void Quit() => stateMachine.EnterState<CleanUpState, bool>(true);
+        private void Replay() => stateMachine.EnterState<CleanUpState, bool>(false);
         private void UpdateScore()
         {
             view.CompletePopUp.UpdateScore(4221, 3); //TODO брать счет из модели

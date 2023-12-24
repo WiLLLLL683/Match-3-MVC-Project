@@ -1,12 +1,6 @@
-using Config;
-using Infrastructure;
-using Model.Infrastructure;
-using Model.Objects;
-using Presenter;
 using System;
-using System.Collections.Generic;
+using Presenter;
 using UnityEngine;
-using Utils;
 using View;
 using View.Factories;
 using Zenject;
@@ -25,15 +19,14 @@ namespace CompositionRoot
         [SerializeField] private PauseView pauseView;
         [SerializeField] private EndGameView endGameView;
 
+        //TODO перенести в ConfigInstaller
         [Header("Prefabs")]
         [SerializeField] private CounterView goalCounterPrefab;
         [SerializeField] private CounterView restrictionCounterPrefab;
-        [SerializeField] private BlockView blockPrefab;
         [SerializeField] private BoosterView boosterPrefab;
 
         public override void InstallBindings()
         {
-            BindModelStateMachine();
             BindInput();
             BindHud();
             BindGameboard();
@@ -42,16 +35,9 @@ namespace CompositionRoot
             BindEndGame();
         }
 
-        private void BindModelStateMachine()
-        {
-            Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
-            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
-        }
-
         private void BindInput()
         {
             Container.Bind<IInput>().FromInstance(input).AsSingle();
-            Container.Bind<IModelInput>().To<ModelInput>().AsSingle();
         }
 
         private void BindHud()

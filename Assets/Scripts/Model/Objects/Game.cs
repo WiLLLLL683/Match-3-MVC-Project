@@ -1,9 +1,4 @@
 using System;
-using UnityEngine;
-using Config;
-using Model.Factories;
-using Utils;
-using Model.Infrastructure;
 
 namespace Model.Objects
 {

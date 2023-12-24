@@ -3,6 +3,7 @@ using Infrastructure;
 using Model.Objects;
 using System;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -16,22 +17,17 @@ namespace Presenter
     {
         private readonly LevelProgress model;
         private readonly ILevelSelectionView view;
-        private readonly ILevelLoader levelLoader;
+        private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
-
-        private int selectedLevelIndex;
-        private LevelSO SelectedLevel => configProvider.GetSO(selectedLevelIndex);
-        private bool IsOpen => selectedLevelIndex <= model.LastOpenedLevel;
-        private bool IsComplete => selectedLevelIndex <= model.LastCompletedLevel;
 
         public LevelSelectionPresenter(LevelProgress model,
             ILevelSelectionView view,
-            ILevelLoader levelLoader,
+            IStateMachine stateMachine,
             IConfigProvider configProvider)
         {
             this.model = model;
             this.view = view;
-            this.levelLoader = levelLoader;
+            this.stateMachine = stateMachine;
             this.configProvider = configProvider;
         }
 
@@ -41,7 +37,7 @@ namespace Presenter
             view.OnSelectNext += SelectNext;
             view.OnSelectPrevious += SelectPrevious;
 
-            SetSelectedLevel(model.LastCompletedLevel + 1); //изначально выбрать следующий за пройденным уровень
+            SelectLastCompleted();
             Debug.Log($"{this} enabled");
         }
 
@@ -54,32 +50,42 @@ namespace Presenter
             Debug.Log($"{this} disabled");
         }
 
-        public void SelectPrevious() => SetSelectedLevel(selectedLevelIndex - 1);
-        public void SelectNext() => SetSelectedLevel(selectedLevelIndex + 1);
         public void StartSelected()
         {
-            if (!IsOpen)
+            bool isOpen = model.CurrentLevelIndex <= model.LastOpenedLevel;
+
+            if (!isOpen)
             {
                 view.PlayLockedAnimation();
                 return;
             }
 
-            levelLoader.LoadLevel(selectedLevelIndex);
+            stateMachine.EnterState<LoadLevelState>();
         }
 
-        private void SetSelectedLevel(int index)
+        public void SelectPrevious() => SelectLevel(model.CurrentLevelIndex - 1);
+
+        public void SelectNext() => SelectLevel(model.CurrentLevelIndex + 1);
+
+        private void SelectLastCompleted() => SelectLevel(model.LastCompletedLevel + 1);
+
+        private void SelectLevel(int index)
         {
-            selectedLevelIndex = Mathf.Clamp(index, 0, configProvider.LastLevelIndex);
+            model.CurrentLevelIndex = Mathf.Clamp(index, 0, configProvider.LastLevelIndex);
 
-            view.SetPreviousButtonActive(selectedLevelIndex != 0);
-            view.SetNextButtonActive(selectedLevelIndex != configProvider.LastLevelIndex);
-            view.ShowSelectedLevel(SelectedLevel.icon, SelectedLevel.levelName);
+            LevelSO selectedLevel = configProvider.GetLevelSO(model.CurrentLevelIndex);
+            view.SetPreviousButtonActive(model.CurrentLevelIndex != 0);
+            view.SetNextButtonActive(model.CurrentLevelIndex != configProvider.LastLevelIndex);
+            view.ShowSelectedLevel(selectedLevel.icon, selectedLevel.levelName);
 
-            if (IsComplete)
+            bool isOpen = model.CurrentLevelIndex <= model.LastOpenedLevel;
+            bool isComplete = model.CurrentLevelIndex <= model.LastCompletedLevel;
+
+            if (isComplete)
                 view.ShowCompleteMark();
-            if (!IsOpen)
+            if (!isOpen)
                 view.ShowLockedMark();
-            if (!IsComplete && IsOpen)
+            if (!isComplete && isOpen)
                 view.HideAllMarks();
         }
     }

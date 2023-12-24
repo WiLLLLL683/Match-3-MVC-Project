@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using Model.Infrastructure;
-using View;
+﻿using Infrastructure;
 using Model.Objects;
+using UnityEngine;
+using Utils;
+using View;
 using Zenject;
-using Model.Services;
 
 namespace Presenter
 {
@@ -13,13 +13,13 @@ namespace Presenter
 
         private readonly IBoosterView view;
         private readonly IBooster model;
-        private readonly IModelInput modelInput;
+        private readonly IStateMachine stateMachine;
 
-        public BoosterPresenter(IBoosterView view, IBooster model, IModelInput modelInput)
+        public BoosterPresenter(IBoosterView view, IBooster model, IStateMachine stateMachine)
         {
             this.view = view;
             this.model = model;
-            this.modelInput = modelInput;
+            this.stateMachine = stateMachine;
         }
         public void Enable()
         {
@@ -38,7 +38,7 @@ namespace Presenter
         }
 
         private void ChangeIcon(Sprite icon) => view.ChangeIcon(icon);
-        private void ActivateBooster() => modelInput.ActivateBooster(model);
+        private void ActivateBooster() => stateMachine.EnterState<InputBoosterState, IBooster>(model);
         private void ChangeAmount(int amount)
         {
             if (amount > 0)

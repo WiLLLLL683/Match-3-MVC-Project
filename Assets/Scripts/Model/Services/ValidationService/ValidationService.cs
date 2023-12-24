@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Services
@@ -93,6 +94,26 @@ namespace Model.Services
             }
 
             return true;
+        }
+
+        public HashSet<Cell> FindEmptyCells()
+        {
+            Cell[,] cells = game.CurrentLevel.gameBoard.Cells;
+            int invisibleRows = game.CurrentLevel.gameBoard.RowsOfInvisibleCells;
+            HashSet<Cell> emptyCells = new();
+
+            for (int y = invisibleRows; y < cells.GetLength(1); y++)
+            {
+                for (int x = 0; x < cells.GetLength(0); x++)
+                {
+                    if (CellIsEmptyAt(new(x, y)))
+                    {
+                        emptyCells.Add(cells[x, y]);
+                    }
+                }
+            }
+
+            return emptyCells;
         }
     }
 }

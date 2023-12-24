@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Model.Objects;
 using UnityEngine;
+using Utils;
 using View;
 
 namespace Presenter
@@ -12,20 +13,20 @@ namespace Presenter
     /// </summary>
     public class PausePresenter : IPausePresenter
     {
-        private readonly PlayerSettings model;
+        private readonly Game model;
         private readonly IPauseView view;
         private readonly IInput input;
-        private readonly ILevelLoader levelLoader;
+        private readonly IStateMachine stateMachine;
 
-        public PausePresenter(PlayerSettings model,
+        public PausePresenter(Game model,
             IPauseView view,
             IInput input,
-            ILevelLoader sceneLoader)
+            IStateMachine stateMachine)
         {
             this.model = model;
             this.view = view;
             this.input = input;
-            this.levelLoader = sceneLoader;
+            this.stateMachine = stateMachine;
         }
 
         public void Enable()
@@ -56,10 +57,14 @@ namespace Presenter
 
         private void EnableInput() => input.Enable();
         private void DisableInput() => input.Disable();
-        private void LoadNextLevel() => levelLoader.LoadNextLevel();
-        private void Quit() => levelLoader.LoadMetaGame();
-        private void Replay() => levelLoader.ReloadCurrentLevel();
-        private void SwitchSound(bool isOn) => model.IsSoundOn = isOn;
-        private void SwitchVibration(bool isOn) => model.IsSoundOn = isOn;
+        private void LoadNextLevel()
+        {
+            model.LevelProgress.CurrentLevelIndex++;
+            stateMachine.EnterState<CleanUpState, bool>(false);
+        }
+        private void Quit() => stateMachine.EnterState<CleanUpState, bool>(true);
+        private void Replay() => stateMachine.EnterState<CleanUpState, bool>(false);
+        private void SwitchSound(bool isOn) => model.PlayerSettings.IsSoundOn = isOn;
+        private void SwitchVibration(bool isOn) => model.PlayerSettings.IsSoundOn = isOn;
     }
 }

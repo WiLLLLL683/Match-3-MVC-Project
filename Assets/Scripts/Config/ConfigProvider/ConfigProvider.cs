@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using View;
+using Utils;
 
 namespace Config
 {
@@ -91,7 +92,7 @@ namespace Config
 
         public List<CurrencySO> GetAllCurrenciesSO() => allCurrencies.currencies;
 
-        public LevelSO GetSO(int index)
+        public LevelSO GetLevelSO(int index)
         {
             List<LevelSO> levels = allLevels.levels;
 

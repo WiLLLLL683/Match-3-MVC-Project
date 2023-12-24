@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using Model.Factories;
-using Model.Objects;
+﻿using Model.Objects;
 using System;
-using Model.Infrastructure;
+using UnityEngine;
 
 namespace Model.Services
 {

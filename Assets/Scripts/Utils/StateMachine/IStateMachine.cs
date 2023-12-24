@@ -1,36 +1,42 @@
-﻿namespace Utils
+﻿using Cysharp.Threading.Tasks;
+
+namespace Utils
 {
     /// <summary>
     /// Дженерик стейт-машина для стейтов типа TState
     /// </summary>
     public interface IStateMachine
     {
-        IState CurrentState { get; }
-        IState PreviousState { get; }
+        IExitableState CurrentState { get; }
 
         /// <summary>
-        /// Запустить текущий стейт
+        /// Запустить стейт и забыть
         /// </summary>
         void EnterState<T>() where T : IState;
 
         /// <summary>
-        /// Запустить текущий стейт с передачей параметра
+        /// Запустить стейт с передачей параметра и забыть
         /// </summary>
         void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>;
 
         /// <summary>
-        /// Вернуться к предыдущему стейту
+        /// Запустить стейт асинхронно
         /// </summary>
-        void EnterPreviousState();
+        UniTask EnterStateAsync<T>() where T : IState;
+
+        /// <summary>
+        /// Запустить стейт с передачей параметра асинхронно
+        /// </summary>
+        UniTask EnterStateAsync<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>;
 
         /// <summary>
         /// Добавить новый стейт в стейт-машину
         /// </summary>
-        void AddState(IState state);
+        void AddState(IExitableState state);
 
         /// <summary>
         /// Получить экземпляр стейта определенного типа
         /// </summary>
-        T GetState<T>() where T : IState;
+        T GetState<T>() where T : IExitableState;
     }
 }

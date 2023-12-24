@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a980a152ac5ef49b64919ed375f986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currencyType: 0
+  amount: 50
 --- !u!114 &5644877898533448463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterTarget: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
+  amount: 5
 --- !u!1 &2912837689887973729
 GameObject:
   m_ObjectHideFlags: 0

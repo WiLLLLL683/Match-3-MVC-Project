@@ -17,6 +17,6 @@ namespace Config
         ACounterTargetSO GetCounterTargetSO(int id);
         CurrencySO GetCurrencySO(CurrencyType type);
         List<CurrencySO> GetAllCurrenciesSO();
-        LevelSO GetSO(int index);
+        LevelSO GetLevelSO(int index);
     }
 }

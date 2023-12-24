@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
+using Infrastructure;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Utils
 {
@@ -9,53 +12,42 @@ namespace Utils
     /// </summary>
     public class StateMachine : IStateMachine
     {
-        public IState PreviousState { get; private set; }
-        public IState CurrentState { get; private set; }
+        public IExitableState CurrentState { get; private set; }
 
-        private readonly Dictionary<Type, IState> states;
+        private readonly Dictionary<Type, IExitableState> states = new();
 
-        public StateMachine()
-        {
-            states = new();
-        }
+        public void EnterState<T>() where T : IState => EnterStateAsync<T>().Forget();
 
-        public StateMachine(Dictionary<Type, IState> states)
-        {
-            this.states = states;
-        }
+        public void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad> =>
+            EnterStateAsync<T, TPayLoad>(payLoad).Forget();
 
-        public void EnterState<T>() where T : IState
+        public async UniTask EnterStateAsync<T>() where T : IState
         {
             T newState = GetState<T>();
-            ChangeState(newState);
-            newState.OnEnter();
-        }
-
-        public void EnterState<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>
-        {
-            T newState = GetState<T>();
-            ChangeState(newState);
-            newState.OnEnter(payLoad);
-        }
-
-        public void EnterPreviousState()
-        {
-            if (PreviousState == null)
-            {
-                Debug.LogWarning("There's no previous state");
+            if (newState == null)
                 return;
-            }
 
-            ChangeState(PreviousState);
+            await ChangeState(newState);
+            await newState.OnEnter();
         }
 
-        public void AddState(IState state)
+        public async UniTask EnterStateAsync<T, TPayLoad>(TPayLoad payLoad) where T : IPayLoadedState<TPayLoad>
+        {
+            T newState = GetState<T>();
+            if (newState == null)
+                return;
+
+            await ChangeState(newState);
+            await newState.OnEnter(payLoad);
+        }
+
+        public void AddState(IExitableState state)
         {
             Type type = state.GetType();
             states[type] = state;
         }
 
-        public T GetState<T>() where T : IState
+        public T GetState<T>() where T : IExitableState
         {
             if (!states.ContainsKey(typeof(T)))
             {
@@ -66,16 +58,13 @@ namespace Utils
             return (T)states[typeof(T)];
         }
 
-        private void ChangeState(IState newState)
+        private async UniTask ChangeState(IExitableState newState)
         {
-            if (newState == null)
+            if (CurrentState != null)
             {
-                Debug.LogError("Attempt to load null state");
-                return;
+                await CurrentState.OnExit();
             }
 
-            PreviousState = CurrentState;
-            PreviousState?.OnExit();
             CurrentState = newState;
         }
     }

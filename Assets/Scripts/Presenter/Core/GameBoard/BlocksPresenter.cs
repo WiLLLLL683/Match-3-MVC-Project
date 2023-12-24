@@ -1,13 +1,11 @@
-﻿using CompositionRoot;
-using Config;
-using Model.Infrastructure;
+﻿using Config;
+using Infrastructure;
 using Model.Objects;
 using Model.Services;
-using NaughtyAttributes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 using View;
 using View.Factories;
 
@@ -27,7 +25,7 @@ namespace Presenter
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly IBlockMoveService moveService;
-        private readonly IModelInput modelInput;
+        private readonly IStateMachine stateMachine;
 
         private readonly Dictionary<Block, IBlockView> blocks = new();
 
@@ -41,7 +39,7 @@ namespace Presenter
             IBlockDestroyService destroyService,
             IBlockChangeTypeService changeTypeService,
             IBlockMoveService moveService,
-            IModelInput modelInput)
+            IStateMachine stateMachine)
         {
             this.model = model;
             this.view = view;
@@ -51,7 +49,7 @@ namespace Presenter
             this.destroyService = destroyService;
             this.changeTypeService = changeTypeService;
             this.moveService = moveService;
-            this.modelInput = modelInput;
+            this.stateMachine = stateMachine;
         }
 
         public void Enable()
@@ -156,7 +154,7 @@ namespace Presenter
         public void InputMove(Vector2Int position, Directions direction)
         {
             direction = direction.InvertUpDown();
-            modelInput.MoveBlock(position, direction);
+            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((position, direction));
         }
 
         public void InputActivate(Vector2Int position)
@@ -166,7 +164,7 @@ namespace Presenter
                 return;
 
             view.PlayClickAnimation();
-            modelInput.ActivateBlock(position);
+            stateMachine.EnterState<InputActivateBlockState, Vector2Int>(position);
         }
     }
 }
