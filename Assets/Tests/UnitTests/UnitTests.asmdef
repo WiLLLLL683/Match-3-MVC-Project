@@ -1,10 +1,11 @@
 {
-    "name": "EditorTests",
+    "name": "UnitTests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "GameAssembly"
+        "GameAssembly",
+        "TestUtils"
     ],
     "includePlatforms": [
         "Editor"
