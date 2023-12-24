@@ -29,7 +29,7 @@ namespace Infrastructure
 
         public async UniTask OnExit()
         {
-
+            DisablePresenters();
         }
 
         private void GetSceneDependencies() => meta = GameObject.FindObjectOfType<MetaDependencies>();
