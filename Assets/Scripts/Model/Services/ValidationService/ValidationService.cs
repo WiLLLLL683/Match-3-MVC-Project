@@ -96,15 +96,15 @@ namespace Model.Services
             return true;
         }
 
-        public HashSet<Cell> FindEmptyCells()
+        public List<Cell> FindEmptyCells()
         {
             Cell[,] cells = game.CurrentLevel.gameBoard.Cells;
             int invisibleRows = game.CurrentLevel.gameBoard.RowsOfInvisibleCells;
-            HashSet<Cell> emptyCells = new();
+            List<Cell> emptyCells = new();
 
-            for (int y = invisibleRows; y < cells.GetLength(1); y++)
+            for (int x = 0; x < cells.GetLength(0); x++)
             {
-                for (int x = 0; x < cells.GetLength(0); x++)
+                for (int y = invisibleRows; y < cells.GetLength(1); y++)
                 {
                     if (CellIsEmptyAt(new(x, y)))
                     {
