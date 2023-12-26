@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
+using UnityEngine;
 using Utils;
 
 namespace Infrastructure
@@ -18,6 +19,8 @@ namespace Infrastructure
         private readonly IBlockGravityService gravityService;
         private readonly IValidationService validationService;
 
+        private const int MAX_ITERATIONS_COUNT = 100;
+
         public SpawnState(IStateMachine stateMachine,
             IBlockSpawnService spawnService,
             IBlockGravityService gravityService,
@@ -31,13 +34,15 @@ namespace Infrastructure
 
         public async UniTask OnEnter()
         {
-            int emptyCellsCount = validationService.FindEmptyCells().Count;
-
-            while (emptyCellsCount > 0)
+            for (int i = 0; i < MAX_ITERATIONS_COUNT; i++)
             {
-                gravityService.Execute();
+                var emptyCells = validationService.FindEmptyCells();
+                Debug.Log($"EmptyCellsCount = {emptyCells.Count}, iteration = {i}");
+                if (emptyCells.Count == 0)
+                    break;
+
+                gravityService.Execute(emptyCells);
                 spawnService.FillHiddenRows();
-                emptyCellsCount = validationService.FindEmptyCells().Count;
             }
 
             stateMachine.EnterState<MatchState>();

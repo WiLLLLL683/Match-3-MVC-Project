@@ -42,7 +42,7 @@ namespace Model.Services.PerformanceTests
         }
 
         [Test, Performance]
-        public void GravitateOnlyEmptyCells_10x10BlocksMoveDown()
+        public void NewService_10x10BlocksMoveDown()
         {
             var game = TestLevelFactory.CreateGame(10, 11);
             var gameBoard = game.CurrentLevel.gameBoard;
@@ -50,7 +50,7 @@ namespace Model.Services.PerformanceTests
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
 
-            var service = new BlockGravityService(game, validation, moveService);
+            var service = new BlockGravityOptimizedService(game, validation, moveService);
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1) - 1; y++)
             {

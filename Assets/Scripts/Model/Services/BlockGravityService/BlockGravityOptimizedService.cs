@@ -24,47 +24,35 @@ namespace Model.Services
         public void Execute()
         {
             List<Cell> emptyCells = validationService.FindEmptyCells();
+            Execute(emptyCells);
+        }
 
+        public void Execute(List<Cell> emptyCells)
+        {
             for (int i = 0; i < emptyCells.Count; i++)
             {
                 ShiftBlocksColumnDown(emptyCells[i]);
             }
         }
 
-        public void Execute(Cell emptyCell)
-        {
+        //private Cell FindBlockAbove(Vector2Int position)
+        //{
+        //    for (int y = position.y; y >= 0; y--) //проверка снизу вверх
+        //    {
+        //        if (validationService.CellExistsAt(new(position.x, y)) && GameBoard.Cells[position.x, y].Block != null)
+        //        {
+        //            return GameBoard.Cells[position.x, y];
+        //        }
+        //    }
 
-
-            //if (!validationService.CellIsEmptyAt(emptyCell.Position))
-            //    return;
-
-            //Cell cellAbove = FindBlockAbove(emptyCell.Position);
-
-            //if (cellAbove == null)
-            //    return;
-
-            //var action = new BlockMoveCommand(emptyCell.Position, cellAbove.Position, moveService); //TODO возвращать комманду?
-            //action.Execute();
-        }
-
-        private Cell FindBlockAbove(Vector2Int position)
-        {
-            for (int y = position.y; y >= 0; y--) //проверка снизу вверх
-            {
-                if (validationService.CellExistsAt(new(position.x, y)) && GameBoard.Cells[position.x, y].Block != null)
-                {
-                    return GameBoard.Cells[position.x, y];
-                }
-            }
-
-            return null;
-        }
+        //    return null;
+        //}
 
         private void ShiftBlocksColumnDown(Cell emptyCell)
         {
             int x = emptyCell.Position.x;
 
-            for (int y = emptyCell.Position.y - 1; y >= 0; y--) //снизу вверх
+            for (int y = emptyCell.Position.y + 1; y < GameBoard.Cells.GetLength(1); y++) //снизу вверх
             {
                 moveService.Move(new(x,y), Directions.Down);
             }

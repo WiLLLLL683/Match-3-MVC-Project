@@ -103,7 +103,7 @@ namespace Model.Services
 
             for (int x = 0; x < cells.GetLength(0); x++)
             {
-                for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
+                for (int y = GameBoard.HiddenRowsStartIndex - 1; y >= 0; y--)
                 {
                     if (CellIsEmptyAt(new(x, y)))
                     {

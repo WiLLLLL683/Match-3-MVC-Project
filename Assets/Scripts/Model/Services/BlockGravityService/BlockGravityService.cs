@@ -22,6 +22,8 @@ namespace Model.Services
             this.moveService = moveService;
         }
 
+        public void Execute(List<Cell> emptyCells) => Execute();
+
         public void Execute()
         {
             for (int y = 0; y < GameBoard.Cells.GetLength(1); y++) //проверка снизу вверх чтобы не было ошибок
