@@ -13,6 +13,7 @@ namespace Model.Factories
         private Cell[,] cells;
         private int xLength;
         private int yLength;
+        private int hiddenCellsStartIndex;
 
         public GameBoardFactory(ICellFactory cellFactory, IConfigProvider configProvider)
         {
@@ -23,20 +24,19 @@ namespace Model.Factories
         public GameBoard Create(LevelSO config)
         {
             this.config = config;
-
             xLength = config.gameBoard.GridSize.x;
             yLength = config.gameBoard.GridSize.y + config.rowsOfHiddenCells;
+            hiddenCellsStartIndex = yLength - config.rowsOfHiddenCells;
             cells = new Cell[xLength, yLength];
             CreateHiddenCells();
             CreateCells();
 
-            return new GameBoard(cells, config.rowsOfHiddenCells);
+            return new GameBoard(cells, hiddenCellsStartIndex);
         }
 
         private void CreateHiddenCells()
         {
-            //спавн невидимых клеток
-            for (int y = 0; y < config.rowsOfHiddenCells; y++)
+            for (int y = hiddenCellsStartIndex; y < yLength; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
@@ -47,25 +47,15 @@ namespace Model.Factories
 
         private void CreateCells()
         {
-            //спавн обычных клеток после рядов невидимых клеток
-            for (int y = config.rowsOfHiddenCells; y < yLength; y++)
+            for (int y = 0; y < hiddenCellsStartIndex; y++)
             {
                 for (int x = 0; x < xLength; x++)
                 {
-                    var type = GetCellTypeFromConfig(x, y);
+                    int cellTypeId = config.gameBoard.GetCell(x, y);
+                    CellType type = configProvider.GetCellTypeSO(cellTypeId).type;
                     cells[x, y] = cellFactory.Create(new(x, y), type);
                 }
             }
-        }
-
-        private CellType GetCellTypeFromConfig(int x, int y)
-        {
-            //сдвиг на количество невидимых рядов, в конфиге они заданы отдельно, а не в 2д массиве
-            y -= config.rowsOfHiddenCells;
-
-            int cellTypeId = config.gameBoard.GetCell(x, y);
-
-            return configProvider.GetCellTypeSO(cellTypeId).type;
         }
     }
 }

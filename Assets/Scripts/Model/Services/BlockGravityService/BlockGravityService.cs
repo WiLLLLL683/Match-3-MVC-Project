@@ -24,7 +24,7 @@ namespace Model.Services
 
         public void Execute()
         {
-            for (int y = GameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
+            for (int y = 0; y < GameBoard.Cells.GetLength(1); y++) //проверка снизу вверх чтобы не было ошибок
             {
                 for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
                 {
@@ -38,28 +38,25 @@ namespace Model.Services
             if (!validationService.BlockExistsAt(new Vector2Int(x, y)))
                 return;
 
-            FindLowestEmptyCellUnderPos(x, y);
+            int lowestY = FindLowestEmptyCellUnderPos(x, y);
+            if (y == lowestY)
+                return;
 
-            if (!IsLowestEmptyCell(y))
-            {
-                var action = new BlockMoveCommand(new(x, y), new(x, lowestY), moveService); //TODO возвращать комманду?
-                action.Execute();
-            }
+            var action = new BlockMoveCommand(new(x, y), new(x, lowestY), moveService); //TODO возвращать комманду?
+            action.Execute();
         }
 
-        private bool IsLowestEmptyCell(int y) => y == lowestY;
-
-        private void FindLowestEmptyCellUnderPos(int x, int y)
+        private int FindLowestEmptyCellUnderPos(int x, int y)
         {
-            lowestY = y;
-            for (int i = GameBoard.Cells.GetLength(1) - 1; i > y; i--)
+            for (int i = 0; i < y; i++)
             {
                 if (validationService.CellIsEmptyAt(new(x, i)))
                 {
-                    lowestY = i;
-                    return;
+                    return i;
                 }
             }
+
+            return y;
         }
     }
 }

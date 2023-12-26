@@ -143,7 +143,7 @@ namespace View
             if (swipeDirection == Directions.Zero)
                 return false;
 
-            IBlockInput newOppositeBlock = (IBlockInput)blocksPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int().ToViewPos());
+            IBlockInput newOppositeBlock = (IBlockInput)blocksPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int());
 
             if (oppositeBlock != newOppositeBlock)
             {

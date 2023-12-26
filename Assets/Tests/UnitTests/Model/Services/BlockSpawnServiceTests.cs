@@ -11,11 +11,10 @@ namespace Model.Services.UnitTests
             int xLength,
             int yLength,
             int invisibleRows,
-            int factoryReturnBlockType = TestBlockFactory.DEFAULT_BLOCK,
-            params int[] preSpawnedBlocks)
+            int factoryReturnBlockType = TestBlockFactory.DEFAULT_BLOCK)
         {
             var game = TestLevelFactory.CreateGame(xLength, yLength);
-            game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, invisibleRows, preSpawnedBlocks);
+            game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, invisibleRows);
             var blockFactory = new BlockFactory();
             var validation = new ValidationService(game);
             var random = TestServicesFactory.CreateRandomBlockTypeService(factoryReturnBlockType);
@@ -33,10 +32,10 @@ namespace Model.Services.UnitTests
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
-            service.FillInvisibleRows();
+            service.FillHiddenRows();
 
-            Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
-            Assert.IsTrue(gameBoard.Cells[0, 1].Block == null);
+            Assert.IsFalse(gameBoard.Cells[0, 1].Block == null);
+            Assert.IsTrue(gameBoard.Cells[0, 0].Block == null);
         }
 
         [Test]
@@ -46,7 +45,7 @@ namespace Model.Services.UnitTests
             var service = tuple.service;
             var gameBoard = tuple.gameBoard;
 
-            service.FillInvisibleRows();
+            service.FillHiddenRows();
 
             Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
         }
@@ -54,18 +53,16 @@ namespace Model.Services.UnitTests
         [Test]
         public void FillInvisibleRows_9cellsGameBoard_OnlyTopLineSpawned()
         {
-            var tuple = Setup(3, 3, 1);
-            var service = tuple.service;
-            var gameBoard = tuple.gameBoard;
+            var (service, gameBoard) = Setup(3, 3, 1);
 
-            service.FillInvisibleRows();
+            service.FillHiddenRows();
 
+            int hiddenCellStartIndex = gameBoard.Cells.GetLength(1) - 1;
             for (int x = 0; x < gameBoard.Cells.GetLength(0); x++) //первая полоса заполнена
             {
-                Assert.IsFalse(gameBoard.Cells[x, 0].Block == null);
+                Assert.IsFalse(gameBoard.Cells[x, hiddenCellStartIndex].Block == null);
             }
-
-            for (int y = 1; y < gameBoard.Cells.GetLength(1); y++) //остольные полосы пусты
+            for (int y = 0; y < hiddenCellStartIndex; y++) //остольные полосы пусты
             {
                 for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
                 {
@@ -77,9 +74,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void SpawnBlock_EmptyCell_BonusBlockSpawned()
         {
-            var tuple = Setup(1, 1, 0, TestBlockFactory.RED_BLOCK);
-            var service = tuple.service;
-            var gameBoard = tuple.gameBoard;
+            var (service, gameBoard) = Setup(1, 1, 0, TestBlockFactory.RED_BLOCK);
 
             service.SpawnBlock_WithOverride(gameBoard.Cells[0, 0], TestBlockFactory.RedBlockType);
             
@@ -90,13 +85,8 @@ namespace Model.Services.UnitTests
         [Test]
         public void SpawnBlock_FullCell_BlockTypeChanged()
         {
-            var tuple = Setup(xLength: 1,
-                              yLength: 1,
-                              invisibleRows: 1,
-                              factoryReturnBlockType: TestBlockFactory.RED_BLOCK,
-                              preSpawnedBlocks: TestBlockFactory.DEFAULT_BLOCK);
-            var service = tuple.service;
-            var gameBoard = tuple.gameBoard;
+            var (service, gameBoard) = Setup(1, 1, 1, factoryReturnBlockType: TestBlockFactory.RED_BLOCK);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
             var blockTypeBefore = gameBoard.Cells[0, 0].Block.Type;
 
             service.SpawnBlock_WithOverride(gameBoard.Cells[0, 0], TestBlockFactory.RedBlockType);
@@ -109,9 +99,7 @@ namespace Model.Services.UnitTests
         [Test]
         public void SpawnBlock_NotPlayableCell_Nothing()
         {
-            var tuple = Setup(1, 1, 1, TestBlockFactory.RED_BLOCK);
-            var service = tuple.service;
-            var gameBoard = tuple.gameBoard;
+            var (service, gameBoard) = Setup(1, 1, 1, TestBlockFactory.RED_BLOCK);
             gameBoard.Cells[0, 0].Type = TestCellFactory.NotPlayableCellType;
 
             service.SpawnBlock_WithOverride(gameBoard.Cells[0, 0], TestBlockFactory.RedBlockType);

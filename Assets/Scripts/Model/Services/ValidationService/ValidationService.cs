@@ -98,13 +98,12 @@ namespace Model.Services
 
         public List<Cell> FindEmptyCells()
         {
-            Cell[,] cells = game.CurrentLevel.gameBoard.Cells;
-            int invisibleRows = game.CurrentLevel.gameBoard.RowsOfInvisibleCells;
+            Cell[,] cells = GameBoard.Cells;
             List<Cell> emptyCells = new();
 
             for (int x = 0; x < cells.GetLength(0); x++)
             {
-                for (int y = invisibleRows; y < cells.GetLength(1); y++)
+                for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
                 {
                     if (CellIsEmptyAt(new(x, y)))
                     {

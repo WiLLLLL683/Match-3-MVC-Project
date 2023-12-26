@@ -237,10 +237,13 @@ namespace Array2DEditor
             {
                 for (var x = 0; x < gridSizeProperty.vector2IntValue.x; x++)
                 {
+                    //to display [0,0] at bottom left
+                    var invertedY = gridSizeProperty.vector2IntValue.y - y - 1;
+
                     var pos = new Rect(cellRect)
                     {
                         x = cellRect.x + (cellRect.width + cellSpacing.x) * x,
-                        y = cellRect.y + (cellRect.height + cellSpacing.y) * y
+                        y = cellRect.y + (cellRect.height + cellSpacing.y) * invertedY
                     };
 
                     var property = GetRowAt(y).GetArrayElementAtIndex(x);

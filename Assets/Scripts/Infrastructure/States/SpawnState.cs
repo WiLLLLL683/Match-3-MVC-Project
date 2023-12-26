@@ -36,7 +36,7 @@ namespace Infrastructure
             while (emptyCellsCount > 0)
             {
                 gravityService.Execute();
-                spawnService.FillInvisibleRows();
+                spawnService.FillHiddenRows();
                 emptyCellsCount = validationService.FindEmptyCells().Count;
             }
 

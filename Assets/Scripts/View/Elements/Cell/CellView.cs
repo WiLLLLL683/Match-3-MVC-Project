@@ -66,7 +66,7 @@ namespace View
         private void ChangeModelPosition(Vector2Int modelPosition)
         {
             this.modelPosition = modelPosition;
-            transform.localPosition = (Vector2)modelPosition.ToViewPos();
+            transform.localPosition = (Vector2)modelPosition;
         }
         private void SetCheckerBoardPattern()
         {

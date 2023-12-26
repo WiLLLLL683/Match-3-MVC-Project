@@ -6,10 +6,10 @@ namespace Model.Services.UnitTests
 {
     public class ValidationServiceTests
     {
-        private (IValidationService validation, GameBoard gameBoard) Setup(CellType cellType, params int[] preSpawnedBlocks)
+        private (IValidationService validation, GameBoard gameBoard) Setup(CellType cellType)
         {
             var game = TestLevelFactory.CreateGame(1, 1);
-            game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0, preSpawnedBlocks);
+            game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(1, 1, 0);
 
             if (cellType != null)
                 game.CurrentLevel.gameBoard.Cells[0, 0].Type = cellType;
@@ -50,7 +50,8 @@ namespace Model.Services.UnitTests
         [Test]
         public void BlockExistsAt_ValidBlock_True()
         {
-            var validation = Setup(TestCellFactory.BasicCellType, TestBlockFactory.DEFAULT_BLOCK).validation;
+            var (validation, gameBoard) = Setup(TestCellFactory.BasicCellType);
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
 
             bool isValid = validation.BlockExistsAt(new(0,0));
 

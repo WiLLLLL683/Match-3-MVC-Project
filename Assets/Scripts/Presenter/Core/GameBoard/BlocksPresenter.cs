@@ -56,6 +56,7 @@ namespace Presenter
         {
             gameBoard = model.CurrentLevel.gameBoard;
             SpawnAll();
+            CenterGameBoard();
 
             spawnService.OnBlockSpawn += Spawn;
             destroyService.OnDestroy += Destroy;
@@ -84,6 +85,21 @@ namespace Presenter
                 return null;
 
             return blocks[blockModel];
+        }
+
+        public void InputMove(Vector2Int position, Directions direction)
+        {
+            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((position, direction));
+        }
+
+        public void InputActivate(Vector2Int position)
+        {
+            IBlockView view = GetBlockView(position);
+            if (view == null)
+                return;
+
+            view.PlayClickAnimation();
+            stateMachine.EnterState<InputActivateBlockState, Vector2Int>(position);
         }
 
         private void SpawnAll()
@@ -151,20 +167,12 @@ namespace Presenter
             view.ChangeType(config.icon, config.destroyEffect);
         }
 
-        public void InputMove(Vector2Int position, Directions direction)
+        private void CenterGameBoard()
         {
-            direction = direction.InvertUpDown();
-            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((position, direction));
-        }
-
-        public void InputActivate(Vector2Int position)
-        {
-            IBlockView view = GetBlockView(position);
-            if (view == null)
-                return;
-
-            view.PlayClickAnimation();
-            stateMachine.EnterState<InputActivateBlockState, Vector2Int>(position);
+            Vector2 offcet = new();
+            offcet.x = -(float)(gameBoard.Cells.GetLength(0) - 1f) / 2f;
+            offcet.y = -(float)(gameBoard.HiddenRowsStartIndex - 1f) / 2f -1f;
+            view.BlocksParent.position = offcet;
         }
     }
 }

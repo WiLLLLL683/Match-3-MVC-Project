@@ -14,6 +14,7 @@ namespace Model.Services
         private readonly IBlockRandomTypeService randomService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly ICellSetBlockService setBlockService;
+
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
         public BlockSpawnService(Game game, IBlockFactory blockFactory, IValidationService validationService, IBlockRandomTypeService randomService, IBlockChangeTypeService changeTypeService, ICellSetBlockService setBlockService)
@@ -26,9 +27,9 @@ namespace Model.Services
             this.setBlockService = setBlockService;
         }
 
-        public void FillInvisibleRows()
+        public void FillHiddenRows()
         {
-            for (int y = 0; y < GameBoard.RowsOfInvisibleCells; y++)
+            for (int y = GameBoard.HiddenRowsStartIndex; y < GameBoard.Cells.GetLength(1); y++)
             {
                 for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
                 {

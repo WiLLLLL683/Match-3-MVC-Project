@@ -381,7 +381,6 @@ MonoBehaviour:
   endGameView: {fileID: 5787223117457831122}
   goalCounterPrefab: {fileID: 8609726869626626574, guid: 110581f0f3784fc4c8cc4e9970d24f2e, type: 3}
   restrictionCounterPrefab: {fileID: 352177093698865892, guid: eab474ff57b958f4192975662f8a0db1, type: 3}
-  blockPrefab: {fileID: 5457405778787208176, guid: 23cae5bc7d5e61a46b314040b82ab770, type: 3}
   boosterPrefab: {fileID: 4633542665250583476, guid: 54af3666ffa5db6428dc8595493f1420, type: 3}
 --- !u!114 &1216714157
 MonoBehaviour:
@@ -781,10 +780,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3793116412616789868, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 519420031}
     - target: {fileID: 3793116412616789870, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -832,6 +827,10 @@ PrefabInstance:
     - target: {fileID: 3793116412616789871, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
       propertyPath: m_Name
       value: Gameboard_View
+      objectReference: {fileID: 0}
+    - target: {fileID: 3793116412874007925, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
