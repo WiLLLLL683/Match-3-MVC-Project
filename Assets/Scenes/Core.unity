@@ -828,10 +828,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gameboard_View
       objectReference: {fileID: 0}
-    - target: {fileID: 3793116412874007925, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 516fc00efad22e6459afb2f4bd432511, type: 3}
 --- !u!114 &3793116412542353640 stripped

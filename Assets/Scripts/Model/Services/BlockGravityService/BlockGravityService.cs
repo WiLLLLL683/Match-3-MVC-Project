@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using Infrastructure.Commands;
 using Model.Objects;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace Model.Services
@@ -22,9 +24,12 @@ namespace Model.Services
             this.moveService = moveService;
         }
 
-        public void Execute(List<Cell> emptyCells) => Execute();
+        public async UniTask Execute(List<Cell> emptyCells, CancellationToken token = default)
+        {
+            await Execute(token);
+        }
 
-        public void Execute()
+        public async UniTask Execute(CancellationToken token = default)
         {
             for (int y = 0; y < GameBoard.Cells.GetLength(1); y++) //проверка снизу вверх чтобы не было ошибок
             {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
@@ -41,7 +42,7 @@ namespace Infrastructure
                 if (emptyCells.Count == 0)
                     break;
 
-                gravityService.Execute(emptyCells);
+                await gravityService.Execute(emptyCells);
                 spawnService.FillHiddenRows();
             }
 

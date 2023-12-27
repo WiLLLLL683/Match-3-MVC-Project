@@ -1,5 +1,7 @@
-﻿using Model.Objects;
+﻿using Cysharp.Threading.Tasks;
+using Model.Objects;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Model.Services
 {
@@ -8,11 +10,14 @@ namespace Model.Services
     /// </summary>
     public interface IBlockGravityService
     {
-        void Execute(List<Cell> emptyCells);
+        /// <summary>
+        /// Переместить вниз столбцы блоков над заданными пустыми клетками
+        /// </summary>
+        UniTask Execute(List<Cell> emptyCells, CancellationToken token = default);
 
         /// <summary>
-        /// Переместить все "висящие в воздухе" блоки вниз
+        /// Переместить вниз все "висящие в воздухе" блоки
         /// </summary>
-        public void Execute();
+        UniTask Execute(CancellationToken token = default);
     }
 }

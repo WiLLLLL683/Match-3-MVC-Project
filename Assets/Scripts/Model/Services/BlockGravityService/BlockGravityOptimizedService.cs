@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using Infrastructure.Commands;
 using Model.Objects;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -14,47 +16,39 @@ namespace Model.Services
 
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
-        public BlockGravityOptimizedService(Game game, IValidationService validationService, IBlockMoveService moveService)
+        public BlockGravityOptimizedService(Game game,
+            IValidationService validationService,
+            IBlockMoveService moveService)
         {
             this.game = game;
             this.validationService = validationService;
             this.moveService = moveService;
         }
 
-        public void Execute()
+        public async UniTask Execute(CancellationToken token = default)
         {
             List<Cell> emptyCells = validationService.FindEmptyCells();
-            Execute(emptyCells);
+            await Execute(emptyCells, token);
+            await UniTask.Delay(1000);
+            Debug.Log("lol");
         }
 
-        public void Execute(List<Cell> emptyCells)
+        public async UniTask Execute(List<Cell> emptyCells, CancellationToken token = default)
         {
             for (int i = 0; i < emptyCells.Count; i++)
             {
-                ShiftBlocksColumnDown(emptyCells[i]);
+                await ShiftBlocksColumnDown(emptyCells[i], token);
             }
         }
 
-        //private Cell FindBlockAbove(Vector2Int position)
-        //{
-        //    for (int y = position.y; y >= 0; y--) //проверка снизу вверх
-        //    {
-        //        if (validationService.CellExistsAt(new(position.x, y)) && GameBoard.Cells[position.x, y].Block != null)
-        //        {
-        //            return GameBoard.Cells[position.x, y];
-        //        }
-        //    }
-
-        //    return null;
-        //}
-
-        private void ShiftBlocksColumnDown(Cell emptyCell)
+        private async UniTask ShiftBlocksColumnDown(Cell emptyCell, CancellationToken token = default)
         {
             int x = emptyCell.Position.x;
 
             for (int y = emptyCell.Position.y + 1; y < GameBoard.Cells.GetLength(1); y++) //снизу вверх
             {
                 moveService.Move(new(x,y), Directions.Down);
+                await UniTask.Yield(token);
             }
         }
     }
