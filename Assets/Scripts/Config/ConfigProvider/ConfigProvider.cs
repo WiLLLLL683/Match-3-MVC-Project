@@ -10,10 +10,11 @@ namespace Config
 {
     public class ConfigProvider : IConfigProvider
     {
-        public BlockView BlockViewPrefab { get; }
         public CellTypeSO HiddenCellType => allCellTypes.hiddenCellType;
         public TurnSO Turn => allCounterTargets.turnSO;
         public int LastLevelIndex => allLevels.levels.Count - 1;
+        public DelayConfig Delays { get; }
+        public PrefabConfig Prefabs { get; }
 
         private readonly BlockTypeSetSO allBlockTypes;
         private readonly CellTypeSetSO allCellTypes;
@@ -22,18 +23,20 @@ namespace Config
         private readonly LevelSetSO allLevels;
 
         public ConfigProvider(BlockTypeSetSO allBlockTypes,
-            BlockView blockViewPrefab,
             CellTypeSetSO allCellTypes,
             CounterTargetSetSO allCounterTargets,
             CurrencySetSO allCurrencies,
-            LevelSetSO allLevels)
+            LevelSetSO allLevels,
+            DelayConfig delays,
+            PrefabConfig prefabs)
         {
             this.allBlockTypes = allBlockTypes;
-            this.BlockViewPrefab = blockViewPrefab;
             this.allCellTypes = allCellTypes;
             this.allCounterTargets = allCounterTargets;
             this.allCurrencies = allCurrencies;
             this.allLevels = allLevels;
+            this.Delays = delays;
+            this.Prefabs = prefabs;
         }
 
         public BlockTypeSO GetBlockTypeSO(int id)

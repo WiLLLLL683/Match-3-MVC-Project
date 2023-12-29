@@ -1,3 +1,4 @@
+using Config;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Commands;
 using Model.Objects;
@@ -12,14 +13,19 @@ namespace Model.Services
         private readonly Game game;
         private readonly IValidationService validationService;
         private readonly IBlockMoveService moveService;
+        private readonly IConfigProvider configProvider;
 
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
-        public BlockGravityService(Game game, IValidationService validationService, IBlockMoveService moveService)
+        public BlockGravityService(Game game,
+            IValidationService validationService,
+            IBlockMoveService moveService,
+            IConfigProvider configProvider)
         {
             this.game = game;
             this.validationService = validationService;
             this.moveService = moveService;
+            this.configProvider = configProvider;
         }
 
         public async UniTask Execute(List<Cell> emptyCells, CancellationToken token = default)
@@ -54,8 +60,7 @@ namespace Model.Services
                 return;
 
             moveService.Move(new Vector2Int(x, y), new Vector2Int(x, lowestY));
-            //await UniTask.Delay(100, cancellationToken: token);
-            await UniTask.Yield(token);
+            await UniTask.WaitForSeconds(configProvider.Delays.betweenBlockGravitation, cancellationToken: token);
         }
 
         private int FindLowestEmptyCellUnderPos(int x, int y)

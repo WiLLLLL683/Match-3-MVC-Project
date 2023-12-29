@@ -44,7 +44,6 @@ namespace Infrastructure
             for (int i = 0; i < MAX_ITERATIONS_COUNT; i++)
             {
                 var emptyCells = validationService.FindEmptyCells();
-                Debug.Log($"EmptyCellsCount = {emptyCells.Count}, iteration = {i}");
                 if (emptyCells.Count == 0)
                     break;
 

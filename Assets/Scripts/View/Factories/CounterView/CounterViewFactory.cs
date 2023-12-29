@@ -15,24 +15,19 @@ namespace View.Factories
         private readonly IInstantiator instantiator;
         private readonly IConfigProvider configProvider;
         private readonly IHudView hudView;
-        private readonly CounterView goalPrefab;
-        private readonly CounterView restrictionPrefab;
 
         public CounterViewFactory(IInstantiator instantiator,
             IConfigProvider configProvider,
-            IHudView hudView,
-            CounterView goalPrefab,
-            CounterView restrictionPrefab)
+            IHudView hudView)
         {
             this.instantiator = instantiator;
             this.configProvider = configProvider;
             this.hudView = hudView;
-            this.goalPrefab = goalPrefab;
-            this.restrictionPrefab = restrictionPrefab;
         }
 
         public ICounterView CreateGoal(Counter model)
         {
+            var goalPrefab = configProvider.Prefabs.goalCounterPrefab;
             CounterView view = instantiator.InstantiatePrefabForComponent<CounterView>(goalPrefab, hudView.GoalsParent);
             InitView(view, model);
             return view;
@@ -40,6 +35,7 @@ namespace View.Factories
 
         public ICounterView CreateRestriction(Counter model)
         {
+            var restrictionPrefab = configProvider.Prefabs.restrictionCounterPrefab;
             CounterView view = instantiator.InstantiatePrefabForComponent<CounterView>(restrictionPrefab, hudView.RestrictionsParent);
             InitView(view, model);
             return view;

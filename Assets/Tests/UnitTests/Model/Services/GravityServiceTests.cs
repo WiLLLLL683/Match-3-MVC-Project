@@ -1,4 +1,6 @@
+using Config;
 using Model.Objects;
+using NSubstitute;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using TestUtils;
@@ -14,8 +16,9 @@ namespace Model.Services.UnitTests
             var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
-
-            var service = new BlockGravityService(game, validation, moveService);
+            var configProvider = Substitute.For<IConfigProvider>();
+            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             return (game.CurrentLevel.gameBoard, service);
         }

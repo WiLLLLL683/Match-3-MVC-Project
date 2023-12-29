@@ -23,7 +23,7 @@ namespace View.Factories
         public IBlockView Create(Block model)
         {
             BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
-            BlockView view = instantiator.InstantiatePrefabForComponent<BlockView>(configProvider.BlockViewPrefab, gameBoardView.BlocksParent);
+            BlockView view = instantiator.InstantiatePrefabForComponent<BlockView>(configProvider.Prefabs.blockViewPrefab, gameBoardView.BlocksParent);
             view.Init(config.icon, config.destroyEffect, model.Position);
             return view;
         }

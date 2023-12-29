@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Config;
 using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
@@ -17,11 +18,13 @@ namespace Infrastructure
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
+        private readonly IConfigProvider configProvider;
 
-        public MatchState(IStateMachine stateMachine, IBlockMatchService matchService)
+        public MatchState(IStateMachine stateMachine, IBlockMatchService matchService, IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
             this.matchService = matchService;
+            this.configProvider = configProvider;
         }
 
         public async UniTask OnEnter(CancellationToken token)
@@ -30,6 +33,7 @@ namespace Infrastructure
 
             if (matches.Count > 0)
             {
+                await UniTask.WaitForSeconds(configProvider.Delays.beforeMatchCheck, cancellationToken: token);
                 stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
                 return;
             }

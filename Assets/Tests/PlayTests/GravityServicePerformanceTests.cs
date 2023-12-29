@@ -1,5 +1,7 @@
+using Config;
 using Cysharp.Threading.Tasks;
 using Model.Objects;
+using NSubstitute;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +21,9 @@ namespace Model.Services.PerformanceTests
             var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
-            var service = new BlockGravityService(game, validation, moveService);
+            var configProvider = Substitute.For<IConfigProvider>();
+            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1) - 1; y++)
             {
@@ -41,7 +45,9 @@ namespace Model.Services.PerformanceTests
             var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
-            var service = new BlockGravityService(game, validation, moveService);
+            var configProvider = Substitute.For<IConfigProvider>();
+            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1) - 1; y++)
             {
