@@ -15,8 +15,6 @@ namespace Model.Services
 
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
-        private int lowestY;
-
         public BlockGravityService(Game game, IValidationService validationService, IBlockMoveService moveService)
         {
             this.game = game;
@@ -26,21 +24,27 @@ namespace Model.Services
 
         public async UniTask Execute(List<Cell> emptyCells, CancellationToken token = default)
         {
-            await Execute(token);
-        }
-
-        public async UniTask Execute(CancellationToken token = default)
-        {
-            for (int y = 0; y < GameBoard.Cells.GetLength(1); y++) //проверка снизу вверх чтобы не было ошибок
+            for (int i = 0; i < emptyCells.Count; i++)
             {
-                for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+                for (int y = 0; y < GameBoard.Cells.GetLength(1); y++)
                 {
-                    TryMoveBlockDown(x, y);
+                    await TryMoveBlockDown(emptyCells[i].Position.x, y, token);
                 }
             }
         }
 
-        private void TryMoveBlockDown(int x, int y)
+        public async UniTask Execute(CancellationToken token = default)
+        {
+            for (int y = 0; y < GameBoard.Cells.GetLength(1); y++)
+            {
+                for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+                {
+                    await TryMoveBlockDown(x, y, token);
+                }
+            }
+        }
+
+        private async UniTask TryMoveBlockDown(int x, int y, CancellationToken token)
         {
             if (!validationService.BlockExistsAt(new Vector2Int(x, y)))
                 return;
@@ -49,8 +53,9 @@ namespace Model.Services
             if (y == lowestY)
                 return;
 
-            var action = new BlockMoveCommand(new(x, y), new(x, lowestY), moveService); //TODO возвращать комманду?
-            action.Execute();
+            moveService.Move(new Vector2Int(x, y), new Vector2Int(x, lowestY));
+            //await UniTask.Delay(100, cancellationToken: token);
+            await UniTask.Yield(token);
         }
 
         private int FindLowestEmptyCellUnderPos(int x, int y)

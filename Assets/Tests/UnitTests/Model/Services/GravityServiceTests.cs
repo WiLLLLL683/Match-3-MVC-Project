@@ -1,5 +1,6 @@
 using Model.Objects;
 using NUnit.Framework;
+using System.Threading.Tasks;
 using TestUtils;
 using UnityEngine;
 
@@ -20,51 +21,51 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void Execute_OneBlockOneEmptyCellUnder_BlockMovesDown()
+        public async Task Execute_OneBlockOneEmptyCellUnder_BlockMovesDown()
         {
             var (gameBoard, service) = Setup(1, 2);
             var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 1], gameBoard);
 
-            service.Execute();
+            await service.Execute();
 
             Assert.AreEqual(null, gameBoard.Cells[0, 1].Block);
             Assert.AreEqual(block, gameBoard.Cells[0, 0].Block);
         }
 
         [Test]
-        public void Execute_TwoBlocksNoEmptyCellUnder_NoChange()
+        public async Task Execute_TwoBlocksNoEmptyCellUnder_NoChange()
         {
             var (gameBoard, service) = Setup(1, 2);
             var blockA = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 1], gameBoard);
             var blockB = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
 
-            service.Execute();
+            await service.Execute();
 
             Assert.AreEqual(blockA, gameBoard.Cells[0, 1].Block);
             Assert.AreEqual(blockB, gameBoard.Cells[0, 0].Block);
         }
 
         [Test]
-        public void Execute_OneBlockNotPlayableCellUnder_NoChange()
+        public async Task Execute_OneBlockNotPlayableCellUnder_NoChange()
         {
             var (gameBoard, service) = Setup(1, 2);
             var blockA = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
             gameBoard.Cells[0, 1].Type = TestCellFactory.NotPlayableCellType;
 
-            service.Execute();
+            await service.Execute();
 
             Assert.AreEqual(blockA, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(null, gameBoard.Cells[0, 1].Block);
         }
 
         [Test]
-        public void Execute_TwoBlocksEmptyCellUnder_TwoBlocksMoveDown()
+        public async Task Execute_TwoBlocksEmptyCellUnder_TwoBlocksMoveDown()
         {
             var (gameBoard, service) = Setup(1, 3);
             var blockA = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 2], gameBoard);
             var blockB = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 1], gameBoard);
 
-            service.Execute();
+            await service.Execute();
 
             Assert.AreEqual(null, gameBoard.Cells[0, 2].Block);
             Assert.AreEqual(blockA, gameBoard.Cells[0, 1].Block);
@@ -72,25 +73,25 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void Execute_AllEmptyCells_NoChange()
+        public async Task Execute_AllEmptyCells_NoChange()
         {
             var (gameBoard, service) = Setup(1, 2);
 
-            service.Execute();
+            await service.Execute();
 
             Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(null, gameBoard.Cells[0, 1].Block);
         }
 
         [Test]
-        public void Execute_3Blocks2EmptyCellUnder_3BlocksMoveDown()
+        public async Task Execute_3Blocks2EmptyCellUnder_3BlocksMoveDown()
         {
             var (gameBoard, service) = Setup(3, 3);
             var block1 = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 2], gameBoard);
             var block2 = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[1, 2], gameBoard);
             var block3 = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[2, 2], gameBoard);
 
-            service.Execute();
+            await service.Execute();
 
             Assert.AreEqual(block1, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(block2, gameBoard.Cells[1, 0].Block);

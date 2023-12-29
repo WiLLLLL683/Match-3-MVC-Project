@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Model.Services;
 using System;
 using System.Collections;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,14 +21,14 @@ namespace Infrastructure
 
         private MetaDependencies meta;
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
             await SceneManager.LoadSceneAsync(META_SCENE_NAME, LoadSceneMode.Single);
             GetSceneDependencies();
             EnablePresenters();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
             DisablePresenters();
         }

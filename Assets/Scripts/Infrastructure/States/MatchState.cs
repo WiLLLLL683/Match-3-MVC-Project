@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
@@ -23,7 +24,7 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
             HashSet<Cell> matches = matchService.FindAllMatches();
 
@@ -36,7 +37,7 @@ namespace Infrastructure
             stateMachine.EnterState<WaitState>();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

@@ -3,6 +3,7 @@ using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -24,7 +25,7 @@ namespace Infrastructure
             this.winLoseService = winLoseService;
         }
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
             //проверка на проигрыш
             if (winLoseService.CheckLose())
@@ -38,7 +39,7 @@ namespace Infrastructure
             //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

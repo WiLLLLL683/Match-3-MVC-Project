@@ -3,6 +3,7 @@ using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -27,13 +28,13 @@ namespace Infrastructure
             this.matchService = matchService;
         }
 
-        public async UniTask OnEnter(Vector2Int payLoad)
+        public async UniTask OnEnter(Vector2Int payLoad, CancellationToken token)
         {
             gameBoard = game.CurrentLevel.gameBoard;
             PressBlock(payLoad);
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

@@ -4,6 +4,7 @@ using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -31,7 +32,7 @@ namespace Infrastructure
             this.moveService = moveService;
         }
 
-        public async UniTask OnEnter((Vector2Int startPos, Directions direction) payLoad)
+        public async UniTask OnEnter((Vector2Int startPos, Directions direction) payLoad, CancellationToken token)
         {
             startPos = payLoad.startPos;
             direction = payLoad.direction;
@@ -43,7 +44,7 @@ namespace Infrastructure
             MoveBlock();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

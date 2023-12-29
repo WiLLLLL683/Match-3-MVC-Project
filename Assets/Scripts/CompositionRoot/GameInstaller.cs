@@ -20,7 +20,7 @@ namespace CompositionRoot
         private void BindGameStateMachine()
         {
             Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
-            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
+            Container.BindInterfacesTo<StateMachine>().AsSingle();
         }
 
         private void BindModel()
@@ -52,7 +52,7 @@ namespace CompositionRoot
             Container.Bind<IBlockSpawnService>().To<BlockSpawnService>().AsSingle();
             Container.Bind<IMatcher>().To<Matcher>().AsSingle();
             Container.Bind<IBlockMatchService>().To<BlockMatchService>().AsSingle();
-            Container.Bind<IBlockGravityService>().To<BlockGravityOptimizedService>().AsSingle();
+            Container.Bind<IBlockGravityService>().To<BlockGravityService>().AsSingle();
             Container.Bind<IBlockRandomTypeService>().To<BlockRandomTypeService>().AsSingle();
             Container.Bind<IValidationService>().To<ValidationService>().AsSingle();
 

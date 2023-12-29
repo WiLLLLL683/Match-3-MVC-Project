@@ -4,6 +4,7 @@ using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -31,13 +32,13 @@ namespace Infrastructure
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public async UniTask OnEnter(HashSet<Cell> payLoad)
+        public async UniTask OnEnter(HashSet<Cell> payLoad, CancellationToken token)
         {
             DestroyBlocks(payLoad);
             stateMachine.EnterState<SpawnState>();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }
