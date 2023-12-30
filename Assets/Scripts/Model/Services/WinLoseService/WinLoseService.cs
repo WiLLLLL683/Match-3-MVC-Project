@@ -27,7 +27,6 @@ namespace Model.Services
                     return false;
             }
 
-            OnWin?.Invoke();
             return true;
         }
 
@@ -37,13 +36,15 @@ namespace Model.Services
             {
                 if (counterService.CheckCompletion(Level.restrictions[i]))
                 {
-                    OnLose?.Invoke();
                     return true;
                 }
             }
 
             return false;
         }
+
+        public void RaiseWinEvent() => OnWin?.Invoke();
+        public void RaiseLoseEvent() => OnLose?.Invoke();
 
         public void IncreaseCountIfPossible(ICounterTarget target, int amount = 1)
         {

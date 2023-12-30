@@ -17,15 +17,13 @@ namespace Infrastructure
     {
         private readonly IStateMachine stateMachine;
         private readonly IWinLoseService winLoseService;
-        private readonly IConfigProvider configProvider;
 
         private HashSet<Cell> hintCells;
 
-        public WaitState(IStateMachine stateMachine, IWinLoseService winLoseService, IConfigProvider configProvider)
+        public WaitState(IStateMachine stateMachine, IWinLoseService winLoseService)
         {
             this.stateMachine = stateMachine;
             this.winLoseService = winLoseService;
-            this.configProvider = configProvider;
         }
 
         public async UniTask OnEnter(CancellationToken token)
@@ -33,7 +31,6 @@ namespace Infrastructure
             //проверка на проигрыш
             if (winLoseService.CheckLose())
             {
-                await UniTask.WaitForSeconds(configProvider.Delays.beforeLose, cancellationToken: token);
                 stateMachine.EnterState<LoseState>();
                 return;
             }
@@ -41,7 +38,6 @@ namespace Infrastructure
             //проверка на выигрыш
             if (winLoseService.CheckWin())
             {
-                await UniTask.WaitForSeconds(configProvider.Delays.beforeWin, cancellationToken: token);
                 stateMachine.EnterState<WinState>();
                 return;
             }
