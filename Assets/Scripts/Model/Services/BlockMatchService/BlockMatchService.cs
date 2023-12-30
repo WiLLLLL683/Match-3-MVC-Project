@@ -112,8 +112,8 @@ namespace Model.Services
             checkBounds.xMin = 0;
             checkBounds.yMin = 0;
 
-            checkBounds.xMax = GameBoard.Cells.GetLength(0) - pattern.grid.GetLength(0) + 1; //+1 для учета опорной точки
-            checkBounds.yMax = GameBoard.HiddenRowsStartIndex - pattern.grid.GetLength(1) + 1;
+            checkBounds.xMax = GameBoard.Cells.GetLength(0) - pattern.grid.GetLength(0);
+            checkBounds.yMax = GameBoard.HiddenRowsStartIndex - pattern.grid.GetLength(1);
         }
     }
 }

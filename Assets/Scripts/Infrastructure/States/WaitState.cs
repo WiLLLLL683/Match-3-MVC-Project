@@ -28,14 +28,12 @@ namespace Infrastructure
 
         public async UniTask OnEnter(CancellationToken token)
         {
-            //проверка на проигрыш
             if (winLoseService.CheckLose())
             {
                 stateMachine.EnterState<LoseState>();
                 return;
             }
 
-            //проверка на выигрыш
             if (winLoseService.CheckWin())
             {
                 stateMachine.EnterState<WinState>();
