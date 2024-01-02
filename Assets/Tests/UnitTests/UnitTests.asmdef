@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "GameAssembly",
         "TestUtils",
-        "UniTask"
+        "UniTask",
+        "Unity.PerformanceTesting"
     ],
     "includePlatforms": [
         "Editor"

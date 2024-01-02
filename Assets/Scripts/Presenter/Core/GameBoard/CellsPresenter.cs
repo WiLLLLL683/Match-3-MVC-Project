@@ -52,6 +52,7 @@ namespace Presenter
         {
             gameBoard = model.CurrentLevel.gameBoard;
             SpawnAll();
+            CenterGameBoard();
 
             cellDestroyService.OnDestroy += Destroy;
             setBlockService.OnEmpty += Empty;
@@ -139,6 +140,14 @@ namespace Presenter
 
             ICellView view = cells[model];
             view.PlayEmptyEffect();
+        }
+
+        private void CenterGameBoard()
+        {
+            Vector2 offcet = new();
+            offcet.x = -(float)(gameBoard.Cells.GetLength(0) - 1f) / 2f;
+            offcet.y = -(float)(gameBoard.HiddenRowsStartIndex - 1f) / 2f - 1f;
+            view.CellsParent.position = offcet;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -21,7 +22,7 @@ namespace Infrastructure
             this.stateMachine = stateMachine;
         }
 
-        public async UniTask OnEnter(bool isReturnToMeta)
+        public async UniTask OnEnter(bool isReturnToMeta, CancellationToken token)
         {
             GetSceneDependencies();
             DisablePresenters();
@@ -36,7 +37,7 @@ namespace Infrastructure
             }
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

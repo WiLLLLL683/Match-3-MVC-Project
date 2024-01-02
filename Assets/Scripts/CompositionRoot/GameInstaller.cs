@@ -20,7 +20,7 @@ namespace CompositionRoot
         private void BindGameStateMachine()
         {
             Container.Bind<IStateFactory>().To<StateFactory>().AsSingle();
-            Container.Bind<IStateMachine>().To<StateMachine>().AsSingle();
+            Container.BindInterfacesTo<StateMachine>().AsSingle();
         }
 
         private void BindModel()

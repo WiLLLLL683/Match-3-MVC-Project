@@ -12,6 +12,7 @@ namespace View
     /// Может перетаскиваться из IInput и передавать инпут для перемещения и активации блока.
     /// Может изменять свой тип и базовое положение, проигрывать анимацию нажатия и эффект разрушения.
     /// </summary>
+    [SelectionBase]
     public class BlockView : MonoBehaviour, IBlockView, IBlockInput
     {
         [SerializeField] private SpriteRenderer icon;
@@ -24,7 +25,6 @@ namespace View
         public event Action<Vector2Int, Directions> OnInputMove;
         public event Action<Vector2Int> OnInputActivate;
 
-        private Sprite iconSprite;
         private ParticleSystem destroyEffectPrefab;
         private Vector2 targetPosition;
         private Vector2Int modelPosition;
@@ -35,7 +35,7 @@ namespace View
             ChangeType(iconSprite, destroyEffectPrefab);
             ChangeModelPosition(modelPosition);
 
-            transform.localPosition = (Vector2)modelPosition.ToViewPos();
+            transform.localPosition = (Vector2)modelPosition;
         }
 
         private void Update()
@@ -46,19 +46,18 @@ namespace View
         //Input
         public void Input_MoveBlock(Directions direction) => OnInputMove?.Invoke(modelPosition, direction);
         public void Input_ActivateBlock() => OnInputActivate?.Invoke(modelPosition);
-        public void Input_Drag(Directions direction, Vector2 deltaPosition) => targetPosition = modelPosition.ToViewPos() + deltaPosition;
-        public void Input_Release() => targetPosition = modelPosition.ToViewPos();
+        public void Input_Drag(Directions direction, Vector2 deltaPosition) => targetPosition = modelPosition + deltaPosition;
+        public void Input_Release() => targetPosition = modelPosition;
 
         //View
         public void ChangeModelPosition(Vector2Int modelPosition)
         {
             this.modelPosition = modelPosition;
-            targetPosition = modelPosition.ToViewPos();
+            targetPosition = modelPosition;
         }
 
         public void ChangeType(Sprite iconSprite, ParticleSystem destroyEffectPrefab)
         {
-            this.iconSprite = iconSprite;
             this.destroyEffectPrefab = destroyEffectPrefab;
             icon.sprite = iconSprite;
         }

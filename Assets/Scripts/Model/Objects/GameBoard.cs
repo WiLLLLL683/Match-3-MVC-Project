@@ -9,14 +9,25 @@ namespace Model.Objects
     [Serializable]
     public class GameBoard
     {
+        /// <summary>
+        /// 2d-массив клеток, с координатами [x,y]. [0,0] - нижняя левая клетка.
+        /// </summary>
         public Cell[,] Cells;
-        public int RowsOfInvisibleCells;
+
+        /// <summary>
+        /// Индекс[y] первого ряда скрытых клеток, нужных для незаметного спавна блоков
+        /// </summary>
+        public int HiddenRowsStartIndex;
+
+        /// <summary>
+        /// Список всех блоков
+        /// </summary>
         public List<Block> Blocks;
 
-        public GameBoard(Cell[,] cells, int rowsOfInvisibleCells, List<Block> blocks = null)
+        public GameBoard(Cell[,] cells, int hiddenCellsStartIndex, List<Block> blocks = null)
         {
             Cells = cells;
-            RowsOfInvisibleCells = rowsOfInvisibleCells;
+            HiddenRowsStartIndex = hiddenCellsStartIndex;
             Blocks = blocks ?? new List<Block>();
         }
     }

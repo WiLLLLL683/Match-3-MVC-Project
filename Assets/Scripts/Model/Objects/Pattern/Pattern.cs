@@ -7,8 +7,22 @@ namespace Model.Objects
     /// </summary>
     public abstract class Pattern
     {
+        /// <summary>
+        /// Схема расположения блоков одного типа.
+        /// [0,0] - нижняя левая клетка.
+        /// True - тип блока должен совпадать с оригинальным.
+        /// </summary>
         public bool[,] grid;
-        public int totalSum; //сумма помеченых клеток в паттерне
+
+        /// <summary>
+        /// Количество true клеток в схеме.
+        /// </summary>
+        public int totalSum;
+
+        /// <summary>
+        /// Положение оригинального блока с которым будут сравниваться остальные блоки, помеченные в схеме.
+        /// Берется максимально близкая к [0,0] клетка.
+        /// </summary>
         public Vector2Int originPosition = new(0, 0);
 
         protected Pattern(bool[,] grid)

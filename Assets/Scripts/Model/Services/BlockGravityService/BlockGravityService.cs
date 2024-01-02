@@ -1,5 +1,9 @@
+using Config;
+using Cysharp.Threading.Tasks;
 using Infrastructure.Commands;
 using Model.Objects;
+using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace Model.Services
@@ -9,56 +13,67 @@ namespace Model.Services
         private readonly Game game;
         private readonly IValidationService validationService;
         private readonly IBlockMoveService moveService;
+        private readonly IConfigProvider configProvider;
 
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
-        private int lowestY;
-
-        public BlockGravityService(Game game, IValidationService validationService, IBlockMoveService moveService)
+        public BlockGravityService(Game game,
+            IValidationService validationService,
+            IBlockMoveService moveService,
+            IConfigProvider configProvider)
         {
             this.game = game;
             this.validationService = validationService;
             this.moveService = moveService;
+            this.configProvider = configProvider;
         }
 
-        public void Execute()
+        public async UniTask Execute(List<Cell> emptyCells, CancellationToken token = default)
         {
-            for (int y = GameBoard.Cells.GetLength(1); y >= 0; y--) //проверка снизу вверх чтобы не было ошибок
+            for (int i = 0; i < emptyCells.Count; i++)
             {
-                for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+                for (int y = 0; y < GameBoard.Cells.GetLength(1); y++)
                 {
-                    TryMoveBlockDown(x, y);
+                    await TryMoveBlockDown(emptyCells[i].Position.x, y, token);
                 }
             }
         }
 
-        private void TryMoveBlockDown(int x, int y)
+        public async UniTask Execute(CancellationToken token = default)
+        {
+            for (int y = 0; y < GameBoard.Cells.GetLength(1); y++)
+            {
+                for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+                {
+                    await TryMoveBlockDown(x, y, token);
+                }
+            }
+        }
+
+        private async UniTask TryMoveBlockDown(int x, int y, CancellationToken token)
         {
             if (!validationService.BlockExistsAt(new Vector2Int(x, y)))
                 return;
 
-            FindLowestEmptyCellUnderPos(x, y);
+            int lowestY = FindLowestEmptyCellUnderPos(x, y);
+            if (y == lowestY)
+                return;
 
-            if (!IsLowestEmptyCell(y))
-            {
-                var action = new BlockMoveCommand(new(x, y), new(x, lowestY), moveService); //TODO возвращать комманду?
-                action.Execute();
-            }
+            moveService.Move(new Vector2Int(x, y), new Vector2Int(x, lowestY));
+            await UniTask.WaitForSeconds(configProvider.Delays.betweenBlockGravitation, cancellationToken: token);
         }
 
-        private bool IsLowestEmptyCell(int y) => y == lowestY;
-
-        private void FindLowestEmptyCellUnderPos(int x, int y)
+        private int FindLowestEmptyCellUnderPos(int x, int y)
         {
-            lowestY = y;
-            for (int i = GameBoard.Cells.GetLength(1) - 1; i > y; i--)
+            for (int i = 0; i < y; i++)
             {
                 if (validationService.CellIsEmptyAt(new(x, i)))
                 {
-                    lowestY = i;
-                    return;
+                    return i;
                 }
             }
+
+            return y;
         }
     }
 }

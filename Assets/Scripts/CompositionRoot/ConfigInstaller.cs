@@ -8,16 +8,20 @@ namespace CompositionRoot
     [CreateAssetMenu(fileName = "ConfigInstaller", menuName = "Installers/ConfigInstaller")]
     public class ConfigInstaller : ScriptableObjectInstaller<ConfigInstaller>
     {
+        [Header("Sets")]
         [SerializeField] private LevelSetSO allLevels;
         [SerializeField] private BlockTypeSetSO allBlockTypes;
-        [SerializeField] private BlockView blockViewPrefab;
         [SerializeField] private CellTypeSetSO allCellTypes;
         [SerializeField] private CurrencySetSO allCurrencies;
         [SerializeField] private CounterTargetSetSO allCounterTargets;
+        [Header("Prefabs")]
+        [SerializeField] private PrefabConfig prefabs;
+        [Header("Other Config")]
+        [SerializeField] private DelayConfig delays;
 
         public override void InstallBindings()
         {
-            ConfigProvider configProvider = new(allBlockTypes, blockViewPrefab, allCellTypes, allCounterTargets, allCurrencies, allLevels);
+            ConfigProvider configProvider = new(allBlockTypes, allCellTypes, allCounterTargets, allCurrencies, allLevels, delays, prefabs);
             Container.Bind<IConfigProvider>().FromInstance(configProvider).AsSingle();
         }
     }

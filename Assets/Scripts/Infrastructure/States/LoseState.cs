@@ -1,24 +1,30 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Config;
+using Cysharp.Threading.Tasks;
+using Model.Services;
 using System.Collections;
+using System.Threading;
 using Utils;
 
 namespace Infrastructure
 {
     public class LoseState : IState
     {
-        private readonly IStateMachine stateMachine;
+        private readonly IWinLoseService winLoseService;
+        private readonly IConfigProvider configProvider;
 
-        public LoseState(IStateMachine stateMachine)
+        public LoseState(IWinLoseService winLoseService, IConfigProvider configProvider)
         {
-            this.stateMachine = stateMachine;
+            this.winLoseService = winLoseService;
+            this.configProvider = configProvider;
         }
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
-
+            await UniTask.WaitForSeconds(configProvider.Delays.beforeLose, cancellationToken: token);
+            winLoseService.RaiseLoseEvent();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

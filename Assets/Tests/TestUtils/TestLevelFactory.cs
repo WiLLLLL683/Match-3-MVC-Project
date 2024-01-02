@@ -57,9 +57,10 @@ namespace TestUtils
         /// <summary>
         /// Указать размеры и типы блоков построчно
         /// </summary>
-        public static GameBoard CreateGameBoard(int xLength, int yLength, int rowsOfInvisibleCells, params int[] typeIds)
+        public static GameBoard CreateGameBoard(int xLength, int yLength, int rowsOfInvisibleCells)
         {
-            GameBoard gameBoard = new(new Cell[xLength, yLength], rowsOfInvisibleCells);
+            int hiddenRowsStartIndex = yLength - rowsOfInvisibleCells;
+            GameBoard gameBoard = new(new Cell[xLength, yLength], hiddenRowsStartIndex);
 
             //заполнить игровое поле клетками
             for (int y = 0; y < yLength; y++)
@@ -68,27 +69,6 @@ namespace TestUtils
                 {
                     gameBoard.Cells[x, y] = new Cell(new BasicCellType(), new Vector2Int(x, y));
                 }
-            }
-
-            //Преобразовать 2д массив клеток в 1д построчно
-            List<Cell> cells = new();
-            for (int y = 0; y < gameBoard.Cells.GetLength(1); y++)
-            {
-                for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
-                {
-                    cells.Add(gameBoard.Cells[x, y]);
-                }
-            }
-
-            //заспавнить блоки из параметров
-            for (int i = 0; i < cells.Count && i < typeIds.Length; i++)
-            {
-                if (typeIds[i] == TestBlockFactory.NO_BLOCK)
-                {
-                    continue;
-                }
-                Block block = TestBlockFactory.CreateBlockInCell(typeIds[i], cells[i]);
-                gameBoard.Blocks.Add(block);
             }
 
             return gameBoard;

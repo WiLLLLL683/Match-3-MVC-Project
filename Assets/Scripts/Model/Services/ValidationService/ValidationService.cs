@@ -34,19 +34,19 @@ namespace Model.Services
 
             if (!CellCanContainBlock)
             {
-                Debug.LogWarning("Tried to get Block but Cell cant contain Block");
+                //Debug.LogWarning("Tried to get Block but Cell cant contain Block");
                 return false;
             }
 
             if (CellIsEmpty)
             {
-                Debug.LogWarning("Tried to get Block but Cell was empty");
+                //Debug.LogWarning("Tried to get Block but Cell was empty");
                 return false;
             }
 
             if (!BlockExists)
             {
-                Debug.LogWarning("Tried to get Block but Block was null");
+                //Debug.LogWarning("Tried to get Block but Block was null");
                 return false;
             }
 
@@ -59,13 +59,13 @@ namespace Model.Services
 
             if (!CellIsInsideGameboard)
             {
-                Debug.LogWarning("Cell position out of GameBoards range");
+                //Debug.LogWarning("Cell position out of GameBoards range");
                 return false;
             }
 
             if (!CellExists)
             {
-                Debug.LogWarning("Tried to get Cell but Cell was null");
+                //Debug.LogWarning("Tried to get Cell but Cell was null");
                 return false;
             }
 
@@ -83,28 +83,27 @@ namespace Model.Services
 
             if (!CellCanContainBlock)
             {
-                Debug.LogWarning("Cell cant contain Block");
+                //Debug.LogWarning("Cell cant contain Block");
                 return false;
             }
 
             if (!CellIsEmpty)
             {
-                Debug.LogWarning("Cell is not empty");
+                //Debug.LogWarning("Cell is not empty");
                 return false;
             }
 
             return true;
         }
 
-        public HashSet<Cell> FindEmptyCells()
+        public List<Cell> FindEmptyCells()
         {
-            Cell[,] cells = game.CurrentLevel.gameBoard.Cells;
-            int invisibleRows = game.CurrentLevel.gameBoard.RowsOfInvisibleCells;
-            HashSet<Cell> emptyCells = new();
+            Cell[,] cells = GameBoard.Cells;
+            List<Cell> emptyCells = new();
 
-            for (int y = invisibleRows; y < cells.GetLength(1); y++)
+            for (int x = 0; x < cells.GetLength(0); x++)
             {
-                for (int x = 0; x < cells.GetLength(0); x++)
+                for (int y = GameBoard.HiddenRowsStartIndex - 1; y >= 0; y--)
                 {
                     if (CellIsEmptyAt(new(x, y)))
                     {

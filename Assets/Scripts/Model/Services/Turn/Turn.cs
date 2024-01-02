@@ -9,7 +9,7 @@ namespace Model.Services
     /// Объект игрового хода
     /// </summary>
     [Serializable]
-    public class Turn : ICounterTarget
+    public class Turn : ICounterTarget //TODO разделить на дто и сервис
     {
         public int Id { get; private set; }
 

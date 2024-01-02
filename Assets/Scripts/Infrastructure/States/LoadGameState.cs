@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Model.Services;
 using System;
 using System.Collections;
+using System.Threading;
 using Utils;
 
 namespace Infrastructure
@@ -24,7 +25,7 @@ namespace Infrastructure
             this.currencyService = currencyService;
         }
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
             //загрузка игры
             LoadCurrencies();
@@ -32,7 +33,7 @@ namespace Infrastructure
             stateMachine.EnterState<MetaState>();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

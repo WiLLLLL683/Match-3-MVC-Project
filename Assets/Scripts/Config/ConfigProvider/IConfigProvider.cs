@@ -7,7 +7,8 @@ namespace Config
 {
     public interface IConfigProvider
     {
-        BlockView BlockViewPrefab { get; }
+        PrefabConfig Prefabs { get; }
+        DelayConfig Delays { get; }
         CellTypeSO HiddenCellType { get; }
         TurnSO Turn { get; }
         int LastLevelIndex { get; }

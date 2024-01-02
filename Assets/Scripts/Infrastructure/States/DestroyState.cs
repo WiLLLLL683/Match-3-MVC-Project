@@ -4,6 +4,7 @@ using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -18,7 +19,7 @@ namespace Infrastructure
         private readonly IStateMachine stateMachine;
         private readonly IBlockDestroyService blockDestroyService;
         private readonly IWinLoseService winLoseService;
-        private readonly ICounterTarget turnTarget;
+        private readonly IConfigProvider configProvider;
 
         public DestroyState(IStateMachine stateMachine,
             IBlockDestroyService blockDestroyService,
@@ -28,25 +29,23 @@ namespace Infrastructure
             this.stateMachine = stateMachine;
             this.blockDestroyService = blockDestroyService;
             this.winLoseService = winLoseService;
-            this.turnTarget = configProvider.Turn.CounterTarget;
+            this.configProvider = configProvider;
         }
 
-        public async UniTask OnEnter(HashSet<Cell> payLoad)
+        public async UniTask OnEnter(HashSet<Cell> payLoad, CancellationToken token)
         {
             DestroyBlocks(payLoad);
+            await UniTask.WaitForSeconds(configProvider.Delays.afterBlockDestroy, cancellationToken: token);
             stateMachine.EnterState<SpawnState>();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }
 
         private void DestroyBlocks(HashSet<Cell> matches)
         {
-            //TODO засчитать ход в логгер
-            winLoseService.DecreaseCountIfPossible(turnTarget);
-
             foreach (Cell match in matches)
             {
                 winLoseService.DecreaseCountIfPossible(match.Block.Type);

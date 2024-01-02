@@ -1,9 +1,11 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Config;
+using Cysharp.Threading.Tasks;
 using Infrastructure.Commands;
 using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -18,20 +20,26 @@ namespace Infrastructure
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
         private readonly IBlockMoveService moveService;
+        private readonly IWinLoseService winLoseService;
+        private readonly ICounterTarget turnTarget;
 
         private Vector2Int startPos;
         private Directions direction;
 
         public InputMoveBlockState(IStateMachine stateMachine,
             IBlockMatchService matchService,
-            IBlockMoveService moveService)
+            IBlockMoveService moveService,
+            IWinLoseService winLoseService,
+            IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
             this.matchService = matchService;
             this.moveService = moveService;
+            this.winLoseService = winLoseService;
+            this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public async UniTask OnEnter((Vector2Int startPos, Directions direction) payLoad)
+        public async UniTask OnEnter((Vector2Int startPos, Directions direction) payLoad, CancellationToken token)
         {
             startPos = payLoad.startPos;
             direction = payLoad.direction;
@@ -43,7 +51,7 @@ namespace Infrastructure
             MoveBlock();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }
@@ -57,6 +65,7 @@ namespace Infrastructure
 
             if (matches.Count > 0)
             {
+                winLoseService.DecreaseCountIfPossible(turnTarget);
                 stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
             }
             else

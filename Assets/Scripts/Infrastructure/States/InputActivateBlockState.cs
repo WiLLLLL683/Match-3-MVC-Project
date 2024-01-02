@@ -1,8 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Config;
+using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -17,23 +19,31 @@ namespace Infrastructure
         private readonly Game game;
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
+        private readonly IWinLoseService winLoseService;
+        private readonly ICounterTarget turnTarget;
 
         private GameBoard gameBoard;
 
-        public InputActivateBlockState(Game game, IStateMachine stateMachine, IBlockMatchService matchService)
+        public InputActivateBlockState(Game game,
+            IStateMachine stateMachine,
+            IBlockMatchService matchService,
+            IWinLoseService winLoseService,
+            IConfigProvider configProvider)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.matchService = matchService;
+            this.winLoseService = winLoseService;
+            this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public async UniTask OnEnter(Vector2Int payLoad)
+        public async UniTask OnEnter(Vector2Int payLoad, CancellationToken token)
         {
             gameBoard = game.CurrentLevel.gameBoard;
             PressBlock(payLoad);
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }
@@ -46,6 +56,7 @@ namespace Infrastructure
 
             if (turnSucsess)
             {
+                winLoseService.DecreaseCountIfPossible(turnTarget);
                 stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
             }
             else

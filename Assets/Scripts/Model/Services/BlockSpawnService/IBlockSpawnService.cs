@@ -14,7 +14,7 @@ namespace Model.Services
         /// <summary>
         /// Заполнить пустые клетки случайными блоками только в рядах невидимых клеток
         /// </summary>
-        public void FillInvisibleRows();
+        public void FillHiddenRows();
 
         /// <summary>
         /// Создать или принудительно изменить тип блока в выбранной клетке

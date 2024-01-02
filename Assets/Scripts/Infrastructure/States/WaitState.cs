@@ -1,8 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Config;
+using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -24,21 +26,25 @@ namespace Infrastructure
             this.winLoseService = winLoseService;
         }
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
-            //проверка на проигрыш
             if (winLoseService.CheckLose())
+            {
                 stateMachine.EnterState<LoseState>();
+                return;
+            }
 
-            //проверка на выигрыш
             if (winLoseService.CheckWin())
+            {
                 stateMachine.EnterState<WinState>();
+                return;
+            }
 
             //поиск блоков для подсказки
             //hintCells = matchSystem.FindFirstHint(); //TODO как прокинуть это во вью? через ивент?
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

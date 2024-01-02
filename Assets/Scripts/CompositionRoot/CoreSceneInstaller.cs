@@ -21,8 +21,6 @@ namespace CompositionRoot
 
         //TODO перенести в ConfigInstaller
         [Header("Prefabs")]
-        [SerializeField] private CounterView goalCounterPrefab;
-        [SerializeField] private CounterView restrictionCounterPrefab;
         [SerializeField] private BoosterView boosterPrefab;
 
         public override void InstallBindings()
@@ -46,9 +44,7 @@ namespace CompositionRoot
             Container.Bind<IHudPresenter>().To<HudPresenter>().AsSingle();
 
             //factories
-            var counterViewFactory = Container.Instantiate<CounterViewFactory>(
-                new object[] { goalCounterPrefab, restrictionCounterPrefab });
-            Container.Bind<ICounterViewFactory>().FromInstance(counterViewFactory);
+            Container.Bind<ICounterViewFactory>().To<CounterViewFactory>().AsSingle();
         }
 
         private void BindGameboard()
@@ -67,7 +63,7 @@ namespace CompositionRoot
             Container.Bind<IBoosterInventoryView>().FromInstance(boosterInventoryView).AsSingle();
             Container.Bind<IBoosterInventoryPresenter>().To<BoosterInventoryPresenter>().AsSingle();
 
-            //factories
+            //factories //TODO заменить на свою фабрику и префаб переместить в ConfigProvider
             Container.BindFactory<BoosterPresenter, BoosterPresenter.Factory>();
             Container.BindFactory<BoosterView, BoosterView.Factory>()
                 .FromComponentInNewPrefab(boosterPrefab)

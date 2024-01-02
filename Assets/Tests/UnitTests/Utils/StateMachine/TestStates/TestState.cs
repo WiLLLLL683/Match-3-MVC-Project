@@ -2,6 +2,7 @@
 using Model.Objects;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 
@@ -11,12 +12,12 @@ namespace Utils.UnitTests
     {
         public string testString;
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
 
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
 
         }

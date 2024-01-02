@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Model.Objects;
 using Model.Services;
+using UnityEngine;
 using Utils;
 
 namespace Infrastructure
@@ -18,6 +20,10 @@ namespace Infrastructure
         private readonly IBlockGravityService gravityService;
         private readonly IValidationService validationService;
 
+        private const int MAX_ITERATIONS_COUNT = 100;
+
+        private CancellationTokenSource internalCts;
+
         public SpawnState(IStateMachine stateMachine,
             IBlockSpawnService spawnService,
             IBlockGravityService gravityService,
@@ -29,23 +35,28 @@ namespace Infrastructure
             this.validationService = validationService;
         }
 
-        public async UniTask OnEnter()
+        public async UniTask OnEnter(CancellationToken token)
         {
-            int emptyCellsCount = validationService.FindEmptyCells().Count;
+            internalCts?.Dispose();
+            internalCts = new();
+            CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(internalCts.Token, token);
 
-            while (emptyCellsCount > 0)
+            for (int i = 0; i < MAX_ITERATIONS_COUNT; i++)
             {
-                gravityService.Execute();
-                spawnService.FillInvisibleRows();
-                emptyCellsCount = validationService.FindEmptyCells().Count;
+                var emptyCells = validationService.FindEmptyCells();
+                if (emptyCells.Count == 0)
+                    break;
+
+                await gravityService.Execute(emptyCells, linkedCts.Token);
+                spawnService.FillHiddenRows();
             }
 
             stateMachine.EnterState<MatchState>();
         }
 
-        public async UniTask OnExit()
+        public async UniTask OnExit(CancellationToken token)
         {
-
+            internalCts.Cancel();
         }
     }
 }

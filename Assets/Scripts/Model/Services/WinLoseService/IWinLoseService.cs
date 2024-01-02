@@ -5,6 +5,9 @@ namespace Model.Services
 {
     public interface IWinLoseService
     {
+        void RaiseLoseEvent();
+        void RaiseWinEvent();
+
         event Action OnLose;
         event Action OnWin;
 
