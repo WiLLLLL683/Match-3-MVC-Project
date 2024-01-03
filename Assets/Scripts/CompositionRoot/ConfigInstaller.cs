@@ -14,6 +14,7 @@ namespace CompositionRoot
         [SerializeField] private CellTypeSetSO allCellTypes;
         [SerializeField] private CurrencySetSO allCurrencies;
         [SerializeField] private CounterTargetSetSO allCounterTargets;
+        [SerializeField] private BoosterSetSO allBoosters;
         [Header("Prefabs")]
         [SerializeField] private PrefabConfig prefabs;
         [Header("Other Config")]
@@ -21,7 +22,7 @@ namespace CompositionRoot
 
         public override void InstallBindings()
         {
-            ConfigProvider configProvider = new(allBlockTypes, allCellTypes, allCounterTargets, allCurrencies, allLevels, delays, prefabs);
+            ConfigProvider configProvider = new(allBlockTypes, allCellTypes, allCounterTargets, allCurrencies, allLevels, allBoosters, delays, prefabs);
             Container.Bind<IConfigProvider>().FromInstance(configProvider).AsSingle();
         }
     }

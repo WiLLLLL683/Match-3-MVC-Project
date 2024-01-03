@@ -3,6 +3,7 @@
     public interface IBooster
     {
         public int Id { get; }
-        public int Amount { get; }
+        public void Execute();
+        public IBooster Clone();
     }
 }

@@ -7,6 +7,8 @@ namespace Config
 {
     public interface IConfigProvider
     {
+        BoosterSO GetBoosterSO(int id);
+
         PrefabConfig Prefabs { get; }
         DelayConfig Delays { get; }
         CellTypeSO HiddenCellType { get; }

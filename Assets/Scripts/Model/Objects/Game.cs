@@ -13,6 +13,7 @@ namespace Model.Objects
         public LevelProgress LevelProgress;
         public PlayerSettings PlayerSettings;
         public CurrencyInventory CurrencyInventory;
+        public BoosterInventory BoosterInventory;
 
         //core game
         public Level CurrentLevel;

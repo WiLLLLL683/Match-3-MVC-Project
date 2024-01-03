@@ -1,25 +1,29 @@
-﻿using Model.Objects;
-
-namespace Model.Services
+﻿namespace Model.Services
 {
     /// <summary>
-    /// Сервис для работы с бустерами
+    /// Сервис для работы с бустерами.
     /// </summary>
     public interface IBoosterService
     {
         /// <summary>
-        /// Добавить бустер определенного типа
+        /// Добавить бустер определенного типа.
         /// </summary>
-        void AddBooster<T>(int ammount) where T : IBooster;
+        void AddBooster(int id, int ammount);
 
         /// <summary>
-        /// Забрать бустер определенного типа
+        /// Забрать бустер определенного типа без использования.
         /// </summary>
-        IBooster SpendBooster<T>() where T : IBooster, new();
+        void RemoveBooster(int id, int ammount);
 
         /// <summary>
-        /// Получить количество бустеров определенного типа
+        /// Использовать бустер определенного типа и забрать 1 штуку.
+        /// Возвращает успех операции.
         /// </summary>
-        public int GetBoosterAmount<T>() where T : IBooster;
+        bool UseBooster(int id);
+
+        /// <summary>
+        /// Получить количество бустеров определенного типа.
+        /// </summary>
+        int GetBoosterAmount(int id);
     }
 }

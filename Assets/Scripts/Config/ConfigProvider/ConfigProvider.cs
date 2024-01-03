@@ -21,12 +21,14 @@ namespace Config
         private readonly CounterTargetSetSO allCounterTargets;
         private readonly CurrencySetSO allCurrencies;
         private readonly LevelSetSO allLevels;
+        private readonly BoosterSetSO allBoosters;
 
         public ConfigProvider(BlockTypeSetSO allBlockTypes,
             CellTypeSetSO allCellTypes,
             CounterTargetSetSO allCounterTargets,
             CurrencySetSO allCurrencies,
             LevelSetSO allLevels,
+            BoosterSetSO allBoosters,
             DelayConfig delays,
             PrefabConfig prefabs)
         {
@@ -35,6 +37,7 @@ namespace Config
             this.allCounterTargets = allCounterTargets;
             this.allCurrencies = allCurrencies;
             this.allLevels = allLevels;
+            this.allBoosters = allBoosters;
             this.Delays = delays;
             this.Prefabs = prefabs;
         }
@@ -103,6 +106,21 @@ namespace Config
                 return allLevels.defaultLevel;
 
             return levels[index];
+        }
+
+        public BoosterSO GetBoosterSO(int id)
+        {
+            List<BoosterSO> boosters = allBoosters.boosters;
+
+            for (int i = 0; i < boosters.Count; i++)
+            {
+                if (id == boosters[i].booster.Id)
+                {
+                    return boosters[i];
+                }
+            }
+
+            return allBoosters.defaultBooster;
         }
     }
 }
