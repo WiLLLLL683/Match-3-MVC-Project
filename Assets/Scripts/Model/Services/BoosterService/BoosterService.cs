@@ -20,11 +20,8 @@ namespace Model.Services
 
         public void AddBooster(int id, int ammount)
         {
-            if (ammount <= 0)
-            {
-                Debug.LogError("Can't add negative ammount of Boosters");
+            if (!IsValidAmount(ammount))
                 return;
-            }
 
             if (inventory.boosters.ContainsKey(id))
             {
@@ -38,11 +35,11 @@ namespace Model.Services
 
         public void RemoveBooster(int id, int ammount)
         {
-            if (!inventory.boosters.ContainsKey(id))
-            {
-                Debug.LogError("You have no booster of this type");
+            if (!IsValidAmount(ammount))
                 return;
-            }
+
+            if (!IsAvaliable(id))
+                return;
 
             inventory.boosters[id] -= ammount;
 
@@ -54,11 +51,8 @@ namespace Model.Services
 
         public bool UseBooster(int id)
         {
-            if (!inventory.boosters.ContainsKey(id))
-            {
-                Debug.LogError("You have no booster of this type");
+            if (!IsAvaliable(id))
                 return false;
-            }
 
             inventory.boosters[id]--;
             IBooster booster = factory.Create(id);
@@ -68,14 +62,34 @@ namespace Model.Services
 
         public int GetBoosterAmount(int id)
         {
-            if (inventory.boosters.ContainsKey(id))
-            {
-                return inventory.boosters[id];
-            }
-            else
-            {
+            if (!IsAvaliable(id))
                 return 0;
+
+            return inventory.boosters[id];
+        }
+
+        private bool IsAvaliable(int id)
+        {
+            bool isAvaliable = inventory.boosters.ContainsKey(id) && inventory.boosters[id] > 0;
+
+            if (!isAvaliable)
+            {
+                Debug.LogWarning("You have no booster of this type");
             }
+
+            return isAvaliable;
+        }
+
+        private bool IsValidAmount(int ammount)
+        {
+            bool isValidAmount = ammount > 0;
+
+            if (!isValidAmount)
+            {
+                Debug.LogWarning("Can't add negative ammount of Boosters");
+            }
+
+            return isValidAmount;
         }
     }
 }
