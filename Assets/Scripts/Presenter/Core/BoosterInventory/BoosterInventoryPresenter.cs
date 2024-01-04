@@ -10,14 +10,14 @@ namespace Presenter
     public class BoosterInventoryPresenter : IBoosterInventoryPresenter
     {
         private readonly IBoosterService model;
-        private readonly IBoosterInventoryView view;
+        private readonly IBoostersView view;
         private readonly BoosterPresenter.Factory presenterFactory;
-        private readonly BoosterView.Factory viewFactory;
+        private readonly BoosterButtonView.Factory viewFactory;
 
         public BoosterInventoryPresenter(IBoosterService model,
-            IBoosterInventoryView view,
+            IBoostersView view,
             BoosterPresenter.Factory presenterFactory,
-            BoosterView.Factory viewFactory)
+            BoosterButtonView.Factory viewFactory)
         {
             this.model = model;
             this.view = view;

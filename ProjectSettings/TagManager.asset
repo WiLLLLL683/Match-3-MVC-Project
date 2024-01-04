@@ -44,6 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 1633387927
     locked: 0
+  - name: UI
+    uniqueID: 3185427723
+    locked: 0
   - name: Cell Background
     uniqueID: 1593747537
     locked: 0
@@ -52,4 +55,7 @@ TagManager:
     locked: 0
   - name: Blocks
     uniqueID: 1667779401
+    locked: 0
+  - name: UI_PopUp
+    uniqueID: 4165646467
     locked: 0

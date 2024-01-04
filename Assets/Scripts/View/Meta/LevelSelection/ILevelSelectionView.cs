@@ -9,12 +9,15 @@ namespace View
         public event Action OnSelectNext;
         public event Action OnSelectPrevious;
 
-        public void ShowSelectedLevel(Sprite iconSprite, string name);
+        void ShowSelectedLevel(Sprite iconSprite, string name);
         void SetPreviousButtonActive(bool isActive);
         void SetNextButtonActive(bool isActive);
         void ShowLockedMark();
         void ShowCompleteMark();
         void HideAllMarks();
         void PlayLockedAnimation();
+        void Input_StartSelected();
+        void Input_SelectNext();
+        void Input_SelectPrevious();
     }
 }

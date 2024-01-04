@@ -40,11 +40,9 @@ namespace Presenter
             view.CompletePopUp.OnNextLevelInput += LoadNextLevel;
             view.CompletePopUp.OnReplayInput += Replay;
             view.CompletePopUp.OnQuitInput += Quit;
-            view.CompletePopUp.OnShow += UpdateScore;
             view.DefeatPopUp.OnNextLevelInput += LoadNextLevel;
             view.DefeatPopUp.OnReplayInput += Replay;
             view.DefeatPopUp.OnQuitInput += Quit;
-            view.DefeatPopUp.OnShow += UpdateScore;
 
             Debug.Log($"{this} enabled");
         }
@@ -56,11 +54,9 @@ namespace Presenter
             view.CompletePopUp.OnNextLevelInput -= LoadNextLevel;
             view.CompletePopUp.OnReplayInput -= Replay;
             view.CompletePopUp.OnQuitInput -= Quit;
-            view.CompletePopUp.OnShow -= UpdateScore;
             view.DefeatPopUp.OnNextLevelInput -= LoadNextLevel;
             view.DefeatPopUp.OnReplayInput -= Replay;
             view.DefeatPopUp.OnQuitInput -= Quit;
-            view.DefeatPopUp.OnShow -= UpdateScore;
 
             Debug.Log($"{this} disabled");
         }
@@ -70,7 +66,7 @@ namespace Presenter
             input.Disable();
 
             view.DefeatPopUp.Hide();
-            view.CompletePopUp.Show();
+            view.CompletePopUp.Show(4221, 3); //TODO брать счет из модели
         }
 
         public void ShowDefeatPopUp()
@@ -78,7 +74,7 @@ namespace Presenter
             input.Disable();
 
             view.CompletePopUp.Hide();
-            view.DefeatPopUp.Show();
+            view.DefeatPopUp.Show(4221, 3); //TODO брать счет из модели
         }
 
         private void LoadNextLevel()
@@ -88,10 +84,5 @@ namespace Presenter
         }
         private void Quit() => stateMachine.EnterState<CleanUpState, bool>(true);
         private void Replay() => stateMachine.EnterState<CleanUpState, bool>(false);
-        private void UpdateScore()
-        {
-            view.CompletePopUp.UpdateScore(4221, 3); //TODO брать счет из модели
-            view.DefeatPopUp.UpdateScore(4221, 3); //TODO брать счет из модели
-        }
     }
 }

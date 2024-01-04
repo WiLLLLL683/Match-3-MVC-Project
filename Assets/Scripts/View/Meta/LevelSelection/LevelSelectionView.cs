@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace View
 {
-    public class LevelSelectionView : MonoBehaviour, ILevelSelectionView, ILevelSelectionInput
+    public class LevelSelectionView : MonoBehaviour, ILevelSelectionView
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text nameText;

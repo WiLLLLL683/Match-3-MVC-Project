@@ -10,25 +10,25 @@ namespace CompositionRoot
 
     public class CoreSceneInstaller : MonoInstaller
     {
+        [Header("Input")]
         [SerializeField] private Input_Touch input;
-
-        [Header("Screens")]
+        [Header("Views")]
         [SerializeField] private HudView hudView;
         [SerializeField] private GameBoardView gameBoardView;
-        [SerializeField] private BoosterInventoryView boosterInventoryView;
+        [SerializeField] private BoostersView boostersView;
         [SerializeField] private PauseView pauseView;
         [SerializeField] private EndGameView endGameView;
 
         //TODO перенести в ConfigInstaller
         [Header("Prefabs")]
-        [SerializeField] private BoosterView boosterPrefab;
+        [SerializeField] private BoosterButtonView boosterPrefab;
 
         public override void InstallBindings()
         {
             BindInput();
             BindHud();
             BindGameboard();
-            BindBoosterInventory();
+            BindBoosters();
             BindPause();
             BindEndGame();
         }
@@ -58,16 +58,16 @@ namespace CompositionRoot
             Container.Bind<IBlockViewFactory>().To<BlockViewFactory>().AsSingle();
         }
 
-        private void BindBoosterInventory()
+        private void BindBoosters()
         {
-            Container.Bind<IBoosterInventoryView>().FromInstance(boosterInventoryView).AsSingle();
+            Container.Bind<IBoostersView>().FromInstance(boostersView).AsSingle();
             Container.Bind<IBoosterInventoryPresenter>().To<BoosterInventoryPresenter>().AsSingle();
 
             //factories //TODO заменить на свою фабрику и префаб переместить в ConfigProvider
             Container.BindFactory<BoosterPresenter, BoosterPresenter.Factory>();
-            Container.BindFactory<BoosterView, BoosterView.Factory>()
+            Container.BindFactory<BoosterButtonView, BoosterButtonView.Factory>()
                 .FromComponentInNewPrefab(boosterPrefab)
-                .UnderTransform(boosterInventoryView.BoostersParent);
+                .UnderTransform(boostersView.BoosterButtonsParent);
         }
 
         private void BindPause()
