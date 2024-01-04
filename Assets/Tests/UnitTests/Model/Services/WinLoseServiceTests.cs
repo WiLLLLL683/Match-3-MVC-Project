@@ -38,7 +38,8 @@ namespace Model.Services.UnitTests
             bool isWin = service.CheckWin();
 
             Assert.AreEqual(true, isWin);
-            Assert.AreEqual(1, winEventCount);
+            Assert.AreEqual(0, winEventCount);
+            Assert.AreEqual(0, loseEventCount);
         }
 
         [Test]
@@ -53,6 +54,7 @@ namespace Model.Services.UnitTests
 
             Assert.AreEqual(false, isWin);
             Assert.AreEqual(0, winEventCount);
+            Assert.AreEqual(0, loseEventCount);
         }
 
         [Test]
@@ -67,6 +69,7 @@ namespace Model.Services.UnitTests
 
             Assert.AreEqual(false, isWin);
             Assert.AreEqual(0, winEventCount);
+            Assert.AreEqual(0, loseEventCount);
         }
 
         [Test]
@@ -80,7 +83,8 @@ namespace Model.Services.UnitTests
             bool isLose = service.CheckLose();
 
             Assert.AreEqual(true, isLose);
-            Assert.AreEqual(1, loseEventCount);
+            Assert.AreEqual(0, winEventCount);
+            Assert.AreEqual(0, loseEventCount);
         }
 
         [Test]
@@ -94,6 +98,7 @@ namespace Model.Services.UnitTests
             bool isLose = service.CheckLose();
 
             Assert.AreEqual(false, isLose);
+            Assert.AreEqual(0, winEventCount);
             Assert.AreEqual(0, loseEventCount);
         }
 
@@ -108,7 +113,28 @@ namespace Model.Services.UnitTests
             bool isLose = service.CheckLose();
 
             Assert.AreEqual(true, isLose);
+            Assert.AreEqual(0, winEventCount);
+            Assert.AreEqual(0, loseEventCount);
+        }
+
+        [Test]
+        public void RaiseLoseEvent_OneRestrictionCompleted_True()
+        {
+            var (level, service) = Setup();
+
+            service.RaiseLoseEvent();
+
             Assert.AreEqual(1, loseEventCount);
+        }
+
+        [Test]
+        public void RaiseWinEvent_OneRestrictionCompleted_True()
+        {
+            var (level, service) = Setup();
+
+            service.RaiseWinEvent();
+
+            Assert.AreEqual(1, winEventCount);
         }
 
         [Test]

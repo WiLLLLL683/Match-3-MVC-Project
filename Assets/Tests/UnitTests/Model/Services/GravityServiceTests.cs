@@ -17,7 +17,8 @@ namespace Model.Services.UnitTests
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
             var configProvider = Substitute.For<IConfigProvider>();
-            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
             var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             return (game.CurrentLevel.gameBoard, service);
