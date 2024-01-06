@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1611777742721509995}
   - component: {fileID: 9037463514958325609}
   m_Layer: 5
-  m_Name: Booster
+  m_Name: BoosterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 145, y: 145}
+  m_SizeDelta: {x: 72, y: 72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4633542665250583476
 MonoBehaviour:
@@ -140,19 +140,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1611777742782200555}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4633542665250583476}
-        m_TargetAssemblyTypeName: View.BoosterButtonView, GameAssembly
-        m_MethodName: Input_ActivateBooster
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1611777742782200557
 GameObject:
   m_ObjectHideFlags: 0

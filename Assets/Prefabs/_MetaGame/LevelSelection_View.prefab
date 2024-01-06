@@ -124,19 +124,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1288145271275700000}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3987342344708636450}
-        m_TargetAssemblyTypeName: View.LevelSelectionView, GameAssembly
-        m_MethodName: Input_StartSelected
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1288145271275699998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,19 +1420,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3696925756701095474}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3987342344708636450}
-        m_TargetAssemblyTypeName: View.LevelSelectionView, GameAssembly
-        m_MethodName: Input_SelectPrevious
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &3696925756503182277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,19 +1745,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3696925755410379522}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3987342344708636450}
-        m_TargetAssemblyTypeName: View.LevelSelectionView, GameAssembly
-        m_MethodName: Input_SelectNext
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &3696925756722556013
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1849,11 +1813,11 @@ MonoBehaviour:
   icon: {fileID: 3696925754886703980}
   nameText: {fileID: 3696925755543472130}
   completeMark: {fileID: 3696925754799721758}
-  newMark: {fileID: 3696925754775546292}
   lockedMark: {fileID: 3696925755188036395}
   lockedMarkAnimation: {fileID: 3603628151139275433}
   previousButton: {fileID: 3696925756430270031}
   nextButton: {fileID: 3696925756722556012}
+  startButton: {fileID: 1288145271177258310}
 --- !u!223 &3696925756734983330
 Canvas:
   m_ObjectHideFlags: 0

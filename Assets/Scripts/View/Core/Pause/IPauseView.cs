@@ -9,8 +9,5 @@ namespace View
 
         event Action OnShowInput;
         event Action OnHideInput;
-
-        void Input_Pause();
-        void Input_UnPause();
     }
 }

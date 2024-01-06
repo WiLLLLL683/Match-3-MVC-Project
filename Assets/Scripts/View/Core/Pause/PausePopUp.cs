@@ -1,16 +1,18 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace View
 {
     public class PausePopUp : MonoBehaviour, IPausePopUp
     {
         [SerializeField] private Canvas canvas;
+        [Header("Buttons")]
         [SerializeField] private ToggleView soundToggle;
         [SerializeField] private ToggleView vibrationToggle;
+        [SerializeField] private Button replayButton;
+        [SerializeField] private Button quitButton;
 
-        public event Action OnShow;
-        public event Action OnHide;
         public event Action<bool> OnSoundIsOn;
         public event Action<bool> OnVibrationIsOn;
         public event Action OnReplayInput;
@@ -22,23 +24,24 @@ namespace View
             vibrationToggle.Init(vibrationOnStart);
             canvas.enabled = true;
 
-            soundToggle.OnToggle += SwitchSound;
-            vibrationToggle.OnToggle += SwitchVibration;
-            OnShow?.Invoke();
+            soundToggle.OnToggle += Input_SwitchSound;
+            vibrationToggle.OnToggle += Input_SwitchVibration;
+            replayButton.onClick.AddListener(Input_Replay);
+            quitButton.onClick.AddListener(Input_Quit);
         }
         public virtual void Hide()
         {
             canvas.enabled = false;
 
-            soundToggle.OnToggle -= SwitchSound;
-            vibrationToggle.OnToggle -= SwitchVibration;
-            OnHide?.Invoke();
+            soundToggle.OnToggle -= Input_SwitchSound;
+            vibrationToggle.OnToggle -= Input_SwitchVibration;
+            replayButton.onClick.RemoveListener(Input_Replay);
+            quitButton.onClick.RemoveListener(Input_Quit);
         }
 
-        public void Input_Replay() => OnReplayInput?.Invoke();
-        public void Input_Quit() => OnQuitInput?.Invoke();
-
-        private void SwitchSound(bool isOn) => OnSoundIsOn?.Invoke(isOn);
-        private void SwitchVibration(bool isOn) => OnVibrationIsOn?.Invoke(isOn);
+        private void Input_Replay() => OnReplayInput?.Invoke();
+        private void Input_Quit() => OnQuitInput?.Invoke();
+        private void Input_SwitchSound(bool isOn) => OnSoundIsOn?.Invoke(isOn);
+        private void Input_SwitchVibration(bool isOn) => OnVibrationIsOn?.Invoke(isOn);
     }
 }

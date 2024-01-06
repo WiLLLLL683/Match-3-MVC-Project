@@ -16,8 +16,5 @@ namespace View
         void ShowCompleteMark();
         void HideAllMarks();
         void PlayLockedAnimation();
-        void Input_StartSelected();
-        void Input_SelectNext();
-        void Input_SelectPrevious();
     }
 }

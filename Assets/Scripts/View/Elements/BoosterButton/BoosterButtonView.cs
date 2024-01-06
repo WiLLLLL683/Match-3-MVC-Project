@@ -11,7 +11,7 @@ namespace View
     /// Может изменять иконку и текст с количеством бустеров, включать/выключать кнопку.
     /// Передает инпут активации бустера.
     /// </summary>
-    public class BoosterButtonView : MonoBehaviour, IBoosterButtonView, IBoosterButtonInput
+    public class BoosterButtonView : MonoBehaviour, IBoosterButtonView
     {
         public class Factory : PlaceholderFactory<BoosterButtonView> { }
 
@@ -25,8 +25,18 @@ namespace View
         {
             ChangeIcon(iconSprite);
             ChangeAmount(initialAmmount);
+            button.onClick.AddListener(Input_ActivateBooster);
         }
+
+        private void OnDestroy()
+        {
+            button.onClick.RemoveListener(Input_ActivateBooster);
+        }
+
+        public void EnableButton() => button.enabled = true;
+        public void DisableButton() => button.enabled = false;
         public void ChangeAmount(int boosterAmmount) => ammountText.text = boosterAmmount.ToString();
+
         public void ChangeIcon(Sprite iconSprite)
         {
             if (icon != null && iconSprite != null)
@@ -34,8 +44,7 @@ namespace View
                 icon.sprite = iconSprite;
             }
         }
-        public void EnableButton() => button.enabled = true;
-        public void DisableButton() => button.enabled = false;
-        public void Input_ActivateBooster() => OnActivate?.Invoke();
+
+        private void Input_ActivateBooster() => OnActivate?.Invoke();
     }
 }

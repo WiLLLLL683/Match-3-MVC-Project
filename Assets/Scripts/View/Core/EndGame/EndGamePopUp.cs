@@ -15,6 +15,7 @@ namespace View
         [SerializeField] private Canvas canvas;
         [SerializeField] private List<Image> starVisuals;
         [SerializeField] private TMP_Text scoreText;
+        [Header("Buttons")]
         [SerializeField] private Button nextLevelButton;
         [SerializeField] private Button replayButton;
         [SerializeField] private Button quitButton;
