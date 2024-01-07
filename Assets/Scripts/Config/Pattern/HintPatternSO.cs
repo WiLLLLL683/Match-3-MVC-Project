@@ -7,7 +7,7 @@ namespace Config
     /// <summary>
     /// Паттерн для нахождения подсказок для следующего хода
     /// </summary>
-    [CreateAssetMenu(fileName = "New HintPattern", menuName = "Config/HintPattern")]
+    [CreateAssetMenu(fileName = "New HintPattern", menuName = "Config/Pattern/HintPattern")]
     public class HintPatternSO : PatternSO
     {
         public Vector2Int cellToMove;

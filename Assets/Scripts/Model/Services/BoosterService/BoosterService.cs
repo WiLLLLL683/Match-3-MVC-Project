@@ -11,11 +11,18 @@ namespace Model.Services
     {
         private readonly BoosterInventory inventory;
         private readonly IBoosterFactory factory;
+        private readonly IBlockDestroyService destroyService;
+        private readonly IValidationService validationService;
 
-        public BoosterService(Game game, IBoosterFactory factory)
+        public BoosterService(Game game,
+            IBoosterFactory factory,
+            IBlockDestroyService destroyService,
+            IValidationService validationService)
         {
             this.inventory = game.BoosterInventory;
             this.factory = factory;
+            this.destroyService = destroyService;
+            this.validationService = validationService;
         }
 
         public void AddBooster(int id, int ammount)
@@ -49,14 +56,18 @@ namespace Model.Services
             }
         }
 
-        public bool UseBooster(int id)
+        public bool UseBooster(int id, Vector2Int startPosition)
         {
             if (!IsAvaliable(id))
                 return false;
 
-            inventory.boosters[id]--;
             IBooster booster = factory.Create(id);
-            booster.Execute();
+            bool success = booster.Execute(startPosition, destroyService, validationService);
+
+            if (!success)
+                return false;
+
+            inventory.boosters[id]--;
             return true;
         }
 

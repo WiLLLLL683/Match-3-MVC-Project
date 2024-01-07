@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Config
 {
-    [CreateAssetMenu(fileName = "NewBlockType", menuName = "Config/BlockType")]
+    [CreateAssetMenu(fileName = "NewBlockType", menuName = "Config/Block/BlockType")]
     public class BlockTypeSO : ACounterTargetSO
     {
         public ParticleSystem destroyEffect;

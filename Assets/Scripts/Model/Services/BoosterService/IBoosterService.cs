@@ -1,4 +1,6 @@
-﻿namespace Model.Services
+﻿using UnityEngine;
+
+namespace Model.Services
 {
     /// <summary>
     /// Сервис для работы с бустерами.
@@ -19,7 +21,7 @@
         /// Использовать бустер определенного типа и забрать 1 штуку.
         /// Возвращает успех операции.
         /// </summary>
-        bool UseBooster(int id);
+        bool UseBooster(int id, Vector2Int startPosition);
 
         /// <summary>
         /// Получить количество бустеров определенного типа.

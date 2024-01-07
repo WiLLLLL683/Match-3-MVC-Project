@@ -21,13 +21,16 @@ namespace Model.Services.UnitTests
             //model
             var game = TestLevelFactory.CreateGame(1,1);
             game.BoosterInventory = new();
-            //factory
+            //dependencies
             var factory = Substitute.For<IBoosterFactory>();
             var booster1 = Substitute.For<IBooster>();
             factory.Create(BOOSTER_1).Returns(booster1);
-            booster1.When(x => x.Execute()).Do(_ => boosterUsedCount++);
+            booster1.When(x => x.Execute(Arg.Any<Vector2Int>(), Arg.Any<IBlockDestroyService>(), Arg.Any<IValidationService>()))
+                .Do(_ => boosterUsedCount++);
+            var validationService = Substitute.For<IValidationService>();
+            var destroyService = Substitute.For<IBlockDestroyService>();
             //service
-            var service = new BoosterService(game, factory);
+            var service = new BoosterService(game, factory, destroyService, validationService);
             return (service, game);
         }
 
@@ -122,7 +125,7 @@ namespace Model.Services.UnitTests
             var (service, game) = Setup();
             game.BoosterInventory.boosters.Add(BOOSTER_1, 99);
 
-            service.UseBooster(BOOSTER_1);
+            service.UseBooster(BOOSTER_1, new(0, 0));
 
             Assert.AreEqual(1, boosterUsedCount);
         }
@@ -133,7 +136,7 @@ namespace Model.Services.UnitTests
             var (service, game) = Setup();
             Assert.IsFalse(game.BoosterInventory.boosters.ContainsKey(BOOSTER_1));
 
-            service.UseBooster(BOOSTER_1);
+            service.UseBooster(BOOSTER_1, new(0, 0));
 
             LogAssert.Expect(LogType.Warning, "You have no booster of this type");
             Assert.AreEqual(0, boosterUsedCount);
@@ -145,7 +148,7 @@ namespace Model.Services.UnitTests
             var (service, game) = Setup();
             game.BoosterInventory.boosters.Add(BOOSTER_1, 0);
 
-            service.UseBooster(BOOSTER_1);
+            service.UseBooster(BOOSTER_1, new(0, 0));
 
             LogAssert.Expect(LogType.Warning, "You have no booster of this type");
             Assert.AreEqual(0, boosterUsedCount);
