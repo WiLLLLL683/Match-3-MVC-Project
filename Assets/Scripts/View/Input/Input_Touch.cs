@@ -18,6 +18,7 @@ namespace View
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
 
+        public event Action<Vector2Int> OnInputSelect;
         public event Action<Vector2Int, Directions> OnInputMove;
         public event Action<Vector2Int> OnInputActivate;
 
@@ -31,6 +32,7 @@ namespace View
         private Vector2 deltaWorldPositionClamped;
         private Directions swipeDirection;
         private float timer;
+        private bool isMoveInputEnabled;
 
         [Inject]
         public void Construct(IBlocksPresenter blocksPresenter)
@@ -52,6 +54,9 @@ namespace View
                 ResetTimer();
             }
 
+            if (!isMoveInputEnabled)
+                return;
+
             UpdateTimer();
 
             if (selectedBlock == null)
@@ -61,6 +66,7 @@ namespace View
             {
                 GetDeltaWorldPosition(touch);
                 GetSwipeDirection();
+
                 if(TryGetOppositeBlock())
                     DragBlocks();
                 else
@@ -78,16 +84,16 @@ namespace View
             }
         }
 
-        public void Enable()
+        public void EnableMoveInput()
         {
-            enabled = true;
-            Debug.Log($"{this.GetType().Name} enabled");
+            isMoveInputEnabled = true;
+            Debug.Log("Move Input enabled");
         }
 
-        public void Disable()
+        public void DisableMoveInput()
         {
-            enabled = false;
-            Debug.Log($"{this.GetType().Name} disabled");
+            isMoveInputEnabled = false;
+            Debug.Log("Move Input disabled");
         }
 
         private void ResetTimer() => timer = tapDelay;
@@ -97,13 +103,15 @@ namespace View
         {
             Vector2 worldPoint = mainCamera.ScreenToWorldPoint(touch.position);
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+
             if (hit.collider == null)
                 return false;
-            if (!hit.collider.TryGetComponent<IBlockView>(out IBlockView block))
+            if (!hit.collider.TryGetComponent(out IBlockView block))
                 return false;
 
             firstTouchWorldPosition = worldPoint;
             selectedBlock = block;
+            OnInputSelect?.Invoke(selectedBlock.ModelPosition);
             return true;
         }
 

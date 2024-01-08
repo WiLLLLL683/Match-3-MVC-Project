@@ -55,13 +55,13 @@ namespace Presenter
 
         private void ShowPausePopUp()
         {
-            input.Disable();
+            input.DisableMoveInput();
             view.PausePopUp.Show(model.PlayerSettings.IsSoundOn, model.PlayerSettings.IsVibrationOn);
         }
 
         private void HidePausePopUp()
         {
-            input.Enable();
+            input.EnableMoveInput();
             view.PausePopUp.Hide();
         }
 

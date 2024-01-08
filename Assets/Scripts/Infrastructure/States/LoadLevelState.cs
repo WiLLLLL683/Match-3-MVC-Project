@@ -124,7 +124,7 @@ namespace Infrastructure
 
         private void EnablePresenters()
         {
-            core.input.Enable();
+            core.input.EnableMoveInput();
             core.hud.Enable();
             core.cells.Enable();
             core.blocks.Enable();

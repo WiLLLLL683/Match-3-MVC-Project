@@ -93,7 +93,7 @@ namespace Presenter
 
         private void ShowHintPopUp(IBoosterButtonView button)
         {
-            input.Disable();
+            input.DisableMoveInput();
             selectedBoosterId = button.Id;
             BoosterSO config = configProvider.GetBoosterSO(selectedBoosterId);
             view.HintPopUp.Show(config.Icon, config.Name, config.Hint);
@@ -102,6 +102,7 @@ namespace Presenter
             {
                 case BoosterInputType.GameBoard:
                     view.HintPopUp.ShowOverlayWithGameBoard();
+                    input.OnInputSelect += ActivateBooster;
                     break;
                 case BoosterInputType.Button:
                     view.HintPopUp.ShowOverlayWithButton();
@@ -114,7 +115,8 @@ namespace Presenter
 
         private void HideHintPopUp()
         {
-            input.Enable();
+            input.OnInputSelect -= ActivateBooster;
+            input.EnableMoveInput();
             view.HintPopUp.Hide();
         }
 

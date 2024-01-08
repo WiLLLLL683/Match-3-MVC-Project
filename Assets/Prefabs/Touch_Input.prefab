@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80828e68b6a30b41b9346a34e3096a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSwipeDistance: 0.3
+  minSwipeDistance: 0.5
   maxSwipeDistance: 1
   tapDelay: 0.2

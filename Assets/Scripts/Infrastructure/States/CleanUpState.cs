@@ -46,7 +46,7 @@ namespace Infrastructure
 
         private void DisablePresenters()
         {
-            core.input.Disable();
+            core.input.DisableMoveInput();
             core.hud.Disable();
             core.cells.Disable();
             core.blocks.Disable();

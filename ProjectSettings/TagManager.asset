@@ -53,6 +53,9 @@ TagManager:
   - name: Cells
     uniqueID: 3113370815
     locked: 0
+  - name: FX
+    uniqueID: 1766635265
+    locked: 0
   - name: Blocks
     uniqueID: 1667779401
     locked: 0

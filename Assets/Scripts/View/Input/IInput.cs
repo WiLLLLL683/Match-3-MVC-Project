@@ -10,10 +10,11 @@ namespace View
     /// </summary>
     public interface IInput
     {
+        event Action<Vector2Int> OnInputSelect;
         event Action<Vector2Int> OnInputActivate;
         event Action<Vector2Int, Directions> OnInputMove;
 
-        public abstract void Enable();
-        public abstract void Disable();
+        public abstract void EnableMoveInput();
+        public abstract void DisableMoveInput();
     }
 }

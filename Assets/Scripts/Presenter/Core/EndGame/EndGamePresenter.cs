@@ -63,7 +63,7 @@ namespace Presenter
 
         public void ShowCompletePopUp()
         {
-            input.Disable();
+            input.DisableMoveInput();
 
             view.DefeatPopUp.Hide();
             view.CompletePopUp.Show(4221, 3); //TODO брать счет из модели
@@ -71,7 +71,7 @@ namespace Presenter
 
         public void ShowDefeatPopUp()
         {
-            input.Disable();
+            input.DisableMoveInput();
 
             view.CompletePopUp.Hide();
             view.DefeatPopUp.Show(4221, 3); //TODO брать счет из модели
