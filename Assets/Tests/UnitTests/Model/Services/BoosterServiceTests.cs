@@ -25,7 +25,7 @@ namespace Model.Services.UnitTests
             var factory = Substitute.For<IBoosterFactory>();
             var booster1 = Substitute.For<IBooster>();
             factory.Create(BOOSTER_1).Returns(booster1);
-            booster1.When(x => x.Execute(Arg.Any<Vector2Int>(), Arg.Any<IBlockDestroyService>(), Arg.Any<IValidationService>()))
+            booster1.When(x => x.Execute(Arg.Any<Vector2Int>(), Arg.Any<GameBoard>(), Arg.Any<IValidationService>()))
                 .Do(_ => boosterUsedCount++);
             var validationService = Substitute.For<IValidationService>();
             var destroyService = Substitute.For<IBlockDestroyService>();

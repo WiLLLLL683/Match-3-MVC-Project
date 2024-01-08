@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Model.Objects;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Services
@@ -25,9 +27,9 @@ namespace Model.Services
 
         /// <summary>
         /// Использовать бустер определенного типа и забрать 1 штуку.
-        /// Возвращает успех операции.
+        /// Возвращает клетки для уничтожения блоков в них.
         /// </summary>
-        bool UseBooster(int id, Vector2Int startPosition);
+        HashSet<Cell> UseBooster(int id, Vector2Int startPosition);
 
         /// <summary>
         /// Получить количество бустеров определенного типа.

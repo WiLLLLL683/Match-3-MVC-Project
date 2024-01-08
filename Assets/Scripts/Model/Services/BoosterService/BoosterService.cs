@@ -11,17 +11,19 @@ namespace Model.Services
     {
         public event Action<int, int> OnAmountChanged;
 
-        private readonly BoosterInventory inventory;
+        private readonly Game model;
         private readonly IBoosterFactory factory;
         private readonly IBlockDestroyService destroyService;
         private readonly IValidationService validationService;
+
+        private Dictionary<int, int> Boosters => model.BoosterInventory.boosters;
 
         public BoosterService(Game game,
             IBoosterFactory factory,
             IBlockDestroyService destroyService,
             IValidationService validationService)
         {
-            this.inventory = game.BoosterInventory;
+            this.model = game;
             this.factory = factory;
             this.destroyService = destroyService;
             this.validationService = validationService;
@@ -32,16 +34,16 @@ namespace Model.Services
             if (!IsValidAmount(ammount))
                 return;
 
-            if (inventory.boosters.ContainsKey(id))
+            if (Boosters.ContainsKey(id))
             {
-                inventory.boosters[id] += ammount;
+                Boosters[id] += ammount;
             }
             else
             {
-                inventory.boosters.Add(id, ammount);
+                Boosters.Add(id, ammount);
             }
 
-            OnAmountChanged?.Invoke(id, inventory.boosters[id]);
+            OnAmountChanged?.Invoke(id, Boosters[id]);
         }
 
         public void RemoveBooster(int id, int ammount)
@@ -52,25 +54,22 @@ namespace Model.Services
             if (!IsAvaliable(id))
                 return;
 
-            inventory.boosters[id] -= ammount;
-            inventory.boosters[id] = Mathf.Max(0, inventory.boosters[id]);
+            Boosters[id] -= ammount;
+            Boosters[id] = Mathf.Max(0, Boosters[id]);
 
-            OnAmountChanged?.Invoke(id, inventory.boosters[id]);
+            OnAmountChanged?.Invoke(id, Boosters[id]);
         }
 
-        public bool UseBooster(int id, Vector2Int startPosition)
+        public HashSet<Cell> UseBooster(int id, Vector2Int startPosition)
         {
             if (!IsAvaliable(id))
-                return false;
+                return new();
 
             IBooster booster = factory.Create(id);
-            bool success = booster.Execute(startPosition, destroyService, validationService);
-
-            if (!success)
-                return false;
+            HashSet<Cell> cells = booster.Execute(startPosition, model.CurrentLevel.gameBoard, validationService);
 
             RemoveBooster(id, 1);
-            return true;
+            return cells;
         }
 
         public int GetBoosterAmount(int id)
@@ -78,12 +77,12 @@ namespace Model.Services
             if (!IsAvaliable(id))
                 return 0;
 
-            return inventory.boosters[id];
+            return Boosters[id];
         }
 
         private bool IsAvaliable(int id)
         {
-            bool isAvaliable = inventory.boosters.ContainsKey(id) && inventory.boosters[id] > 0;
+            bool isAvaliable = Boosters.ContainsKey(id) && Boosters[id] > 0;
 
             if (!isAvaliable)
             {

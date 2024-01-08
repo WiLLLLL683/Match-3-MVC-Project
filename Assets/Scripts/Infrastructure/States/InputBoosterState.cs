@@ -36,8 +36,8 @@ namespace Infrastructure
 
         public async UniTask OnEnter((int id, Vector2Int startPosition) payLoad, CancellationToken token)
         {
-            bool success = boosterService.UseBooster(payLoad.id, payLoad.startPosition);
-            stateMachine.EnterState<SpawnState>();
+            HashSet<Cell> cells = boosterService.UseBooster(payLoad.id, payLoad.startPosition);
+            stateMachine.EnterState<DestroyState, HashSet<Cell>>(cells);
         }
 
         public async UniTask OnExit(CancellationToken token)
