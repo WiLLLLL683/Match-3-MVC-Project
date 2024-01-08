@@ -61,13 +61,10 @@ namespace CompositionRoot
         private void BindBoosters()
         {
             Container.Bind<IBoostersView>().FromInstance(boostersView).AsSingle();
-            Container.Bind<IBoosterInventoryPresenter>().To<BoosterInventoryPresenter>().AsSingle();
+            Container.Bind<IBoostersPresenter>().To<BoostersPresenter>().AsSingle();
 
-            //factories //TODO заменить на свою фабрику и префаб переместить в ConfigProvider
-            Container.BindFactory<BoosterPresenter, BoosterPresenter.Factory>();
-            Container.BindFactory<BoosterButtonView, BoosterButtonView.Factory>()
-                .FromComponentInNewPrefab(boosterPrefab)
-                .UnderTransform(boostersView.BoosterButtonsParent);
+            //factories
+            Container.Bind<IBoosterButtonFactory>().To<BoosterButtonFactory>().AsSingle();
         }
 
         private void BindPause()

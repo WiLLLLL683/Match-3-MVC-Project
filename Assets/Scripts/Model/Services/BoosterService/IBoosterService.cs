@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Model.Services
 {
@@ -7,6 +8,11 @@ namespace Model.Services
     /// </summary>
     public interface IBoosterService
     {
+        /// <summary>
+        /// Id, Amount
+        /// </summary>
+        event Action<int, int> OnAmountChanged;
+
         /// <summary>
         /// Добавить бустер определенного типа.
         /// </summary>

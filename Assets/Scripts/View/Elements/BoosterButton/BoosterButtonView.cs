@@ -13,18 +13,20 @@ namespace View
     /// </summary>
     public class BoosterButtonView : MonoBehaviour, IBoosterButtonView
     {
-        public class Factory : PlaceholderFactory<BoosterButtonView> { }
-
         [SerializeField] private TMP_Text ammountText;
         [SerializeField] private Image icon;
         [SerializeField] private Button button;
 
-        public event Action OnActivate;
+        public int Id { get; private set; }
 
-        public void Init(Sprite iconSprite, int initialAmmount)
+        public event Action<IBoosterButtonView> OnActivate;
+
+        public void Init(int id, Sprite iconSprite, int initialAmmount, bool isEnabled)
         {
+            this.Id = id;
             ChangeIcon(iconSprite);
             ChangeAmount(initialAmmount);
+            EnableButton(isEnabled);
             button.onClick.AddListener(Input_ActivateBooster);
         }
 
@@ -33,8 +35,7 @@ namespace View
             button.onClick.RemoveListener(Input_ActivateBooster);
         }
 
-        public void EnableButton() => button.enabled = true;
-        public void DisableButton() => button.enabled = false;
+        public void EnableButton(bool isEnabled) => button.interactable = isEnabled;
         public void ChangeAmount(int boosterAmmount) => ammountText.text = boosterAmmount.ToString();
 
         public void ChangeIcon(Sprite iconSprite)
@@ -45,6 +46,6 @@ namespace View
             }
         }
 
-        private void Input_ActivateBooster() => OnActivate?.Invoke();
+        private void Input_ActivateBooster() => OnActivate?.Invoke(this);
     }
 }

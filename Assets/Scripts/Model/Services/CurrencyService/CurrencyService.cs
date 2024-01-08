@@ -12,7 +12,7 @@ namespace Model.Services
 
         private readonly CurrencyInventory inventory;
 
-        public CurrencyService(CurrencyInventory inventory) => this.inventory = inventory;
+        public CurrencyService(Game model) => this.inventory = model.CurrencyInventory;
 
         public void AddCurrency(CurrencyType type, int ammount)
         {

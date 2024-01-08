@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: Hammer
   m_EditorClassIdentifier: 
   Name: Hammer
-  Hint: 
+  Hint: Select Block to destroy.
   Icon: {fileID: 0}
+  InitialAmount: 2
+  InputType: 0
   booster:
-    rid: -2
-  InitialAmount: 0
+    rid: 80980307928940544
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 80980307928940544
+      type: {class: DestroyOneBlockBooster, ns: Model.Objects, asm: GameAssembly}
+      data:
+        id: 0

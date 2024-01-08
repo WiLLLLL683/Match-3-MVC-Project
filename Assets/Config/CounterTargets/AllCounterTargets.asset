@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef012eea68a0202499f924a35008c2cf, type: 3}
-  m_Name: CounterTargetSet
+  m_Name: AllCounterTargets
   m_EditorClassIdentifier: 
   turnSO: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
   targets:

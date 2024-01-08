@@ -17,7 +17,7 @@ namespace Infrastructure
         public IHudPresenter hud;
         public ICellsPresenter cells;
         public IBlocksPresenter blocks;
-        public IBoosterInventoryPresenter boosterInventory;
+        public IBoostersPresenter boosters;
         public IPausePresenter pause;
         public IEndGamePresenter endGame;
 
@@ -28,7 +28,7 @@ namespace Infrastructure
             IHudPresenter hud,
             ICellsPresenter cells,
             IBlocksPresenter blocks,
-            IBoosterInventoryPresenter boosterInventory,
+            IBoostersPresenter boosters,
             IPausePresenter pause,
             IEndGamePresenter endGame)
         {
@@ -38,7 +38,7 @@ namespace Infrastructure
             this.hud = hud;
             this.cells = cells;
             this.blocks = blocks;
-            this.boosterInventory = boosterInventory;
+            this.boosters = boosters;
             this.pause = pause;
             this.endGame = endGame;
         }

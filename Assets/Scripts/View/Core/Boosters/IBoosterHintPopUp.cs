@@ -5,7 +5,12 @@ namespace View
 {
     public interface IBoosterHintPopUp
     {
-        void Show(Sprite icon, string name, string hint, bool showGameBoard = true);
+        event Action<Vector2Int> OnInputActivate;
+        event Action OnInputHide;
+
+        void ShowOverlayWithButton();
+        void ShowOverlayWithGameBoard();
+        void Show(Sprite icon, string name, string hint);
         void Hide();
     }
 }

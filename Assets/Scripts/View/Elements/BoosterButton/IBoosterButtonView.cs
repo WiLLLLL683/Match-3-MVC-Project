@@ -8,14 +8,14 @@ namespace View
     /// </summary>
     public interface IBoosterButtonView
     {
+        int Id { get; }
         public GameObject gameObject { get; }
 
-        public event Action OnActivate;
+        public event Action<IBoosterButtonView> OnActivate;
 
-        public void Init(Sprite iconSprite, int initialNumber);
+        public void Init(int id, Sprite iconSprite, int initialNumber, bool isEnabled);
         public void ChangeAmount(int boosterAmmount);
         public void ChangeIcon(Sprite iconSprite);
-        public void DisableButton();
-        public void EnableButton();
+        public void EnableButton(bool isEnabled);
     }
 }

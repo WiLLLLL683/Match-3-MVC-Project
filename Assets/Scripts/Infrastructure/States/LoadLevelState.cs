@@ -128,7 +128,7 @@ namespace Infrastructure
             core.hud.Enable();
             core.cells.Enable();
             core.blocks.Enable();
-            core.boosterInventory.Enable();
+            core.boosters.Enable();
             core.pause.Enable();
             core.endGame.Enable();
         }

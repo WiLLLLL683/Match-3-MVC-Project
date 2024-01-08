@@ -14,33 +14,30 @@ namespace Infrastructure
     /// Стейт кор-игры для изменения модели в ответ на инпут(использование бустера)
     /// PayLoad(IBooster) - выбранный бустер
     /// </summary>
-    public class InputBoosterState : IPayLoadedState<IBooster>
+    public class InputBoosterState : IPayLoadedState<(int id, Vector2Int startPosition)>
     {
         private IStateMachine stateMachine;
-        private IBoosterService boosterInventory;
+        private IBoosterService boosterService;
         private readonly IWinLoseService winLoseService;
         private readonly ICounterTarget turnTarget;
 
         private IBooster booster;
 
         public InputBoosterState(IStateMachine stateMachine,
-            IBoosterService boosterInventory,
+            IBoosterService boosterService,
             IWinLoseService winLoseService,
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
-            this.boosterInventory = boosterInventory;
+            this.boosterService = boosterService;
             this.winLoseService = winLoseService;
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public async UniTask OnEnter(IBooster payLoad, CancellationToken token)
+        public async UniTask OnEnter((int id, Vector2Int startPosition) payLoad, CancellationToken token)
         {
-            //TODO использовать бустер
-            HashSet<Cell> matches = null;
-
-            winLoseService.DecreaseCountIfPossible(turnTarget);
-            stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
+            bool success = boosterService.UseBooster(payLoad.id, payLoad.startPosition);
+            stateMachine.EnterState<SpawnState>();
         }
 
         public async UniTask OnExit(CancellationToken token)

@@ -7,6 +7,8 @@ namespace Config
 {
     public interface IConfigProvider
     {
+        DefaultsConfig Defaults { get; }
+
         BoosterSO GetBoosterSO(int id);
 
         PrefabConfig Prefabs { get; }

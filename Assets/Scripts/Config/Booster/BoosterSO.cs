@@ -14,6 +14,7 @@ namespace Config
         public string Hint;
         public Sprite Icon;
         public int InitialAmount;
+        public BoosterInputType InputType;
         [SerializeReference, SubclassSelector] public IBooster booster;
     }
 }

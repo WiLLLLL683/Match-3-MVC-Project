@@ -26,10 +26,6 @@ namespace CompositionRoot
         private void BindModel()
         {
             Container.Bind<Game>().AsSingle();
-            //TODO убрать?
-            Container.Bind<LevelProgress>().AsSingle();
-            Container.Bind<PlayerSettings>().AsSingle();
-            Container.Bind<CurrencyInventory>().AsSingle();
         }
 
         private void BindFactories()

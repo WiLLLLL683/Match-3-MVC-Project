@@ -46,6 +46,9 @@ namespace Infrastructure
 
         private void DestroyBlocks(HashSet<Cell> matches)
         {
+            if (matches == null)
+                return;
+
             foreach (Cell match in matches)
             {
                 winLoseService.DecreaseCountIfPossible(match.Block.Type);

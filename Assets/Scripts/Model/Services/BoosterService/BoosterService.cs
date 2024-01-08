@@ -9,6 +9,8 @@ namespace Model.Services
     [Serializable]
     public class BoosterService : IBoosterService
     {
+        public event Action<int, int> OnAmountChanged;
+
         private readonly BoosterInventory inventory;
         private readonly IBoosterFactory factory;
         private readonly IBlockDestroyService destroyService;
@@ -38,6 +40,8 @@ namespace Model.Services
             {
                 inventory.boosters.Add(id, ammount);
             }
+
+            OnAmountChanged?.Invoke(id, inventory.boosters[id]);
         }
 
         public void RemoveBooster(int id, int ammount)
@@ -49,11 +53,9 @@ namespace Model.Services
                 return;
 
             inventory.boosters[id] -= ammount;
+            inventory.boosters[id] = Mathf.Max(0, inventory.boosters[id]);
 
-            if (inventory.boosters[id] <= 0)
-            {
-                inventory.boosters.Remove(id);
-            }
+            OnAmountChanged?.Invoke(id, inventory.boosters[id]);
         }
 
         public bool UseBooster(int id, Vector2Int startPosition)
@@ -67,7 +69,7 @@ namespace Model.Services
             if (!success)
                 return false;
 
-            inventory.boosters[id]--;
+            RemoveBooster(id, 1);
             return true;
         }
 

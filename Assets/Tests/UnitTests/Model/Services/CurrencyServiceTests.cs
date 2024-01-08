@@ -83,7 +83,7 @@ namespace Model.Services.UnitTests
         public void TakeCurrency_NoCurrencyOfType_GoldNotRemoved()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyService service = new(new CurrencyInventory());
+            CurrencyService service = new(new Game());
 
             service.SpendCurrency(type, 10);
 
@@ -107,7 +107,7 @@ namespace Model.Services.UnitTests
         public void GetAmount_NoCurrencyOfType_Zero()
         {
             CurrencyType type = CurrencyType.Gold;
-            CurrencyService service = new(new CurrencyInventory());
+            CurrencyService service = new(new Game());
 
             int ammount = service.GetAmount(type);
 

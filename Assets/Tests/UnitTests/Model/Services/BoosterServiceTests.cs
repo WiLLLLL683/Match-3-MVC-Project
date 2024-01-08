@@ -91,8 +91,8 @@ namespace Model.Services.UnitTests
 
             service.RemoveBooster(BOOSTER_1, 1111);
 
-            Assert.IsFalse(game.BoosterInventory.boosters.ContainsKey(BOOSTER_1));
-            Assert.AreEqual(0, service.GetBoosterAmount(BOOSTER_1));
+            Assert.IsTrue(game.BoosterInventory.boosters.ContainsKey(BOOSTER_1));
+            Assert.AreEqual(0, game.BoosterInventory.boosters[BOOSTER_1]);
         }
 
         [Test]

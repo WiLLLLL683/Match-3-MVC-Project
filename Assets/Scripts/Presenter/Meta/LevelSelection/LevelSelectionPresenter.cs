@@ -20,12 +20,12 @@ namespace Presenter
         private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
 
-        public LevelSelectionPresenter(LevelProgress model,
+        public LevelSelectionPresenter(Game model,
             ILevelSelectionView view,
             IStateMachine stateMachine,
             IConfigProvider configProvider)
         {
-            this.model = model;
+            this.model = model.LevelProgress;
             this.view = view;
             this.stateMachine = stateMachine;
             this.configProvider = configProvider;

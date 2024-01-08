@@ -50,7 +50,7 @@ namespace Infrastructure
             core.hud.Disable();
             core.cells.Disable();
             core.blocks.Disable();
-            core.boosterInventory.Disable();
+            core.boosters.Disable();
             core.pause.Disable();
             core.endGame.Disable();
         }
