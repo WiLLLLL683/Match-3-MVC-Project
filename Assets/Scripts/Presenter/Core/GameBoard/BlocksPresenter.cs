@@ -26,6 +26,7 @@ namespace Presenter
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly IBlockMoveService moveService;
         private readonly IStateMachine stateMachine;
+        private readonly IInput input;
 
         private readonly Dictionary<Block, IBlockView> blocks = new();
 
@@ -39,7 +40,8 @@ namespace Presenter
             IBlockDestroyService destroyService,
             IBlockChangeTypeService changeTypeService,
             IBlockMoveService moveService,
-            IStateMachine stateMachine)
+            IStateMachine stateMachine,
+            IInput input)
         {
             this.model = model;
             this.view = view;
@@ -50,6 +52,7 @@ namespace Presenter
             this.changeTypeService = changeTypeService;
             this.moveService = moveService;
             this.stateMachine = stateMachine;
+            this.input = input;
         }
 
         public void Enable()
@@ -58,22 +61,24 @@ namespace Presenter
             SpawnAll();
             CenterGameBoard();
 
-            spawnService.OnBlockSpawn += Spawn;
-            destroyService.OnDestroy += Destroy;
-            moveService.OnPositionChange += SyncPosition;
-            changeTypeService.OnTypeChange += ChangeType;
+            input.OnInputMove += MoveModel;
+            input.OnInputActivate += ActivateModel;
+            spawnService.OnBlockSpawn += SpawnView;
+            destroyService.OnDestroy += DestroyView;
+            moveService.OnPositionChange += SetViewPosition;
+            changeTypeService.OnTypeChange += SetViewType;
 
             Debug.Log($"{this} enabled");
         }
 
         public void Disable()
         {
-            ClearAll();
-
-            spawnService.OnBlockSpawn -= Spawn;
-            destroyService.OnDestroy -= Destroy;
-            moveService.OnPositionChange -= SyncPosition;
-            changeTypeService.OnTypeChange -= ChangeType;
+            input.OnInputMove -= MoveModel;
+            input.OnInputActivate -= ActivateModel;
+            spawnService.OnBlockSpawn -= SpawnView;
+            destroyService.OnDestroy -= DestroyView;
+            moveService.OnPositionChange -= SetViewPosition;
+            changeTypeService.OnTypeChange -= SetViewType;
 
             Debug.Log($"{this} disabled");
         }
@@ -87,28 +92,13 @@ namespace Presenter
             return blocks[blockModel];
         }
 
-        public void InputMove(Vector2Int position, Directions direction)
-        {
-            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((position, direction));
-        }
-
-        public void InputActivate(Vector2Int position)
-        {
-            IBlockView view = GetBlockView(position);
-            if (view == null)
-                return;
-
-            view.PlayClickAnimation();
-            stateMachine.EnterState<InputActivateBlockState, Vector2Int>(position);
-        }
-
         private void SpawnAll()
         {
             ClearAll();
 
             for (int i = 0; i < gameBoard.Blocks.Count; i++)
             {
-                Spawn(gameBoard.Blocks[i]);
+                SpawnView(gameBoard.Blocks[i]);
             }
         }
 
@@ -116,7 +106,7 @@ namespace Presenter
         {
             for (int i = 0; i < gameBoard.Blocks.Count; i++)
             {
-                Destroy(gameBoard.Blocks[i]);
+                DestroyView(gameBoard.Blocks[i]);
             }
 
             foreach (Transform block in view.BlocksParent)
@@ -127,44 +117,50 @@ namespace Presenter
             blocks.Clear();
         }
 
-        private void Spawn(Block model)
+        private void MoveModel(Vector2Int position, Directions direction) =>
+            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((position, direction));
+
+        private void ActivateModel(Vector2Int position)
+        {
+            IBlockView blockView = GetBlockView(position);
+            blockView.PlayClickAnimation();
+            stateMachine.EnterState<InputActivateBlockState, Vector2Int>(blockView.ModelPosition);
+        }
+
+        private void SpawnView(Block model)
         {
             IBlockView view = blockViewFactory.Create(model);
             blocks.Add(model, view);
-            view.OnInputMove += InputMove;
-            view.OnInputActivate += InputActivate;
         }
 
-        private void Destroy(Block model)
+        private void DestroyView(Block model)
         {
             if (!blocks.ContainsKey(model))
                 return;
 
             IBlockView view = blocks[model];
             view.PlayDestroyEffect();
-            view.OnInputMove -= InputMove;
-            view.OnInputActivate -= InputActivate;
             GameObject.Destroy(view.gameObject);
             blocks.Remove(model);
         }
 
-        private void SyncPosition(Block model)
+        private void SetViewPosition(Block model)
         {
             if (model == null || !blocks.ContainsKey(model))
                 return;
 
             IBlockView view = blocks[model];
-            view.ChangeModelPosition(model.Position);
+            view.SetModelPosition(model.Position);
         }
 
-        private void ChangeType(Block model)
+        private void SetViewType(Block model)
         {
             if (!blocks.ContainsKey(model))
                 return;
 
             IBlockView view = blocks[model];
             BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
-            view.ChangeType(config.icon, config.destroyEffect);
+            view.SetType(config.icon, config.destroyEffect);
         }
 
         private void CenterGameBoard()

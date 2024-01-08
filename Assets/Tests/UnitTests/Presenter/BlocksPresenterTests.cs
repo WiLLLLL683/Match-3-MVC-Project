@@ -34,6 +34,7 @@ namespace Presenter.UnitTests
             public IBlockMoveService moveService;
             public IBlockChangeTypeService changeTypeService;
             public IBlockView blockView;
+            public IInput input;
         }
 
         private SetupArgs Setup()
@@ -61,8 +62,8 @@ namespace Presenter.UnitTests
             blockViewFactory.Create(Arg.Any<Block>()).Returns(blockView);
             blockViewFactory.When(x => x.Create(Arg.Any<Block>())).Do(x => blockSpawnedCount++);
             blockView.When(x => x.PlayDestroyEffect()).Do(x => blockDestroyedCount++);
-            blockView.When(x => x.ChangeModelPosition(Arg.Any<Vector2Int>())).Do(x => blockChangedPositionCount++);
-            blockView.When(x => x.ChangeType(Arg.Any<Sprite>(), Arg.Any<ParticleSystem>())).Do(x => blockChangedTypeCount++);
+            blockView.When(x => x.SetModelPosition(Arg.Any<Vector2Int>())).Do(x => blockChangedPositionCount++);
+            blockView.When(x => x.SetType(Arg.Any<Sprite>(), Arg.Any<ParticleSystem>())).Do(x => blockChangedTypeCount++);
 
             //stateMachine
             var stateMachine = Substitute.For<IStateMachine>();
@@ -78,7 +79,8 @@ namespace Presenter.UnitTests
             var destroyService = Substitute.For<IBlockDestroyService>();
             var changeTypeService = Substitute.For<IBlockChangeTypeService>();
             var moveService = Substitute.For<IBlockMoveService>();
-            var presenter = new BlocksPresenter(model, view, blockViewFactory, configProvider, spawnService, destroyService, changeTypeService, moveService, stateMachine);
+            var input = Substitute.For<IInput>();
+            var presenter = new BlocksPresenter(model, view, blockViewFactory, configProvider, spawnService, destroyService, changeTypeService, moveService, stateMachine, input);
 
             return new SetupArgs()
             {
@@ -88,7 +90,8 @@ namespace Presenter.UnitTests
                 destroyService = destroyService,
                 moveService = moveService,
                 changeTypeService = changeTypeService,
-                blockView = blockView
+                blockView = blockView,
+                input = input
             };
         }
 
@@ -159,7 +162,7 @@ namespace Presenter.UnitTests
             var setup = Setup();
             setup.presenter.Enable();
 
-            setup.blockView.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0,0), Directions.Right);
+            setup.input.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0,0), Directions.Right);
 
             Assert.AreEqual(1, inputMoveCount);
         }
@@ -170,7 +173,7 @@ namespace Presenter.UnitTests
             var setup = Setup();
             setup.presenter.Enable();
 
-            setup.blockView.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
+            setup.input.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
 
             Assert.AreEqual(1, inputActivateCount);
         }
@@ -182,7 +185,7 @@ namespace Presenter.UnitTests
             setup.presenter.Enable();
             setup.presenter.Disable();
 
-            setup.blockView.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0, 0), Directions.Right);
+            setup.input.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0, 0), Directions.Right);
 
             LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
             Assert.AreEqual(0, inputMoveCount);
@@ -195,7 +198,7 @@ namespace Presenter.UnitTests
             setup.presenter.Enable();
             setup.presenter.Disable();
 
-            setup.blockView.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
+            setup.input.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
 
             LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
             Assert.AreEqual(0, inputActivateCount);

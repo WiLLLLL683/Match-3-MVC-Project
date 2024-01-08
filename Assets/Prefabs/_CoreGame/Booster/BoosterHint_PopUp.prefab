@@ -405,8 +405,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUp: {fileID: 2930143871913628488}
-  overlayWithGameBoard: {fileID: 996185739150050124}
-  overlayWithButton: {fileID: 2930143871134806026}
+  overlayWithGameBoard: {fileID: 2930143871134806026}
+  overlayWithButton: {fileID: 996185739150050124}
   boosterIcon: {fileID: 986196981215310768}
   boosterNameText: {fileID: 6194865762445879071}
   boosterHintText: {fileID: 2001787643685885059}

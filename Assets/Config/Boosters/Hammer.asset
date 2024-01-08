@@ -16,7 +16,7 @@ MonoBehaviour:
   Hint: Select Block to destroy.
   Icon: {fileID: 0}
   InitialAmount: 2
-  InputType: 0
+  InputType: 1
   booster:
     rid: 80980307928940544
   references:

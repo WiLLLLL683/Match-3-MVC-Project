@@ -2,6 +2,8 @@
 using Presenter;
 using Zenject;
 using Utils;
+using ModestTree.Util;
+using System;
 
 namespace View
 {
@@ -16,22 +18,25 @@ namespace View
         [SerializeField] private float maxSwipeDistance = 1f;
         [SerializeField] private float tapDelay = 0.1f;
 
-        private IBlockInput selectedBlock;
-        private IBlockInput oppositeBlock;
+        public event Action<Vector2Int, Directions> OnInputMove;
+        public event Action<Vector2Int> OnInputActivate;
+
+        private IBlocksPresenter blocksPresenter;
+        private Camera mainCamera;
+
+        private IBlockView selectedBlock;
+        private IBlockView oppositeBlock;
         private Vector2 firstTouchWorldPosition;
         private Vector2 deltaWorldPosition;
         private Vector2 deltaWorldPositionClamped;
         private Directions swipeDirection;
         private float timer;
 
-        private IBlocksPresenter blocksPresenter;
-        private Camera mainCamera;
-
         [Inject]
         public void Construct(IBlocksPresenter blocksPresenter)
         {
-            mainCamera = Camera.main;
             this.blocksPresenter = blocksPresenter;
+            mainCamera = Camera.main;
         }
 
         private void Update()
@@ -64,19 +69,21 @@ namespace View
             if (touch.phase == TouchPhase.Ended)
             {
                 if (timer > 0)
-                    selectedBlock.Input_ActivateBlock();
+                    OnInputActivate?.Invoke(selectedBlock.ModelPosition);
                 else
-                    selectedBlock.Input_MoveBlock(swipeDirection);
+                    OnInputMove?.Invoke(selectedBlock.ModelPosition, swipeDirection);
 
                 ReleaseBlocks();
                 ClearSelection();
             }
         }
+
         public void Enable()
         {
             enabled = true;
             Debug.Log($"{this.GetType().Name} enabled");
         }
+
         public void Disable()
         {
             enabled = false;
@@ -85,24 +92,27 @@ namespace View
 
         private void ResetTimer() => timer = tapDelay;
         private void UpdateTimer() => timer -= Time.deltaTime;
+
         private bool TrySelectBlock(Touch touch)
         {
             Vector2 worldPoint = mainCamera.ScreenToWorldPoint(touch.position);
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider == null)
                 return false;
-            if (!hit.collider.TryGetComponent<IBlockInput>(out IBlockInput block))
+            if (!hit.collider.TryGetComponent<IBlockView>(out IBlockView block))
                 return false;
 
             firstTouchWorldPosition = worldPoint;
             selectedBlock = block;
             return true;
         }
+
         private void GetDeltaWorldPosition(Touch touch)
         {
             Vector2 worldPoint = mainCamera.ScreenToWorldPoint(touch.position);
             deltaWorldPosition = worldPoint - firstTouchWorldPosition;
         }
+
         private void GetSwipeDirection()
         {
             swipeDirection = Directions.Zero;
@@ -138,31 +148,38 @@ namespace View
                 }
             }
         }
+
         private bool TryGetOppositeBlock()
         {
             if (swipeDirection == Directions.Zero)
                 return false;
 
-            IBlockInput newOppositeBlock = (IBlockInput)blocksPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int());
+            IBlockView newOppositeBlock = blocksPresenter.GetBlockView(selectedBlock.ModelPosition + swipeDirection.ToVector2Int());
+
+            if (newOppositeBlock == null)
+                return false;
 
             if (oppositeBlock != newOppositeBlock)
             {
-                oppositeBlock?.Input_Release();
+                oppositeBlock?.Release();
                 oppositeBlock = newOppositeBlock;
             }
 
             return oppositeBlock != null;
         }
+
         private void DragBlocks()
         {
-            selectedBlock.Input_Drag(swipeDirection, deltaWorldPositionClamped);
-            oppositeBlock?.Input_Drag(swipeDirection.ToOpposite(), -deltaWorldPositionClamped);
+            selectedBlock.Drag(deltaWorldPositionClamped);
+            oppositeBlock?.Drag(-deltaWorldPositionClamped);
         }
+
         private void ReleaseBlocks()
         {
-            selectedBlock.Input_Release();
-            oppositeBlock?.Input_Release();
+            selectedBlock.Release();
+            oppositeBlock?.Release();
         }
+
         private void ClearSelection()
         {
             selectedBlock = null;
