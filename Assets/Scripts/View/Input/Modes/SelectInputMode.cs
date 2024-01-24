@@ -9,10 +9,10 @@ namespace View.Input
     {
         public event Action<Vector2Int> OnInputSelect;
 
-        private readonly Match3Input actionMap;
+        private readonly Match3ActionMap actionMap;
         private readonly Camera mainCamera;
 
-        public SelectInputMode(Match3Input actionMap)
+        public SelectInputMode(Match3ActionMap actionMap)
         {
             this.actionMap = actionMap;
             this.mainCamera = Camera.main;

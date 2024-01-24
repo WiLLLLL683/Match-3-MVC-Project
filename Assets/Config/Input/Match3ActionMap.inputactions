@@ -1,5 +1,5 @@
 {
-    "name": "Match3Input",
+    "name": "Match3ActionMap",
     "maps": [
         {
             "name": "GameBoard",

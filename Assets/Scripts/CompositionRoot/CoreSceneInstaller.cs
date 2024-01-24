@@ -30,7 +30,7 @@ namespace CompositionRoot
 
         private void BindInput()
         {
-            Match3Input actionMap = new();
+            Match3ActionMap actionMap = new();
             Dictionary<Type, IInputMode> inputModes = new()
             {
                 [typeof(ISelectInputMode)] = new SelectInputMode(actionMap),

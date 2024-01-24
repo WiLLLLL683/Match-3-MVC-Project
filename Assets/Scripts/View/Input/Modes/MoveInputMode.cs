@@ -16,14 +16,14 @@ namespace View.Input
         public event Action<Vector2Int> OnInputActivate;
         public event Action<Vector2Int, Directions> OnInputMove;
 
-        private readonly Match3Input actionMap;
+        private readonly Match3ActionMap actionMap;
         private readonly Camera mainCamera;
 
         private Vector2 firstTouchWorldPoint;
         private IBlockView draggedBlock;
         private Directions direction;
 
-        public MoveInputMode(Match3Input actionMap)
+        public MoveInputMode(Match3ActionMap actionMap)
         {
             this.actionMap = actionMap;
             this.mainCamera = Camera.main;

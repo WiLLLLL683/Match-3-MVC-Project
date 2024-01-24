@@ -8,12 +8,12 @@ namespace View.Input
 {
     public class GameBoardInput : IGameBoardInput
     {
-        private readonly Match3Input actionMap;
+        private readonly Match3ActionMap actionMap;
         private readonly Dictionary<Type, IInputMode> inputModes;
 
         private IInputMode currentMode;
 
-        public GameBoardInput(Match3Input actionMap, Dictionary<Type, IInputMode> inputModes)
+        public GameBoardInput(Match3ActionMap actionMap, Dictionary<Type, IInputMode> inputModes)
         {
             this.actionMap = actionMap;
             this.inputModes = inputModes;
