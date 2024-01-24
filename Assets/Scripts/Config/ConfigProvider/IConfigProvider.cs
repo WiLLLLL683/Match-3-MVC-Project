@@ -7,6 +7,7 @@ namespace Config
 {
     public interface IConfigProvider
     {
+        InputConfig Input { get; }
         DefaultsConfig Defaults { get; }
 
         BoosterSO GetBoosterSO(int id);

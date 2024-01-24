@@ -16,13 +16,13 @@ namespace Presenter
     {
         private readonly Game model;
         private readonly IEndGameView view;
-        private readonly IInput input;
+        private readonly IGameBoardInput input;
         private readonly IWinLoseService winLoseService;
         private readonly IStateMachine stateMachine;
 
         public EndGamePresenter(Game model,
             IEndGameView view,
-            IInput input,
+            IGameBoardInput input,
             IWinLoseService winLoseService,
             IStateMachine stateMachine)
         {
@@ -63,7 +63,7 @@ namespace Presenter
 
         public void ShowCompletePopUp()
         {
-            input.DisableMoveInput();
+            input.Disable();
 
             view.DefeatPopUp.Hide();
             view.CompletePopUp.Show(4221, 3); //TODO брать счет из модели
@@ -71,7 +71,7 @@ namespace Presenter
 
         public void ShowDefeatPopUp()
         {
-            input.DisableMoveInput();
+            input.Disable();
 
             view.CompletePopUp.Hide();
             view.DefeatPopUp.Show(4221, 3); //TODO брать счет из модели

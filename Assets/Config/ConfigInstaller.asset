@@ -29,7 +29,12 @@ MonoBehaviour:
     boosterButtonPrefab: {fileID: 4633542665250583476, guid: 54af3666ffa5db6428dc8595493f1420, type: 3}
   delays:
     afterBlockDestroy: 0.3
+    beforeBlockDestroy: 0.1
     betweenBlockGravitation: 0.01
-    beforeMatchCheck: 0.5
-    beforeWin: 1
-    beforeLose: 1
+    beforeMatchCheck: 0.4
+    beforeWin: 0.6
+    beforeLose: 0.6
+    beforeBoosterHintHide: 5
+  input:
+    minSwipeDistance: 0.6
+    maxSwipeDistance: 1

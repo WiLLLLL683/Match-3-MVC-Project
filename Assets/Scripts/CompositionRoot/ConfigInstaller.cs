@@ -11,10 +11,11 @@ namespace CompositionRoot
         [SerializeField] private DefaultsConfig defaults;
         [SerializeField] private PrefabConfig prefabs;
         [SerializeField] private DelayConfig delays;
+        [SerializeField] private InputConfig input;
 
         public override void InstallBindings()
         {
-            ConfigProvider configProvider = new(allSets, delays, prefabs, defaults);
+            ConfigProvider configProvider = new(allSets, delays, prefabs, defaults, input);
             Container.Bind<IConfigProvider>().FromInstance(configProvider).AsSingle();
         }
     }

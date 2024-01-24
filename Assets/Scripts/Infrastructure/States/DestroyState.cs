@@ -34,6 +34,7 @@ namespace Infrastructure
 
         public async UniTask OnEnter(HashSet<Cell> payLoad, CancellationToken token)
         {
+            await UniTask.WaitForSeconds(configProvider.Delays.beforeBlockDestroy, cancellationToken: token);
             DestroyBlocks(payLoad);
             await UniTask.WaitForSeconds(configProvider.Delays.afterBlockDestroy, cancellationToken: token);
             stateMachine.EnterState<SpawnState>();

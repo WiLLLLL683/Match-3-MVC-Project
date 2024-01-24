@@ -15,12 +15,12 @@ namespace Presenter
     {
         private readonly Game model;
         private readonly IPauseView view;
-        private readonly IInput input;
+        private readonly IGameBoardInput input;
         private readonly IStateMachine stateMachine;
 
         public PausePresenter(Game model,
             IPauseView view,
-            IInput input,
+            IGameBoardInput input,
             IStateMachine stateMachine)
         {
             this.model = model;
@@ -55,13 +55,13 @@ namespace Presenter
 
         private void ShowPausePopUp()
         {
-            input.DisableMoveInput();
+            input.Disable();
             view.PausePopUp.Show(model.PlayerSettings.IsSoundOn, model.PlayerSettings.IsVibrationOn);
         }
 
         private void HidePausePopUp()
         {
-            input.EnableMoveInput();
+            input.Enable();
             view.PausePopUp.Hide();
         }
 

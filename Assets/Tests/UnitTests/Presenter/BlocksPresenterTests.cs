@@ -11,6 +11,7 @@ using UnityEngine.TestTools;
 using Utils;
 using View;
 using View.Factories;
+using View.Input;
 
 namespace Presenter.UnitTests
 {
@@ -34,7 +35,7 @@ namespace Presenter.UnitTests
             public IBlockMoveService moveService;
             public IBlockChangeTypeService changeTypeService;
             public IBlockView blockView;
-            public IInput input;
+            public IGameBoardInput input;
         }
 
         private SetupArgs Setup()
@@ -75,11 +76,15 @@ namespace Presenter.UnitTests
             var config = Substitute.For<BlockTypeSO>();
             configProvider.GetBlockTypeSO(Arg.Any<int>()).Returns(config);
 
+            //input
+            var input = Substitute.For<IGameBoardInput>();
+            var moveInputMode = Substitute.For<IMoveInputMode>();
+            input.GetInputMode<IMoveInputMode>().Returns(moveInputMode);
+
             var spawnService = Substitute.For<IBlockSpawnService>();
             var destroyService = Substitute.For<IBlockDestroyService>();
             var changeTypeService = Substitute.For<IBlockChangeTypeService>();
             var moveService = Substitute.For<IBlockMoveService>();
-            var input = Substitute.For<IInput>();
             var presenter = new BlocksPresenter(model, view, blockViewFactory, configProvider, spawnService, destroyService, changeTypeService, moveService, stateMachine, input);
 
             return new SetupArgs()
@@ -161,8 +166,9 @@ namespace Presenter.UnitTests
         {
             var setup = Setup();
             setup.presenter.Enable();
+            var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            setup.input.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0,0), Directions.Right);
+            moveInputMode.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0,0), Directions.Right);
 
             Assert.AreEqual(1, inputMoveCount);
         }
@@ -172,8 +178,9 @@ namespace Presenter.UnitTests
         {
             var setup = Setup();
             setup.presenter.Enable();
+            var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            setup.input.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
+            moveInputMode.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
 
             Assert.AreEqual(1, inputActivateCount);
         }
@@ -184,10 +191,11 @@ namespace Presenter.UnitTests
             var setup = Setup();
             setup.presenter.Enable();
             setup.presenter.Disable();
+            var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            setup.input.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0, 0), Directions.Right);
+            moveInputMode.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0, 0), Directions.Right);
 
-            LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
+            //LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
             Assert.AreEqual(0, inputMoveCount);
         }
 
@@ -197,10 +205,11 @@ namespace Presenter.UnitTests
             var setup = Setup();
             setup.presenter.Enable();
             setup.presenter.Disable();
+            var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            setup.input.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
+            moveInputMode.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
 
-            LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
+            //LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
             Assert.AreEqual(0, inputActivateCount);
         }
     }

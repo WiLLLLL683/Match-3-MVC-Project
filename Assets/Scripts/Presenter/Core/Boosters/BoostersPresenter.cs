@@ -1,4 +1,5 @@
 ﻿using Config;
+using Cysharp.Threading.Tasks;
 using Infrastructure;
 using Model.Objects;
 using Model.Services;
@@ -9,6 +10,7 @@ using UnityEngine;
 using Utils;
 using View;
 using View.Factories;
+using View.Input;
 
 namespace Presenter
 {
@@ -23,7 +25,8 @@ namespace Presenter
         private readonly IBoosterButtonFactory buttonFactory;
         private readonly IConfigProvider configProvider;
         private readonly IStateMachine stateMachine;
-        private readonly IInput input;
+        private readonly IGameBoardInput input;
+        private readonly ISelectInputMode selectInputMode;
         private readonly Dictionary<int, IBoosterButtonView> idButtons = new();
 
         private int selectedBoosterId;
@@ -34,7 +37,7 @@ namespace Presenter
             IBoosterButtonFactory buttonFactory,
             IConfigProvider configProvider,
             IStateMachine stateMachine,
-            IInput input)
+            IGameBoardInput input)
         {
             this.model = model;
             this.service = service;
@@ -43,11 +46,13 @@ namespace Presenter
             this.configProvider = configProvider;
             this.stateMachine = stateMachine;
             this.input = input;
+            this.selectInputMode = input.GetInputMode<ISelectInputMode>();
         }
         public void Enable()
         {
             SpawnButtons();
 
+            selectInputMode.OnInputSelect += ActivateBooster;
             view.HintPopUp.OnInputActivate += ActivateBooster;
             view.HintPopUp.OnInputHide += HideHintPopUp;
             service.OnAmountChanged += ChangeAmountOnButton;
@@ -59,6 +64,7 @@ namespace Presenter
         {
             DisableButtons();
 
+            selectInputMode.OnInputSelect -= ActivateBooster;
             view.HintPopUp.OnInputActivate -= ActivateBooster;
             view.HintPopUp.OnInputHide -= HideHintPopUp;
             service.OnAmountChanged -= ChangeAmountOnButton;
@@ -93,7 +99,7 @@ namespace Presenter
 
         private void ShowHintPopUp(IBoosterButtonView button)
         {
-            input.DisableMoveInput();
+            input.SetCurrentMode<ISelectInputMode>();
             selectedBoosterId = button.Id;
             BoosterSO config = configProvider.GetBoosterSO(selectedBoosterId);
             view.HintPopUp.Show(config.Icon, config.Name, config.Hint);
@@ -102,7 +108,6 @@ namespace Presenter
             {
                 case BoosterInputType.GameBoard:
                     view.HintPopUp.ShowOverlayWithGameBoard();
-                    input.OnInputSelect += ActivateBooster;
                     break;
                 case BoosterInputType.Button:
                     view.HintPopUp.ShowOverlayWithButton();
@@ -113,10 +118,11 @@ namespace Presenter
             }
         }
 
-        private void HideHintPopUp()
+        private void HideHintPopUp() => HideHintPopUpAsync().Forget();
+        private async UniTaskVoid HideHintPopUpAsync()
         {
-            input.OnInputSelect -= ActivateBooster;
-            input.EnableMoveInput();
+            await UniTask.DelayFrame(configProvider.Delays.beforeBoosterHintHide);
+            input.SetCurrentMode<IMoveInputMode>();
             view.HintPopUp.Hide();
         }
 

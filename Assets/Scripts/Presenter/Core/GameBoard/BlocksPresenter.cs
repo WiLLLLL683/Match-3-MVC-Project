@@ -8,6 +8,7 @@ using UnityEngine;
 using Utils;
 using View;
 using View.Factories;
+using View.Input;
 
 namespace Presenter
 {
@@ -26,11 +27,14 @@ namespace Presenter
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly IBlockMoveService moveService;
         private readonly IStateMachine stateMachine;
-        private readonly IInput input;
+        private readonly IGameBoardInput input;
+        private readonly IMoveInputMode moveInputMode;
 
         private readonly Dictionary<Block, IBlockView> blocks = new();
 
         private GameBoard gameBoard;
+        private IBlockView draggedBlock;
+        private IBlockView oppositeBlock;
 
         public BlocksPresenter(Game model,
             IGameBoardView view,
@@ -41,7 +45,7 @@ namespace Presenter
             IBlockChangeTypeService changeTypeService,
             IBlockMoveService moveService,
             IStateMachine stateMachine,
-            IInput input)
+            IGameBoardInput input)
         {
             this.model = model;
             this.view = view;
@@ -53,6 +57,7 @@ namespace Presenter
             this.moveService = moveService;
             this.stateMachine = stateMachine;
             this.input = input;
+            this.moveInputMode = input.GetInputMode<IMoveInputMode>();
         }
 
         public void Enable()
@@ -61,8 +66,10 @@ namespace Presenter
             SpawnAll();
             CenterGameBoard();
 
-            input.OnInputMove += MoveModel;
-            input.OnInputActivate += ActivateModel;
+            moveInputMode.OnInputDrag += DragView;
+            moveInputMode.OnInputRelease += ReleaseView;
+            moveInputMode.OnInputMove += MoveModel;
+            moveInputMode.OnInputActivate += ActivateModel;
             spawnService.OnBlockSpawn += SpawnView;
             destroyService.OnDestroy += DestroyView;
             moveService.OnPositionChange += SetViewPosition;
@@ -73,8 +80,10 @@ namespace Presenter
 
         public void Disable()
         {
-            input.OnInputMove -= MoveModel;
-            input.OnInputActivate -= ActivateModel;
+            moveInputMode.OnInputDrag -= DragView;
+            moveInputMode.OnInputRelease -= ReleaseView;
+            moveInputMode.OnInputMove -= MoveModel;
+            moveInputMode.OnInputActivate -= ActivateModel;
             spawnService.OnBlockSpawn -= SpawnView;
             destroyService.OnDestroy -= DestroyView;
             moveService.OnPositionChange -= SetViewPosition;
@@ -85,6 +94,9 @@ namespace Presenter
 
         public IBlockView GetBlockView(Vector2Int modelPosition)
         {
+            if (!gameBoard.Cells.IsInBounds(modelPosition))
+                return null;
+
             Block blockModel = gameBoard.Cells[modelPosition.x, modelPosition.y].Block;
             if (blockModel == null || !blocks.ContainsKey(blockModel))
                 return null;
@@ -117,12 +129,80 @@ namespace Presenter
             blocks.Clear();
         }
 
+        private void DragView(IBlockView block, Vector2 deltaPosition)
+        {
+            draggedBlock = block;
+            var (clampedDelta, direction) = ClampDeltaPosition(deltaPosition);
+
+            if (TryGetOppositeBlock(direction))
+            {
+                draggedBlock?.Drag(clampedDelta);
+                oppositeBlock?.Drag(-clampedDelta);
+            }
+            else
+            {
+                draggedBlock?.Release();
+                oppositeBlock?.Release();
+            }
+        }
+
+        private void ReleaseView(IBlockView block)
+        {
+            draggedBlock?.Release();
+            oppositeBlock?.Release();
+            draggedBlock = null;
+            oppositeBlock = null;
+        }
+
+        private (Vector2 clampedDelta, Directions direction) ClampDeltaPosition(Vector2 deltaPosition)
+        {
+            if (deltaPosition.magnitude < configProvider.Input.minSwipeDistance)
+                return (Vector2.zero, Directions.Zero);
+
+            Directions direction = deltaPosition.ToDirection();
+
+            Vector2 clampedDelta = direction switch
+            {
+                Directions.Left => Vector2.ClampMagnitude(new(deltaPosition.x, 0), configProvider.Input.maxSwipeDistance),
+                Directions.Right => Vector2.ClampMagnitude(new(deltaPosition.x, 0), configProvider.Input.maxSwipeDistance),
+                Directions.Down => Vector2.ClampMagnitude(new(0, deltaPosition.y), configProvider.Input.maxSwipeDistance),
+                Directions.Up => Vector2.ClampMagnitude(new(0, deltaPosition.y), configProvider.Input.maxSwipeDistance),
+                Directions.Zero => Vector2.zero,
+                _ => Vector2.zero
+            };
+
+            return (clampedDelta, direction);
+        }
+
+        private bool TryGetOppositeBlock(Directions direction)
+        {
+            if (direction == Directions.Zero)
+                return false;
+
+            IBlockView newOppositeBlock = GetBlockView(draggedBlock.ModelPosition + direction.ToVector2Int());
+
+            if (newOppositeBlock == null)
+                return false;
+
+            if (oppositeBlock != newOppositeBlock)
+            {
+                oppositeBlock?.Release();
+                oppositeBlock = newOppositeBlock;
+            }
+
+            return oppositeBlock != null;
+        }
+
         private void MoveModel(Vector2Int position, Directions direction) =>
             stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((position, direction));
 
         private void ActivateModel(Vector2Int position)
         {
             IBlockView blockView = GetBlockView(position);
+
+            if (blockView == null)
+                return;
+
             blockView.PlayClickAnimation();
             stateMachine.EnterState<InputActivateBlockState, Vector2Int>(blockView.ModelPosition);
         }

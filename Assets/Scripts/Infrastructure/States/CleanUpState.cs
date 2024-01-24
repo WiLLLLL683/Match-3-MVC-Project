@@ -25,6 +25,7 @@ namespace Infrastructure
         public async UniTask OnEnter(bool isReturnToMeta, CancellationToken token)
         {
             GetSceneDependencies();
+            DisableInput();
             DisablePresenters();
 
             if (isReturnToMeta)
@@ -43,10 +44,10 @@ namespace Infrastructure
         }
 
         private void GetSceneDependencies() => core = GameObject.FindAnyObjectByType<CoreDependencies>();
+        private void DisableInput() => core.input.Disable();
 
         private void DisablePresenters()
         {
-            core.input.DisableMoveInput();
             core.hud.Disable();
             core.cells.Disable();
             core.blocks.Disable();

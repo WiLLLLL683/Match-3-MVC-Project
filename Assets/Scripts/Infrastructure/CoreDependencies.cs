@@ -13,7 +13,7 @@ namespace Infrastructure
     {
         public IStateMachine coreStateMachine;
         public IStateFactory stateFactory;
-        public IInput input;
+        public IGameBoardInput input;
         public IHudPresenter hud;
         public ICellsPresenter cells;
         public IBlocksPresenter blocks;
@@ -24,7 +24,7 @@ namespace Infrastructure
         [Inject]
         public void Construct(IStateMachine coreStateMachine,
             IStateFactory stateFactory,
-            IInput input,
+            IGameBoardInput input,
             IHudPresenter hud,
             ICellsPresenter cells,
             IBlocksPresenter blocks,

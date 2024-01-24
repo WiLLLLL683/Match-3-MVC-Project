@@ -1,27 +1,22 @@
 using System;
+using System.Collections.Generic;
 using Presenter;
 using UnityEngine;
 using View;
 using View.Factories;
+using View.Input;
 using Zenject;
 
 namespace CompositionRoot
 {
-
     public class CoreSceneInstaller : MonoInstaller
     {
-        [Header("Input")]
-        [SerializeField] private Input_Touch input;
         [Header("Views")]
         [SerializeField] private HudView hudView;
         [SerializeField] private GameBoardView gameBoardView;
         [SerializeField] private BoostersView boostersView;
         [SerializeField] private PauseView pauseView;
         [SerializeField] private EndGameView endGameView;
-
-        //TODO перенести в ConfigInstaller
-        [Header("Prefabs")]
-        [SerializeField] private BoosterButtonView boosterPrefab;
 
         public override void InstallBindings()
         {
@@ -35,7 +30,15 @@ namespace CompositionRoot
 
         private void BindInput()
         {
-            Container.Bind<IInput>().FromInstance(input).AsSingle();
+            Match3Input actionMap = new();
+            Dictionary<Type, IInputMode> inputModes = new()
+            {
+                [typeof(ISelectInputMode)] = new SelectInputMode(actionMap),
+                [typeof(IMoveInputMode)] = new MoveInputMode(actionMap)
+            };
+
+            IGameBoardInput input = new GameBoardInput(actionMap, inputModes);
+            Container.Bind<IGameBoardInput>().FromInstance(input).AsSingle();
         }
 
         private void BindHud()
