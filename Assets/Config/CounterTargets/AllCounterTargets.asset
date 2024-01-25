@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef012eea68a0202499f924a35008c2cf, type: 3}
   m_Name: AllCounterTargets
   m_EditorClassIdentifier: 
-  turnSO: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
   targets:
   - {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
   - {fileID: 11400000, guid: a718201386d955f418821abb1599e4d4, type: 2}
@@ -23,3 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a6f1346062340f249a889d725e8c0e1e, type: 2}
   - {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
   defaultTarget: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
+  turnSO: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}

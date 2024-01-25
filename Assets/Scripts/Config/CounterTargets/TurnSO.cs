@@ -9,13 +9,7 @@ namespace Config
     [CreateAssetMenu(fileName = "Turn", menuName = "Config/Turn")]
     public class TurnSO : ACounterTargetSO
     {
-        [SerializeField] private int id = -100;
-        public override ICounterTarget CounterTarget => counterTarget;
-        private ICounterTarget counterTarget;
-
-        private void OnValidate()
-        {
-            counterTarget = new Turn(id);
-        }
+        [ShowNonSerializedField] private const int id = -100;
+        public override ICounterTarget CounterTarget { get; } = new Turn(id);
     }
 }

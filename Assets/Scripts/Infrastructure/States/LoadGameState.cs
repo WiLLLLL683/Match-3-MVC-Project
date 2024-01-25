@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 using Utils;
 
 namespace Infrastructure
@@ -34,6 +35,8 @@ namespace Infrastructure
 
         public async UniTask OnEnter(CancellationToken token)
         {
+            Application.targetFrameRate = 60; //TODO вынести в настройки
+
             //загрузка игры
             LoadCurrencies();
             LoadBoosters();
