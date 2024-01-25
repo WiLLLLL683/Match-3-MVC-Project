@@ -11,7 +11,7 @@ namespace Model.Objects
         [SerializeField] private int id;
         public int Id => id;
 
-        public HashSet<Cell> Execute(Vector2Int startPosition, GameBoard gameboard, IValidationService validationService)
+        public HashSet<Cell> Execute(Vector2Int startPosition, GameBoard gameboard, IValidationService validationService, IBlockMoveService moveService)
         {
             if (!validationService.BlockExistsAt(startPosition))
                 return new();

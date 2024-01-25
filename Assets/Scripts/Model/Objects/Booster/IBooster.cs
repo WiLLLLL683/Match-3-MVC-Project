@@ -12,7 +12,7 @@ namespace Model.Objects
         /// <summary>
         /// Использовать бустер. Возвращает клетки для уничтожения блоков в них.
         /// </summary>
-        HashSet<Cell> Execute(Vector2Int startPosition, GameBoard gameboard, IValidationService validationService);
+        HashSet<Cell> Execute(Vector2Int startPosition, GameBoard gameboard, IValidationService validationService, IBlockMoveService moveService);
 
         /// <summary>
         /// Memberwise clone.

@@ -15,18 +15,21 @@ namespace Model.Services
         private readonly IBoosterFactory factory;
         private readonly IBlockDestroyService destroyService;
         private readonly IValidationService validationService;
+        private readonly IBlockMoveService moveService;
 
         private Dictionary<int, int> Boosters => model.BoosterInventory.boosters;
 
         public BoosterService(Game game,
             IBoosterFactory factory,
             IBlockDestroyService destroyService,
-            IValidationService validationService)
+            IValidationService validationService,
+            IBlockMoveService moveService)
         {
             this.model = game;
             this.factory = factory;
             this.destroyService = destroyService;
             this.validationService = validationService;
+            this.moveService = moveService;
         }
 
         public void AddBooster(int id, int ammount)
@@ -66,7 +69,7 @@ namespace Model.Services
                 return new();
 
             IBooster booster = factory.Create(id);
-            HashSet<Cell> cells = booster.Execute(startPosition, model.CurrentLevel.gameBoard, validationService);
+            HashSet<Cell> cells = booster.Execute(startPosition, model.CurrentLevel.gameBoard, validationService, moveService);
 
             RemoveBooster(id, 1);
             return cells;

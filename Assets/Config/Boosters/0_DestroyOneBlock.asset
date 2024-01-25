@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8b22744ba642034e8df5879aafa20fb, type: 3}
-  m_Name: Hammer
+  m_Name: 0_DestroyOneBlock
   m_EditorClassIdentifier: 
   Name: Hammer
   Hint: Select Block to destroy.

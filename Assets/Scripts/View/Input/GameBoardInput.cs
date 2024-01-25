@@ -12,6 +12,7 @@ namespace View.Input
         private readonly Dictionary<Type, IInputMode> inputModes;
 
         private IInputMode currentMode;
+        private bool isEnabled;
 
         public GameBoardInput(Match3ActionMap actionMap, Dictionary<Type, IInputMode> inputModes)
         {
@@ -21,6 +22,10 @@ namespace View.Input
 
         public void Enable()
         {
+            if (isEnabled)
+                return;
+
+            isEnabled = true;
             actionMap.GameBoard.Enable();
             actionMap.GameBoard.Tap.performed += Tap;
             actionMap.GameBoard.Click.started += DragStarted;
@@ -30,6 +35,10 @@ namespace View.Input
 
         public void Disable()
         {
+            if (!isEnabled)
+                return;
+
+            isEnabled = false;
             actionMap.GameBoard.Disable();
             actionMap.GameBoard.Tap.performed -= Tap;
             actionMap.GameBoard.Click.started -= DragStarted;

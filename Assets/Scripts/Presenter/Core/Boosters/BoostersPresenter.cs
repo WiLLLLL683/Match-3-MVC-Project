@@ -99,7 +99,6 @@ namespace Presenter
 
         private void ShowHintPopUp(IBoosterButtonView button)
         {
-            input.SetCurrentMode<ISelectInputMode>();
             selectedBoosterId = button.Id;
             BoosterSO config = configProvider.GetBoosterSO(selectedBoosterId);
             view.HintPopUp.Show(config.Icon, config.Name, config.Hint);
@@ -107,12 +106,15 @@ namespace Presenter
             switch (config.InputType)
             {
                 case BoosterInputType.GameBoard:
+                    input.SetCurrentMode<ISelectInputMode>();
                     view.HintPopUp.ShowOverlayWithGameBoard();
                     break;
                 case BoosterInputType.Button:
+                    input.Disable();
                     view.HintPopUp.ShowOverlayWithButton();
                     break;
                 default:
+                    input.Disable();
                     view.HintPopUp.ShowOverlayWithButton();
                     break;
             }
@@ -122,6 +124,7 @@ namespace Presenter
         private async UniTaskVoid HideHintPopUpAsync()
         {
             await UniTask.DelayFrame(configProvider.Delays.beforeBoosterHintHide);
+            input.Enable();
             input.SetCurrentMode<IMoveInputMode>();
             view.HintPopUp.Hide();
         }
