@@ -10,5 +10,13 @@ namespace View
 
         public Transform BoosterButtonsParent => boosterButtonsParent;
         public IBoosterHintPopUp HintPopUp => hintPopUp;
+
+        public void ClearButtonsParent()
+        {
+            for (int i = 0; i < BoosterButtonsParent.childCount; i++)
+            {
+                GameObject.Destroy(BoosterButtonsParent.GetChild(i).gameObject);
+            }
+        }
     }
 }

@@ -89,6 +89,8 @@ namespace Presenter
             moveService.OnPositionChange -= SetViewPosition;
             changeTypeService.OnTypeChange -= SetViewType;
 
+            ClearAll();
+
             Debug.Log($"{this} disabled");
         }
 
@@ -121,11 +123,7 @@ namespace Presenter
                 DestroyView(gameBoard.Blocks[i]);
             }
 
-            foreach (Transform block in view.BlocksParent)
-            {
-                GameObject.Destroy(block.gameObject);
-            }
-
+            view.ClearBlocksParent();
             blocks.Clear();
         }
 
@@ -219,8 +217,7 @@ namespace Presenter
                 return;
 
             IBlockView view = blocks[model];
-            view.PlayDestroyEffect();
-            GameObject.Destroy(view.gameObject);
+            view.Destroy();
             blocks.Remove(model);
         }
 

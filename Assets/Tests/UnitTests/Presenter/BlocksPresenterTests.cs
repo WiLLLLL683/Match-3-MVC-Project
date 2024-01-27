@@ -24,8 +24,6 @@ namespace Presenter.UnitTests
         private int inputMoveCount;
         private int inputActivateCount;
 
-        private const string DESTROY_ERROR_LOG = "Destroy may not be called from edit mode! Use DestroyImmediate instead.\nDestroying an object in edit mode destroys it permanently.";
-
         private class SetupArgs
         {
             public Game model;
@@ -62,7 +60,7 @@ namespace Presenter.UnitTests
             var blockView = Substitute.For<IBlockView>();
             blockViewFactory.Create(Arg.Any<Block>()).Returns(blockView);
             blockViewFactory.When(x => x.Create(Arg.Any<Block>())).Do(x => blockSpawnedCount++);
-            blockView.When(x => x.PlayDestroyEffect()).Do(x => blockDestroyedCount++);
+            blockView.When(x => x.Destroy()).Do(x => blockDestroyedCount++);
             blockView.When(x => x.SetModelPosition(Arg.Any<Vector2Int>())).Do(x => blockChangedPositionCount++);
             blockView.When(x => x.SetType(Arg.Any<Sprite>(), Arg.Any<ParticleSystem>())).Do(x => blockChangedTypeCount++);
 
@@ -133,7 +131,6 @@ namespace Presenter.UnitTests
 
             setup.destroyService.OnDestroy += Raise.Event<Action<Block>>(block);
 
-            LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
             Assert.AreEqual(1, blockDestroyedCount);
         }
 
@@ -195,7 +192,6 @@ namespace Presenter.UnitTests
 
             moveInputMode.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0, 0), Directions.Right);
 
-            //LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
             Assert.AreEqual(0, inputMoveCount);
         }
 
@@ -209,7 +205,6 @@ namespace Presenter.UnitTests
 
             moveInputMode.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
 
-            //LogAssert.Expect(LogType.Error, DESTROY_ERROR_LOG);
             Assert.AreEqual(0, inputActivateCount);
         }
     }

@@ -16,7 +16,7 @@ namespace View
         void SetModelPosition(Vector2Int modelPosition);
         void SetType(Sprite iconSprite, ParticleSystem destroyEffectPrefab);
         void PlayClickAnimation();
-        void PlayDestroyEffect();
+        void Destroy();
         void Release();
         void Drag(Vector2 deltaPosition);
     }

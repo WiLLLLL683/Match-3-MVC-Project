@@ -6,5 +6,8 @@ namespace View
     {
         Transform BlocksParent { get; }
         Transform CellsParent { get; }
+
+        void ClearCellsParent();
+        void ClearBlocksParent();
     }
 }

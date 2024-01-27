@@ -31,7 +31,7 @@ namespace Model.Services.UnitTests
             var destroyService = Substitute.For<IBlockDestroyService>();
             var moveService = Substitute.For<IBlockMoveService>();
             //service
-            var service = new BoosterService(game, factory, destroyService, validationService, moveService);
+            var service = new BoosterService(game, factory, validationService, moveService);
             return (service, game);
         }
 
@@ -68,7 +68,7 @@ namespace Model.Services.UnitTests
 
             service.AddBooster(BOOSTER_1, -1);
 
-            LogAssert.Expect(LogType.Warning, "Can't add negative ammount of Boosters");
+            LogAssert.Expect(LogType.Warning, "Can't add or remove negative ammount of Boosters");
             Assert.AreEqual(99, game.BoosterInventory.boosters[BOOSTER_1]);
         }
 

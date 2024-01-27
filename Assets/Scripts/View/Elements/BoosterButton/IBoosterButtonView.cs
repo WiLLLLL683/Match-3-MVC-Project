@@ -4,7 +4,7 @@ using UnityEngine;
 namespace View
 {
     /// <summary>
-    /// Визуальный элемент бустера, вызывается в IBoosterPresenter.
+    /// Кнопка запуска бустера, вызывается в IBoosterPresenter.
     /// </summary>
     public interface IBoosterButtonView
     {

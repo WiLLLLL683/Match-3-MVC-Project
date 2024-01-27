@@ -6,5 +6,7 @@ namespace View
     {
         IBoosterHintPopUp HintPopUp { get; }
         Transform BoosterButtonsParent { get; }
+
+        void ClearButtonsParent();
     }
 }

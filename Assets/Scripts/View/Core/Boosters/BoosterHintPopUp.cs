@@ -31,7 +31,6 @@ namespace View
             popUp.enabled = true;
 
             activateButton.onClick.AddListener(Input_Activate);
-            //TODO подписка на нажатие на игровое поле
             foreach (Button button in hideButtons)
             {
                 button.onClick.AddListener(Input_Hide);

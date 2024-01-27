@@ -55,12 +55,13 @@ namespace View
 
         public void PlayClickAnimation() => clickAnimation.Play();
 
-        public void PlayDestroyEffect()
+        public void Destroy()
         {
             if (destroyEffectPrefab == null)
                 return;
 
             Instantiate(destroyEffectPrefab, transform.position, Quaternion.identity).Play();
+            GameObject.Destroy(gameObject);
         }
     }
 }

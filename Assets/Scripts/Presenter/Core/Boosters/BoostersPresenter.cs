@@ -48,6 +48,7 @@ namespace Presenter
             this.input = input;
             this.selectInputMode = input.GetInputMode<ISelectInputMode>();
         }
+
         public void Enable()
         {
             SpawnButtons();
@@ -75,11 +76,7 @@ namespace Presenter
         private void SpawnButtons()
         {
             idButtons.Clear();
-
-            for (int i = 0; i < view.BoosterButtonsParent.childCount; i++)
-            {
-                GameObject.Destroy(view.BoosterButtonsParent.GetChild(i).gameObject);
-            }
+            view.ClearButtonsParent();
 
             foreach (var booster in model.BoosterInventory.boosters)
             {

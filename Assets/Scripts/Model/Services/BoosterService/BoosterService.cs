@@ -13,7 +13,6 @@ namespace Model.Services
 
         private readonly Game model;
         private readonly IBoosterFactory factory;
-        private readonly IBlockDestroyService destroyService;
         private readonly IValidationService validationService;
         private readonly IBlockMoveService moveService;
 
@@ -21,13 +20,11 @@ namespace Model.Services
 
         public BoosterService(Game game,
             IBoosterFactory factory,
-            IBlockDestroyService destroyService,
             IValidationService validationService,
             IBlockMoveService moveService)
         {
             this.model = game;
             this.factory = factory;
-            this.destroyService = destroyService;
             this.validationService = validationService;
             this.moveService = moveService;
         }
@@ -101,7 +98,7 @@ namespace Model.Services
 
             if (!isValidAmount)
             {
-                Debug.LogWarning("Can't add negative ammount of Boosters");
+                Debug.LogWarning("Can't add or remove negative ammount of Boosters");
             }
 
             return isValidAmount;
