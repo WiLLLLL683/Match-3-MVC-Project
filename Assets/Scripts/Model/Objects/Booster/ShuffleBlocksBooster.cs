@@ -9,46 +9,33 @@ namespace Model.Objects
     public class ShuffleBlocksBooster : IBooster
     {
         [SerializeField] private int id;
-        [SerializeField] [Min(0)] private int shuffleCount;
-        [SerializeField] [Min(0)] private int randomIterationCount;
         public int Id => id;
 
-        private GameBoard gameboard;
-        private IValidationService validationService;
+        public ShuffleBlocksBooster() { }
 
         public HashSet<Cell> Execute(Vector2Int _, GameBoard gameboard, IValidationService validationService, IBlockMoveService moveService)
         {
-            this.gameboard = gameboard;
-            this.validationService = validationService;
+            List<Block> blockInPlayArea = new();
 
-            for (int i = 0; i < shuffleCount; i++)
+            for (int x = 0; x < gameboard.Cells.GetLength(0); x++)
             {
-                Cell startCell = GetRandomCellWithBlock();
-                Cell targetCell = GetRandomCellWithBlock();
+                for (int y = 0; y < gameboard.HiddenRowsStartIndex; y++)
+                {
+                    if (validationService.BlockExistsAt(new(x,y)))
+                        blockInPlayArea.Add(gameboard.Cells[x, y].Block);
+                }
+            }
 
-                if (startCell == null || targetCell == null)
-                    continue;
-
-                moveService.Move(startCell.Position, targetCell.Position);
+            //Fisher–Yates shuffle
+            for (int i = blockInPlayArea.Count - 1; i >= 1; i--)
+            {
+                int random = UnityEngine.Random.Range(0, i);
+                moveService.Move(blockInPlayArea[i].Position, blockInPlayArea[random].Position);
             }
 
             return new();
         }
 
         public IBooster Clone() => (IBooster)MemberwiseClone();
-
-        private Cell GetRandomCellWithBlock()
-        {
-            for (int i = 0; i < randomIterationCount; i++)
-            {
-                int x = UnityEngine.Random.Range(0, gameboard.Cells.GetLength(0));
-                int y = UnityEngine.Random.Range(0, gameboard.HiddenRowsStartIndex);
-
-                if (validationService.BlockExistsAt(new(x, y)))
-                    return gameboard.Cells[x, y];
-            }
-
-            return null;
-        }
     }
 }

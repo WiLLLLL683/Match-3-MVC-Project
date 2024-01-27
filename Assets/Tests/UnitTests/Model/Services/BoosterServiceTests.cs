@@ -25,8 +25,7 @@ namespace Model.Services.UnitTests
             var factory = Substitute.For<IBoosterFactory>();
             var booster1 = Substitute.For<IBooster>();
             factory.Create(BOOSTER_1).Returns(booster1);
-            booster1.When(x => x.Execute(Arg.Any<Vector2Int>(), Arg.Any<GameBoard>(), Arg.Any<IValidationService>(), Arg.Any<IBlockMoveService>()))
-                .Do(_ => boosterUsedCount++);
+            booster1.WhenForAnyArgs(x => x.Execute(default, default, default, default)).Do(_ => boosterUsedCount++);
             var validationService = Substitute.For<IValidationService>();
             var destroyService = Substitute.For<IBlockDestroyService>();
             var moveService = Substitute.For<IBlockMoveService>();
@@ -144,7 +143,7 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void UseBooster_ZeroAmount_NoChange()
+        public void UseBooster_ZeroAmountExists_NoChange()
         {
             var (service, game) = Setup();
             game.BoosterInventory.boosters.Add(BOOSTER_1, 0);
@@ -179,7 +178,7 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
-        public void GetBoosterAmount_ZeroAmount_ZeroReturned()
+        public void GetBoosterAmount_ZeroAmountExists_ZeroReturned()
         {
             var (service, game) = Setup();
             game.BoosterInventory.boosters.Add(BOOSTER_1, 0);
