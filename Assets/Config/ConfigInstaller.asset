@@ -34,7 +34,7 @@ MonoBehaviour:
     beforeMatchCheck: 0.4
     beforeWin: 0.6
     beforeLose: 0.6
-    beforeBoosterHintHide: 5
+    beforeBoosterUse: 0.15
   input:
     minSwipeDistance: 0.6
     maxSwipeDistance: 1

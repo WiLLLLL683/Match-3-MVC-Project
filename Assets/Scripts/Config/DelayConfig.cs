@@ -12,6 +12,6 @@ namespace Config
         [Tooltip("Delay In Seconds"), Min(0.01f)] public float beforeMatchCheck = 0.5f;
         [Tooltip("Delay In Seconds"), Min(0.01f)] public float beforeWin = 1f;
         [Tooltip("Delay In Seconds"), Min(0.01f)] public float beforeLose = 1f;
-        [Tooltip("Delay In Frames"), Min(0)] public int beforeBoosterHintHide = 3;
+        [Tooltip("Delay In Seconds"), Min(0.01f)] public float beforeBoosterUse = 0.3f;
     }
 }

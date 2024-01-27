@@ -120,10 +120,14 @@ namespace Presenter
             }
         }
 
-        private void HideHintPopUp() => HideHintPopUpAsync().Forget();
-        private async UniTaskVoid HideHintPopUpAsync()
+        private void ActivateBooster(Vector2Int startPosition)
         {
-            await UniTask.DelayFrame(configProvider.Delays.beforeBoosterHintHide);
+            HideHintPopUp();
+            stateMachine.EnterState<InputBoosterState, (int, Vector2Int)>((selectedBoosterId, startPosition));
+        }
+
+        private void HideHintPopUp()
+        {
             input.Enable();
             input.SetCurrentMode<IMoveInputMode>();
             view.HintPopUp.Hide();
@@ -133,12 +137,6 @@ namespace Presenter
         {
             idButtons[id].ChangeAmount(amount);
             idButtons[id].EnableButton(amount > 0);
-        }
-
-        private void ActivateBooster(Vector2Int startPosition)
-        {
-            stateMachine.EnterState<InputBoosterState, (int, Vector2Int)>((selectedBoosterId, startPosition));
-            HideHintPopUp();
         }
     }
 }

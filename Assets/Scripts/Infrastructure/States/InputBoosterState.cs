@@ -16,26 +16,22 @@ namespace Infrastructure
     /// </summary>
     public class InputBoosterState : IPayLoadedState<(int id, Vector2Int startPosition)>
     {
-        private IStateMachine stateMachine;
-        private IBoosterService boosterService;
-        private readonly IWinLoseService winLoseService;
-        private readonly ICounterTarget turnTarget;
-
-        private IBooster booster;
+        private readonly IStateMachine stateMachine;
+        private readonly IBoosterService boosterService;
+        private readonly IConfigProvider configProvider;
 
         public InputBoosterState(IStateMachine stateMachine,
             IBoosterService boosterService,
-            IWinLoseService winLoseService,
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
             this.boosterService = boosterService;
-            this.winLoseService = winLoseService;
-            this.turnTarget = configProvider.Turn.CounterTarget;
+            this.configProvider = configProvider;
         }
 
         public async UniTask OnEnter((int id, Vector2Int startPosition) payLoad, CancellationToken token)
         {
+            await UniTask.WaitForSeconds(configProvider.Delays.beforeBoosterUse);
             HashSet<Cell> cells = boosterService.UseBooster(payLoad.id, payLoad.startPosition);
             stateMachine.EnterState<DestroyState, HashSet<Cell>>(cells);
         }

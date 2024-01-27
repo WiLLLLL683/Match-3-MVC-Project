@@ -46,7 +46,10 @@ namespace Infrastructure
 
             //бездействие при долгом зажатии блока на одном месте
             if (direction == Directions.Zero)
+            {
+                stateMachine.EnterState<WaitState>();
                 return;
+            }
 
             MoveBlock();
         }

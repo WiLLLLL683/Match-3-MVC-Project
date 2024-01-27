@@ -15,7 +15,7 @@ namespace Model.Objects
         {
             HashSet<Cell> blocksToDestroy = new();
 
-            for (int y = 0; y < gameboard.Cells.GetLength(1); y++)
+            for (int y = 0; y < gameboard.HiddenRowsStartIndex; y++)
             {
                 Vector2Int position = new(startPosition.x, y);
                 if (!validationService.BlockExistsAt(position))
