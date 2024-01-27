@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Hammer
   Hint: Select Block to destroy.
-  Icon: {fileID: 21300000, guid: c1d5a6c1ade19d340922e895b71ec629, type: 3}
+  Icon: {fileID: 21300000, guid: b6533adf2d62dbf428683d57a0624472, type: 3}
   InitialAmount: 10
   InputType: 0
   booster:

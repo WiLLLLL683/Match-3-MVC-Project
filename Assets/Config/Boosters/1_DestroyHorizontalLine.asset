@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b22744ba642034e8df5879aafa20fb, type: 3}
   m_Name: 1_DestroyHorizontalLine
   m_EditorClassIdentifier: 
-  Name: Arch
+  Name: Bow
   Hint: Select horizontal line to destroy.
-  Icon: {fileID: 21300000, guid: 01a34d9e0dade794188a273832564fb0, type: 3}
+  Icon: {fileID: 21300000, guid: 2e5170af2cb2d0048a858560169aad71, type: 3}
   InitialAmount: 10
   InputType: 0
   booster:
