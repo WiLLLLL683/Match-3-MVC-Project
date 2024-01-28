@@ -7,7 +7,9 @@
         "UniTask",
         "TestUtils",
         "Unity.PerformanceTesting",
-        "GameAssembly"
+        "GameAssembly",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

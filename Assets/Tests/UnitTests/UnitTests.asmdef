@@ -7,7 +7,9 @@
         "GameAssembly",
         "TestUtils",
         "UniTask",
-        "Unity.PerformanceTesting"
+        "Unity.PerformanceTesting",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework"
     ],
     "includePlatforms": [
         "Editor"

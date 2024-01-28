@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c3e5216a757af4793c890bae04e2b0, type: 3}
   m_Name: Level 4
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 50dd2e8acaa7426438d693e39eb73026, type: 3}
+  icon: {fileID: 21300000, guid: 23c39604c54f9f944ac7791b186f3dce, type: 3}
   levelName: Level 4
   goals:
-  - count: 100
-    target: {fileID: 11400000, guid: 8a442fbef8f3e704a83b4dd663f6705c, type: 2}
+  - count: 25
+    target: {fileID: 11400000, guid: 21710fd5c5924a745b4564f97aec51ec, type: 2}
+  - count: 15
+    target: {fileID: 11400000, guid: 6034ac62361174242bf0e34206603ed8, type: 2}
   restrictions:
-  - count: 100
+  - count: 50
     target: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
   rowsOfHiddenCells: 2
   gameBoard:

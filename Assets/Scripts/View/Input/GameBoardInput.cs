@@ -58,12 +58,6 @@ namespace View.Input
 
         public T GetInputMode<T>() where T : IInputMode
         {
-            if (!typeof(T).IsInterface)
-            {
-                Debug.LogError("Input mode type should be interface");
-                return default;
-            }
-
             if (!inputModes.ContainsKey(typeof(T)))
             {
                 Debug.LogError($"Input doesn't contain {typeof(T).Name}");
