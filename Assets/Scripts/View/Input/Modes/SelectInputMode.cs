@@ -12,10 +12,10 @@ namespace View.Input
         private readonly Match3ActionMap actionMap;
         private readonly Camera mainCamera;
 
-        public SelectInputMode(Match3ActionMap actionMap)
+        public SelectInputMode(Match3ActionMap actionMap, Camera mainCamera)
         {
             this.actionMap = actionMap;
-            this.mainCamera = Camera.main;
+            this.mainCamera = mainCamera;
         }
 
         public void Tap(InputAction.CallbackContext context)

@@ -31,10 +31,11 @@ namespace CompositionRoot
         private void BindInput()
         {
             Match3ActionMap actionMap = new();
+            Camera mainCamera = Camera.main;
             Dictionary<Type, IInputMode> inputModes = new()
             {
-                [typeof(ISelectInputMode)] = new SelectInputMode(actionMap),
-                [typeof(IMoveInputMode)] = new MoveInputMode(actionMap)
+                [typeof(ISelectInputMode)] = new SelectInputMode(actionMap, mainCamera),
+                [typeof(IMoveInputMode)] = new MoveInputMode(actionMap, mainCamera)
             };
 
             IGameBoardInput input = new GameBoardInput(actionMap, inputModes);

@@ -22,10 +22,10 @@ namespace View.Input
         private IBlockView draggedBlock;
         private Directions direction;
 
-        public MoveInputMode(Match3ActionMap actionMap)
+        public MoveInputMode(Match3ActionMap actionMap, Camera mainCamera)
         {
             this.actionMap = actionMap;
-            this.mainCamera = Camera.main;
+            this.mainCamera = mainCamera;
         }
 
         public void Tap(InputAction.CallbackContext context)
