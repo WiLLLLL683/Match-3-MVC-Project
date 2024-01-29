@@ -15,12 +15,12 @@ namespace Presenter
     {
         private readonly Game model;
         private readonly IPauseView view;
-        private readonly IInput input;
+        private readonly IGameBoardInput input;
         private readonly IStateMachine stateMachine;
 
         public PausePresenter(Game model,
             IPauseView view,
-            IInput input,
+            IGameBoardInput input,
             IStateMachine stateMachine)
         {
             this.model = model;
@@ -31,9 +31,8 @@ namespace Presenter
 
         public void Enable()
         {
-            view.PausePopUp.OnShow += DisableInput;
-            view.PausePopUp.OnHide += EnableInput;
-            view.PausePopUp.OnNextLevelInput += LoadNextLevel;
+            view.OnShowInput += ShowPausePopUp;
+            view.OnHideInput += HidePausePopUp;
             view.PausePopUp.OnReplayInput += Replay;
             view.PausePopUp.OnQuitInput += Quit;
             view.PausePopUp.OnSoundIsOn += SwitchSound;
@@ -44,9 +43,8 @@ namespace Presenter
 
         public void Disable()
         {
-            view.PausePopUp.OnShow -= DisableInput;
-            view.PausePopUp.OnHide -= EnableInput;
-            view.PausePopUp.OnNextLevelInput -= LoadNextLevel;
+            view.OnShowInput -= ShowPausePopUp;
+            view.OnHideInput -= HidePausePopUp;
             view.PausePopUp.OnReplayInput -= Replay;
             view.PausePopUp.OnQuitInput -= Quit;
             view.PausePopUp.OnSoundIsOn -= SwitchSound;
@@ -55,13 +53,18 @@ namespace Presenter
             Debug.Log($"{this.GetType().Name} disabled");
         }
 
-        private void EnableInput() => input.Enable();
-        private void DisableInput() => input.Disable();
-        private void LoadNextLevel()
+        private void ShowPausePopUp()
         {
-            model.LevelProgress.CurrentLevelIndex++;
-            stateMachine.EnterState<CleanUpState, bool>(false);
+            input.Disable();
+            view.PausePopUp.Show(model.PlayerSettings.IsSoundOn, model.PlayerSettings.IsVibrationOn);
         }
+
+        private void HidePausePopUp()
+        {
+            input.Enable();
+            view.PausePopUp.Hide();
+        }
+
         private void Quit() => stateMachine.EnterState<CleanUpState, bool>(true);
         private void Replay() => stateMachine.EnterState<CleanUpState, bool>(false);
         private void SwitchSound(bool isOn) => model.PlayerSettings.IsSoundOn = isOn;

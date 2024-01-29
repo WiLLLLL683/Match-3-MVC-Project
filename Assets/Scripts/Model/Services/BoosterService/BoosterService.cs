@@ -2,62 +2,106 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Model.Objects;
+using Model.Factories;
 
 namespace Model.Services
 {
     [Serializable]
     public class BoosterService : IBoosterService
     {
-        private readonly Dictionary<Type, int> boosters = new();
+        public event Action<int, int> OnAmountChanged;
 
-        public void AddBooster<T>(int ammount) where T : IBooster
+        private readonly Game model;
+        private readonly IBoosterFactory factory;
+        private readonly IValidationService validationService;
+        private readonly IBlockMoveService moveService;
+
+        private Dictionary<int, int> Boosters => model.BoosterInventory.boosters;
+
+        public BoosterService(Game game,
+            IBoosterFactory factory,
+            IValidationService validationService,
+            IBlockMoveService moveService)
         {
-            if (ammount <= 0)
-            {
-                Debug.LogError("Can't add negative ammount of Boosters");
+            this.model = game;
+            this.factory = factory;
+            this.validationService = validationService;
+            this.moveService = moveService;
+        }
+
+        public void AddBooster(int id, int ammount)
+        {
+            if (!IsValidAmount(ammount))
                 return;
-            }
 
-            Type boosterType = typeof(T);
-            if (boosters.ContainsKey(boosterType))
+            if (Boosters.ContainsKey(id))
             {
-                boosters[boosterType] += ammount;
+                Boosters[id] += ammount;
             }
             else
             {
-                boosters.Add(boosterType, ammount);
+                Boosters.Add(id, ammount);
             }
+
+            OnAmountChanged?.Invoke(id, Boosters[id]);
         }
 
-        public IBooster SpendBooster<T>() where T : IBooster, new()
+        public void RemoveBooster(int id, int ammount)
         {
-            Type boosterType = typeof(T);
-            if (!boosters.ContainsKey(boosterType))
-            {
-                Debug.LogError("You have no booster of this type");
-                return null;
-            }
+            if (!IsValidAmount(ammount))
+                return;
 
-            boosters[boosterType]--;
-            if (boosters[boosterType] <= 0)
-            {
-                boosters.Remove(boosterType);
-            }
+            if (!IsAvaliable(id))
+                return;
 
-            return new T();
+            Boosters[id] -= ammount;
+            Boosters[id] = Mathf.Max(0, Boosters[id]);
+
+            OnAmountChanged?.Invoke(id, Boosters[id]);
         }
 
-        public int GetBoosterAmount<T>() where T : IBooster
+        public HashSet<Cell> UseBooster(int id, Vector2Int startPosition)
         {
-            Type boosterType = typeof(T);
-            if (boosters.ContainsKey(boosterType))
-            {
-                return boosters[boosterType];
-            }
-            else
-            {
+            if (!IsAvaliable(id))
+                return new();
+
+            IBooster booster = factory.Create(id);
+            HashSet<Cell> cells = booster.Execute(startPosition, model.CurrentLevel.gameBoard, validationService, moveService);
+
+            RemoveBooster(id, 1);
+            return cells;
+        }
+
+        public int GetBoosterAmount(int id)
+        {
+            if (!IsAvaliable(id))
                 return 0;
+
+            return Boosters[id];
+        }
+
+        private bool IsAvaliable(int id)
+        {
+            bool isAvaliable = Boosters.ContainsKey(id) && Boosters[id] > 0;
+
+            if (!isAvaliable)
+            {
+                Debug.LogWarning("You have no booster of this type");
             }
+
+            return isAvaliable;
+        }
+
+        private bool IsValidAmount(int ammount)
+        {
+            bool isValidAmount = ammount > 0;
+
+            if (!isValidAmount)
+            {
+                Debug.LogWarning("Can't add or remove negative ammount of Boosters");
+            }
+
+            return isValidAmount;
         }
     }
 }

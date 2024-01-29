@@ -10,38 +10,32 @@ namespace Config
 {
     public class ConfigProvider : IConfigProvider
     {
-        public CellTypeSO HiddenCellType => allCellTypes.hiddenCellType;
-        public TurnSO Turn => allCounterTargets.turnSO;
-        public int LastLevelIndex => allLevels.levels.Count - 1;
+        public CellTypeSO HiddenCellType => allSets.allCellTypes.hiddenCellType;
+        public TurnSO Turn => allSets.allCounterTargets.turnSO;
+        public int LastLevelIndex => allSets.allLevels.levels.Count - 1;
         public DelayConfig Delays { get; }
         public PrefabConfig Prefabs { get; }
+        public DefaultsConfig Defaults { get; }
+        public InputConfig Input { get; }
 
-        private readonly BlockTypeSetSO allBlockTypes;
-        private readonly CellTypeSetSO allCellTypes;
-        private readonly CounterTargetSetSO allCounterTargets;
-        private readonly CurrencySetSO allCurrencies;
-        private readonly LevelSetSO allLevels;
+        private readonly AllSetsConfig allSets;
 
-        public ConfigProvider(BlockTypeSetSO allBlockTypes,
-            CellTypeSetSO allCellTypes,
-            CounterTargetSetSO allCounterTargets,
-            CurrencySetSO allCurrencies,
-            LevelSetSO allLevels,
+        public ConfigProvider(AllSetsConfig allSets,
             DelayConfig delays,
-            PrefabConfig prefabs)
+            PrefabConfig prefabs,
+            DefaultsConfig defaults,
+            InputConfig input)
         {
-            this.allBlockTypes = allBlockTypes;
-            this.allCellTypes = allCellTypes;
-            this.allCounterTargets = allCounterTargets;
-            this.allCurrencies = allCurrencies;
-            this.allLevels = allLevels;
+            this.allSets = allSets;
             this.Delays = delays;
             this.Prefabs = prefabs;
+            this.Defaults = defaults;
+            this.Input = input;
         }
 
         public BlockTypeSO GetBlockTypeSO(int id)
         {
-            List<BlockTypeSO_Weight> types = allBlockTypes.typeWeights;
+            List<BlockTypeSO_Weight> types = allSets.allBlockTypes.typeWeights;
 
             for (int i = 0; i < types.Count; i++)
             {
@@ -49,12 +43,12 @@ namespace Config
                     return types[i].blockTypeSO;
             }
 
-            return allBlockTypes.defaultBlockType;
+            return allSets.allBlockTypes.defaultBlockType;
         }
 
         public CellTypeSO GetCellTypeSO(int id)
         {
-            List<CellTypeSO> types = allCellTypes.cellTypes;
+            List<CellTypeSO> types = allSets.allCellTypes.cellTypes;
 
             for (int i = 0; i < types.Count; i++)
             {
@@ -62,12 +56,12 @@ namespace Config
                     return types[i];
             }
 
-            return allCellTypes.defaultCellType;
+            return allSets.allCellTypes.defaultCellType;
         }
 
         public ACounterTargetSO GetCounterTargetSO(int id)
         {
-            List<ACounterTargetSO> targets = allCounterTargets.targets;
+            List<ACounterTargetSO> targets = allSets.allCounterTargets.targets;
 
             for (int i = 0; i < targets.Count; i++)
             {
@@ -77,12 +71,12 @@ namespace Config
                 }
             }
 
-            return allCounterTargets.defaultTarget;
+            return allSets.allCounterTargets.defaultTarget;
         }
 
         public CurrencySO GetCurrencySO(CurrencyType type)
         {
-            List<CurrencySO> currencies = allCurrencies.currencies;
+            List<CurrencySO> currencies = allSets.allCurrencies.currencies;
 
             for (int i = 0; i < currencies.Count; i++)
             {
@@ -93,16 +87,31 @@ namespace Config
             return null;
         }
 
-        public List<CurrencySO> GetAllCurrenciesSO() => allCurrencies.currencies;
+        public List<CurrencySO> GetAllCurrenciesSO() => allSets.allCurrencies.currencies;
 
         public LevelSO GetLevelSO(int index)
         {
-            List<LevelSO> levels = allLevels.levels;
+            List<LevelSO> levels = allSets.allLevels.levels;
 
             if (!levels.IsInBounds(index))
-                return allLevels.defaultLevel;
+                return allSets.allLevels.defaultLevel;
 
             return levels[index];
+        }
+
+        public BoosterSO GetBoosterSO(int id)
+        {
+            List<BoosterSO> boosters = allSets.allBoosters.boosters;
+
+            for (int i = 0; i < boosters.Count; i++)
+            {
+                if (id == boosters[i].booster.Id)
+                {
+                    return boosters[i];
+                }
+            }
+
+            return allSets.allBoosters.defaultBooster;
         }
     }
 }

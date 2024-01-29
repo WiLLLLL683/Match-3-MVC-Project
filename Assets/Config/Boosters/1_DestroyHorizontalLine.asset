@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b22744ba642034e8df5879aafa20fb, type: 3}
+  m_Name: 1_DestroyHorizontalLine
+  m_EditorClassIdentifier: 
+  Name: Bow
+  Hint: Select horizontal line to destroy.
+  Icon: {fileID: 21300000, guid: 2e5170af2cb2d0048a858560169aad71, type: 3}
+  InitialAmount: 10
+  InputType: 0
+  booster:
+    rid: 80980714816012288
+  references:
+    version: 2
+    RefIds:
+    - rid: 80980714816012288
+      type: {class: DestroyHorizontalLineBooster, ns: Model.Objects, asm: GameAssembly}
+      data:
+        id: 1

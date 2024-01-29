@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef012eea68a0202499f924a35008c2cf, type: 3}
+  m_Name: AllCounterTargets
+  m_EditorClassIdentifier: 
+  targets:
+  - {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
+  - {fileID: 11400000, guid: a718201386d955f418821abb1599e4d4, type: 2}
+  - {fileID: 11400000, guid: 4790cd615efdf9544bf17a4a2a4046b0, type: 2}
+  - {fileID: 11400000, guid: 8a442fbef8f3e704a83b4dd663f6705c, type: 2}
+  - {fileID: 11400000, guid: 6034ac62361174242bf0e34206603ed8, type: 2}
+  - {fileID: 11400000, guid: 21710fd5c5924a745b4564f97aec51ec, type: 2}
+  - {fileID: 11400000, guid: 94d590edb7adb714daff1c9850a67d2f, type: 2}
+  - {fileID: 11400000, guid: 0bd510416f4ede54db15bb2da5c8bbd9, type: 2}
+  - {fileID: 11400000, guid: a6f1346062340f249a889d725e8c0e1e, type: 2}
+  - {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
+  defaultTarget: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}
+  turnSO: {fileID: 11400000, guid: 678eee57c2658df49b143c69c1d05f6f, type: 2}

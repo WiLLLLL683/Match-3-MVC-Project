@@ -10,6 +10,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using View.Input;
 
 namespace Infrastructure
 {
@@ -68,6 +69,7 @@ namespace Infrastructure
 
             FillGameBoardModel();
             SwapMatchedBlocks();
+            EnableInput();
             EnablePresenters();
             stateMachine.EnterState<WaitState>();
         }
@@ -122,13 +124,18 @@ namespace Infrastructure
             }
         }
 
-        private void EnablePresenters()
+        private void EnableInput()
         {
             core.input.Enable();
+            core.input.SetCurrentMode<IMoveInputMode>();
+        }
+
+        private void EnablePresenters()
+        {
             core.hud.Enable();
             core.cells.Enable();
             core.blocks.Enable();
-            core.boosterInventory.Enable();
+            core.boosters.Enable();
             core.pause.Enable();
             core.endGame.Enable();
         }

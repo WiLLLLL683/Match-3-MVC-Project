@@ -21,9 +21,9 @@ namespace TestUtils
         /// </summary>
         public static CurrencyService CreateCurrencyService(CurrencyType type, int amount)
         {
-            CurrencyInventory inventory = new();
-            inventory.currencies.Add(type, amount);
-            CurrencyService Service = new(inventory);
+            Game game = new();
+            game.CurrencyInventory.currencies.Add(type, amount);
+            CurrencyService Service = new(game);
             return Service;
         }
 

@@ -10,20 +10,12 @@ namespace Model.Objects
     public class Game
     {
         //meta game
-        public LevelProgress LevelProgress;
-        public PlayerSettings PlayerSettings;
-        public CurrencyInventory CurrencyInventory;
+        public LevelProgress LevelProgress = new();
+        public PlayerSettings PlayerSettings = new();
+        public CurrencyInventory CurrencyInventory = new();
+        public BoosterInventory BoosterInventory = new();
 
         //core game
         public Level CurrentLevel;
-
-        public Game(LevelProgress levelProgress,
-            PlayerSettings playerSettings,
-            CurrencyInventory currencyInventory)
-        {
-            LevelProgress = levelProgress;
-            PlayerSettings = playerSettings;
-            CurrencyInventory = currencyInventory;
-        }
     }
 }

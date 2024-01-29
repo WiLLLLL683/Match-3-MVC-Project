@@ -22,6 +22,7 @@ namespace Utils
                 _ => Vector2Int.zero,
             };
         }
+
         /// <summary>
         /// Преобразовать направление в противоположное
         /// </summary>
@@ -36,6 +37,30 @@ namespace Utils
                 Directions.Zero => Directions.Zero,
                 _ => Directions.Zero,
             };
+        }
+
+        /// <summary>
+        /// Преобразовать дельта-вектор в направление
+        /// </summary>
+        public static Directions ToDirection(this Vector2 deltaPosition)
+        {
+            if (deltaPosition.magnitude == 0)
+                return Directions.Zero;
+
+            if (Mathf.Abs(deltaPosition.x) > Mathf.Abs(deltaPosition.y))
+            {
+                if (deltaPosition.x > 0)
+                    return Directions.Right;
+                else
+                    return Directions.Left;
+            }
+            else
+            {
+                if (deltaPosition.y > 0)
+                    return Directions.Up;
+                else
+                    return Directions.Down;
+            }
         }
 
         public static T[] MemberwiseArrayClone<T>(this T[] array) where T : ICloneable
@@ -53,6 +78,11 @@ namespace Utils
         public static bool IsInBounds<T>(this T[] array, int index)
         {
             return 0 <= index && index < array.Length;
+        }
+
+        public static bool IsInBounds<T>(this T[,] array, Vector2Int position)
+        {
+            return 0 <= position.x && position.x < array.GetLength(0) && 0 <= position.y && position.y < array.GetLength(1);
         }
 
         public static bool IsInBounds<T>(this List<T> list, int index)

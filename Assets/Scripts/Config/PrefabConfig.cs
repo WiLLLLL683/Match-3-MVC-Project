@@ -9,5 +9,6 @@ namespace Config
         public BlockView blockViewPrefab;
         public CounterView goalCounterPrefab;
         public CounterView restrictionCounterPrefab;
+        public BoosterButtonView boosterButtonPrefab;
     }
 }

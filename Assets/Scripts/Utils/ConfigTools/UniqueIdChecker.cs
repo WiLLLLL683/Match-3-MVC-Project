@@ -15,11 +15,11 @@ namespace Utils
             var duplicates = targets.GroupBy(x => new { x.CounterTarget.Id })
                    .Where(x => x.Skip(1).Any());
 
-            foreach (var dupl in duplicates)
+            foreach (var group in duplicates)
             {
-                foreach (var item in dupl)
+                foreach (T item in group)
                 {
-                    Debug.LogError($"Duplicate {dupl.Key} found in {item.name}", item);
+                    Debug.LogError($"Duplicate {group.Key} found in {item.name}", item);
                 }
             }
 
@@ -34,11 +34,30 @@ namespace Utils
             var duplicates = typeWeights.GroupBy(x => new { x.blockTypeSO.CounterTarget.Id })
                    .Where(x => x.Skip(1).Any());
 
-            foreach (var dupl in duplicates)
+            foreach (var group in duplicates)
             {
-                foreach (var item in dupl)
+                foreach (BlockTypeSO_Weight item in group)
                 {
-                    Debug.LogError($"Duplicate {dupl.Key} found in {item.blockTypeSO.name}", item.blockTypeSO);
+                    Debug.LogError($"Duplicate {group.Key} found in {item.blockTypeSO.name}", item.blockTypeSO);
+                }
+            }
+
+            if (duplicates.IsEmpty())
+            {
+                Debug.Log("All Ids are unique");
+            }
+        }
+
+        public void CheckBoosters(List<BoosterSO> typeWeights)
+        {
+            var duplicates = typeWeights.GroupBy(x => new { x.booster.Id })
+                   .Where(x => x.Skip(1).Any());
+
+            foreach (var group in duplicates)
+            {
+                foreach (BoosterSO item in group)
+                {
+                    Debug.LogError($"Duplicate {group.Key} found in {item.name}", item);
                 }
             }
 

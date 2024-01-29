@@ -13,22 +13,22 @@ namespace Infrastructure
     {
         public IStateMachine coreStateMachine;
         public IStateFactory stateFactory;
-        public IInput input;
+        public IGameBoardInput input;
         public IHudPresenter hud;
         public ICellsPresenter cells;
         public IBlocksPresenter blocks;
-        public IBoosterInventoryPresenter boosterInventory;
+        public IBoostersPresenter boosters;
         public IPausePresenter pause;
         public IEndGamePresenter endGame;
 
         [Inject]
         public void Construct(IStateMachine coreStateMachine,
             IStateFactory stateFactory,
-            IInput input,
+            IGameBoardInput input,
             IHudPresenter hud,
             ICellsPresenter cells,
             IBlocksPresenter blocks,
-            IBoosterInventoryPresenter boosterInventory,
+            IBoostersPresenter boosters,
             IPausePresenter pause,
             IEndGamePresenter endGame)
         {
@@ -38,7 +38,7 @@ namespace Infrastructure
             this.hud = hud;
             this.cells = cells;
             this.blocks = blocks;
-            this.boosterInventory = boosterInventory;
+            this.boosters = boosters;
             this.pause = pause;
             this.endGame = endGame;
         }

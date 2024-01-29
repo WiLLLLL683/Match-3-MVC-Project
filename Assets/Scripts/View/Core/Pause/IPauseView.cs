@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace View
 {
     public interface IPauseView
     {
-        public abstract IPausePopUp PausePopUp { get; }
+        IPausePopUp PausePopUp { get; }
+
+        event Action OnShowInput;
+        event Action OnHideInput;
     }
 }

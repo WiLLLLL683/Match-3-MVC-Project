@@ -34,6 +34,7 @@ namespace Infrastructure
 
         public async UniTask OnEnter(HashSet<Cell> payLoad, CancellationToken token)
         {
+            await UniTask.WaitForSeconds(configProvider.Delays.beforeBlockDestroy, cancellationToken: token);
             DestroyBlocks(payLoad);
             await UniTask.WaitForSeconds(configProvider.Delays.afterBlockDestroy, cancellationToken: token);
             stateMachine.EnterState<SpawnState>();
@@ -46,6 +47,9 @@ namespace Infrastructure
 
         private void DestroyBlocks(HashSet<Cell> matches)
         {
+            if (matches == null)
+                return;
+
             foreach (Cell match in matches)
             {
                 winLoseService.DecreaseCountIfPossible(match.Block.Type);

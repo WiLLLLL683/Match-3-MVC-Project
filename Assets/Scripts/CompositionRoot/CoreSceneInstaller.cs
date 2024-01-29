@@ -1,41 +1,45 @@
 using System;
+using System.Collections.Generic;
 using Presenter;
 using UnityEngine;
 using View;
 using View.Factories;
+using View.Input;
 using Zenject;
 
 namespace CompositionRoot
 {
-
     public class CoreSceneInstaller : MonoInstaller
     {
-        [SerializeField] private Input_Touch input;
-
-        [Header("Screens")]
+        [Header("Views")]
         [SerializeField] private HudView hudView;
         [SerializeField] private GameBoardView gameBoardView;
-        [SerializeField] private BoosterInventoryView boosterInventoryView;
+        [SerializeField] private BoostersView boostersView;
         [SerializeField] private PauseView pauseView;
         [SerializeField] private EndGameView endGameView;
-
-        //TODO перенести в ConfigInstaller
-        [Header("Prefabs")]
-        [SerializeField] private BoosterView boosterPrefab;
 
         public override void InstallBindings()
         {
             BindInput();
             BindHud();
             BindGameboard();
-            BindBoosterInventory();
+            BindBoosters();
             BindPause();
             BindEndGame();
         }
 
         private void BindInput()
         {
-            Container.Bind<IInput>().FromInstance(input).AsSingle();
+            Match3ActionMap actionMap = new();
+            Camera mainCamera = Camera.main;
+            Dictionary<Type, IInputMode> inputModes = new()
+            {
+                [typeof(ISelectInputMode)] = new SelectInputMode(actionMap, mainCamera),
+                [typeof(IMoveInputMode)] = new MoveInputMode(actionMap, mainCamera)
+            };
+
+            IGameBoardInput input = new GameBoardInput(actionMap, inputModes);
+            Container.Bind<IGameBoardInput>().FromInstance(input).AsSingle();
         }
 
         private void BindHud()
@@ -58,16 +62,13 @@ namespace CompositionRoot
             Container.Bind<IBlockViewFactory>().To<BlockViewFactory>().AsSingle();
         }
 
-        private void BindBoosterInventory()
+        private void BindBoosters()
         {
-            Container.Bind<IBoosterInventoryView>().FromInstance(boosterInventoryView).AsSingle();
-            Container.Bind<IBoosterInventoryPresenter>().To<BoosterInventoryPresenter>().AsSingle();
+            Container.Bind<IBoostersView>().FromInstance(boostersView).AsSingle();
+            Container.Bind<IBoostersPresenter>().To<BoostersPresenter>().AsSingle();
 
-            //factories //TODO заменить на свою фабрику и префаб переместить в ConfigProvider
-            Container.BindFactory<BoosterPresenter, BoosterPresenter.Factory>();
-            Container.BindFactory<BoosterView, BoosterView.Factory>()
-                .FromComponentInNewPrefab(boosterPrefab)
-                .UnderTransform(boosterInventoryView.BoostersParent);
+            //factories
+            Container.Bind<IBoosterButtonFactory>().To<BoosterButtonFactory>().AsSingle();
         }
 
         private void BindPause()

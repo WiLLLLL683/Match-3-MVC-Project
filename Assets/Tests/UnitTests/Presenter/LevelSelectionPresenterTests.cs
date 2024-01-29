@@ -26,8 +26,8 @@ namespace Presenter.UnitTests
             selectedLevelName = "";
             coreGameStartedCount = 0;
 
-            var levelProgress = new LevelProgress();
-            levelProgress.CurrentLevelIndex = NO_LEVEL_INDEX;
+            var game = new Game();
+            game.LevelProgress.CurrentLevelIndex = NO_LEVEL_INDEX;
             //view
             var view = Substitute.For<ILevelSelectionView>();
             view.ShowSelectedLevel(Arg.Any<Sprite>(), Arg.Do<string>(x => selectedLevelName = x));
@@ -44,9 +44,9 @@ namespace Presenter.UnitTests
             var stateMachine = Substitute.For<IStateMachine>();
             stateMachine.When(x => x.EnterState<LoadLevelState>()).Do(x => coreGameStartedCount++);
 
-            var presenter = new LevelSelectionPresenter(levelProgress, view, stateMachine, configProvider);
+            var presenter = new LevelSelectionPresenter(game, view, stateMachine, configProvider);
 
-            return (presenter, view, levelProgress);
+            return (presenter, view, game.LevelProgress);
         }
 
         [Test]

@@ -9,17 +9,15 @@ namespace View
     /// </summary>
     public interface IBlockView
     {
-        public GameObject gameObject { get; }
+        GameObject gameObject { get; }
+        Vector2Int ModelPosition { get; }
 
-        public event Action<Vector2Int, Directions> OnInputMove;
-        public event Action<Vector2Int> OnInputActivate;
-
-        //инициализация
-        public void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition);
-        public void ChangeModelPosition(Vector2Int modelPosition);
-        public void ChangeType(Sprite iconSprite, ParticleSystem destroyEffectPrefab);
-        //визуал
-        public void PlayClickAnimation();
-        public void PlayDestroyEffect();
+        void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition);
+        void SetModelPosition(Vector2Int modelPosition);
+        void SetType(Sprite iconSprite, ParticleSystem destroyEffectPrefab);
+        void PlayClickAnimation();
+        void Destroy();
+        void Release();
+        void Drag(Vector2 deltaPosition);
     }
 }

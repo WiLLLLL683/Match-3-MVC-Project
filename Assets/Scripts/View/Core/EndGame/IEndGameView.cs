@@ -4,7 +4,7 @@ namespace View
 {
     public interface IEndGameView
     {
-        public abstract IEndGamePopUp CompletePopUp { get; }
-        public abstract IEndGamePopUp DefeatPopUp { get; }
+        IEndGamePopUp CompletePopUp { get; }
+        IEndGamePopUp DefeatPopUp { get; }
     }
 }

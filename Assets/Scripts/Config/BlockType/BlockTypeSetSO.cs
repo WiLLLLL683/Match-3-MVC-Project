@@ -8,7 +8,7 @@ using View;
 
 namespace Config
 {
-    [CreateAssetMenu(fileName = "NewBlockTypeSet", menuName = "Config/BlockTypeSet")]
+    [CreateAssetMenu(fileName = "NewBlockTypeSet", menuName = "Config/Block/BlockTypeSet")]
     public class BlockTypeSetSO : ScriptableObject
     {
         public List<BlockTypeSO_Weight> typeWeights = new();

@@ -63,11 +63,11 @@ namespace Presenter
 
         public void Disable()
         {
-            ClearAll();
-
             cellDestroyService.OnDestroy -= Destroy;
             setBlockService.OnEmpty -= Empty;
             changeTypeService.OnTypeChange -= ChangeType;
+
+            ClearAll();
 
             Debug.Log($"{this} disabled");
         }
@@ -99,11 +99,7 @@ namespace Presenter
 
         private void ClearAll()
         {
-            foreach (Transform cell in view.CellsParent)
-            {
-                GameObject.Destroy(cell.gameObject);
-            }
-
+            view.ClearCellsParent();
             cells.Clear();
         }
 

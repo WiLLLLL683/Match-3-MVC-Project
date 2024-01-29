@@ -4,7 +4,10 @@ namespace View
 {
     public interface IGameBoardView
     {
-        public abstract Transform BlocksParent { get; }
-        public abstract Transform CellsParent { get; }
+        Transform BlocksParent { get; }
+        Transform CellsParent { get; }
+
+        void ClearCellsParent();
+        void ClearBlocksParent();
     }
 }

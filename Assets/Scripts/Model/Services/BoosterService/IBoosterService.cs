@@ -1,25 +1,39 @@
 ﻿using Model.Objects;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Model.Services
 {
     /// <summary>
-    /// Сервис для работы с бустерами
+    /// Сервис для работы с бустерами.
     /// </summary>
     public interface IBoosterService
     {
         /// <summary>
-        /// Добавить бустер определенного типа
+        /// Id, Amount
         /// </summary>
-        void AddBooster<T>(int ammount) where T : IBooster;
+        event Action<int, int> OnAmountChanged;
 
         /// <summary>
-        /// Забрать бустер определенного типа
+        /// Добавить бустер определенного типа.
         /// </summary>
-        IBooster SpendBooster<T>() where T : IBooster, new();
+        void AddBooster(int id, int ammount);
 
         /// <summary>
-        /// Получить количество бустеров определенного типа
+        /// Забрать бустер определенного типа без использования.
         /// </summary>
-        public int GetBoosterAmount<T>() where T : IBooster;
+        void RemoveBooster(int id, int ammount);
+
+        /// <summary>
+        /// Использовать бустер определенного типа и забрать 1 штуку.
+        /// Возвращает клетки для уничтожения блоков в них.
+        /// </summary>
+        HashSet<Cell> UseBooster(int id, Vector2Int startPosition);
+
+        /// <summary>
+        /// Получить количество бустеров определенного типа.
+        /// </summary>
+        int GetBoosterAmount(int id);
     }
 }
