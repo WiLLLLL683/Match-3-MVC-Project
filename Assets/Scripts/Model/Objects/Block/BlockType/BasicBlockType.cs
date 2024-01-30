@@ -8,11 +8,15 @@ namespace Model.Objects
     /// Базовый тип блока, без действия по активации
     /// </summary>
     [Serializable]
-    public class BasicBlockType : BlockType
+    public class BasicBlockType : IBlockType
     {
-        public BasicBlockType() { }
-        public BasicBlockType(int id) => this.Id = id;
+        [SerializeField] private int id;
+        public int Id => id;
 
-        public override bool Activate(Vector2Int position, IBlockDestroyService destroyService) => false;
+        public BasicBlockType() { }
+        public BasicBlockType(int id) => this.id = id;
+
+        public bool Activate(Vector2Int position, IBlockDestroyService destroyService) => false;
+        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

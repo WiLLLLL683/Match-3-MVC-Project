@@ -7,7 +7,7 @@ namespace Config
     public class BlockTypeSO : ACounterTargetSO
     {
         public ParticleSystem destroyEffect;
-        [SerializeReference, SubclassSelector] public BlockType type = new BasicBlockType(0);
+        [SerializeReference, SubclassSelector] public IBlockType type = new BasicBlockType(0);
         
         public override ICounterTarget CounterTarget => type;
     }

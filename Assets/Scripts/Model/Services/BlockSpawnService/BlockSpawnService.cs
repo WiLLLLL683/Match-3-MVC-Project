@@ -57,11 +57,11 @@ namespace Model.Services
 
         public void SpawnRandomBlock_WithOverride(Cell cell)
         {
-            BlockType type = randomService.GetRandomBlockType();
+            IBlockType type = randomService.GetRandomBlockType();
             SpawnBlock_WithOverride(cell, type);
         }
 
-        public void SpawnBlock_WithOverride(Cell cell, BlockType type)
+        public void SpawnBlock_WithOverride(Cell cell, IBlockType type)
         {
             if (!validationService.CellExistsAt(cell.Position))
                 return;
@@ -79,11 +79,11 @@ namespace Model.Services
 
         private void SpawnRandomBlock(Cell cell)
         {
-            BlockType type = randomService.GetRandomBlockType();
+            IBlockType type = randomService.GetRandomBlockType();
             SpawnBlock(cell, type);
         }
 
-        private void SpawnBlock(Cell cell, BlockType type)
+        private void SpawnBlock(Cell cell, IBlockType type)
         {
             var block = blockFactory.Create(type, cell.Position);
             setBlockService.SetBlock(cell, block);

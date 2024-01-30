@@ -22,5 +22,5 @@ MonoBehaviour:
     - rid: 80980823557275655
       type: {class: ExplosiveBlockType, ns: Model.Objects, asm: GameAssembly}
       data:
-        Id: 100
+        id: 100
         explosionRadius: 1

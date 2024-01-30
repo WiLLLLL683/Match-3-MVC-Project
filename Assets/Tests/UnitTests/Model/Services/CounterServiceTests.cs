@@ -80,10 +80,8 @@ namespace Model.Services.UnitTests
         public void IncreaseCount_WrongTargetId_CountSameNoEvent()
         {
             var service = Setup();
-            var target = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
-            target.Id = 0;
-            var target2 = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
-            target2.Id = 999;
+            var target = TestBlockFactory.CreateBlockType(0);
+            var target2 = TestBlockFactory.CreateBlockType(999);
             var goal = new Counter(target, 10);
 
             service.IncreaseCount(goal, target2, 10);
@@ -182,10 +180,8 @@ namespace Model.Services.UnitTests
         public void DecreaseCount_WrongTargetId_CountSameNoEvent()
         {
             var service = Setup();
-            var target = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
-            target.Id = 0;
-            var target2 = TestBlockFactory.CreateBlockType(TestBlockFactory.BLUE_BLOCK);
-            target2.Id = 999;
+            var target = TestBlockFactory.CreateBlockType(0);
+            var target2 = TestBlockFactory.CreateBlockType(999);
             var goal = new Counter(target, 10);
 
             service.DecreaseCount(goal, target2, 1);

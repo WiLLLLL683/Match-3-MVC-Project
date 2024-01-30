@@ -32,7 +32,7 @@ namespace TestUtils
         /// <summary>
         /// Создание блока указанного типа
         /// </summary>
-        public static Block CreateBlock(BlockType type, Vector2Int position = default)
+        public static Block CreateBlock(IBlockType type, Vector2Int position = default)
         {
             return new Block(type, position);
         }

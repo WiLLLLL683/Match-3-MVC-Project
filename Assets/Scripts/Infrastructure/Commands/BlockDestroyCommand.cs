@@ -9,7 +9,7 @@ namespace Infrastructure.Commands
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockSpawnService blockSpawnService;
 
-        private BlockType blockType;
+        private IBlockType blockType;
 
         public BlockDestroyCommand(Cell cell, IBlockDestroyService destroyService, IBlockSpawnService blockSpawnService)
         {

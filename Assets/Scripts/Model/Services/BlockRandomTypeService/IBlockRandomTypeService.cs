@@ -8,11 +8,11 @@ namespace Model.Services
     /// </summary>
     public interface IBlockRandomTypeService
     {
-        public void SetLevelConfig(List<BlockType_Weight> typesWeight, BlockType defaultBlockType);
+        public void SetLevelConfig(List<BlockType_Weight> typesWeight, IBlockType defaultBlockType);
         
         /// <summary>
         /// Получить рандомный тип блока с заданными вероятностями
         /// </summary>
-        public BlockType GetRandomBlockType();
+        public IBlockType GetRandomBlockType();
     }
 }

@@ -5,9 +5,9 @@ namespace Model.Factories
 {
     public class BlockFactory : IBlockFactory
     {
-        public Block Create(BlockType type, Vector2Int position)
+        public Block Create(IBlockType type, Vector2Int position)
         {
-            BlockType typeClone = type.Clone();
+            IBlockType typeClone = type.Clone();
             return new Block(typeClone, position);
         }
     }

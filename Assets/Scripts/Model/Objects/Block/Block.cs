@@ -9,10 +9,10 @@ namespace Model.Objects
     [Serializable]
     public class Block
     {
-        public BlockType Type;
+        public IBlockType Type;
         public Vector2Int Position;
 
-        public Block(BlockType type, Vector2Int position)
+        public Block(IBlockType type, Vector2Int position)
         {
             Type = type;
             Position = position;

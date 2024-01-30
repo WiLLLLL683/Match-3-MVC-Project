@@ -12,7 +12,7 @@ namespace Infrastructure.Commands.UnitTests
         private int spawnEventCount = 0;
         private int destroyEventCount = 0;
 
-        private (GameBoard gameBoard, BlockSpawnService spawn, BlockDestroyService destroy, BlockType type) Setup()
+        private (GameBoard gameBoard, BlockSpawnService spawn, BlockDestroyService destroy, IBlockType type) Setup()
         {
             var game = TestLevelFactory.CreateGame(1, 1);
             var validation = new ValidationService(game);

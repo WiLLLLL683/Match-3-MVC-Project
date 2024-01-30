@@ -8,17 +8,17 @@ namespace Model.Services
     public class BlockRandomTypeService : IBlockRandomTypeService
     {
         private List<BlockType_Weight> typesWeight = new();
-        private BlockType defaultBlockType;
+        private IBlockType defaultBlockType;
         private int totalWeight;
 
-        public void SetLevelConfig(List<BlockType_Weight> typesWeight, BlockType defaultBlockType)
+        public void SetLevelConfig(List<BlockType_Weight> typesWeight, IBlockType defaultBlockType)
         {
             this.defaultBlockType = defaultBlockType;
             this.typesWeight = typesWeight;
             CalculateTotalWeight();
         }
 
-        public BlockType GetRandomBlockType()
+        public IBlockType GetRandomBlockType()
         {
             int weightIndex = new Random().Next(0, totalWeight);
 

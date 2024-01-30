@@ -14,7 +14,7 @@ namespace Model.Services.UnitTests
         {
             var service = TestServicesFactory.CreateRandomBlockTypeService(TestBlockFactory.RED_BLOCK);
 
-            BlockType blockType = service.GetRandomBlockType();
+            IBlockType blockType = service.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
             Assert.AreEqual(blockType.Id, TestBlockFactory.RED_BLOCK);
@@ -25,7 +25,7 @@ namespace Model.Services.UnitTests
         {
             var service = TestServicesFactory.CreateRandomBlockTypeService();
 
-            BlockType blockType = service.GetRandomBlockType();
+            IBlockType blockType = service.GetRandomBlockType();
 
             Assert.AreEqual(typeof(BasicBlockType), blockType.GetType());
             Assert.AreEqual(blockType.Id, TestBlockFactory.DEFAULT_BLOCK);
@@ -40,7 +40,7 @@ namespace Model.Services.UnitTests
             int redCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                BlockType blockType = service.GetRandomBlockType();
+                IBlockType blockType = service.GetRandomBlockType();
                 if (blockType.Id == TestBlockFactory.BLUE_BLOCK)
                     blueCount++;
                 if (blockType.Id == TestBlockFactory.RED_BLOCK)
@@ -64,7 +64,7 @@ namespace Model.Services.UnitTests
             int yellowCount = 0;
             for (int i = 0; i < 1000; i++)
             {
-                BlockType blockType = service.GetRandomBlockType();
+                IBlockType blockType = service.GetRandomBlockType();
                 if (blockType.Id == TestBlockFactory.BLUE_BLOCK)
                     blueCount++;
                 if (blockType.Id == TestBlockFactory.RED_BLOCK)
