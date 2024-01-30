@@ -20,6 +20,7 @@ namespace Infrastructure
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
         private readonly IWinLoseService winLoseService;
+        private readonly IBlockDestroyService destroyService;
         private readonly ICounterTarget turnTarget;
 
         private GameBoard gameBoard;
@@ -28,12 +29,14 @@ namespace Infrastructure
             IStateMachine stateMachine,
             IBlockMatchService matchService,
             IWinLoseService winLoseService,
+            IBlockDestroyService destroyService,
             IConfigProvider configProvider)
         {
             this.game = game;
             this.stateMachine = stateMachine;
             this.matchService = matchService;
             this.winLoseService = winLoseService;
+            this.destroyService = destroyService;
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
@@ -50,7 +53,8 @@ namespace Infrastructure
 
         private void PressBlock(Vector2Int position)
         {
-            bool turnSucsess = gameBoard.Cells[position.x, position.y].Block.Type.Activate(); //TODO возвращать IAction
+            //TODO возвращать IAction
+            bool turnSucsess = gameBoard.Cells[position.x, position.y].Block.Type.Activate(position, destroyService);
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 

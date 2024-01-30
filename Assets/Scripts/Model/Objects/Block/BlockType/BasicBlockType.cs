@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Services;
+using System;
 using UnityEngine;
 
 namespace Model.Objects
@@ -12,6 +13,6 @@ namespace Model.Objects
         public BasicBlockType() { }
         public BasicBlockType(int id) => this.Id = id;
 
-        public override bool Activate() => false;
+        public override bool Activate(Vector2Int position, IBlockDestroyService destroyService) => false;
     }
 }

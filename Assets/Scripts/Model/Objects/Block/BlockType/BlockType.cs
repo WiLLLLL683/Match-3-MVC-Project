@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Model.Services;
+using System;
 using UnityEngine;
 namespace Model.Objects
 {
     /// <summary>
-    /// Тип блока с возможностью активации
+    /// Тип блока с возможностью активации. <br/>
+    /// (Абстрактный класс, вместо интерфейса IBlockType, чтобы использовать Id для BlockType и для ICounterTarget без конфликтов.)
     /// </summary>
     [Serializable]
     public abstract class BlockType : ICounterTarget
@@ -14,7 +16,7 @@ namespace Model.Objects
         /// <summary>
         /// Возвращает успешен ли был ход
         /// </summary>
-        public abstract bool Activate();
+        public abstract bool Activate(Vector2Int position, IBlockDestroyService destroyService);
 
         /// <summary>
         /// Memberwise clone

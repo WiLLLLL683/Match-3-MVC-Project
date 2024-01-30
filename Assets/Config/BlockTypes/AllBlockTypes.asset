@@ -25,4 +25,6 @@ MonoBehaviour:
     weight: 100
   - blockTypeSO: {fileID: 11400000, guid: 21710fd5c5924a745b4564f97aec51ec, type: 2}
     weight: 100
+  - blockTypeSO: {fileID: 11400000, guid: 1c69ac936a93789488b845545f53667a, type: 2}
+    weight: 25
   defaultBlockType: {fileID: 11400000, guid: 993bf9677e2925343a8a48655d8ed63f, type: 2}
