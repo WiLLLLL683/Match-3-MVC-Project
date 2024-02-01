@@ -20,6 +20,7 @@ namespace Infrastructure
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
         private readonly IBlockMoveService moveService;
+        private readonly IBlockDestroyService destroyService;
         private readonly IWinLoseService winLoseService;
         private readonly ICounterTarget turnTarget;
 
@@ -29,12 +30,14 @@ namespace Infrastructure
         public InputMoveBlockState(IStateMachine stateMachine,
             IBlockMatchService matchService,
             IBlockMoveService moveService,
+            IBlockDestroyService destroyService,
             IWinLoseService winLoseService,
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
             this.matchService = matchService;
             this.moveService = moveService;
+            this.destroyService = destroyService;
             this.winLoseService = winLoseService;
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
@@ -66,16 +69,20 @@ namespace Infrastructure
 
             HashSet<Cell> matches = matchService.FindAllMatches();
 
-            if (matches.Count > 0)
-            {
-                winLoseService.DecreaseCountIfPossible(turnTarget);
-                stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
-            }
-            else
+            if (matches.Count == 0)
             {
                 moveAction?.Undo();
                 stateMachine.EnterState<WaitState>(); //Возврат к ожиданию инпута
+                return;
             }
+
+            foreach (Cell cell in matches)
+            {
+                destroyService.MarkToDestroy(cell.Block.Position);
+            }
+
+            winLoseService.TryDecreaseCount(turnTarget);
+            stateMachine.EnterState<DestroyState>();
         }
     }
 }

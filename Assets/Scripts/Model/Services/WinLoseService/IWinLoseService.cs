@@ -14,12 +14,12 @@ namespace Model.Services
         /// <summary>
         /// Уменьшить счетчик заданной цели, если он существует в целях или ограничениях текущего уровня
         /// </summary>
-        void DecreaseCountIfPossible(ICounterTarget target, int amount = 1);
+        void TryDecreaseCount(ICounterTarget target, int amount = 1);
 
         /// <summary>
         /// Увеличить счетчик заданной цели, если он существует в целях или ограничениях текущего уровня
         /// </summary>
-        void IncreaseCountIfPossible(ICounterTarget target, int amount = 1);
+        void TryIncreaseCount(ICounterTarget target, int amount = 1);
 
         /// <summary>
         /// Проверить закончились ли огранияения уровня

@@ -18,14 +18,17 @@ namespace Infrastructure
     {
         private readonly IStateMachine stateMachine;
         private readonly IBoosterService boosterService;
+        private readonly IBlockDestroyService destroyService;
         private readonly IConfigProvider configProvider;
 
         public InputBoosterState(IStateMachine stateMachine,
             IBoosterService boosterService,
+            IBlockDestroyService destroyService,
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
             this.boosterService = boosterService;
+            this.destroyService = destroyService;
             this.configProvider = configProvider;
         }
 
@@ -33,7 +36,14 @@ namespace Infrastructure
         {
             await UniTask.WaitForSeconds(configProvider.Delays.beforeBoosterUse);
             HashSet<Cell> cells = boosterService.UseBooster(payLoad.id, payLoad.startPosition);
-            stateMachine.EnterState<DestroyState, HashSet<Cell>>(cells);
+
+            //TODO перенести это в бустер
+            foreach (var cell in cells)
+            {
+                destroyService.MarkToDestroy(cell.Position);
+            }
+
+            stateMachine.EnterState<DestroyState>();
         }
 
         public async UniTask OnExit(CancellationToken token)

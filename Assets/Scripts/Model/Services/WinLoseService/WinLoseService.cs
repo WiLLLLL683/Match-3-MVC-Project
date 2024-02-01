@@ -46,7 +46,7 @@ namespace Model.Services
         public void RaiseWinEvent() => OnWin?.Invoke();
         public void RaiseLoseEvent() => OnLose?.Invoke();
 
-        public void IncreaseCountIfPossible(ICounterTarget target, int amount = 1)
+        public void TryIncreaseCount(ICounterTarget target, int amount = 1)
         {
             for (int i = 0; i < Level.goals.Length; i++)
             {
@@ -59,7 +59,7 @@ namespace Model.Services
             }
         }
 
-        public void DecreaseCountIfPossible(ICounterTarget target, int amount = 1)
+        public void TryDecreaseCount(ICounterTarget target, int amount = 1)
         {
             for (int i = 0; i < Level.goals.Length; i++)
             {

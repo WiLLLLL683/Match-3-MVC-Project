@@ -56,17 +56,19 @@ namespace Infrastructure
             //TODO возвращать IAction
             bool turnSucsess = gameBoard.Cells[position.x, position.y].Block.Type.Activate(position, destroyService);
 
-            HashSet<Cell> matches = matchService.FindAllMatches();
-
-            if (turnSucsess)
-            {
-                winLoseService.DecreaseCountIfPossible(turnTarget);
-                stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
-            }
-            else
+            if (!turnSucsess)
             {
                 stateMachine.EnterState<WaitState>(); //Возврат к ожиданию инпута
+                return;
             }
+
+            foreach (Cell cell in matchService.FindAllMatches())
+            {
+                destroyService.MarkToDestroy(cell.Block.Position);
+            }
+
+            winLoseService.TryDecreaseCount(turnTarget);
+            stateMachine.EnterState<DestroyState>();
         }
     }
 }

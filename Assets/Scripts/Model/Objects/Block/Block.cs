@@ -11,6 +11,7 @@ namespace Model.Objects
     {
         public IBlockType Type;
         public Vector2Int Position;
+        public bool isMarkedToDestroy;
 
         public Block(IBlockType type, Vector2Int position)
         {

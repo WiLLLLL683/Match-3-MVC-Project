@@ -1,5 +1,6 @@
 ﻿using Model.Objects;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Services
@@ -8,7 +9,14 @@ namespace Model.Services
     {
         event Action<Block> OnDestroy;
 
-        void DestroyAt(Vector2Int position);
-        void DestroyAt(Cell cell);
+        /// <summary>
+        /// Пометить блок для уничтожения.
+        /// </summary>
+        void MarkToDestroy(Vector2Int position);
+
+        /// <summary>
+        /// Уничтожить все помеченные блоки. Возвращает лист уничтоженных целей для счетчика.
+        /// </summary>
+        List<ICounterTarget> DestroyAllMarkedBlocks();
     }
 }

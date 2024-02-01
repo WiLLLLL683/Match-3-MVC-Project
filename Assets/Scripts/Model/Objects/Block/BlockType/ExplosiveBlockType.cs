@@ -23,7 +23,7 @@ namespace Model.Objects
             {
                 for (int y = minBound.y; y <= maxBound.y; y++)
                 {
-                    destroyService.DestroyAt(new Vector2Int(x, y));
+                    destroyService.MarkToDestroy(new Vector2Int(x, y));
                 }
             }
 

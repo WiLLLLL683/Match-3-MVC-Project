@@ -1,5 +1,6 @@
 ﻿using Model.Objects;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model.Services
@@ -14,30 +15,58 @@ namespace Model.Services
 
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
-        public BlockDestroyService(Game game, IValidationService validationService, ICellSetBlockService setBlockService)
+        public BlockDestroyService(Game game, IValidationService validation, ICellSetBlockService setBlockService)
         {
             this.game = game;
-            this.validation = validationService;
+            this.validation = validation;
             this.setBlockService = setBlockService;
         }
 
-        public void DestroyAt(Vector2Int position)
+        public void MarkToDestroy(Vector2Int position)
         {
-            if (!validation.CellExistsAt(position))
+            if (!validation.BlockExistsAt(position))
                 return;
 
-            Cell cell = GameBoard.Cells[position.x, position.y];
-            DestroyAt(cell);
+            GameBoard.Cells[position.x, position.y].Block.isMarkedToDestroy = true;
         }
 
-        public void DestroyAt(Cell cell)
+        public List<ICounterTarget> DestroyAllMarkedBlocks()
         {
-            if (!validation.BlockExistsAt(cell.Position))
-                return;
+            List<ICounterTarget> destroyedTargets = new();
+
+            for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+            {
+                for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
+                {
+                    if (!validation.BlockExistsAt(new(x,y)))
+                        continue;
+
+                    ICounterTarget counterTarget = GameBoard.Cells[x, y].Block.Type;
+
+                    if (TryDestroy(new Vector2Int(x, y)))
+                    {
+                        destroyedTargets.Add(counterTarget);
+                    }
+                }
+            }
+
+            return destroyedTargets;
+        }
+
+        private bool TryDestroy(Vector2Int position)
+        {
+            if (!validation.BlockExistsAt(position))
+                return false;
+
+            Cell cell = GameBoard.Cells[position.x, position.y];
+
+            if (!cell.Block.isMarkedToDestroy)
+                return false;
 
             OnDestroy?.Invoke(cell.Block);
             GameBoard.Blocks.Remove(cell.Block);
             setBlockService.SetEmpty(cell);
+            return true;
         }
     }
 }

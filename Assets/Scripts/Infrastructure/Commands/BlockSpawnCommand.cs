@@ -36,6 +36,9 @@ namespace Infrastructure.Commands
             isExecuted = true;
         }
 
-        protected override void OnUndo() => destroyService.DestroyAt(cell.Position);
+        protected override void OnUndo()
+        {
+            //destroyService.TryDestroy(cell.Position);
+        }
     }
 }
