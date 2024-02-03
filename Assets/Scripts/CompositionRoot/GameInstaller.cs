@@ -52,6 +52,7 @@ namespace CompositionRoot
             Container.Bind<IBlockGravityService>().To<BlockGravityService>().AsSingle();
             Container.Bind<IBlockRandomTypeService>().To<BlockRandomTypeService>().AsSingle();
             Container.Bind<IValidationService>().To<ValidationService>().AsSingle();
+            Container.Bind<IBlockActivateService>().To<BlockActivateService>().AsSingle();
 
             //cell Services
             Container.Bind<ICellChangeTypeService>().To<CellChangeTypeService>().AsSingle();

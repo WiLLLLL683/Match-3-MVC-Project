@@ -53,6 +53,14 @@ namespace Model.Services
             return true;
         }
 
+        public Block TryGetBlock(Vector2Int position)
+        {
+            if (!BlockExistsAt(position))
+                return null;
+
+            return game.CurrentLevel.gameBoard.Cells[position.x, position.y].Block;
+        }
+
         public bool CellExistsAt(Vector2Int position)
         {
             this.position = position;

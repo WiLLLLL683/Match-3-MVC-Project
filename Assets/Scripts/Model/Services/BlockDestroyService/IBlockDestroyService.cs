@@ -15,7 +15,12 @@ namespace Model.Services
         void MarkToDestroy(Vector2Int position);
 
         /// <summary>
-        /// Уничтожить все помеченные блоки. Возвращает лист уничтоженных целей для счетчика.
+        /// Найти все помещенные для уничтожения блоки в игровой зоне.
+        /// </summary>
+        List<Block> FindMarkedBlocks();
+
+        /// <summary>
+        /// Уничтожить все помеченные блоки в игровой зоне. Возвращает лист уничтоженных целей для счетчика.
         /// </summary>
         List<ICounterTarget> DestroyAllMarkedBlocks();
     }

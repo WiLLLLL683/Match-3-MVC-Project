@@ -22,7 +22,8 @@ namespace Model.Services.PerformanceTests
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
             var configProvider = Substitute.For<IConfigProvider>();
-            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
             var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1) - 1; y++)
@@ -46,7 +47,8 @@ namespace Model.Services.PerformanceTests
             var setBlockService = new CellSetBlockService();
             var moveService = new BlockMoveService(game, validation, setBlockService);
             var configProvider = Substitute.For<IConfigProvider>();
-            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
             var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1) - 1; y++)

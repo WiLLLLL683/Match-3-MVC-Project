@@ -16,21 +16,21 @@ namespace Infrastructure
     /// </summary>
     public class DestroyState : IState// IPayLoadedState<HashSet<Cell>>
     {
-        private readonly Game model;
         private readonly IStateMachine stateMachine;
         private readonly IBlockDestroyService blockDestroyService;
+        private readonly IBlockActivateService blockActivateService;
         private readonly IWinLoseService winLoseService;
         private readonly IConfigProvider configProvider;
 
-        public DestroyState(Game model,
-            IStateMachine stateMachine,
+        public DestroyState(IStateMachine stateMachine,
             IBlockDestroyService blockDestroyService,
+            IBlockActivateService blockActivateService,
             IWinLoseService winLoseService,
             IConfigProvider configProvider)
         {
-            this.model = model;
             this.stateMachine = stateMachine;
             this.blockDestroyService = blockDestroyService;
+            this.blockActivateService = blockActivateService;
             this.winLoseService = winLoseService;
             this.configProvider = configProvider;
         }
@@ -38,13 +38,8 @@ namespace Infrastructure
         public async UniTask OnEnter(CancellationToken token)
         {
             await UniTask.WaitForSeconds(configProvider.Delays.beforeBlockDestroy, cancellationToken: token);
-
-            List<ICounterTarget> destroyedTargets = blockDestroyService.DestroyAllMarkedBlocks();
-            for (int i = 0; i < destroyedTargets.Count; i++)
-            {
-                winLoseService.TryDecreaseCount(destroyedTargets[i]);
-            }
-
+            ActivateMarkedBlocks();
+            DestroyMarkedBlocks();
             await UniTask.WaitForSeconds(configProvider.Delays.afterBlockDestroy, cancellationToken: token);
             stateMachine.EnterState<SpawnState>();
         }
@@ -52,6 +47,29 @@ namespace Infrastructure
         public async UniTask OnExit(CancellationToken token)
         {
 
+        }
+
+        private void ActivateMarkedBlocks()
+        {
+            List<Block> markedBlocks = blockDestroyService.FindMarkedBlocks();
+
+            for (int i = 0; i < markedBlocks.Count; i++)
+            {
+                if (markedBlocks[i].isMarkedToDestroy)
+                {
+                    blockActivateService.TryActivateBlock(markedBlocks[i].Position);
+                }
+            }
+        }
+
+        private void DestroyMarkedBlocks()
+        {
+            List<ICounterTarget> destroyedTargets = blockDestroyService.DestroyAllMarkedBlocks();
+
+            for (int i = 0; i < destroyedTargets.Count; i++)
+            {
+                winLoseService.TryDecreaseCount(destroyedTargets[i]);
+            }
         }
     }
 }

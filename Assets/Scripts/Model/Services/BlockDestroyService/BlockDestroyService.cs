@@ -30,23 +30,36 @@ namespace Model.Services
             GameBoard.Cells[position.x, position.y].Block.isMarkedToDestroy = true;
         }
 
-        public List<ICounterTarget> DestroyAllMarkedBlocks()
+        public List<Block> FindMarkedBlocks()
         {
-            List<ICounterTarget> destroyedTargets = new();
+            List<Block> markedBlocks = new();
 
             for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
             {
                 for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
                 {
-                    if (!validation.BlockExistsAt(new(x,y)))
-                        continue;
+                    Block block = validation.TryGetBlock(new(x, y));
 
-                    ICounterTarget counterTarget = GameBoard.Cells[x, y].Block.Type;
+                    if (block != null)
+                        markedBlocks.Add(block);
+                }
+            }
 
-                    if (TryDestroy(new Vector2Int(x, y)))
-                    {
-                        destroyedTargets.Add(counterTarget);
-                    }
+            return markedBlocks;
+        }
+
+        public List<ICounterTarget> DestroyAllMarkedBlocks()
+        {
+            List<ICounterTarget> destroyedTargets = new();
+            List<Block> markedBlocks = FindMarkedBlocks();
+
+            for (int i = 0; i < markedBlocks.Count; i++)
+            {
+                ICounterTarget counterTarget = markedBlocks[i].Type;
+
+                if (TryDestroy(markedBlocks[i].Position))
+                {
+                    destroyedTargets.Add(counterTarget);
                 }
             }
 

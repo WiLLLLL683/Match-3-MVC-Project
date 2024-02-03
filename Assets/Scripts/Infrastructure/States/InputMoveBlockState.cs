@@ -18,6 +18,7 @@ namespace Infrastructure
     public class InputMoveBlockState : IPayLoadedState<(Vector2Int startPos, Directions direction)>
     {
         private readonly IStateMachine stateMachine;
+        private readonly IBlockActivateService activationService;
         private readonly IBlockMatchService matchService;
         private readonly IBlockMoveService moveService;
         private readonly IBlockDestroyService destroyService;
@@ -25,9 +26,11 @@ namespace Infrastructure
         private readonly ICounterTarget turnTarget;
 
         private Vector2Int startPos;
+        private Vector2Int targetPos;
         private Directions direction;
 
         public InputMoveBlockState(IStateMachine stateMachine,
+            IBlockActivateService activationService,
             IBlockMatchService matchService,
             IBlockMoveService moveService,
             IBlockDestroyService destroyService,
@@ -35,6 +38,7 @@ namespace Infrastructure
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
+            this.activationService = activationService;
             this.matchService = matchService;
             this.moveService = moveService;
             this.destroyService = destroyService;
@@ -46,15 +50,29 @@ namespace Infrastructure
         {
             startPos = payLoad.startPos;
             direction = payLoad.direction;
+            targetPos = startPos + direction.ToVector2Int();
 
-            //бездействие при долгом зажатии блока на одном месте
             if (direction == Directions.Zero)
             {
                 stateMachine.EnterState<WaitState>();
                 return;
             }
 
-            MoveBlock();
+            if (!TryMoveBlock())
+            {
+                stateMachine.EnterState<WaitState>();
+                return;
+            }
+
+            if (!activationService.TryActivateBlock(targetPos) && !TryFindMatches())
+            {
+                UnMoveBlock();
+                stateMachine.EnterState<WaitState>();
+                return;
+            }
+
+            winLoseService.TryDecreaseCount(turnTarget);
+            stateMachine.EnterState<DestroyState>();
         }
 
         public async UniTask OnExit(CancellationToken token)
@@ -62,27 +80,19 @@ namespace Infrastructure
 
         }
 
-        private void MoveBlock()
+        private bool TryMoveBlock() => moveService.Move(startPos, targetPos);
+        private bool UnMoveBlock() => moveService.Move(targetPos, startPos);
+
+        private bool TryFindMatches()
         {
-            ICommand moveAction = new BlockMoveCommand(startPos, startPos + direction.ToVector2Int(), moveService);
-            moveAction.Execute();
-
             HashSet<Cell> matches = matchService.FindAllMatches();
-
-            if (matches.Count == 0)
-            {
-                moveAction?.Undo();
-                stateMachine.EnterState<WaitState>(); //Возврат к ожиданию инпута
-                return;
-            }
 
             foreach (Cell cell in matches)
             {
                 destroyService.MarkToDestroy(cell.Block.Position);
             }
 
-            winLoseService.TryDecreaseCount(turnTarget);
-            stateMachine.EnterState<DestroyState>();
+            return matches.Count > 0;
         }
     }
 }
