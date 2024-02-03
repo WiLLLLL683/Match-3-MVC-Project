@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: BlockView
   m_EditorClassIdentifier: 
   icon: {fileID: 1393836646070208606}
-  moveSpeed: 8
+  smoothTime: 0.1
   clickAnimation: {fileID: 1018613990635534239}
 --- !u!61 &8706939174136668955
 BoxCollider2D:

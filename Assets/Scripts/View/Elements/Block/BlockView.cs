@@ -16,7 +16,7 @@ namespace View
     public class BlockView : MonoBehaviour, IBlockView
     {
         [SerializeField] private SpriteRenderer icon;
-        [SerializeField] private float moveSpeed;
+        [SerializeField] private float smoothTime = 0.1f;
         [SerializeField] private Animation clickAnimation;
 
         public Vector2Int ModelPosition => modelPosition;
@@ -24,6 +24,8 @@ namespace View
         private ParticleSystem destroyEffectPrefab;
         private Vector2 targetPosition;
         private Vector2Int modelPosition;
+        private Vector3 positionChache;
+        private Vector2 velocity;
 
         public void Init(Sprite iconSprite, ParticleSystem destroyEffectPrefab, Vector2Int modelPosition)
         {
@@ -33,9 +35,13 @@ namespace View
             transform.localPosition = (Vector2)modelPosition;
         }
 
+        private void Start() => positionChache = transform.localPosition;
+
         private void Update()
         {
-            transform.localPosition = Vector2.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
+            velocity = (transform.localPosition - positionChache) / Time.deltaTime;
+            positionChache = transform.localPosition;
+            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, targetPosition, ref velocity, smoothTime);
         }
 
         public void Drag(Vector2 deltaPosition) => targetPosition = modelPosition + deltaPosition;
