@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.TestTools;
@@ -54,6 +55,36 @@ namespace View.Input.UnitTests
             return (input, actionMap);
         }
 
+        //Input shortcuts
+        private void Input_Tap()
+        {
+            BeginTouch(0, new());
+            InputSystem.Update();
+            EndTouch(0, new());
+        }
+
+        private void Input_Press()
+        {
+            BeginTouch(0, new());
+            InputSystem.Update();
+        }
+
+        private void Input_PressAndDrag()
+        {
+            BeginTouch(0, new(0, 0));
+            InputSystem.Update();
+            MoveTouch(0, new(1, 1));
+        }
+
+        private IEnumerator Input_DragAndRelease()
+        {
+            BeginTouch(0, new());
+            yield return new WaitForSeconds(1);
+            MoveTouch(0, new(1, 1));
+            CancelTouch(0, new());
+        }
+
+        //Tests
         [Test]
         public void ActionMapTest()
         {
@@ -73,10 +104,12 @@ namespace View.Input.UnitTests
             var (input, actionMap) = SetupTest();
 
             input.Enable();
-            BeginTouch(0, new());
-            EndTouch(0, new());
+            Input_Tap();
 
             Assert.AreEqual(1, moveMode_tapCount);
+            Assert.AreEqual(1, moveMode_dragStartedCount);
+            Assert.AreEqual(0, moveMode_dragCount);
+            Assert.AreEqual(0, moveMode_dragEndedCount);
         }
 
         [Test]
@@ -85,9 +118,12 @@ namespace View.Input.UnitTests
             var (input, actionMap) = SetupTest();
 
             input.Enable();
-            BeginTouch(0, new());
+            Input_Press();
 
+            Assert.AreEqual(0, moveMode_tapCount);
             Assert.AreEqual(1, moveMode_dragStartedCount);
+            Assert.AreEqual(0, moveMode_dragCount);
+            Assert.AreEqual(0, moveMode_dragEndedCount);
         }
 
         [Test]
@@ -96,21 +132,25 @@ namespace View.Input.UnitTests
             var (input, actionMap) = SetupTest();
 
             input.Enable();
-            BeginTouch(0, new(0, 0));
-            MoveTouch(0, new(1, 1));
+            Input_PressAndDrag();
 
+            Assert.AreEqual(0, moveMode_tapCount);
+            Assert.AreEqual(1, moveMode_dragStartedCount);
             Assert.AreEqual(1, moveMode_dragCount);
+            Assert.AreEqual(0, moveMode_dragEndedCount);
         }
 
-        [Test]
-        public void Enable_DragEnded_CurrentModeEndDrag()
+        [UnityTest]
+        public IEnumerator Enable_DragEnded_CurrentModeEndDrag()
         {
             var (input, actionMap) = SetupTest();
 
             input.Enable();
-            BeginTouch(0, new());
-            CancelTouch(0, new());
+            yield return Input_DragAndRelease();
 
+            Assert.AreEqual(0, moveMode_tapCount);
+            Assert.AreEqual(1, moveMode_dragStartedCount);
+            Assert.AreEqual(2, moveMode_dragCount);
             Assert.AreEqual(1, moveMode_dragEndedCount);
         }
 
@@ -121,10 +161,12 @@ namespace View.Input.UnitTests
 
             input.Enable();
             input.Disable();
-            BeginTouch(0, new());
-            EndTouch(0, new());
+            Input_Tap();
 
             Assert.AreEqual(0, moveMode_tapCount);
+            Assert.AreEqual(0, moveMode_dragStartedCount);
+            Assert.AreEqual(0, moveMode_dragCount);
+            Assert.AreEqual(0, moveMode_dragEndedCount);
         }
 
         [Test]
@@ -134,9 +176,12 @@ namespace View.Input.UnitTests
 
             input.Enable();
             input.Disable();
-            BeginTouch(0, new());
+            Input_Press();
 
+            Assert.AreEqual(0, moveMode_tapCount);
             Assert.AreEqual(0, moveMode_dragStartedCount);
+            Assert.AreEqual(0, moveMode_dragCount);
+            Assert.AreEqual(0, moveMode_dragEndedCount);
         }
 
         [Test]
@@ -146,22 +191,26 @@ namespace View.Input.UnitTests
 
             input.Enable();
             input.Disable();
-            BeginTouch(0, new(0, 0));
-            MoveTouch(0, new(1, 1));
+            Input_PressAndDrag();
 
+            Assert.AreEqual(0, moveMode_tapCount);
+            Assert.AreEqual(0, moveMode_dragStartedCount);
             Assert.AreEqual(0, moveMode_dragCount);
+            Assert.AreEqual(0, moveMode_dragEndedCount);
         }
 
-        [Test]
-        public void Disable_DragEnded_NoChange()
+        [UnityTest]
+        public IEnumerator Disable_DragEnded_NoChange()
         {
             var (input, actionMap) = SetupTest();
 
             input.Enable();
             input.Disable();
-            BeginTouch(0, new());
-            CancelTouch(0, new());
+            yield return Input_DragAndRelease();
 
+            Assert.AreEqual(0, moveMode_tapCount);
+            Assert.AreEqual(0, moveMode_dragStartedCount);
+            Assert.AreEqual(0, moveMode_dragCount);
             Assert.AreEqual(0, moveMode_dragEndedCount);
         }
 
@@ -172,8 +221,7 @@ namespace View.Input.UnitTests
             input.Enable();
 
             input.SetCurrentMode<ISelectInputMode>();
-            BeginTouch(0, new());
-            EndTouch(0, new());
+            Input_Tap();
 
             Assert.AreEqual(0, moveMode_tapCount);
             Assert.AreEqual(1, selectMode_tapCount);
@@ -186,7 +234,7 @@ namespace View.Input.UnitTests
             input.Enable();
 
             input.SetCurrentMode<ISelectInputMode>();
-            BeginTouch(0, new());
+            Input_Press();
 
             Assert.AreEqual(0, moveMode_dragStartedCount);
             Assert.AreEqual(1, selectMode_dragStartedCount);
@@ -199,22 +247,20 @@ namespace View.Input.UnitTests
             input.Enable();
 
             input.SetCurrentMode<ISelectInputMode>();
-            BeginTouch(0, new(0, 0));
-            MoveTouch(0, new(1, 1));
+            Input_PressAndDrag();
 
             Assert.AreEqual(0, moveMode_dragCount);
             Assert.AreEqual(1, selectMode_dragCount);
         }
 
-        [Test]
-        public void SetInputMode_ToSelectMode_DragEndedSwitched()
+        [UnityTest]
+        public IEnumerator SetInputMode_ToSelectMode_DragEndedSwitched()
         {
             var (input, actionMap) = SetupTest();
             input.Enable();
 
             input.SetCurrentMode<ISelectInputMode>();
-            BeginTouch(0, new());
-            CancelTouch(0, new());
+            yield return Input_DragAndRelease();
 
             Assert.AreEqual(0, moveMode_dragEndedCount);
             Assert.AreEqual(1, selectMode_dragEndedCount);

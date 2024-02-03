@@ -70,6 +70,12 @@ namespace View.Input
         private void Tap(InputAction.CallbackContext context) => currentMode?.Tap(context);
         private void DragStarted(InputAction.CallbackContext context) => currentMode?.DragStarted(context);
         private void Drag(InputAction.CallbackContext context) => currentMode?.Drag(context);
-        private void DragEnded(InputAction.CallbackContext context) => currentMode?.DragEnded(context);
+        private void DragEnded(InputAction.CallbackContext context)
+        {
+            if (actionMap.GameBoard.Tap.inProgress)
+                return;
+
+            currentMode?.DragEnded(context);
+        }
     }
 }
