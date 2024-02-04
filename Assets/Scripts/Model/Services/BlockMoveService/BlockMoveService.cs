@@ -43,6 +43,18 @@ namespace Model.Services
             return true;
         }
 
+        public void ShuffleAllBlocks()
+        {
+            var blockInPlayArea = validation.FindAllBlocksInPlayArea();
+
+            //Fisher–Yates shuffle
+            for (int i = blockInPlayArea.Count - 1; i >= 1; i--)
+            {
+                int random = UnityEngine.Random.Range(0, i);
+                Move(blockInPlayArea[i].Position, blockInPlayArea[random].Position);
+            }
+        }
+
         private void SwapTwoBlocks(Cell cellA, Cell cellB)
         {
             if (cellA != null && cellB != null)

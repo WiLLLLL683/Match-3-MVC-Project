@@ -35,13 +35,8 @@ namespace Infrastructure
         public async UniTask OnEnter((int id, Vector2Int startPosition) payLoad, CancellationToken token)
         {
             await UniTask.WaitForSeconds(configProvider.Delays.beforeBoosterUse);
-            HashSet<Cell> cells = boosterService.UseBooster(payLoad.id, payLoad.startPosition);
 
-            //TODO перенести это в бустер
-            foreach (var cell in cells)
-            {
-                destroyService.MarkToDestroy(cell.Position);
-            }
+            boosterService.UseBooster(payLoad.id, payLoad.startPosition);
 
             stateMachine.EnterState<DestroyState>();
         }

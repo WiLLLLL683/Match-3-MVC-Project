@@ -30,6 +30,41 @@ namespace Model.Services
             GameBoard.Cells[position.x, position.y].Block.isMarkedToDestroy = true;
         }
 
+        public void MarkToDestroyHorizontalLine(int y)
+        {
+            bool isInsideGameboard = (y >= 0) && (y < GameBoard.HiddenRowsStartIndex);
+            if (!isInsideGameboard)
+                return;
+
+            for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+            {
+                MarkToDestroy(new(x, y));
+            }
+        }
+
+        public void MarkToDestroyVerticalLine(int x)
+        {
+            bool isInsideGameboard = (x >= 0) && (x < GameBoard.Cells.GetLength(0));
+            if (!isInsideGameboard)
+                return;
+
+            for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
+            {
+                MarkToDestroy(new(x, y));
+            }
+        }
+
+        public void MarkToDestroyRect(Vector2Int minBound, Vector2Int maxBound)
+        {
+            for (int x = minBound.x; x <= maxBound.x; x++)
+            {
+                for (int y = minBound.y; y <= maxBound.y; y++)
+                {
+                    MarkToDestroy(new Vector2Int(x, y));
+                }
+            }
+        }
+
         public List<Block> FindMarkedBlocks()
         {
             List<Block> markedBlocks = new();
@@ -40,7 +75,7 @@ namespace Model.Services
                 {
                     Block block = validation.TryGetBlock(new(x, y));
 
-                    if (block != null)
+                    if (block != null && block.isMarkedToDestroy)
                         markedBlocks.Add(block);
                 }
             }

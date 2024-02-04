@@ -10,6 +10,8 @@ namespace Model.Services
     /// </summary>
     public interface IBlockMoveService
     {
+        void ShuffleAllBlocks();
+
         event Action<Block> OnPositionChange;
 
         /// <summary>

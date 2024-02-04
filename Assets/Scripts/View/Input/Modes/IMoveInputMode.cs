@@ -9,9 +9,9 @@ namespace View.Input
     /// </summary>
     public interface IMoveInputMode : IInputMode
     {
-        event Action<Vector2Int, Directions> OnInputMove;
-        event Action<Vector2Int> OnInputActivate;
-        event Action<IBlockView> OnInputRelease;
+        event Action<IBlockView, Vector2> OnInputMove;
+        event Action<IBlockView> OnInputActivate;
         event Action<IBlockView, Vector2> OnInputDrag;
+        event Action<IBlockView> OnInputRelease;
     }
 }

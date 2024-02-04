@@ -61,6 +61,25 @@ namespace Model.Services
             return game.CurrentLevel.gameBoard.Cells[position.x, position.y].Block;
         }
 
+        public List<Block> FindAllBlocksInPlayArea()
+        {
+            List<Block> blockInPlayArea = new();
+
+            for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+            {
+                for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
+                {
+                    Block block = TryGetBlock(new(x, y));
+                    if (block != null)
+                    {
+                        blockInPlayArea.Add(block);
+                    }
+                }
+            }
+
+            return blockInPlayArea;
+        }
+
         public bool CellExistsAt(Vector2Int position)
         {
             this.position = position;
@@ -104,7 +123,7 @@ namespace Model.Services
             return true;
         }
 
-        public List<Cell> FindEmptyCells()
+        public List<Cell> FindEmptyCellsInPlayArea()
         {
             Cell[,] cells = GameBoard.Cells;
             List<Cell> emptyCells = new();

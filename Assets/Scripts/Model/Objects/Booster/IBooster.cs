@@ -10,9 +10,9 @@ namespace Model.Objects
         int Id { get; }
 
         /// <summary>
-        /// Использовать бустер. Возвращает клетки для уничтожения блоков в них.
+        /// Использовать бустер.
         /// </summary>
-        HashSet<Cell> Execute(Vector2Int startPosition, GameBoard gameboard, IValidationService validationService, IBlockMoveService moveService);
+        void Execute(Vector2Int startPosition, IBlockDestroyService destroyService, IBlockMoveService moveService);
 
         /// <summary>
         /// Memberwise clone.

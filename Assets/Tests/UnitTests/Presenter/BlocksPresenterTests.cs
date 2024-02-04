@@ -165,7 +165,7 @@ namespace Presenter.UnitTests
             setup.presenter.Enable();
             var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            moveInputMode.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0,0), Directions.Right);
+            moveInputMode.OnInputMove += Raise.Event<Action<IBlockView, Vector2>>(setup.blockView, Vector2.right);
 
             Assert.AreEqual(1, inputMoveCount);
         }
@@ -177,7 +177,7 @@ namespace Presenter.UnitTests
             setup.presenter.Enable();
             var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            moveInputMode.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
+            moveInputMode.OnInputActivate += Raise.Event<Action<IBlockView>>(setup.blockView);
 
             Assert.AreEqual(1, inputActivateCount);
         }
@@ -190,7 +190,7 @@ namespace Presenter.UnitTests
             setup.presenter.Disable();
             var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            moveInputMode.OnInputMove += Raise.Event<Action<Vector2Int, Directions>>(new Vector2Int(0, 0), Directions.Right);
+            moveInputMode.OnInputMove += Raise.Event<Action<IBlockView, Vector2>>(setup.blockView, Vector2.right);
 
             Assert.AreEqual(0, inputMoveCount);
         }
@@ -203,7 +203,7 @@ namespace Presenter.UnitTests
             setup.presenter.Disable();
             var moveInputMode = setup.input.GetInputMode<IMoveInputMode>();
 
-            moveInputMode.OnInputActivate += Raise.Event<Action<Vector2Int>>(new Vector2Int(0, 0));
+            moveInputMode.OnInputActivate += Raise.Event<Action<IBlockView>>(setup.blockView);
 
             Assert.AreEqual(0, inputActivateCount);
         }

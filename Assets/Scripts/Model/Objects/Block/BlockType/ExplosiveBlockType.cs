@@ -19,14 +19,7 @@ namespace Model.Objects
             Vector2Int minBound = position - new Vector2Int(explosionRadius, explosionRadius);
             Vector2Int maxBound = position + new Vector2Int(explosionRadius, explosionRadius);
 
-            for (int x = minBound.x; x <= maxBound.x; x++)
-            {
-                for (int y = minBound.y; y <= maxBound.y; y++)
-                {
-                    destroyService.MarkToDestroy(new Vector2Int(x, y));
-                }
-            }
-
+            destroyService.MarkToDestroyRect(minBound, maxBound);
             return true;
         }
 

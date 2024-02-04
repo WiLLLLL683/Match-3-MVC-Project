@@ -26,6 +26,29 @@ namespace Model.Services.UnitTests
         }
 
         [Test]
+        public void FindMarkedBlocks_MarkedBlock_BlockReturned()
+        {
+            var (gameBoard, service) = Setup();
+            TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
+            service.MarkToDestroy(new(0, 0));
+
+            List<Block> markedBlocks = service.FindMarkedBlocks();
+
+            Assert.AreEqual(1, markedBlocks.Count);
+            Assert.AreEqual(gameBoard.Cells[0, 0].Block, markedBlocks[0]);
+        }
+
+        [Test]
+        public void FindMarkedBlocks_NoMarkedBlock_EmptyList()
+        {
+            var (gameBoard, service) = Setup();
+
+            List<Block> markedBlocks = service.FindMarkedBlocks();
+
+            Assert.AreEqual(0, markedBlocks.Count);
+        }
+
+        [Test]
         public void MarkToDestroy_ValidBlock_BlockIsMarked()
         {
             var (gameBoard, service) = Setup();

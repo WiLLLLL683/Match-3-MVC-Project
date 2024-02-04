@@ -17,6 +17,11 @@ namespace Model.Services
         Block TryGetBlock(Vector2Int position);
 
         /// <summary>
+        /// Найти все блоки в игровой зоне (кроме скрытых).
+        /// </summary>
+        List<Block> FindAllBlocksInPlayArea();
+
+        /// <summary>
         /// Клетка существует в заданной позиции.
         /// </summary>
         bool CellExistsAt(Vector2Int position);
@@ -28,8 +33,8 @@ namespace Model.Services
 
         /// <summary>
         /// Найти все пустые клетки, которые могут содержать блок.
-        /// Порядок: колоннами слева-направо, внутри колонны сверху-вниз
+        /// Порядок: колоннами слева-направо, внутри колонны сверху-вниз.
         /// </summary>
-        List<Cell> FindEmptyCells();
+        List<Cell> FindEmptyCellsInPlayArea();
     }
 }

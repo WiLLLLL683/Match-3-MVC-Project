@@ -63,13 +63,13 @@ namespace Presenter
         public void Enable()
         {
             gameBoard = model.CurrentLevel.gameBoard;
-            SpawnAll();
+            SpawnAllViews();
             CenterGameBoard();
 
-            moveInputMode.OnInputDrag += DragView;
-            moveInputMode.OnInputRelease += ReleaseView;
             moveInputMode.OnInputMove += MoveModel;
             moveInputMode.OnInputActivate += ActivateModel;
+            moveInputMode.OnInputDrag += DragView;
+            moveInputMode.OnInputRelease += ReleaseView;
             spawnService.OnBlockSpawn += SpawnView;
             destroyService.OnDestroy += DestroyView;
             moveService.OnPositionChange += SetViewPosition;
@@ -80,16 +80,16 @@ namespace Presenter
 
         public void Disable()
         {
-            moveInputMode.OnInputDrag -= DragView;
-            moveInputMode.OnInputRelease -= ReleaseView;
             moveInputMode.OnInputMove -= MoveModel;
             moveInputMode.OnInputActivate -= ActivateModel;
+            moveInputMode.OnInputDrag -= DragView;
+            moveInputMode.OnInputRelease -= ReleaseView;
             spawnService.OnBlockSpawn -= SpawnView;
             destroyService.OnDestroy -= DestroyView;
             moveService.OnPositionChange -= SetViewPosition;
             changeTypeService.OnTypeChange -= SetViewType;
 
-            ClearAll();
+            ClearAllViews();
 
             Debug.Log($"{this} disabled");
         }
@@ -106,9 +106,26 @@ namespace Presenter
             return blocks[blockModel];
         }
 
-        private void SpawnAll()
+        //model
+        private void MoveModel(IBlockView blockView, Vector2 deltaPosition)
         {
-            ClearAll();
+            var (clampedDelta, direction) = ClampDeltaPosition(deltaPosition);
+            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((blockView.ModelPosition, direction));
+        }
+
+        private void ActivateModel(IBlockView blockView)
+        {
+            if (blockView == null)
+                return;
+
+            blockView.PlayClickAnimation();
+            stateMachine.EnterState<InputActivateBlockState, Vector2Int>(blockView.ModelPosition);
+        }
+
+        //view
+        private void SpawnAllViews()
+        {
+            ClearAllViews();
 
             for (int i = 0; i < gameBoard.Blocks.Count; i++)
             {
@@ -116,7 +133,7 @@ namespace Presenter
             }
         }
 
-        private void ClearAll()
+        private void ClearAllViews()
         {
             for (int i = 0; i < gameBoard.Blocks.Count; i++)
             {
@@ -125,6 +142,22 @@ namespace Presenter
 
             view.ClearBlocksParent();
             blocks.Clear();
+        }
+
+        private void SpawnView(Block model)
+        {
+            IBlockView view = blockViewFactory.Create(model);
+            blocks.Add(model, view);
+        }
+
+        private void DestroyView(Block model)
+        {
+            if (!blocks.ContainsKey(model))
+                return;
+
+            IBlockView view = blocks[model];
+            view.Destroy();
+            blocks.Remove(model);
         }
 
         private void DragView(IBlockView block, Vector2 deltaPosition)
@@ -152,12 +185,37 @@ namespace Presenter
             oppositeBlock = null;
         }
 
+        private void SetViewPosition(Block model)
+        {
+            if (model == null || !blocks.ContainsKey(model))
+                return;
+
+            IBlockView view = blocks[model];
+            view.SetModelPosition(model.Position);
+        }
+
+        private void SetViewType(Block model)
+        {
+            if (!blocks.ContainsKey(model))
+                return;
+
+            IBlockView view = blocks[model];
+            BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
+            view.SetType(config.icon, config.destroyEffect);
+        }
+
+        //other
+        private void CenterGameBoard()
+        {
+            Vector2 offcet = new();
+            offcet.x = -(float)(gameBoard.Cells.GetLength(0) - 1f) / 2f;
+            offcet.y = -(float)(gameBoard.HiddenRowsStartIndex - 1f) / 2f -1f;
+            view.BlocksParent.position = offcet;
+        }
+
         private (Vector2 clampedDelta, Directions direction) ClampDeltaPosition(Vector2 deltaPosition)
         {
-            if (deltaPosition.magnitude < configProvider.Input.minSwipeDistance)
-                return (Vector2.zero, Directions.Zero);
-
-            Directions direction = deltaPosition.ToDirection();
+            Directions direction = deltaPosition.ToDirection(configProvider.Input.minSwipeDistance);
 
             Vector2 clampedDelta = direction switch
             {
@@ -190,62 +248,5 @@ namespace Presenter
 
             return oppositeBlock != null;
         }
-
-        private void MoveModel(Vector2Int position, Directions direction) =>
-            stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((position, direction));
-
-        private void ActivateModel(Vector2Int position)
-        {
-            IBlockView blockView = GetBlockView(position);
-
-            if (blockView == null)
-                return;
-
-            blockView.PlayClickAnimation();
-            stateMachine.EnterState<InputActivateBlockState, Vector2Int>(blockView.ModelPosition);
-        }
-
-        private void SpawnView(Block model)
-        {
-            IBlockView view = blockViewFactory.Create(model);
-            blocks.Add(model, view);
-        }
-
-        private void DestroyView(Block model)
-        {
-            if (!blocks.ContainsKey(model))
-                return;
-
-            IBlockView view = blocks[model];
-            view.Destroy();
-            blocks.Remove(model);
-        }
-
-        private void SetViewPosition(Block model)
-        {
-            if (model == null || !blocks.ContainsKey(model))
-                return;
-
-            IBlockView view = blocks[model];
-            view.SetModelPosition(model.Position);
-        }
-
-        private void SetViewType(Block model)
-        {
-            if (!blocks.ContainsKey(model))
-                return;
-
-            IBlockView view = blocks[model];
-            BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
-            view.SetType(config.icon, config.destroyEffect);
-        }
-
-        private void CenterGameBoard()
-        {
-            Vector2 offcet = new();
-            offcet.x = -(float)(gameBoard.Cells.GetLength(0) - 1f) / 2f;
-            offcet.y = -(float)(gameBoard.HiddenRowsStartIndex - 1f) / 2f -1f;
-            view.BlocksParent.position = offcet;
-        }
-    }
+}
 }

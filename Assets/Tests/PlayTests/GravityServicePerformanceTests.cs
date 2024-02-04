@@ -59,7 +59,7 @@ namespace Model.Services.PerformanceTests
                 }
             }
 
-            List<Cell> cells = validation.FindEmptyCells();
+            List<Cell> cells = validation.FindEmptyCellsInPlayArea();
 
             yield return service.Execute(cells);
             yield return Measure.Frames().Run();
