@@ -62,7 +62,7 @@ namespace Presenter.UnitTests
             blockViewFactory.When(x => x.Create(Arg.Any<Block>())).Do(x => blockSpawnedCount++);
             blockView.When(x => x.Destroy()).Do(x => blockDestroyedCount++);
             blockView.When(x => x.SetModelPosition(Arg.Any<Vector2Int>())).Do(x => blockChangedPositionCount++);
-            blockView.When(x => x.SetType(Arg.Any<Sprite>(), Arg.Any<ParticleSystem>())).Do(x => blockChangedTypeCount++);
+            blockView.When(x => x.SetType(Arg.Any<Sprite>(), Arg.Any<BlockTypeConfig>())).Do(x => blockChangedTypeCount++);
 
             //stateMachine
             var stateMachine = Substitute.For<IStateMachine>();
@@ -83,7 +83,9 @@ namespace Presenter.UnitTests
             var destroyService = Substitute.For<IBlockDestroyService>();
             var changeTypeService = Substitute.For<IBlockChangeTypeService>();
             var moveService = Substitute.For<IBlockMoveService>();
-            var presenter = new BlocksPresenter(model, view, blockViewFactory, configProvider, spawnService, destroyService, changeTypeService, moveService, stateMachine, input);
+            var hudPresenter = Substitute.For<IHudPresenter>();
+            var winLoseService = Substitute.For<IWinLoseService>();
+            var presenter = new BlocksPresenter(model, view, blockViewFactory, stateMachine, input, configProvider, hudPresenter, spawnService, destroyService, changeTypeService, moveService, winLoseService);
 
             return new SetupArgs()
             {

@@ -1,5 +1,6 @@
 using Model.Factories;
 using Model.Objects;
+using NSubstitute;
 using NUnit.Framework;
 using TestUtils;
 
@@ -15,7 +16,8 @@ namespace Model.Services.UnitTests
         {
             var game = TestLevelFactory.CreateGame(xLength, yLength);
             game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, invisibleRows);
-            var blockFactory = new BlockFactory();
+            var blockFactory = Substitute.For<IBlockFactory>();
+            blockFactory.Create(default, default).ReturnsForAnyArgs(TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK));
             var validation = new ValidationService(game);
             var random = TestServicesFactory.CreateRandomBlockTypeService(factoryReturnBlockType);
             var changeTypeService = new BlockChangeTypeService(game, validation);

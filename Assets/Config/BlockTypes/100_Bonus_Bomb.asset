@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: 100_Bonus_Bomb
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 2be55834e2ff7b144a243413f2979787, type: 3}
-  destroyEffect: {fileID: 1653460736588825326, guid: 7b87fedbd0d08c045a741dfd16402747, type: 3}
+  typeConfig:
+    destroyEffect: {fileID: 1653460736588825326, guid: 7b87fedbd0d08c045a741dfd16402747, type: 3}
+    smoothTime: 0.1
+    flyingLayer: Flying Blocks
+    flyingScale: 1.1
+    flyingEase: 26
   type:
     rid: 80980823557275655
   references:
@@ -22,5 +27,4 @@ MonoBehaviour:
     - rid: 80980823557275655
       type: {class: ExplosiveBlockType, ns: Model.Objects, asm: GameAssembly}
       data:
-        id: 100
-        explosionRadius: 1
+        <Id>k__BackingField: 100

@@ -1,4 +1,5 @@
 ﻿using Model.Objects;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,17 @@ namespace Model.Services
             GameBoard.Cells[position.x, position.y].Block.isMarkedToDestroy = true;
         }
 
+        public void MarkToDestroy(List<Block> blocks)
+        {
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                if (blocks[i] == null)
+                    return;
+
+                blocks[i].isMarkedToDestroy = true;
+            }
+        }
+
         public void MarkToDestroyHorizontalLine(int y)
         {
             bool isInsideGameboard = (y >= 0) && (y < GameBoard.HiddenRowsStartIndex);
@@ -38,7 +50,7 @@ namespace Model.Services
 
             for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
             {
-                MarkToDestroy(new(x, y));
+                MarkToDestroy(new Vector2Int(x, y));
             }
         }
 
@@ -50,7 +62,7 @@ namespace Model.Services
 
             for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
             {
-                MarkToDestroy(new(x, y));
+                MarkToDestroy(new Vector2Int(x, y));
             }
         }
 
@@ -69,15 +81,12 @@ namespace Model.Services
         {
             List<Block> markedBlocks = new();
 
-            for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+            for (int i = 0; i < GameBoard.Blocks.Count; i++)
             {
-                for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
-                {
-                    Block block = validation.TryGetBlock(new(x, y));
+                Block block = GameBoard.Blocks[i];
 
-                    if (block != null && block.isMarkedToDestroy)
-                        markedBlocks.Add(block);
-                }
+                if (block != null && block.isMarkedToDestroy)
+                    markedBlocks.Add(block);
             }
 
             return markedBlocks;
@@ -90,31 +99,23 @@ namespace Model.Services
 
             for (int i = 0; i < markedBlocks.Count; i++)
             {
-                ICounterTarget counterTarget = markedBlocks[i].Type;
+                if (!markedBlocks[i].isMarkedToDestroy)
+                    continue;
 
-                if (TryDestroy(markedBlocks[i].Position))
-                {
-                    destroyedTargets.Add(counterTarget);
-                }
+                ICounterTarget counterTarget = markedBlocks[i].Type;
+                Destroy(markedBlocks[i]);
+                destroyedTargets.Add(counterTarget);
             }
 
             return destroyedTargets;
         }
 
-        private bool TryDestroy(Vector2Int position)
+        private void Destroy(Block block)
         {
-            if (!validation.BlockExistsAt(position))
-                return false;
-
-            Cell cell = GameBoard.Cells[position.x, position.y];
-
-            if (!cell.Block.isMarkedToDestroy)
-                return false;
-
-            OnDestroy?.Invoke(cell.Block);
+            Cell cell = GameBoard.Cells[block.Position.x, block.Position.y];
             GameBoard.Blocks.Remove(cell.Block);
             setBlockService.SetEmpty(cell);
-            return true;
+            OnDestroy?.Invoke(block);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Infrastructure
         public async UniTask OnEnter(CancellationToken token)
         {
             await UniTask.WaitForSeconds(configProvider.Delays.beforeBlockDestroy, cancellationToken: token);
-            ActivateMarkedBlocks();
+            await ActivateMarkedBlocks();
             DestroyMarkedBlocks();
             await UniTask.WaitForSeconds(configProvider.Delays.afterBlockDestroy, cancellationToken: token);
             stateMachine.EnterState<SpawnState>();
@@ -49,7 +49,7 @@ namespace Infrastructure
 
         }
 
-        private void ActivateMarkedBlocks()
+        private async UniTask ActivateMarkedBlocks()
         {
             List<Block> markedBlocks = blockDestroyService.FindMarkedBlocks();
 
@@ -57,7 +57,7 @@ namespace Infrastructure
             {
                 if (markedBlocks[i].isMarkedToDestroy)
                 {
-                    blockActivateService.TryActivateBlock(markedBlocks[i].Position);
+                    await blockActivateService.TryActivateBlock(markedBlocks[i].Position, Directions.Zero);
                 }
             }
         }

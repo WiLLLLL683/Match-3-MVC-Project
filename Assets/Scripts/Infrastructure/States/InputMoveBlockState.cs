@@ -48,29 +48,39 @@ namespace Infrastructure
 
         public async UniTask OnEnter((Vector2Int startPos, Directions direction) payLoad, CancellationToken token)
         {
-            startPos = payLoad.startPos;
-            direction = payLoad.direction;
-            targetPos = startPos + direction.ToVector2Int();
-
+            //Инпут не валидный, если направление передвижения = Zero
             if (direction == Directions.Zero)
             {
                 stateMachine.EnterState<WaitState>();
                 return;
             }
 
-            if (!TryMoveBlock())
+            //Инициализация
+            startPos = payLoad.startPos;
+            direction = payLoad.direction;
+            targetPos = startPos + direction.ToVector2Int();
+
+            //Перемещение блока
+            bool isMoved = TryMoveBlock();
+            if (!isMoved)
             {
                 stateMachine.EnterState<WaitState>();
                 return;
             }
 
-            if (!activationService.TryActivateBlock(targetPos) && !TryFindMatches())
+            //Активация перемещенного блока
+            bool isActivated = await activationService.TryActivateBlock(targetPos, direction);
+
+            //Проверка успеха хода
+            bool isMatchesFound = TryFindMatches();
+            if (!isActivated && !isMatchesFound)
             {
                 UnMoveBlock();
                 stateMachine.EnterState<WaitState>();
                 return;
             }
 
+            //Подсчет результатов хода
             winLoseService.TryDecreaseCount(turnTarget);
             stateMachine.EnterState<DestroyState>();
         }

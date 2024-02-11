@@ -58,7 +58,7 @@ namespace Presenter
             view.HintPopUp.OnInputHide += HideHintPopUp;
             service.OnAmountChanged += ChangeAmountOnButton;
 
-            Debug.Log($"{this} enabled");
+            //Debug.Log($"{this} enabled");
         }
 
         public void Disable()
@@ -70,7 +70,7 @@ namespace Presenter
             view.HintPopUp.OnInputHide -= HideHintPopUp;
             service.OnAmountChanged -= ChangeAmountOnButton;
 
-            Debug.Log($"{this} disabled");
+            //Debug.Log($"{this} disabled");
         }
 
         private void SpawnButtons()

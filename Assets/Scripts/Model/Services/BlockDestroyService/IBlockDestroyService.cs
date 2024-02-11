@@ -15,6 +15,11 @@ namespace Model.Services
         void MarkToDestroy(Vector2Int position);
 
         /// <summary>
+        /// Пометить несколько блоков к уничтожению.
+        /// </summary>
+        void MarkToDestroy(List<Block> blocks);
+
+        /// <summary>
         /// Пометить к уничтожению вертикальную линию из блоков на всю высоту игрового поля (кроме скрытых рядов блоков).
         /// </summary>
         void MarkToDestroyVerticalLine(int x);

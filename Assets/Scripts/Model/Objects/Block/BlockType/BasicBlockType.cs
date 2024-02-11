@@ -1,6 +1,8 @@
-﻿using Model.Services;
+﻿using Cysharp.Threading.Tasks;
+using Model.Services;
 using System;
 using UnityEngine;
+using Utils;
 
 namespace Model.Objects
 {
@@ -10,13 +12,8 @@ namespace Model.Objects
     [Serializable]
     public class BasicBlockType : IBlockType
     {
-        [SerializeField] private int id;
-        public int Id => id;
+        [field: SerializeField] public int Id { get; set; }
 
-        public BasicBlockType() { }
-        public BasicBlockType(int id) => this.id = id;
-
-        public bool Activate(Vector2Int position, IBlockDestroyService destroyService) => false;
-        public IBlockType Clone() => (IBlockType)MemberwiseClone();
+        public async UniTask<bool> Activate(Vector2Int position, Directions direction) => false;
     }
 }

@@ -59,6 +59,9 @@ TagManager:
   - name: Blocks
     uniqueID: 1667779401
     locked: 0
+  - name: Flying Blocks
+    uniqueID: 2773436907
+    locked: 0
   - name: UI_PopUp
     uniqueID: 4165646467
     locked: 0

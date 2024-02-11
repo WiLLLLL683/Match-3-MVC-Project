@@ -41,7 +41,6 @@ namespace View.Input
 
         public void DragStarted(InputAction.CallbackContext context)
         {
-            Debug.Log("Drag started");
             firstTouchWorldPoint = GetWorldPoint();
             draggedBlock = TrySelectBlock(firstTouchWorldPoint);
         }

@@ -1,4 +1,5 @@
-﻿using Model.Services;
+﻿using Config;
+using Model.Services;
 using NSubstitute;
 using NUnit.Framework;
 using System;
@@ -22,7 +23,10 @@ namespace Model.Objects.UnitTests
             var validationService = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
             var destroyService = new BlockDestroyService(game, validationService, setBlockService);
-            var moveService = new BlockMoveService(game, validationService, setBlockService);
+            var configProvider = Substitute.For<IConfigProvider>();
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
+            var moveService = new BlockMoveService(game, validationService, setBlockService, configProvider);
             moveService.OnPositionChange += (Block _) => blockMovedCount++;
             var booster = new ShuffleBlocksBooster();
 

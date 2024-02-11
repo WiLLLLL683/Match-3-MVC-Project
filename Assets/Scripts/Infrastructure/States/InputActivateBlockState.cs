@@ -40,7 +40,8 @@ namespace Infrastructure
 
         public async UniTask OnEnter(Vector2Int position, CancellationToken token)
         {
-            if (!activateService.TryActivateBlock(position))
+            bool success = await activateService.TryActivateBlock(position, Directions.Zero);
+            if (!success)
             {
                 stateMachine.EnterState<WaitState>();
                 return;

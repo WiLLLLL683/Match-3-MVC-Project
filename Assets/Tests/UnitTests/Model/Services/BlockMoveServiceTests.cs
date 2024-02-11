@@ -1,3 +1,4 @@
+using Config;
 using Model.Objects;
 using Model.Services;
 using NSubstitute;
@@ -18,7 +19,10 @@ namespace Model.Services.UnitTests
             var game = TestLevelFactory.CreateGame(2, 1);
             var validation = new ValidationService(game);
             var setBlock = new CellSetBlockService();
-            var service = new BlockMoveService(game, validation, setBlock);
+            var configProvider = Substitute.For<IConfigProvider>();
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
+            var service = new BlockMoveService(game, validation, setBlock, configProvider);
             eventCount = 0;
             service.OnPositionChange += (_) => eventCount++;
 

@@ -71,5 +71,26 @@ namespace Model.Services
                 counterService.DecreaseCount(Level.restrictions[i], target, amount);
             }
         }
+
+        public bool TryGetGoal(ICounterTarget target, out Counter counter) => FindCounter(Level.goals, target, out counter);
+        public bool TryGetRestriction(ICounterTarget target, out Counter counter) => FindCounter(Level.restrictions, target, out counter);
+
+        private bool FindCounter(Counter[] listOfCounters, ICounterTarget target, out Counter counter)
+        {
+            for (int i = 0; i < listOfCounters.Length; i++)
+            {
+                counter = listOfCounters[i];
+
+                if (!counter.IsCompleted &&
+                    target.GetType() == counter.Target.GetType() &&
+                    target.Id == counter.Target.Id)
+                {
+                    return true;
+                }
+            }
+
+            counter = null;
+            return false;
+        }
     }
 }

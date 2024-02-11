@@ -63,7 +63,7 @@ namespace Model.Services
 
         public List<Block> FindAllBlocksInPlayArea()
         {
-            List<Block> blockInPlayArea = new();
+            List<Block> blocksInPlayArea = new();
 
             for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
             {
@@ -72,12 +72,32 @@ namespace Model.Services
                     Block block = TryGetBlock(new(x, y));
                     if (block != null)
                     {
-                        blockInPlayArea.Add(block);
+                        blocksInPlayArea.Add(block);
                     }
                 }
             }
 
-            return blockInPlayArea;
+            return blocksInPlayArea;
+        }
+
+        public List<Block> FindAllBlockOfType(int typeId)
+        {
+            List<Block> blocksOfSelectedType = new();
+
+            for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+            {
+                for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
+                {
+                    Block block = TryGetBlock(new(x, y));
+
+                    if (block != null && block.Type.Id == typeId)
+                    {
+                        blocksOfSelectedType.Add(block);
+                    }
+                }
+            }
+
+            return blocksOfSelectedType;
         }
 
         public bool CellExistsAt(Vector2Int position)

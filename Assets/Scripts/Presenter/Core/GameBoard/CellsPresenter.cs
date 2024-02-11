@@ -58,7 +58,7 @@ namespace Presenter
             setBlockService.OnEmpty += Empty;
             changeTypeService.OnTypeChange += ChangeType;
 
-            Debug.Log($"{this} enabled");
+            //Debug.Log($"{this} enabled");
         }
 
         public void Disable()
@@ -69,7 +69,7 @@ namespace Presenter
 
             ClearAll();
 
-            Debug.Log($"{this} disabled");
+            //Debug.Log($"{this} disabled");
         }
 
         public ICellView GetCellView(Vector2Int modelPosition)

@@ -42,7 +42,7 @@ namespace Presenter
             counterService.OnUpdateEvent += UpdateView;
             counterService.OnCompleteEvent += CompleteView;
 
-            Debug.Log($"{this} enabled");
+            //Debug.Log($"{this} enabled");
         }
 
         public void Disable()
@@ -50,7 +50,19 @@ namespace Presenter
             counterService.OnUpdateEvent -= UpdateView;
             counterService.OnCompleteEvent -= CompleteView;
 
-            Debug.Log($"{this} disabled");
+            //Debug.Log($"{this} disabled");
+        }
+
+        public bool TryGetCounterView(Counter model, out ICounterView view)
+        {
+            if (counterViews.ContainsKey(model))
+            {
+                view = counterViews[model];
+                return true;
+            }
+
+            view = null;
+            return false;
         }
 
         private void ClearViews()

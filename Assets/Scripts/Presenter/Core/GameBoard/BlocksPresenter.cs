@@ -1,9 +1,11 @@
 ﻿using Config;
+using Cysharp.Threading.Tasks;
 using Infrastructure;
 using Model.Objects;
 using Model.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Utils;
 using View;
@@ -21,77 +23,82 @@ namespace Presenter
         private readonly Game model;
         private readonly IGameBoardView view;
         private readonly IBlockViewFactory blockViewFactory;
+        private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
+        private readonly IHudPresenter hud;
+        private readonly IMoveInputMode moveInputMode;
         private readonly IBlockSpawnService spawnService;
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly IBlockMoveService moveService;
-        private readonly IStateMachine stateMachine;
-        private readonly IGameBoardInput input;
-        private readonly IMoveInputMode moveInputMode;
+        private readonly IWinLoseService winLoseService;
 
         private readonly Dictionary<Block, IBlockView> blocks = new();
 
         private GameBoard gameBoard;
         private IBlockView draggedBlock;
         private IBlockView oppositeBlock;
+        private CancellationTokenSource tokenSource;
 
         public BlocksPresenter(Game model,
             IGameBoardView view,
             IBlockViewFactory blockViewFactory,
+            IStateMachine stateMachine,
+            IGameBoardInput input,
             IConfigProvider configProvider,
+            IHudPresenter hud,
             IBlockSpawnService spawnService,
             IBlockDestroyService destroyService,
             IBlockChangeTypeService changeTypeService,
             IBlockMoveService moveService,
-            IStateMachine stateMachine,
-            IGameBoardInput input)
+            IWinLoseService winLoseService)
         {
             this.model = model;
             this.view = view;
             this.blockViewFactory = blockViewFactory;
+            this.stateMachine = stateMachine;
+            this.moveInputMode = input.GetInputMode<IMoveInputMode>();
             this.configProvider = configProvider;
+            this.hud = hud;
             this.spawnService = spawnService;
             this.destroyService = destroyService;
             this.changeTypeService = changeTypeService;
             this.moveService = moveService;
-            this.stateMachine = stateMachine;
-            this.input = input;
-            this.moveInputMode = input.GetInputMode<IMoveInputMode>();
+            this.winLoseService = winLoseService;
         }
 
         public void Enable()
         {
+            tokenSource = new();
             gameBoard = model.CurrentLevel.gameBoard;
             SpawnAllViews();
             CenterGameBoard();
 
-            moveInputMode.OnInputMove += MoveModel;
-            moveInputMode.OnInputActivate += ActivateModel;
-            moveInputMode.OnInputDrag += DragView;
-            moveInputMode.OnInputRelease += ReleaseView;
-            spawnService.OnBlockSpawn += SpawnView;
-            destroyService.OnDestroy += DestroyView;
-            moveService.OnPositionChange += SetViewPosition;
-            changeTypeService.OnTypeChange += SetViewType;
-
-            Debug.Log($"{this} enabled");
+            moveInputMode.OnInputMove += OnInputMove;
+            moveInputMode.OnInputActivate += OnInputActivate;
+            moveInputMode.OnInputDrag += OnInputDrag;
+            moveInputMode.OnInputRelease += OnInputRelease;
+            spawnService.OnBlockSpawn += OnBlockSpawn;
+            destroyService.OnDestroy += OnDestroy;
+            moveService.OnPositionChange += OnPositionChange;
+            moveService.OnFlyStarted += StartFly;
+            changeTypeService.OnTypeChange += OnTypeChange;
         }
 
         public void Disable()
         {
-            moveInputMode.OnInputMove -= MoveModel;
-            moveInputMode.OnInputActivate -= ActivateModel;
-            moveInputMode.OnInputDrag -= DragView;
-            moveInputMode.OnInputRelease -= ReleaseView;
-            spawnService.OnBlockSpawn -= SpawnView;
-            destroyService.OnDestroy -= DestroyView;
-            moveService.OnPositionChange -= SetViewPosition;
-            changeTypeService.OnTypeChange -= SetViewType;
+            moveInputMode.OnInputMove -= OnInputMove;
+            moveInputMode.OnInputActivate -= OnInputActivate;
+            moveInputMode.OnInputDrag -= OnInputDrag;
+            moveInputMode.OnInputRelease -= OnInputRelease;
+            spawnService.OnBlockSpawn -= OnBlockSpawn;
+            destroyService.OnDestroy -= OnDestroy;
+            moveService.OnPositionChange -= OnPositionChange;
+            moveService.OnFlyStarted -= StartFly;
+            changeTypeService.OnTypeChange -= OnTypeChange;
 
             ClearAllViews();
-
-            Debug.Log($"{this} disabled");
+            tokenSource.Cancel();
         }
 
         public IBlockView GetBlockView(Vector2Int modelPosition)
@@ -106,14 +113,14 @@ namespace Presenter
             return blocks[blockModel];
         }
 
-        //model
-        private void MoveModel(IBlockView blockView, Vector2 deltaPosition)
+        //Event listeners
+        private void OnInputMove(IBlockView blockView, Vector2 deltaPosition)
         {
             var (clampedDelta, direction) = ClampDeltaPosition(deltaPosition);
             stateMachine.EnterState<InputMoveBlockState, (Vector2Int, Directions)>((blockView.ModelPosition, direction));
         }
 
-        private void ActivateModel(IBlockView blockView)
+        private void OnInputActivate(IBlockView blockView)
         {
             if (blockView == null)
                 return;
@@ -122,45 +129,25 @@ namespace Presenter
             stateMachine.EnterState<InputActivateBlockState, Vector2Int>(blockView.ModelPosition);
         }
 
-        //view
-        private void SpawnAllViews()
-        {
-            ClearAllViews();
-
-            for (int i = 0; i < gameBoard.Blocks.Count; i++)
-            {
-                SpawnView(gameBoard.Blocks[i]);
-            }
-        }
-
-        private void ClearAllViews()
-        {
-            for (int i = 0; i < gameBoard.Blocks.Count; i++)
-            {
-                DestroyView(gameBoard.Blocks[i]);
-            }
-
-            view.ClearBlocksParent();
-            blocks.Clear();
-        }
-
-        private void SpawnView(Block model)
+        private void OnBlockSpawn(Block model)
         {
             IBlockView view = blockViewFactory.Create(model);
             blocks.Add(model, view);
         }
 
-        private void DestroyView(Block model)
+        private void OnDestroy(Block model)
         {
-            if (!blocks.ContainsKey(model))
-                return;
-
-            IBlockView view = blocks[model];
-            view.Destroy();
-            blocks.Remove(model);
+            if (winLoseService.TryGetGoal(model.Type, out Counter counter))
+            {
+                DestroyViewWithFlight(model, counter, tokenSource.Token).Forget();
+            }
+            else
+            {
+                DestroyView(model);
+            }
         }
 
-        private void DragView(IBlockView block, Vector2 deltaPosition)
+        private void OnInputDrag(IBlockView block, Vector2 deltaPosition)
         {
             draggedBlock = block;
             var (clampedDelta, direction) = ClampDeltaPosition(deltaPosition);
@@ -177,7 +164,7 @@ namespace Presenter
             }
         }
 
-        private void ReleaseView(IBlockView block)
+        private void OnInputRelease(IBlockView block)
         {
             draggedBlock?.Release();
             oppositeBlock?.Release();
@@ -185,7 +172,7 @@ namespace Presenter
             oppositeBlock = null;
         }
 
-        private void SetViewPosition(Block model)
+        private void OnPositionChange(Block model)
         {
             if (model == null || !blocks.ContainsKey(model))
                 return;
@@ -194,23 +181,80 @@ namespace Presenter
             view.SetModelPosition(model.Position);
         }
 
-        private void SetViewType(Block model)
+        private void OnTypeChange(Block model)
         {
             if (!blocks.ContainsKey(model))
                 return;
 
             IBlockView view = blocks[model];
             BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
-            view.SetType(config.icon, config.destroyEffect);
+            view.SetType(config.icon, config.typeConfig);
         }
 
-        //other
+        //private methods
+        private void SpawnAllViews()
+        {
+            ClearAllViews();
+
+            for (int i = 0; i < gameBoard.Blocks.Count; i++)
+            {
+                OnBlockSpawn(gameBoard.Blocks[i]);
+            }
+        }
+
         private void CenterGameBoard()
         {
             Vector2 offcet = new();
             offcet.x = -(float)(gameBoard.Cells.GetLength(0) - 1f) / 2f;
-            offcet.y = -(float)(gameBoard.HiddenRowsStartIndex - 1f) / 2f -1f;
+            offcet.y = -(float)(gameBoard.HiddenRowsStartIndex - 1f) / 2f - 1f;
             view.BlocksParent.position = offcet;
+        }
+
+        private void ClearAllViews()
+        {
+            for (int i = 0; i < gameBoard.Blocks.Count; i++)
+            {
+                DestroyView(gameBoard.Blocks[i]);
+            }
+
+            view.ClearBlocksParent();
+            blocks.Clear();
+        }
+
+        private void DestroyView(Block model)
+        {
+            if (!blocks.ContainsKey(model))
+                return;
+
+            IBlockView view = blocks[model];
+            view.Destroy();
+            blocks.Remove(model);
+        }
+
+        private async UniTask DestroyViewWithFlight(Block blockModel, Counter counter, CancellationToken token = default)
+        {
+            if (!blocks.ContainsKey(blockModel))
+                return;
+
+            IBlockView blockView = blocks[blockModel];
+
+            if(hud.TryGetCounterView(counter, out ICounterView counterView))
+            {
+                Vector2 worldPosition = counterView.gameObject.transform.position;
+                Vector2 localPosition = view.BlocksParent.InverseTransformPoint(worldPosition);
+                await blockView.FlyTo(localPosition, configProvider.Block.blockFlyDuration, token);
+                blockView.Destroy();
+                blocks.Remove(blockModel);
+            }
+        }
+
+        private void StartFly(Block model, Vector2Int targetPosition)
+        {
+            if (!blocks.ContainsKey(model))
+                return;
+
+            IBlockView view = blocks[model];
+            view.FlyTo(targetPosition, configProvider.Block.blockFlyDuration).Forget();
         }
 
         private (Vector2 clampedDelta, Directions direction) ClampDeltaPosition(Vector2 deltaPosition)

@@ -1,6 +1,9 @@
-﻿using Model.Services;
+﻿using Cysharp.Threading.Tasks;
+using Model.Services;
 using System;
 using UnityEngine;
+using Utils;
+
 namespace Model.Objects
 {
     /// <summary>
@@ -8,14 +11,12 @@ namespace Model.Objects
     /// </summary>
     public interface IBlockType: ICounterTarget
     {
-        /// <summary>
-        /// Возвращает успешен ли был ход
-        /// </summary>
-        public bool Activate(Vector2Int position, IBlockDestroyService destroyService);
+        new public int Id { get; set; }
 
         /// <summary>
-        /// Memberwise clone
+        /// Активация блока в заданной позиции. Возвращает успех активации (зависит от типа блока).
+        /// Direction - для активации перемещением блока.
         /// </summary>
-        public IBlockType Clone();
+        public UniTask<bool> Activate(Vector2Int position, Directions direction);
     }
 }

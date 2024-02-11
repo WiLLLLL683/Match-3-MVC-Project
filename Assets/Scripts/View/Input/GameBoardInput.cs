@@ -53,7 +53,7 @@ namespace View.Input
                 return;
 
             currentMode = mode;
-            Debug.Log($"Current Input mode: {typeof(T).Name}");
+            //Debug.Log($"Current Input mode: {typeof(T).Name}");
         }
 
         public T GetInputMode<T>() where T : IInputMode

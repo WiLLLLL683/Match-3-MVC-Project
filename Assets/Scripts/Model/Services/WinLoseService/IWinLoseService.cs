@@ -5,9 +5,6 @@ namespace Model.Services
 {
     public interface IWinLoseService
     {
-        void RaiseLoseEvent();
-        void RaiseWinEvent();
-
         event Action OnLose;
         event Action OnWin;
 
@@ -22,13 +19,33 @@ namespace Model.Services
         void TryIncreaseCount(ICounterTarget target, int amount = 1);
 
         /// <summary>
-        /// Проверить закончились ли огранияения уровня
+        /// Проверить содержит ли текущий уровень ограничение заданного типа
+        /// </summary>
+        bool TryGetRestriction(ICounterTarget target, out Counter counter);
+
+        /// <summary>
+        /// Проверить содержит ли текущий уровень цель заданного типа
+        /// </summary>
+        bool TryGetGoal(ICounterTarget target, out Counter counter);
+
+        /// <summary>
+        /// Проверить закончились ли все огранияения текущего уровня
         /// </summary>
         public bool CheckLose();
 
         /// <summary>
-        /// Проверить все ли цели уровня выполнены
+        /// Проверить выполнены ли все цели текущего уровня выполнены
         /// </summary>
         public bool CheckWin();
+
+        /// <summary>
+        /// Запуск события проигрыша
+        /// </summary>
+        void RaiseLoseEvent();
+
+        /// <summary>
+        /// Запуск события победы
+        /// </summary>
+        void RaiseWinEvent();
     }
 }

@@ -22,6 +22,11 @@ namespace Model.Services
         List<Block> FindAllBlocksInPlayArea();
 
         /// <summary>
+        /// Найти все блоки заданного типа в игровой зоне (кроме скрытых).
+        /// </summary>
+        List<Block> FindAllBlockOfType(int typeId);
+
+        /// <summary>
         /// Клетка существует в заданной позиции.
         /// </summary>
         bool CellExistsAt(Vector2Int position);

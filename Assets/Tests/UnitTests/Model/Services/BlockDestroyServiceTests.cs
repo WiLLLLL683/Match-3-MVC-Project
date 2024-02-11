@@ -30,7 +30,7 @@ namespace Model.Services.UnitTests
         {
             var (gameBoard, service) = Setup();
             TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
-            service.MarkToDestroy(new(0, 0));
+            service.MarkToDestroy(new Vector2Int(0, 0));
 
             List<Block> markedBlocks = service.FindMarkedBlocks();
 
@@ -54,7 +54,7 @@ namespace Model.Services.UnitTests
             var (gameBoard, service) = Setup();
             TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0,0], gameBoard);
 
-            service.MarkToDestroy(new(0, 0));
+            service.MarkToDestroy(new Vector2Int(0, 0));
 
             Assert.AreEqual(true, gameBoard.Cells[0, 0].Block.isMarkedToDestroy);
         }
@@ -64,7 +64,7 @@ namespace Model.Services.UnitTests
         {
             var (gameBoard, service) = Setup();
 
-            service.MarkToDestroy(new(0, 0));
+            service.MarkToDestroy(new Vector2Int(0, 0));
 
             Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
         }
@@ -74,7 +74,7 @@ namespace Model.Services.UnitTests
         {
             var (gameBoard, service) = Setup();
 
-            service.MarkToDestroy(new(99, 99));
+            service.MarkToDestroy(new Vector2Int(99, 99));
 
             Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
         }
@@ -84,7 +84,7 @@ namespace Model.Services.UnitTests
         {
             var (gameBoard, service) = Setup();
             var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
-            service.MarkToDestroy(new(0, 0));
+            service.MarkToDestroy(new Vector2Int(0, 0));
 
             List<ICounterTarget> targets = service.DestroyAllMarkedBlocks();
 

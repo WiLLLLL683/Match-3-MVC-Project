@@ -55,6 +55,11 @@ namespace TestUtils
             return block;
         }
 
-        public static BasicBlockType CreateBlockType(int typeId) => new BasicBlockType(typeId);
+        public static BasicBlockType CreateBlockType(int typeId)
+        {
+            var blockType = new BasicBlockType();
+            blockType.Id = typeId;
+            return blockType;
+        }
     }
 }

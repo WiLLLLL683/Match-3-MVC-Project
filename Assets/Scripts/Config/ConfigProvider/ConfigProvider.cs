@@ -17,6 +17,7 @@ namespace Config
         public PrefabConfig Prefabs { get; }
         public DefaultsConfig Defaults { get; }
         public InputConfig Input { get; }
+        public BlockConfig Block { get; }
 
         private readonly AllSetsConfig allSets;
 
@@ -24,13 +25,15 @@ namespace Config
             DelayConfig delays,
             PrefabConfig prefabs,
             DefaultsConfig defaults,
-            InputConfig input)
+            InputConfig input,
+            BlockConfig block)
         {
             this.allSets = allSets;
-            this.Delays = delays;
-            this.Prefabs = prefabs;
-            this.Defaults = defaults;
-            this.Input = input;
+            Delays = delays;
+            Prefabs = prefabs;
+            Defaults = defaults;
+            Input = input;
+            Block = block;
         }
 
         public BlockTypeSO GetBlockTypeSO(int id)

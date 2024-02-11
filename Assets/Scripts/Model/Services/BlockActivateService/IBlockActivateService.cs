@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
+using Utils;
 
 namespace Model.Services
 {
     public interface IBlockActivateService
     {
-        bool TryActivateBlock(Vector2Int position);
+        UniTask<bool> TryActivateBlock(Vector2Int position, Directions direction);
     }
 }
