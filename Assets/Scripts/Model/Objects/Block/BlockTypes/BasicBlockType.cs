@@ -14,6 +14,8 @@ namespace Model.Objects
     {
         [field: SerializeField] public int Id { get; set; }
 
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction) => false;
+        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeDependencies dependencies) => false;
+
+        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

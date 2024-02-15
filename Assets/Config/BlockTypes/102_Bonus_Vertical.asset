@@ -20,11 +20,11 @@ MonoBehaviour:
     flyingScale: 1.1
     flyingEase: 26
   type:
-    rid: 6877732311587618821
+    rid: 6877732539127562241
   references:
     version: 2
     RefIds:
-    - rid: 6877732311587618821
+    - rid: 6877732539127562241
       type: {class: DestroyVerticalLineBlockType, ns: Model.Objects, asm: GameAssembly}
       data:
         <Id>k__BackingField: 102

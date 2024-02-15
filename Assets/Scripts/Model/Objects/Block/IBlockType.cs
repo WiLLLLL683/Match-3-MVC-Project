@@ -17,6 +17,11 @@ namespace Model.Objects
         /// Активация блока в заданной позиции. Возвращает успех активации (зависит от типа блока).
         /// Direction - для активации перемещением блока.
         /// </summary>
-        public UniTask<bool> Activate(Vector2Int position, Directions direction);
+        public UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeDependencies dependencies);
+
+        /// <summary>
+        /// Memberwise clone
+        /// </summary>
+        IBlockType Clone();
     }
 }

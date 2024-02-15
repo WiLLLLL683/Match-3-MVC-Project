@@ -12,27 +12,21 @@ namespace Model.Objects
     {
         [field: SerializeField] public int Id { get; set; }
 
-        private readonly Game model;
-        private readonly IValidationService validationService;
-        private readonly IBlockDestroyService destroyService;
-        private readonly IBlockMoveService moveService;
+        private Game model;
+        private IValidationService validationService;
+        private IBlockDestroyService destroyService;
+        private IBlockMoveService moveService;
         private bool isActivated;
 
-        public FlyingBlockType(Game model,
-            IValidationService validationService,
-            IBlockDestroyService destroyService,
-            IBlockMoveService moveService)
-        {
-            this.model = model;
-            this.validationService = validationService;
-            this.destroyService = destroyService;
-            this.moveService = moveService;
-        }
-
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction)
+        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeDependencies dependencies)
         {
             if (isActivated)
                 return false;
+
+            model = dependencies.model;
+            validationService = dependencies.validationService;
+            destroyService = dependencies.destroyService;
+            moveService = dependencies.moveService;
 
             destroyService.MarkToDestroy(position);
             Block target = FindTarget();
@@ -46,6 +40,8 @@ namespace Model.Objects
             return true;
         }
 
+        public IBlockType Clone() => (IBlockType)MemberwiseClone();
+
         private Block FindTarget()
         {
             ICounterTarget goalType = GetFirstUncompleatedGoal();
@@ -54,7 +50,7 @@ namespace Model.Objects
                 return null;
 
             List<Block> goals = validationService.FindAllBlockOfType(goalType.Id);
-            if (goals == null)
+            if (goals == null || goals.Count == 0)
                 return null;
 
             int random = UnityEngine.Random.Range(0, goals.Count);

@@ -11,22 +11,18 @@ namespace Model.Objects
     {
         [field: SerializeField] public int Id { get; set; }
 
-        private readonly IBlockDestroyService destroyService;
         private bool isActivated;
 
-        public DestroyHorizontalLineBlockType(IBlockDestroyService destroyService)
-        {
-            this.destroyService = destroyService;
-        }
-
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction)
+        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeDependencies dependencies)
         {
             if (isActivated)
                 return false;
 
-            destroyService.MarkToDestroyHorizontalLine(position.y);
+            dependencies.destroyService.MarkToDestroyHorizontalLine(position.y);
             isActivated = true;
             return true;
         }
+
+        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

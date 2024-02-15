@@ -21,5 +21,7 @@ namespace Model.Factories
             blockType.Id = blockTypeOrigin.Id;
             return new Block(blockType, position);
         }
+
+        //TODO Create random
     }
 }

@@ -12,20 +12,17 @@ namespace Model.Objects
     {
         [field: SerializeField] public int Id { get; set; }
 
-        private readonly IBlockDestroyService destroyService;
-        private readonly IConfigProvider configProvider;
+        private IBlockDestroyService destroyService;
+        private IConfigProvider configProvider;
         private bool isActivated;
 
-        public ExplosiveBlockType(IBlockDestroyService destroyService, IConfigProvider configProvider)
-        {
-            this.destroyService = destroyService;
-            this.configProvider = configProvider;
-        }
-
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction)
+        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeDependencies dependencies)
         {
             if (isActivated)
                 return false;
+
+            destroyService = dependencies.destroyService;
+            configProvider = dependencies.configProvider;
 
             int explosionRadius = configProvider.Block.bonusBlock_explosionRadius;
             Vector2Int minBound = position - new Vector2Int(explosionRadius, explosionRadius);
@@ -35,5 +32,7 @@ namespace Model.Objects
             isActivated = true;
             return true;
         }
+
+        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }
