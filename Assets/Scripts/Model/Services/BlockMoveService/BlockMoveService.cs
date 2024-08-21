@@ -2,7 +2,6 @@ using Config;
 using Cysharp.Threading.Tasks;
 using Model.Objects;
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
 
@@ -52,7 +51,7 @@ namespace Model.Services
             return true;
         }
 
-        public async Task FlyAsync(Vector2Int startPosition, Vector2Int targetPosition)
+        public async UniTask FlyAsync(Vector2Int startPosition, Vector2Int targetPosition)
         {
             if (!validation.BlockExistsAt(startPosition))
                 return;
@@ -63,10 +62,10 @@ namespace Model.Services
             Block block = validation.TryGetBlock(startPosition);
             Cell startCell = GameBoard.Cells[startPosition.x, startPosition.y];
             Cell targetCell = GameBoard.Cells[targetPosition.x, targetPosition.y];
-            setBlockService.SetEmpty(startCell);
-            setBlockService.SetBlock(targetCell, block);
             OnFlyStarted?.Invoke(block, targetPosition);
             await UniTask.WaitForSeconds(configProvider.Block.blockFlyDuration);
+            setBlockService.SetEmpty(startCell);
+            setBlockService.SetBlock(targetCell, block);
         }
 
         public void ShuffleAllBlocks()

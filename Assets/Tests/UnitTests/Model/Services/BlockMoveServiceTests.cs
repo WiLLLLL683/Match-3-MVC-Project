@@ -12,7 +12,7 @@ namespace Model.Services.UnitTests
 {
     public class BlockMoveServiceTests
     {
-        private int eventCount = 0;
+        private int positionChangedCount = 0;
 
         private (BlockMoveService service, GameBoard gameBoard) Setup()
         {
@@ -23,12 +23,13 @@ namespace Model.Services.UnitTests
             var delays = new DelayConfig();
             configProvider.Delays.Returns(delays);
             var service = new BlockMoveService(game, validation, setBlock, configProvider);
-            eventCount = 0;
-            service.OnPositionChange += (_) => eventCount++;
+            positionChangedCount = 0;
+            service.OnPositionChange += (_) => positionChangedCount++;
 
             return (service, game.CurrentLevel.gameBoard);
         }
 
+        #region Move_Tests
         [Test]
         public void Move_BlockToBlock_BlocksSwapped()
         {
@@ -116,5 +117,8 @@ namespace Model.Services.UnitTests
             Assert.AreEqual(blockA.Type.Id, gameBoard.Cells[0, 0].Block.Type.Id);
             Assert.IsTrue(gameBoard.Cells[1, 0] == null);
         }
+        #endregion
+
+        //public void FlyAsync_
     }
 }

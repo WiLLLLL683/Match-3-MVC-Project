@@ -65,15 +65,11 @@ namespace Model.Services
         {
             List<Block> blocksInPlayArea = new();
 
-            for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
+            foreach (Block block in GameBoard.Blocks)
             {
-                for (int y = 0; y < GameBoard.HiddenRowsStartIndex; y++)
+                if (block.Position.y < GameBoard.HiddenRowsStartIndex)
                 {
-                    Block block = TryGetBlock(new(x, y));
-                    if (block != null)
-                    {
-                        blocksInPlayArea.Add(block);
-                    }
+                    blocksInPlayArea.Add(block);
                 }
             }
 

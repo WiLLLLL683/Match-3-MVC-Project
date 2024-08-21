@@ -8,12 +8,9 @@ using Utils;
 
 namespace Model.Services
 {
-    public class BlockActivateService : IBlockActivateService //TODO удалить сервис за ненадобностью?
+    public class BlockActivateService : IBlockActivateService
     {
-        private readonly Game model;
-        private readonly IBlockDestroyService destroyService;
-        private readonly IConfigProvider configProvider;
-        private readonly IBlockMoveService moveService;
+        private readonly BlockTypeContext context;
         private readonly IValidationService validationService;
 
         public BlockActivateService(Game model,
@@ -22,10 +19,7 @@ namespace Model.Services
             IBlockMoveService moveService,
             IValidationService validationService)
         {
-            this.model = model;
-            this.destroyService = destroyService;
-            this.configProvider = configProvider;
-            this.moveService = moveService;
+            this.context = new(model, configProvider, validationService, destroyService, moveService);
             this.validationService = validationService;
         }
 
@@ -36,7 +30,7 @@ namespace Model.Services
             if (block == null)
                 return false;
 
-            return await block.Type.Activate(position, direction, new(model, destroyService, configProvider, moveService, validationService));
+            return await block.Type.Activate(position, direction, context);
         }
     }
 }

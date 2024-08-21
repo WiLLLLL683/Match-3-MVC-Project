@@ -2,7 +2,7 @@
 using UnityEngine;
 using Model.Objects;
 using Utils;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Model.Services
 {
@@ -29,7 +29,7 @@ namespace Model.Services
         /// <summary>
         /// Запустить блок в полет до целевой позиции с ожиданием задержки.
         /// </summary>
-        Task FlyAsync(Vector2Int startPosition, Vector2Int targetPosition);
+        UniTask FlyAsync(Vector2Int startPosition, Vector2Int targetPosition);
 
         /// <summary>
         /// Перемешать блоки в игровой зоне.

@@ -16,7 +16,7 @@ namespace Model.Objects
         private IConfigProvider configProvider;
         private bool isActivated;
 
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeDependencies dependencies)
+        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeContext dependencies)
         {
             if (isActivated)
                 return false;
