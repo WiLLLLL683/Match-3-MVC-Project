@@ -29,7 +29,5 @@ namespace Model.Objects
             isActivated = true;
             return;
         }
-
-        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

@@ -16,7 +16,5 @@ namespace Model.Objects
         public bool IsActivatable => false;
 
         public async UniTask Activate(Vector2Int position, Directions direction) { }
-
-        public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
 }

@@ -41,8 +41,6 @@ namespace Model.Objects
             return;
         }
 
-        public IBlockType Clone() => (IBlockType)MemberwiseClone();
-
         private Block GetSelectedBlock(Vector2Int position, Directions direction)
         {
             if (direction == Directions.Zero)

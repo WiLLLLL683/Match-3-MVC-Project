@@ -19,10 +19,5 @@ namespace Model.Objects
         /// Direction - для активации перемещением блока.
         /// </summary>
         public UniTask Activate(Vector2Int position, Directions direction);
-
-        /// <summary>
-        /// Memberwise clone
-        /// </summary>
-        IBlockType Clone();
     }
 }

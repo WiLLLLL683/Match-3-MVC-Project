@@ -40,4 +40,4 @@ MonoBehaviour:
     maxSwipeDistance: 1
   block:
     blockFlyDuration: 0.6
-    bonusBlock_explosionRadius: 2
+    bonusBlock_explosionRadius: 1

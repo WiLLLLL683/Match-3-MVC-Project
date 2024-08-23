@@ -83,7 +83,8 @@ namespace Infrastructure
             }
 
             //Активация перемещенного блока
-            await activationService.ActivateBlock(targetPos, direction);
+            //Противоположеное направление, потому что блоки уже поменялись местами
+            await activationService.ActivateBlock(targetPos, direction.ToOpposite());
 
             //Подсчет результатов хода
             winLoseService.TryDecreaseCount(turnTarget);

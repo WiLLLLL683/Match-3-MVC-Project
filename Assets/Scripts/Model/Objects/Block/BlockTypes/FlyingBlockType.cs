@@ -1,13 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
 using Model.Services;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
 namespace Model.Objects
 {
-    [Serializable]
+    [System.Serializable]
     public class FlyingBlockType : IBlockType
     {
         [field: SerializeField] public int Id { get; set; }
@@ -56,9 +55,6 @@ namespace Model.Objects
             return;
         }
 
-        public IBlockType Clone() => (IBlockType)MemberwiseClone();
-
-        //TODO refactor
         private Block FindTarget()
         {
             ICounterTarget goalType = GetFirstUncompleatedGoal();
@@ -74,7 +70,6 @@ namespace Model.Objects
             return goals[random];
         }
 
-        //TODO refactor
         private Block RandomTarget()
         {
             Block block = null;
@@ -89,7 +84,6 @@ namespace Model.Objects
             return block;
         }
 
-        //TODO refactor
         private ICounterTarget GetFirstUncompleatedGoal()
         {
             if (model.CurrentLevel == null || model.CurrentLevel.goals == null)
