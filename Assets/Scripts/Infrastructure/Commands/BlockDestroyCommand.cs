@@ -35,7 +35,8 @@ namespace Infrastructure.Commands
             }
 
             blockType = cell.Block.Type;
-            //destroyService.TryDestroy(cell.Position);
+            destroyService.MarkToDestroy(cell.Position);
+            destroyService.DestroyAllMarkedBlocks();
             isExecuted = true;
         }
 

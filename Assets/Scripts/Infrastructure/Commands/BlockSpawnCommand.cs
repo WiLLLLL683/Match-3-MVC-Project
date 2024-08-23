@@ -38,7 +38,8 @@ namespace Infrastructure.Commands
 
         protected override void OnUndo()
         {
-            //destroyService.TryDestroy(cell.Position);
+            destroyService.MarkToDestroy(cell.Position);
+            destroyService.DestroyAllMarkedBlocks();
         }
     }
 }
