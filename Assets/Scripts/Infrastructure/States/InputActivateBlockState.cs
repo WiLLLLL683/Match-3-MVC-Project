@@ -21,6 +21,7 @@ namespace Infrastructure
         private readonly IBlockMatchService matchService;
         private readonly IWinLoseService winLoseService;
         private readonly IBlockDestroyService destroyService;
+        private readonly IValidationService validationService;
         private readonly ICounterTarget turnTarget;
 
         public InputActivateBlockState(IStateMachine stateMachine,
@@ -28,6 +29,7 @@ namespace Infrastructure
             IBlockMatchService matchService,
             IWinLoseService winLoseService,
             IBlockDestroyService destroyService,
+            IValidationService validationService,
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
@@ -35,18 +37,20 @@ namespace Infrastructure
             this.matchService = matchService;
             this.winLoseService = winLoseService;
             this.destroyService = destroyService;
+            this.validationService = validationService;
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
         public async UniTask OnEnter(Vector2Int position, CancellationToken token)
         {
-            bool success = await activateService.TryActivateBlock(position, Directions.Zero);
-            if (!success)
+            Block block = validationService.TryGetBlock(position);
+            if (block == null)
             {
                 stateMachine.EnterState<WaitState>();
                 return;
             }
 
+            await activateService.ActivateBlock(position, Directions.Zero);
             FindMatches();
             CountDownTurn();
 

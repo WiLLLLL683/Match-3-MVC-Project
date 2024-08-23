@@ -11,37 +11,54 @@ namespace Model.Objects
     public class FlyingBlockType : IBlockType
     {
         [field: SerializeField] public int Id { get; set; }
+        public bool IsActivatable => true;
 
-        private Game model;
-        private IValidationService validationService;
-        private IBlockDestroyService destroyService;
-        private IBlockMoveService moveService;
+        private readonly Game model;
+        private readonly IValidationService validationService;
+        private readonly IBlockDestroyService destroyService;
+        private readonly IBlockMoveService moveService;
+
         private bool isActivated;
 
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeContext dependencies)
+        public FlyingBlockType(Game model, IValidationService validationService, IBlockDestroyService destroyService, IBlockMoveService moveService)
+        {
+            this.model = model;
+            this.validationService = validationService;
+            this.destroyService = destroyService;
+            this.moveService = moveService;
+        }
+
+        public async UniTask Activate(Vector2Int position, Directions direction)
         {
             if (isActivated)
-                return false;
+                return;
 
-            model = dependencies.model;
-            validationService = dependencies.validationService;
-            destroyService = dependencies.destroyService;
-            moveService = dependencies.moveService;
+            //уничтожение креста вокруг начальной позиции
+            destroyService.MarkToDestroy(position + Vector2Int.up);
+            destroyService.MarkToDestroy(position + Vector2Int.down);
+            destroyService.MarkToDestroy(position + Vector2Int.left);
+            destroyService.MarkToDestroy(position + Vector2Int.right);
+            destroyService.DestroyAllMarkedBlocks();
 
-            destroyService.MarkToDestroy(position);
+            //поиск целевой позиции
             Block target = FindTarget();
 
             if (target == null)
-                return false;
+                target = RandomTarget();
 
+            //уничтожение цели и полет к ее позиции
             destroyService.MarkToDestroy(target.Position);
             await moveService.FlyAsync(position, target.Position);
+
+            //уничтожение летающего блока
+            destroyService.MarkToDestroy(target.Position);
             isActivated = true;
-            return true;
+            return;
         }
 
         public IBlockType Clone() => (IBlockType)MemberwiseClone();
 
+        //TODO refactor
         private Block FindTarget()
         {
             ICounterTarget goalType = GetFirstUncompleatedGoal();
@@ -57,6 +74,22 @@ namespace Model.Objects
             return goals[random];
         }
 
+        //TODO refactor
+        private Block RandomTarget()
+        {
+            Block block = null;
+
+            while (block == null)
+            {
+                int x = UnityEngine.Random.Range(0, model.CurrentLevel.gameBoard.Cells.GetLength(0));
+                int y = UnityEngine.Random.Range(0, model.CurrentLevel.gameBoard.HiddenRowsStartIndex - 1);
+                block = validationService.TryGetBlock(new(x, y));
+            }
+
+            return block;
+        }
+
+        //TODO refactor
         private ICounterTarget GetFirstUncompleatedGoal()
         {
             if (model.CurrentLevel == null || model.CurrentLevel.goals == null)

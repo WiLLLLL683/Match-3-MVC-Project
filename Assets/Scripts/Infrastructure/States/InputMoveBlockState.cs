@@ -18,6 +18,7 @@ namespace Infrastructure
     public class InputMoveBlockState : IPayLoadedState<(Vector2Int startPos, Directions direction)>
     {
         private readonly IStateMachine stateMachine;
+        private readonly IValidationService validationService;
         private readonly IBlockActivateService activationService;
         private readonly IBlockMatchService matchService;
         private readonly IBlockMoveService moveService;
@@ -30,6 +31,7 @@ namespace Infrastructure
         private Directions direction;
 
         public InputMoveBlockState(IStateMachine stateMachine,
+            IValidationService validationService,
             IBlockActivateService activationService,
             IBlockMatchService matchService,
             IBlockMoveService moveService,
@@ -38,6 +40,7 @@ namespace Infrastructure
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
+            this.validationService = validationService;
             this.activationService = activationService;
             this.matchService = matchService;
             this.moveService = moveService;
@@ -59,6 +62,7 @@ namespace Infrastructure
             startPos = payLoad.startPos;
             direction = payLoad.direction;
             targetPos = startPos + direction.ToVector2Int();
+            Block block = validationService.TryGetBlock(startPos);
 
             //Перемещение блока
             bool isMoved = TryMoveBlock();
@@ -68,17 +72,18 @@ namespace Infrastructure
                 return;
             }
 
-            //Активация перемещенного блока
-            bool isActivated = await activationService.TryActivateBlock(targetPos, direction);
-
             //Проверка успеха хода
             bool isMatchesFound = TryFindMatches();
-            if (!isActivated && !isMatchesFound)
+            bool isActivatable = block?.Type.IsActivatable == true;
+            if (!isActivatable && !isMatchesFound)
             {
                 UnMoveBlock();
                 stateMachine.EnterState<WaitState>();
                 return;
             }
+
+            //Активация перемещенного блока
+            await activationService.ActivateBlock(targetPos, direction);
 
             //Подсчет результатов хода
             winLoseService.TryDecreaseCount(turnTarget);

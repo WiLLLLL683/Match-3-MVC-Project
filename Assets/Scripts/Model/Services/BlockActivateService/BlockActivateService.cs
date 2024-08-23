@@ -10,27 +10,47 @@ namespace Model.Services
 {
     public class BlockActivateService : IBlockActivateService
     {
-        private readonly BlockTypeContext context;
+        private readonly Game game;
         private readonly IValidationService validationService;
 
-        public BlockActivateService(Game model,
-            IBlockDestroyService destroyService,
-            IConfigProvider configProvider,
-            IBlockMoveService moveService,
-            IValidationService validationService)
+        private GameBoard GameBoard => game.CurrentLevel.gameBoard;
+
+        public BlockActivateService(Game game, IValidationService validationService)
         {
-            this.context = new(model, configProvider, validationService, destroyService, moveService);
+            this.game = game;
             this.validationService = validationService;
         }
 
-        public async UniTask<bool> TryActivateBlock(Vector2Int position, Directions direction)
+        public List<Block> FindMarkedBlocks()
+        {
+            List<Block> markedBlocks = new();
+
+            foreach (Block block in GameBoard.Blocks)
+            {
+                if (block?.isMarkedToDestroy == false)
+                    continue;
+
+                markedBlocks.Add(block);
+            }
+
+            return markedBlocks;
+        }
+
+        public async UniTask ActivateMarkedBlocks()
+        {
+            foreach (Block block in FindMarkedBlocks())
+            {
+                await block.Type.Activate(block.Position, Directions.Zero);
+            }
+        }
+
+        public async UniTask ActivateBlock(Vector2Int position, Directions direction)
         {
             Block block = validationService.TryGetBlock(position);
-
             if (block == null)
-                return false;
+                return;
 
-            return await block.Type.Activate(position, direction, context);
+            await block.Type.Activate(position, direction);
         }
     }
 }

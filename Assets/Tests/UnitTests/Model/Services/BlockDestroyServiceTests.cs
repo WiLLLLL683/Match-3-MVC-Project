@@ -1,9 +1,11 @@
-﻿using Model.Factories;
+﻿using Cysharp.Threading.Tasks;
+using Model.Factories;
 using Model.Objects;
 using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TestUtils;
 using UnityEngine;
 
@@ -86,11 +88,10 @@ namespace Model.Services.UnitTests
             var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
             service.MarkToDestroy(new Vector2Int(0, 0));
 
-            List<ICounterTarget> targets = service.DestroyAllMarkedBlocks();
+            service.DestroyAllMarkedBlocks();
 
             Assert.AreEqual(1, destroyEventCount);
-            Assert.AreEqual(1, targets.Count);
-            Assert.AreEqual(block.Type, targets[0]);
+            Assert.IsTrue(gameBoard.Cells[0, 0].Block == null);
         }
 
         [Test]
@@ -98,10 +99,10 @@ namespace Model.Services.UnitTests
         {
             var (gameBoard, service) = Setup();
 
-            List<ICounterTarget> targets = service.DestroyAllMarkedBlocks();
+            service.DestroyAllMarkedBlocks();
 
             Assert.AreEqual(0, destroyEventCount);
-            Assert.AreEqual(0, targets.Count);
+            Assert.IsTrue(gameBoard.Cells[0, 0].Block == null);
         }
     }
 }

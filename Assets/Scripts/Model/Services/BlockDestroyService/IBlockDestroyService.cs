@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Cysharp.Threading.Tasks;
+using Model.Objects;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,8 +41,8 @@ namespace Model.Services
         List<Block> FindMarkedBlocks();
 
         /// <summary>
-        /// Уничтожить все помеченные блоки в игровой зоне. Возвращает лист уничтоженных целей для счетчика.
+        /// Уничтожить все помеченные блоки в игровой зоне с их активацией.
         /// </summary>
-        List<ICounterTarget> DestroyAllMarkedBlocks();
+        void DestroyAllMarkedBlocks();
     }
 }

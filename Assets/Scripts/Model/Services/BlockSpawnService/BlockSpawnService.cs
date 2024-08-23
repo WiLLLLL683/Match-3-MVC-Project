@@ -10,19 +10,19 @@ namespace Model.Services
 
         private readonly Game game;
         private readonly IBlockFactory blockFactory;
+        private readonly IBlockTypeFactory blockTypeFactory;
         private readonly IValidationService validationService;
-        private readonly IBlockRandomTypeService randomService;
         private readonly IBlockChangeTypeService changeTypeService;
         private readonly ICellSetBlockService setBlockService;
 
         private GameBoard GameBoard => game.CurrentLevel.gameBoard;
 
-        public BlockSpawnService(Game game, IBlockFactory blockFactory, IValidationService validationService, IBlockRandomTypeService randomService, IBlockChangeTypeService changeTypeService, ICellSetBlockService setBlockService)
+        public BlockSpawnService(Game game, IBlockFactory blockFactory, IBlockTypeFactory blockTypeFactory, IValidationService validationService, IBlockChangeTypeService changeTypeService, ICellSetBlockService setBlockService)
         {
             this.game = game;
             this.blockFactory = blockFactory;
             this.validationService = validationService;
-            this.randomService = randomService;
+            this.blockTypeFactory = blockTypeFactory;
             this.changeTypeService = changeTypeService;
             this.setBlockService = setBlockService;
         }
@@ -57,7 +57,7 @@ namespace Model.Services
 
         public void SpawnRandomBlock_WithOverride(Cell cell)
         {
-            IBlockType type = randomService.GetRandomBlockType();
+            IBlockType type = blockTypeFactory.CreateRandom();
             SpawnBlock_WithOverride(cell, type);
         }
 
@@ -79,7 +79,7 @@ namespace Model.Services
 
         private void SpawnRandomBlock(Cell cell)
         {
-            IBlockType type = randomService.GetRandomBlockType();
+            IBlockType type = blockTypeFactory.CreateRandom();
             SpawnBlock(cell, type);
         }
 

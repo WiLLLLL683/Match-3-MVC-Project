@@ -24,7 +24,7 @@ namespace Infrastructure
         private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
         private readonly ILevelFactory levelFactory;
-        private readonly IBlockRandomTypeService randomService;
+        private readonly IBlockTypeFactory randomService;
         private readonly IBlockSpawnService spawnService;
         private readonly IBlockMatchService matchService;
 
@@ -37,7 +37,7 @@ namespace Infrastructure
             IStateMachine stateMachine,
             IConfigProvider configProvider,
             ILevelFactory levelFactory,
-            IBlockRandomTypeService randomService,
+            IBlockTypeFactory randomService,
             IBlockSpawnService spawnService,
             IBlockMatchService matchService)
         {

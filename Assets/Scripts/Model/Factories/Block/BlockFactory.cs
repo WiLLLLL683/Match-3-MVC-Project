@@ -16,12 +16,10 @@ namespace Model.Factories
 
         public Block Create(IBlockType blockTypeOrigin, Vector2Int position)
         {
-            Type type = blockTypeOrigin.GetType();
-            IBlockType blockType = (IBlockType)instantiator.Instantiate(type);
-            blockType.Id = blockTypeOrigin.Id;
-            return new Block(blockType, position);
+            //Type type = blockTypeOrigin.GetType();
+            //IBlockType blockType = (IBlockType)instantiator.Instantiate(type);
+            //blockType.Id = blockTypeOrigin.Id;
+            return new Block(blockTypeOrigin, position);
         }
-
-        //TODO Create random
     }
 }

@@ -1,4 +1,5 @@
-﻿using Model.Objects;
+﻿using Cysharp.Threading.Tasks;
+using Model.Objects;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -92,9 +93,8 @@ namespace Model.Services
             return markedBlocks;
         }
 
-        public List<ICounterTarget> DestroyAllMarkedBlocks()
+        public void DestroyAllMarkedBlocks()
         {
-            List<ICounterTarget> destroyedTargets = new();
             List<Block> markedBlocks = FindMarkedBlocks();
 
             for (int i = 0; i < markedBlocks.Count; i++)
@@ -102,18 +102,14 @@ namespace Model.Services
                 if (!markedBlocks[i].isMarkedToDestroy)
                     continue;
 
-                ICounterTarget counterTarget = markedBlocks[i].Type;
                 Destroy(markedBlocks[i]);
-                destroyedTargets.Add(counterTarget);
             }
-
-            return destroyedTargets;
         }
 
         private void Destroy(Block block)
         {
             Cell cell = GameBoard.Cells[block.Position.x, block.Position.y];
-            GameBoard.Blocks.Remove(cell.Block);
+            GameBoard.Blocks.Remove(block);
             setBlockService.SetEmpty(cell);
             OnDestroy?.Invoke(block);
         }

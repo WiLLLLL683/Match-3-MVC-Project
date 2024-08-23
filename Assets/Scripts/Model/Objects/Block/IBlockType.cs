@@ -12,12 +12,13 @@ namespace Model.Objects
     public interface IBlockType: ICounterTarget
     {
         new public int Id { get; set; }
+        public bool IsActivatable { get; }
 
         /// <summary>
-        /// Активация блока в заданной позиции. Возвращает успех активации (зависит от типа блока).
+        /// Активация блока в заданной позиции.
         /// Direction - для активации перемещением блока.
         /// </summary>
-        public UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeContext dependencies);
+        public UniTask Activate(Vector2Int position, Directions direction);
 
         /// <summary>
         /// Memberwise clone

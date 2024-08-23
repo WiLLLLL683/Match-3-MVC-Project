@@ -10,17 +10,24 @@ namespace Model.Objects
     public class DestroyHorizontalLineBlockType : IBlockType
     {
         [field: SerializeField] public int Id { get; set; }
+        public bool IsActivatable => true;
 
+        private readonly IBlockDestroyService destroyService;
         private bool isActivated;
 
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeContext dependencies)
+        public DestroyHorizontalLineBlockType(IBlockDestroyService destroyService)
+        {
+            this.destroyService = destroyService;
+        }
+
+        public async UniTask Activate(Vector2Int position, Directions direction)
         {
             if (isActivated)
-                return false;
+                return;
 
-            dependencies.destroyService.MarkToDestroyHorizontalLine(position.y);
+            destroyService.MarkToDestroyHorizontalLine(position.y);
             isActivated = true;
-            return true;
+            return;
         }
 
         public IBlockType Clone() => (IBlockType)MemberwiseClone();

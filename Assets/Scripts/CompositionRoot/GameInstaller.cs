@@ -50,7 +50,7 @@ namespace CompositionRoot
             Container.Bind<IMatcher>().To<Matcher>().AsSingle();
             Container.Bind<IBlockMatchService>().To<BlockMatchService>().AsSingle();
             Container.Bind<IBlockGravityService>().To<BlockGravityService>().AsSingle();
-            Container.Bind<IBlockRandomTypeService>().To<BlockRandomTypeService>().AsSingle();
+            Container.Bind<IBlockTypeFactory>().To<BlockTypeFactory>().AsSingle();
             Container.Bind<IValidationService>().To<ValidationService>().AsSingle();
             Container.Bind<IBlockActivateService>().To<BlockActivateService>().AsSingle();
 

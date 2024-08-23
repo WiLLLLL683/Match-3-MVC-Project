@@ -237,6 +237,7 @@ namespace Presenter
                 return;
 
             IBlockView blockView = blocks[blockModel];
+            blocks.Remove(blockModel);
 
             if(hud.TryGetCounterView(counter, out ICounterView counterView))
             {
@@ -244,7 +245,6 @@ namespace Presenter
                 Vector2 localPosition = view.BlocksParent.InverseTransformPoint(worldPosition);
                 await blockView.FlyTo(localPosition, configProvider.Block.blockFlyDuration, token);
                 blockView.Destroy();
-                blocks.Remove(blockModel);
             }
         }
 

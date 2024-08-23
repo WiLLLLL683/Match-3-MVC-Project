@@ -13,8 +13,9 @@ namespace Model.Objects
     public class BasicBlockType : IBlockType
     {
         [field: SerializeField] public int Id { get; set; }
+        public bool IsActivatable => false;
 
-        public async UniTask<bool> Activate(Vector2Int position, Directions direction, BlockTypeContext dependencies) => false;
+        public async UniTask Activate(Vector2Int position, Directions direction) { }
 
         public IBlockType Clone() => (IBlockType)MemberwiseClone();
     }
