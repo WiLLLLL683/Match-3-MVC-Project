@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 using Model.Objects;
 using TestUtils;
 using Model.Services;
+using Config;
 
 namespace Infrastructure.Commands.UnitTests
 {
@@ -16,7 +17,8 @@ namespace Infrastructure.Commands.UnitTests
             var game = TestLevelFactory.CreateGame(1, 2);
             var validation = new ValidationService(game);
             var setBlock = new CellSetBlockService();
-            var service = new BlockMoveService(game, validation, setBlock);
+            var configProvider = new ConfigProvider(default, default, default, default, default, default);
+            var service = new BlockMoveService(game, validation, setBlock, configProvider);
             var command = new BlockMoveCommand(new(0, 0), new(0, 1), service);
 
             return (game.CurrentLevel.gameBoard, command);

@@ -93,7 +93,7 @@ namespace View.Input
                     ""name"": """",
                     ""id"": ""13611196-fa42-44c3-b9b2-a288c9e4de03"",
                     ""path"": ""<Mouse>/press"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tap"",

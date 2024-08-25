@@ -21,11 +21,11 @@ namespace Utils
             this.winLoseService = winLoseService;
         }
 
-        [Button, EnableIf("ShowButtons")] public void Add() => winLoseService.IncreaseCountIfPossible(counterTarget.CounterTarget, amount);
+        [Button, EnableIf("ShowButtons")] public void Add() => winLoseService.TryIncreaseCount(counterTarget.CounterTarget, amount);
 
-        [Button, EnableIf("ShowButtons")] public void Remove() => winLoseService.DecreaseCountIfPossible(counterTarget.CounterTarget, amount);
+        [Button, EnableIf("ShowButtons")] public void Remove() => winLoseService.TryDecreaseCount(counterTarget.CounterTarget, amount);
 
         [Button, EnableIf("ShowButtons")]
-        public void CountDown() => winLoseService.DecreaseCountIfPossible(counterTarget.CounterTarget, 1);
+        public void CountDown() => winLoseService.TryDecreaseCount(counterTarget.CounterTarget, 1);
     }
 }

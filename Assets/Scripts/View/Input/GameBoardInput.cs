@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utils;
+using Zenject;
 
 namespace View.Input
 {
-    public class GameBoardInput : IGameBoardInput
+    public class GameBoardInput : IGameBoardInput, ITickable
     {
         private readonly Match3ActionMap actionMap;
         private readonly Dictionary<Type, IInputMode> inputModes;
 
         private IInputMode currentMode;
         private bool isEnabled;
+        private bool isDragging;
 
         public GameBoardInput(Match3ActionMap actionMap, Dictionary<Type, IInputMode> inputModes)
         {
@@ -29,7 +31,6 @@ namespace View.Input
             actionMap.GameBoard.Enable();
             actionMap.GameBoard.Tap.performed += Tap;
             actionMap.GameBoard.Click.started += DragStarted;
-            actionMap.GameBoard.Drag.performed += Drag;
             actionMap.GameBoard.Click.canceled += DragEnded;
         }
 
@@ -42,8 +43,17 @@ namespace View.Input
             actionMap.GameBoard.Disable();
             actionMap.GameBoard.Tap.performed -= Tap;
             actionMap.GameBoard.Click.started -= DragStarted;
-            actionMap.GameBoard.Drag.performed -= Drag;
             actionMap.GameBoard.Click.canceled -= DragEnded;
+        }
+
+        public void Tick()
+        {
+            if (!isEnabled)
+                return;
+            if (!isDragging)
+                return;
+
+            currentMode?.Drag();
         }
 
         public void SetCurrentMode<T>() where T : IInputMode
@@ -53,7 +63,7 @@ namespace View.Input
                 return;
 
             currentMode = mode;
-            Debug.Log($"Current Input mode: {typeof(T).Name}");
+            //Debug.Log($"Current Input mode: {typeof(T).Name}");
         }
 
         public T GetInputMode<T>() where T : IInputMode
@@ -67,9 +77,24 @@ namespace View.Input
             return (T)inputModes[typeof(T)];
         }
 
-        private void Tap(InputAction.CallbackContext context) => currentMode?.Tap(context);
-        private void DragStarted(InputAction.CallbackContext context) => currentMode?.DragStarted(context);
-        private void Drag(InputAction.CallbackContext context) => currentMode?.Drag(context);
-        private void DragEnded(InputAction.CallbackContext context) => currentMode?.DragEnded(context);
+        private void Tap(InputAction.CallbackContext context)
+        {
+            currentMode?.Tap(context);
+        }
+
+        private void DragStarted(InputAction.CallbackContext context)
+        {
+            isDragging = true;
+            currentMode?.DragStarted(context);
+        }
+
+        private void DragEnded(InputAction.CallbackContext context)
+        {
+            if (actionMap.GameBoard.Tap.inProgress)
+                return;
+
+            isDragging = false;
+            currentMode?.DragEnded(context);
+        }
     }
 }

@@ -18,12 +18,17 @@ namespace Infrastructure
     {
         private readonly IStateMachine stateMachine;
         private readonly IBlockMatchService matchService;
+        private readonly IBlockDestroyService destroyService;
         private readonly IConfigProvider configProvider;
 
-        public MatchState(IStateMachine stateMachine, IBlockMatchService matchService, IConfigProvider configProvider)
+        public MatchState(IStateMachine stateMachine,
+            IBlockMatchService matchService,
+            IBlockDestroyService destroyService,
+            IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
             this.matchService = matchService;
+            this.destroyService = destroyService;
             this.configProvider = configProvider;
         }
 
@@ -31,14 +36,19 @@ namespace Infrastructure
         {
             HashSet<Cell> matches = matchService.FindAllMatches();
 
-            if (matches.Count > 0)
+            if (matches.Count == 0)
             {
-                await UniTask.WaitForSeconds(configProvider.Delays.beforeMatchCheck, cancellationToken: token);
-                stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
+                stateMachine.EnterState<WaitState>();
                 return;
             }
 
-            stateMachine.EnterState<WaitState>();
+            foreach (Cell cell in matches)
+            {
+                destroyService.MarkToDestroy(cell.Block.Position);
+            }
+
+            await UniTask.WaitForSeconds(configProvider.Delays.beforeMatchCheck, cancellationToken: token);
+            stateMachine.EnterState<DestroyState>();
         }
 
         public async UniTask OnExit(CancellationToken token)

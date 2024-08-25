@@ -9,11 +9,11 @@ namespace Infrastructure.Commands
     public class BlockSpawnCommand : CommandBase
     {
         private readonly Cell cell;
-        private readonly BlockType type;
+        private readonly IBlockType type;
         private readonly IBlockSpawnService spawnService;
         private readonly IBlockDestroyService destroyService;
 
-        public BlockSpawnCommand(Cell cell, BlockType type, IBlockSpawnService spawnService, IBlockDestroyService destroyService)
+        public BlockSpawnCommand(Cell cell, IBlockType type, IBlockSpawnService spawnService, IBlockDestroyService destroyService)
         {
             if (cell == null ||
                 type == null ||
@@ -36,6 +36,10 @@ namespace Infrastructure.Commands
             isExecuted = true;
         }
 
-        protected override void OnUndo() => destroyService.DestroyAt(cell.Position);
+        protected override void OnUndo()
+        {
+            destroyService.MarkToDestroy(cell.Position);
+            destroyService.DestroyAllMarkedBlocks();
+        }
     }
 }

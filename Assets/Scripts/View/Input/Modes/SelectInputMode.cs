@@ -29,7 +29,7 @@ namespace View.Input
         }
 
         public void DragStarted(InputAction.CallbackContext context) { }
-        public void Drag(InputAction.CallbackContext context) { }
+        public void Drag() { }
         public void DragEnded(InputAction.CallbackContext context) { }
 
         private IBlockView TrySelectBlock()

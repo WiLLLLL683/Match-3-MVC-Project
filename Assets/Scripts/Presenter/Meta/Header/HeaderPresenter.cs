@@ -30,14 +30,14 @@ namespace Presenter
             currencyService.OnChange += UpdateView;
 
             InitView();
-            Debug.Log($"{this} enabled");
+            //Debug.Log($"{this} enabled");
         }
 
         public void Disable()
         {
             currencyService.OnChange -= UpdateView;
 
-            Debug.Log($"{this} disabled");
+            //Debug.Log($"{this} disabled");
         }
 
         private void InitView()

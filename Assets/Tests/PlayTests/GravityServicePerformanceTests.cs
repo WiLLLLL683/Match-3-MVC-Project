@@ -20,9 +20,10 @@ namespace Model.Services.PerformanceTests
             var gameBoard = game.CurrentLevel.gameBoard;
             var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
-            var moveService = new BlockMoveService(game, validation, setBlockService);
             var configProvider = Substitute.For<IConfigProvider>();
-            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
+            var moveService = new BlockMoveService(game, validation, setBlockService,configProvider);
             var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1) - 1; y++)
@@ -44,9 +45,10 @@ namespace Model.Services.PerformanceTests
             var gameBoard = game.CurrentLevel.gameBoard;
             var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
-            var moveService = new BlockMoveService(game, validation, setBlockService);
             var configProvider = Substitute.For<IConfigProvider>();
-            configProvider.Delays.betweenBlockGravitation.Returns(0.01f);
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
+            var moveService = new BlockMoveService(game, validation, setBlockService, configProvider);
             var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             for (int y = 0; y < gameBoard.Cells.GetLength(1) - 1; y++)
@@ -57,7 +59,7 @@ namespace Model.Services.PerformanceTests
                 }
             }
 
-            List<Cell> cells = validation.FindEmptyCells();
+            List<Cell> cells = validation.FindEmptyCellsInPlayArea();
 
             yield return service.Execute(cells);
             yield return Measure.Frames().Run();

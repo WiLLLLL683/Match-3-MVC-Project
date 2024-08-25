@@ -9,7 +9,8 @@
         "UniTask",
         "Unity.PerformanceTesting",
         "Unity.InputSystem",
-        "Unity.InputSystem.TestFramework"
+        "Unity.InputSystem.TestFramework",
+        "Zenject"
     ],
     "includePlatforms": [
         "Editor"

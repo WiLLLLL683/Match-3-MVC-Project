@@ -12,7 +12,7 @@ namespace View.Input
     {
         void Tap(InputAction.CallbackContext context);
         void DragStarted(InputAction.CallbackContext context);
-        void Drag(InputAction.CallbackContext context);
+        void Drag();
         void DragEnded(InputAction.CallbackContext context);
     }
 }

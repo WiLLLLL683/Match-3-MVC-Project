@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Utils;
 namespace Model.Objects
 {
     /// <summary>
@@ -9,10 +10,11 @@ namespace Model.Objects
     [Serializable]
     public class Block
     {
-        public BlockType Type;
+        public IBlockType Type;
         public Vector2Int Position;
+        public bool isMarkedToDestroy;
 
-        public Block(BlockType type, Vector2Int position)
+        public Block(IBlockType type, Vector2Int position)
         {
             Type = type;
             Position = position;

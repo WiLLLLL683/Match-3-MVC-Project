@@ -38,3 +38,6 @@ MonoBehaviour:
   input:
     minSwipeDistance: 0.6
     maxSwipeDistance: 1
+  block:
+    blockFlyDuration: 0.6
+    bonusBlock_explosionRadius: 1

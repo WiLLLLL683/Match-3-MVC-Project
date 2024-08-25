@@ -9,7 +9,7 @@ namespace Infrastructure.Commands
         private readonly IBlockDestroyService destroyService;
         private readonly IBlockSpawnService blockSpawnService;
 
-        private BlockType blockType;
+        private IBlockType blockType;
 
         public BlockDestroyCommand(Cell cell, IBlockDestroyService destroyService, IBlockSpawnService blockSpawnService)
         {
@@ -35,7 +35,8 @@ namespace Infrastructure.Commands
             }
 
             blockType = cell.Block.Type;
-            destroyService.DestroyAt(cell.Position);
+            destroyService.MarkToDestroy(cell.Position);
+            destroyService.DestroyAllMarkedBlocks();
             isExecuted = true;
         }
 

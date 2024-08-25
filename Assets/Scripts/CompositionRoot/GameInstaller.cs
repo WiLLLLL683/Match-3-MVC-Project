@@ -9,12 +9,20 @@ namespace CompositionRoot
 {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private SceneLoader sceneLoader;
+
         public override void InstallBindings()
         {
+            BindSceneLoader();
             BindGameStateMachine();
             BindModel();
             BindFactories();
             BindServices();
+        }
+
+        private void BindSceneLoader()
+        {
+            Container.Bind<SceneLoader>().FromInstance(sceneLoader).AsSingle();
         }
 
         private void BindGameStateMachine()
@@ -50,8 +58,9 @@ namespace CompositionRoot
             Container.Bind<IMatcher>().To<Matcher>().AsSingle();
             Container.Bind<IBlockMatchService>().To<BlockMatchService>().AsSingle();
             Container.Bind<IBlockGravityService>().To<BlockGravityService>().AsSingle();
-            Container.Bind<IBlockRandomTypeService>().To<BlockRandomTypeService>().AsSingle();
+            Container.Bind<IBlockTypeFactory>().To<BlockTypeFactory>().AsSingle();
             Container.Bind<IValidationService>().To<ValidationService>().AsSingle();
+            Container.Bind<IBlockActivateService>().To<BlockActivateService>().AsSingle();
 
             //cell Services
             Container.Bind<ICellChangeTypeService>().To<CellChangeTypeService>().AsSingle();
