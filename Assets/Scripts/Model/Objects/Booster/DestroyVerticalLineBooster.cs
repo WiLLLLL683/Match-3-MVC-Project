@@ -13,7 +13,7 @@ namespace Model.Objects
 
         public void Execute(Vector2Int startPosition, IBlockDestroyService destroyService, IBlockMoveService _)
         {
-            destroyService.MarkToDestroyVerticalLine(startPosition.y);
+            destroyService.MarkToDestroyVerticalLine(startPosition.x);
         }
 
         public IBooster Clone() => (IBooster)MemberwiseClone();
