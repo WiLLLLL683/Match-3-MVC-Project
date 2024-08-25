@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -21,6 +22,7 @@ namespace Infrastructure
     public class LoadLevelState : IState
     {
         private readonly Game model;
+        private readonly SceneLoader sceneLoader;
         private readonly IStateMachine stateMachine;
         private readonly IConfigProvider configProvider;
         private readonly ILevelFactory levelFactory;
@@ -29,11 +31,13 @@ namespace Infrastructure
         private readonly IBlockMatchService matchService;
 
         private const string CORE_SCENE_NAME = "Core";
+        private const string META_SCENE_NAME = "Meta";
         private const int MATCH_CHECK_ITERATIONS = 10; //количество итераций проверки совпавших блоков в начале уровня
 
         private CoreDependencies core;
 
         public LoadLevelState(Game model,
+            SceneLoader sceneLoader,
             IStateMachine stateMachine,
             IConfigProvider configProvider,
             ILevelFactory levelFactory,
@@ -42,6 +46,7 @@ namespace Infrastructure
             IBlockMatchService matchService)
         {
             this.model = model;
+            this.sceneLoader = sceneLoader;
             this.stateMachine = stateMachine;
             this.configProvider = configProvider;
             this.levelFactory = levelFactory;
@@ -58,7 +63,7 @@ namespace Infrastructure
                 return;
             }
 
-            await SceneManager.LoadSceneAsync(CORE_SCENE_NAME, LoadSceneMode.Single);
+            await sceneLoader.LoadScene(CORE_SCENE_NAME, LoadSceneMode.Additive, CORE_SCENE_NAME, META_SCENE_NAME);
             GetSceneDependencies();
 
             if (!LoadLevel())

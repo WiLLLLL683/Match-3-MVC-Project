@@ -36,12 +36,12 @@ namespace View.Input.UnitTests
             var selectInputMode = Substitute.For<ISelectInputMode>();
             selectInputMode.WhenForAnyArgs(x => x.Tap(default)).Do(_ => selectMode_tapCount++);
             selectInputMode.WhenForAnyArgs(x => x.DragStarted(default)).Do(_ => selectMode_dragStartedCount++);
-            selectInputMode.WhenForAnyArgs(x => x.Drag(default)).Do(_ => selectMode_dragCount++);
+            selectInputMode.WhenForAnyArgs(x => x.Drag()).Do(_ => selectMode_dragCount++);
             selectInputMode.WhenForAnyArgs(x => x.DragEnded(default)).Do(_ => selectMode_dragEndedCount++);
             var moveInputMode = Substitute.For<IMoveInputMode>();
             moveInputMode.WhenForAnyArgs(x => x.Tap(default)).Do(_ => moveMode_tapCount++);
             moveInputMode.WhenForAnyArgs(x => x.DragStarted(default)).Do(_ => moveMode_dragStartedCount++);
-            moveInputMode.WhenForAnyArgs(x => x.Drag(default)).Do(_ => moveMode_dragCount++);
+            moveInputMode.WhenForAnyArgs(x => x.Drag()).Do(_ => moveMode_dragCount++);
             moveInputMode.WhenForAnyArgs(x => x.DragEnded(default)).Do(_ => moveMode_dragEndedCount++);
 
             //input

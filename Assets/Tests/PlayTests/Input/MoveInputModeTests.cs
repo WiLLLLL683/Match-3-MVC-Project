@@ -64,7 +64,7 @@ namespace View.Input.UnitTests
             var block = new GameObject("Block", typeof(BlockView), typeof(BoxCollider2D));
 
             inputMode.DragStarted(new InputAction.CallbackContext());
-            inputMode.Drag(new InputAction.CallbackContext());
+            inputMode.Drag();
 
             Assert.AreEqual(1, inputDragCount);
             GameObject.DestroyImmediate(block);
@@ -76,7 +76,7 @@ namespace View.Input.UnitTests
             var inputMode = Setup();
 
             inputMode.DragStarted(new InputAction.CallbackContext());
-            inputMode.Drag(new InputAction.CallbackContext());
+            inputMode.Drag();
 
             Assert.AreEqual(0, inputDragCount);
         }
@@ -88,7 +88,7 @@ namespace View.Input.UnitTests
             var block = new GameObject("Block", typeof(BlockView), typeof(BoxCollider2D));
 
             inputMode.DragStarted(new InputAction.CallbackContext());
-            inputMode.Drag(new InputAction.CallbackContext());
+            inputMode.Drag();
             inputMode.DragEnded(new InputAction.CallbackContext());
 
             Assert.AreEqual(1, inputReleaseCount);
@@ -101,7 +101,7 @@ namespace View.Input.UnitTests
             var inputMode = Setup();
 
             inputMode.DragStarted(new InputAction.CallbackContext());
-            inputMode.Drag(new InputAction.CallbackContext());
+            inputMode.Drag();
             inputMode.DragEnded(new InputAction.CallbackContext());
 
             Assert.AreEqual(0, inputReleaseCount);
@@ -114,7 +114,7 @@ namespace View.Input.UnitTests
             var block = new GameObject("Block", typeof(BlockView), typeof(BoxCollider2D));
 
             inputMode.DragStarted(new InputAction.CallbackContext());
-            inputMode.Drag(new InputAction.CallbackContext());
+            inputMode.Drag();
             inputMode.DragEnded(new InputAction.CallbackContext());
 
             Assert.AreEqual(1, inputMoveCount);
@@ -127,7 +127,7 @@ namespace View.Input.UnitTests
             var inputMode = Setup();
 
             inputMode.DragStarted(new InputAction.CallbackContext());
-            inputMode.Drag(new InputAction.CallbackContext());
+            inputMode.Drag();
             inputMode.DragEnded(new InputAction.CallbackContext());
 
             Assert.AreEqual(0, inputMoveCount);

@@ -9,12 +9,20 @@ namespace CompositionRoot
 {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private SceneLoader sceneLoader;
+
         public override void InstallBindings()
         {
+            BindSceneLoader();
             BindGameStateMachine();
             BindModel();
             BindFactories();
             BindServices();
+        }
+
+        private void BindSceneLoader()
+        {
+            Container.Bind<SceneLoader>().FromInstance(sceneLoader).AsSingle();
         }
 
         private void BindGameStateMachine()

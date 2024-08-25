@@ -45,7 +45,7 @@ namespace View.Input
             draggedBlock = TrySelectBlock(firstTouchWorldPoint);
         }
 
-        public void Drag(InputAction.CallbackContext context)
+        public void Drag()
         {
             if (draggedBlock == null)
                 return;
