@@ -15,10 +15,10 @@ namespace Model.Services.UnitTests
             var game = TestLevelFactory.CreateGame(xLength, yLength);
             var validation = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
-            var moveService = new BlockMoveService(game, validation, setBlockService);
             var configProvider = Substitute.For<IConfigProvider>();
             var delays = new DelayConfig();
             configProvider.Delays.Returns(delays);
+            var moveService = new BlockMoveService(game, validation, setBlockService, configProvider);
             var service = new BlockGravityService(game, validation, moveService, configProvider);
 
             return (game.CurrentLevel.gameBoard, service);

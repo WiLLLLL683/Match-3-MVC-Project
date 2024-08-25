@@ -19,7 +19,7 @@ namespace Model.Services
             this.validation = validationService;
         }
 
-        public void ChangeBlockType(Vector2Int position, BlockType targetType)
+        public void ChangeBlockType(Vector2Int position, IBlockType targetType)
         {
             if (!validation.CellExistsAt(position))
                 return;
@@ -28,7 +28,7 @@ namespace Model.Services
             ChangeBlockType(cell, targetType);
         }
 
-        public void ChangeBlockType(Cell cell, BlockType targetType)
+        public void ChangeBlockType(Cell cell, IBlockType targetType)
         {
             if (!validation.BlockExistsAt(cell.Position))
                 return;

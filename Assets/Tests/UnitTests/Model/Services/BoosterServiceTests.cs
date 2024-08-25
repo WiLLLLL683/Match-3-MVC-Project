@@ -25,12 +25,12 @@ namespace Model.Services.UnitTests
             var factory = Substitute.For<IBoosterFactory>();
             var booster1 = Substitute.For<IBooster>();
             factory.Create(BOOSTER_1).Returns(booster1);
-            booster1.WhenForAnyArgs(x => x.Execute(default, default, default, default)).Do(_ => boosterUsedCount++);
+            booster1.WhenForAnyArgs(x => x.Execute(default, default, default)).Do(_ => boosterUsedCount++);
             var validationService = Substitute.For<IValidationService>();
             var destroyService = Substitute.For<IBlockDestroyService>();
             var moveService = Substitute.For<IBlockMoveService>();
             //service
-            var service = new BoosterService(game, factory, validationService, moveService);
+            var service = new BoosterService(game, factory, validationService, moveService, destroyService);
             return (service, game);
         }
 

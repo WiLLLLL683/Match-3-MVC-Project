@@ -32,7 +32,7 @@ namespace TestUtils
         /// <summary>
         /// Создание блока указанного типа
         /// </summary>
-        public static Block CreateBlock(BlockType type, Vector2Int position = default)
+        public static Block CreateBlock(IBlockType type, Vector2Int position = default)
         {
             return new Block(type, position);
         }
@@ -55,6 +55,11 @@ namespace TestUtils
             return block;
         }
 
-        public static BasicBlockType CreateBlockType(int typeId) => new BasicBlockType(typeId);
+        public static BasicBlockType CreateBlockType(int typeId)
+        {
+            var blockType = new BasicBlockType();
+            blockType.Id = typeId;
+            return blockType;
+        }
     }
 }

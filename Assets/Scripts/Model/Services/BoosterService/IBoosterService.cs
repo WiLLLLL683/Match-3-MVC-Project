@@ -29,7 +29,7 @@ namespace Model.Services
         /// Использовать бустер определенного типа и забрать 1 штуку.
         /// Возвращает клетки для уничтожения блоков в них.
         /// </summary>
-        HashSet<Cell> UseBooster(int id, Vector2Int startPosition);
+        void UseBooster(int id, Vector2Int startPosition);
 
         /// <summary>
         /// Получить количество бустеров определенного типа.

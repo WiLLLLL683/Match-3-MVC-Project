@@ -8,7 +8,7 @@ namespace Model.Services
     {
         event Action<Block> OnTypeChange;
 
-        void ChangeBlockType(Vector2Int position, BlockType targetType);
-        void ChangeBlockType(Cell cell, BlockType targetType);
+        void ChangeBlockType(Vector2Int position, IBlockType targetType);
+        void ChangeBlockType(Cell cell, IBlockType targetType);
     }
 }

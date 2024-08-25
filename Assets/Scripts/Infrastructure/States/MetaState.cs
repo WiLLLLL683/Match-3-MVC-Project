@@ -18,12 +18,19 @@ namespace Infrastructure
     public class MetaState : IState
     {
         private const string META_SCENE_NAME = "Meta";
+        private const string CORE_SCENE_NAME = "Core";
 
+        private readonly SceneLoader sceneLoader;
         private MetaDependencies meta;
+
+        public MetaState(SceneLoader sceneLoader)
+        {
+            this.sceneLoader = sceneLoader;
+        }
 
         public async UniTask OnEnter(CancellationToken token)
         {
-            await SceneManager.LoadSceneAsync(META_SCENE_NAME, LoadSceneMode.Single);
+            await sceneLoader.LoadScene(META_SCENE_NAME, LoadSceneMode.Additive, CORE_SCENE_NAME);
             GetSceneDependencies();
             EnablePresenters();
         }

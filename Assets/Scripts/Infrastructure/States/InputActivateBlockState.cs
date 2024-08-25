@@ -16,31 +16,45 @@ namespace Infrastructure
     /// </summary>
     public class InputActivateBlockState : IPayLoadedState<Vector2Int>
     {
-        private readonly Game game;
         private readonly IStateMachine stateMachine;
+        private readonly IBlockActivateService activateService;
         private readonly IBlockMatchService matchService;
         private readonly IWinLoseService winLoseService;
+        private readonly IBlockDestroyService destroyService;
+        private readonly IValidationService validationService;
         private readonly ICounterTarget turnTarget;
 
-        private GameBoard gameBoard;
-
-        public InputActivateBlockState(Game game,
-            IStateMachine stateMachine,
+        public InputActivateBlockState(IStateMachine stateMachine,
+            IBlockActivateService activateService,
             IBlockMatchService matchService,
             IWinLoseService winLoseService,
+            IBlockDestroyService destroyService,
+            IValidationService validationService,
             IConfigProvider configProvider)
         {
-            this.game = game;
             this.stateMachine = stateMachine;
+            this.activateService = activateService;
             this.matchService = matchService;
             this.winLoseService = winLoseService;
+            this.destroyService = destroyService;
+            this.validationService = validationService;
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
-        public async UniTask OnEnter(Vector2Int payLoad, CancellationToken token)
+        public async UniTask OnEnter(Vector2Int position, CancellationToken token)
         {
-            gameBoard = game.CurrentLevel.gameBoard;
-            PressBlock(payLoad);
+            Block block = validationService.TryGetBlock(position);
+            if (block == null)
+            {
+                stateMachine.EnterState<WaitState>();
+                return;
+            }
+
+            await activateService.ActivateBlock(position, Directions.Zero);
+            FindMatches();
+            CountDownTurn();
+
+            stateMachine.EnterState<DestroyState>();
         }
 
         public async UniTask OnExit(CancellationToken token)
@@ -48,21 +62,14 @@ namespace Infrastructure
 
         }
 
-        private void PressBlock(Vector2Int position)
+        private void FindMatches()
         {
-            bool turnSucsess = gameBoard.Cells[position.x, position.y].Block.Type.Activate(); //TODO возвращать IAction
-
-            HashSet<Cell> matches = matchService.FindAllMatches();
-
-            if (turnSucsess)
+            foreach (Cell cell in matchService.FindAllMatches())
             {
-                winLoseService.DecreaseCountIfPossible(turnTarget);
-                stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
-            }
-            else
-            {
-                stateMachine.EnterState<WaitState>(); //Возврат к ожиданию инпута
+                destroyService.MarkToDestroy(cell.Block.Position);
             }
         }
+
+        private void CountDownTurn() => winLoseService.TryDecreaseCount(turnTarget);
     }
 }

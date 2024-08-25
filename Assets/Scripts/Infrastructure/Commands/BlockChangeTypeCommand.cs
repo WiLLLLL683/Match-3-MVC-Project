@@ -10,11 +10,11 @@ namespace Infrastructure.Commands
     public class BlockChangeTypeCommand : CommandBase
     {
         private readonly Block block;
-        private readonly BlockType targetType;
-        private readonly BlockType previousType;
+        private readonly IBlockType targetType;
+        private readonly IBlockType previousType;
         private readonly IBlockChangeTypeService blockChangeTypeService;
 
-        public BlockChangeTypeCommand(Block block, BlockType targetType, IBlockChangeTypeService blockChangeTypeService)
+        public BlockChangeTypeCommand(Block block, IBlockType targetType, IBlockChangeTypeService blockChangeTypeService)
         {
             if (block == null ||
                 targetType == null ||

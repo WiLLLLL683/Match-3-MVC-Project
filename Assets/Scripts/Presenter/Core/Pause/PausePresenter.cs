@@ -38,7 +38,7 @@ namespace Presenter
             view.PausePopUp.OnSoundIsOn += SwitchSound;
             view.PausePopUp.OnVibrationIsOn += SwitchVibration;
 
-            Debug.Log($"{this.GetType().Name} enabled");
+            //Debug.Log($"{this.GetType().Name} enabled");
         }
 
         public void Disable()
@@ -50,7 +50,7 @@ namespace Presenter
             view.PausePopUp.OnSoundIsOn -= SwitchSound;
             view.PausePopUp.OnVibrationIsOn -= SwitchVibration;
 
-            Debug.Log($"{this.GetType().Name} disabled");
+            //Debug.Log($"{this.GetType().Name} disabled");
         }
 
         private void ShowPausePopUp()

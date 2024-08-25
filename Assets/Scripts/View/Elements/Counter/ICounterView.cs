@@ -7,6 +7,8 @@ namespace View
     /// </summary>
     public interface ICounterView
     {
+        GameObject gameObject { get; }
+
         void Init(Sprite iconSprite, int initialNumber);
         void ChangeCount(int count);
         void ChangeIcon(Sprite iconSprite);

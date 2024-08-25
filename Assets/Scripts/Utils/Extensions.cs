@@ -42,9 +42,9 @@ namespace Utils
         /// <summary>
         /// Преобразовать дельта-вектор в направление
         /// </summary>
-        public static Directions ToDirection(this Vector2 deltaPosition)
+        public static Directions ToDirection(this Vector2 deltaPosition, float minDelta = 0)
         {
-            if (deltaPosition.magnitude == 0)
+            if (deltaPosition.magnitude <= minDelta)
                 return Directions.Zero;
 
             if (Mathf.Abs(deltaPosition.x) > Mathf.Abs(deltaPosition.y))

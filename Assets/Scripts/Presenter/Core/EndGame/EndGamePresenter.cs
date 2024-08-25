@@ -44,7 +44,7 @@ namespace Presenter
             view.DefeatPopUp.OnReplayInput += Replay;
             view.DefeatPopUp.OnQuitInput += Quit;
 
-            Debug.Log($"{this} enabled");
+            //Debug.Log($"{this} enabled");
         }
 
         public void Disable()
@@ -58,7 +58,7 @@ namespace Presenter
             view.DefeatPopUp.OnReplayInput -= Replay;
             view.DefeatPopUp.OnQuitInput -= Quit;
 
-            Debug.Log($"{this} disabled");
+            //Debug.Log($"{this} disabled");
         }
 
         public void ShowCompletePopUp()

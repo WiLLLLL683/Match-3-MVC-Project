@@ -1,7 +1,10 @@
+using Config;
 using Model.Factories;
 using Model.Objects;
+using NSubstitute;
 using NUnit.Framework;
 using TestUtils;
+using Zenject;
 
 namespace Model.Services.UnitTests
 {
@@ -15,13 +18,15 @@ namespace Model.Services.UnitTests
         {
             var game = TestLevelFactory.CreateGame(xLength, yLength);
             game.CurrentLevel.gameBoard = TestLevelFactory.CreateGameBoard(xLength, yLength, invisibleRows);
-            var blockFactory = new BlockFactory();
+            var blockFactory = Substitute.For<IBlockFactory>();
+            blockFactory.Create(default, default).ReturnsForAnyArgs(TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK));
             var validation = new ValidationService(game);
-            var random = TestServicesFactory.CreateRandomBlockTypeService(factoryReturnBlockType);
-            var changeTypeService = new BlockChangeTypeService(game, validation);
             var setBlockService = new CellSetBlockService();
+            var blockTypeFactory = Substitute.For<IBlockTypeFactory>();
+            blockTypeFactory.Create(Arg.Any<int>()).ReturnsForAnyArgs(TestBlockFactory.CreateBlockType(factoryReturnBlockType));
+            var changeTypeService = new BlockChangeTypeService(game, validation);
 
-            var service = new BlockSpawnService(game, blockFactory, validation, random, changeTypeService, setBlockService);
+            var service = new BlockSpawnService(game, blockFactory, blockTypeFactory, validation, changeTypeService, setBlockService);
             return (service, game.CurrentLevel.gameBoard);
         }
 
@@ -77,7 +82,7 @@ namespace Model.Services.UnitTests
             var (service, gameBoard) = Setup(1, 1, 0, TestBlockFactory.RED_BLOCK);
 
             service.SpawnBlock_WithOverride(gameBoard.Cells[0, 0], TestBlockFactory.RedBlockType);
-            
+
             Assert.IsFalse(gameBoard.Cells[0, 0].Block == null);
             Assert.That(gameBoard.Cells[0, 0].Block.Type.Id == TestBlockFactory.RED_BLOCK);
         }

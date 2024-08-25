@@ -73,7 +73,7 @@ namespace Utils
         public void Dispose()
         {
             tokenSource.Cancel();
-            Debug.Log("canceled");
+            //Debug.Log("canceled");
         }
     }
 }

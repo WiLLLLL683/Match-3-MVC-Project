@@ -9,28 +9,37 @@ namespace Model.Services
         /// <summary>
         /// Блок существует в заданной позиции.
         /// </summary>
-        public bool BlockExistsAt(Vector2Int position);
+        bool BlockExistsAt(Vector2Int position);
+
+        /// <summary>
+        /// Возвращает блок, если он существует в заданной позиции. Либо возвращает null.
+        /// </summary>
+        Block TryGetBlock(Vector2Int position);
+
+        /// <summary>
+        /// Найти все блоки в игровой зоне (кроме скрытых).
+        /// </summary>
+        List<Block> FindAllBlocksInPlayArea();
+
+        /// <summary>
+        /// Найти все блоки заданного типа в игровой зоне (кроме скрытых).
+        /// </summary>
+        List<Block> FindAllBlockOfType(int typeId);
 
         /// <summary>
         /// Клетка существует в заданной позиции.
         /// </summary>
-        public bool CellExistsAt(Vector2Int position);
+        bool CellExistsAt(Vector2Int position);
 
         /// <summary>
         /// Клетка пуста и может содержать в себе блок.
         /// </summary>
-        public bool CellIsEmptyAt(Vector2Int position);
+        bool CellIsEmptyAt(Vector2Int position);
 
         /// <summary>
         /// Найти все пустые клетки, которые могут содержать блок.
-        /// Порядок: колоннами слева-направо, внутри колонны сверху-вниз
+        /// Порядок: колоннами слева-направо, внутри колонны сверху-вниз.
         /// </summary>
-        List<Cell> FindEmptyCells();
-
-        /// <summary>
-        /// Найти все пустые клетки в колонне, которые могут содержать блок.
-        /// Порядок: сверху-вниз
-        /// </summary>
-        //List<Cell> FindEmptyCellsInColumn(int xPosition);
+        List<Cell> FindEmptyCellsInPlayArea();
     }
 }

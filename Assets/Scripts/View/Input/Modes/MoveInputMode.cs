@@ -10,17 +10,17 @@ namespace View.Input
 {
     public class MoveInputMode : IMoveInputMode
     {
+        public event Action<IBlockView, Vector2> OnInputMove;
+        public event Action<IBlockView> OnInputActivate;
         public event Action<IBlockView, Vector2> OnInputDrag;
         public event Action<IBlockView> OnInputRelease;
-        public event Action<Vector2Int> OnInputActivate;
-        public event Action<Vector2Int, Directions> OnInputMove;
 
         private readonly Match3ActionMap actionMap;
         private readonly Camera mainCamera;
 
         private Vector2 firstTouchWorldPoint;
         private IBlockView draggedBlock;
-        private Directions direction;
+        private Vector2 worldDragDelta;
 
         public MoveInputMode(Match3ActionMap actionMap, Camera mainCamera)
         {
@@ -36,7 +36,7 @@ namespace View.Input
             if (block == null)
                 return;
 
-            OnInputActivate?.Invoke(block.ModelPosition);
+            OnInputActivate?.Invoke(block);
         }
 
         public void DragStarted(InputAction.CallbackContext context)
@@ -45,14 +45,13 @@ namespace View.Input
             draggedBlock = TrySelectBlock(firstTouchWorldPoint);
         }
 
-        public void Drag(InputAction.CallbackContext context)
+        public void Drag()
         {
             if (draggedBlock == null)
                 return;
 
-            Vector2 worldDelta = GetWorldPoint() - firstTouchWorldPoint;
-            direction = worldDelta.ToDirection();
-            OnInputDrag?.Invoke(draggedBlock, worldDelta);
+            worldDragDelta = GetWorldPoint() - firstTouchWorldPoint;
+            OnInputDrag?.Invoke(draggedBlock, worldDragDelta);
         }
 
         public void DragEnded(InputAction.CallbackContext context)
@@ -60,7 +59,10 @@ namespace View.Input
             if (draggedBlock == null)
                 return;
 
-            OnInputMove?.Invoke(draggedBlock.ModelPosition, direction);
+            if (worldDragDelta.magnitude == 0)
+                return;
+
+            OnInputMove?.Invoke(draggedBlock, worldDragDelta);
             OnInputRelease?.Invoke(draggedBlock);
         }
 

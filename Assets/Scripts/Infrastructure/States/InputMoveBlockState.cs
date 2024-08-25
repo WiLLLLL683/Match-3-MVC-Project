@@ -18,40 +18,77 @@ namespace Infrastructure
     public class InputMoveBlockState : IPayLoadedState<(Vector2Int startPos, Directions direction)>
     {
         private readonly IStateMachine stateMachine;
+        private readonly IValidationService validationService;
+        private readonly IBlockActivateService activationService;
         private readonly IBlockMatchService matchService;
         private readonly IBlockMoveService moveService;
+        private readonly IBlockDestroyService destroyService;
         private readonly IWinLoseService winLoseService;
         private readonly ICounterTarget turnTarget;
 
         private Vector2Int startPos;
+        private Vector2Int targetPos;
         private Directions direction;
 
         public InputMoveBlockState(IStateMachine stateMachine,
+            IValidationService validationService,
+            IBlockActivateService activationService,
             IBlockMatchService matchService,
             IBlockMoveService moveService,
+            IBlockDestroyService destroyService,
             IWinLoseService winLoseService,
             IConfigProvider configProvider)
         {
             this.stateMachine = stateMachine;
+            this.validationService = validationService;
+            this.activationService = activationService;
             this.matchService = matchService;
             this.moveService = moveService;
+            this.destroyService = destroyService;
             this.winLoseService = winLoseService;
             this.turnTarget = configProvider.Turn.CounterTarget;
         }
 
         public async UniTask OnEnter((Vector2Int startPos, Directions direction) payLoad, CancellationToken token)
         {
-            startPos = payLoad.startPos;
-            direction = payLoad.direction;
-
-            //бездействие при долгом зажатии блока на одном месте
+            //Инпут не валидный, если направление передвижения = Zero
             if (direction == Directions.Zero)
             {
                 stateMachine.EnterState<WaitState>();
                 return;
             }
 
-            MoveBlock();
+            //Инициализация
+            startPos = payLoad.startPos;
+            direction = payLoad.direction;
+            targetPos = startPos + direction.ToVector2Int();
+            Block block = validationService.TryGetBlock(startPos);
+
+            //Перемещение блока
+            bool isMoved = TryMoveBlock();
+            if (!isMoved)
+            {
+                stateMachine.EnterState<WaitState>();
+                return;
+            }
+
+            //Проверка успеха хода
+            bool isMatchesFound = TryFindMatches();
+            bool isActivatable = block?.Type.IsActivatable == true;
+            if (!isActivatable && !isMatchesFound)
+            {
+                UnMoveBlock();
+                stateMachine.EnterState<WaitState>();
+                return;
+            }
+
+            //Активация перемещенного блока
+            //Противоположеное направление, потому что блоки уже поменялись местами
+            await activationService.ActivateBlock(targetPos, direction.ToOpposite());
+
+            //Подсчет результатов хода
+            winLoseService.TryDecreaseCount(turnTarget);
+            stateMachine.EnterState<DestroyState>();
         }
 
         public async UniTask OnExit(CancellationToken token)
@@ -59,23 +96,19 @@ namespace Infrastructure
 
         }
 
-        private void MoveBlock()
-        {
-            ICommand moveAction = new BlockMoveCommand(startPos, startPos + direction.ToVector2Int(), moveService);
-            moveAction.Execute();
+        private bool TryMoveBlock() => moveService.Move(startPos, targetPos);
+        private bool UnMoveBlock() => moveService.Move(targetPos, startPos);
 
+        private bool TryFindMatches()
+        {
             HashSet<Cell> matches = matchService.FindAllMatches();
 
-            if (matches.Count > 0)
+            foreach (Cell cell in matches)
             {
-                winLoseService.DecreaseCountIfPossible(turnTarget);
-                stateMachine.EnterState<DestroyState, HashSet<Cell>>(matches);
+                destroyService.MarkToDestroy(cell.Block.Position);
             }
-            else
-            {
-                moveAction?.Undo();
-                stateMachine.EnterState<WaitState>(); //Возврат к ожиданию инпута
-            }
+
+            return matches.Count > 0;
         }
     }
 }

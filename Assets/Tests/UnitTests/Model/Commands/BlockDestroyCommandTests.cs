@@ -20,10 +20,12 @@ namespace Infrastructure.Commands.UnitTests
             var game = TestLevelFactory.CreateGame(1, 1);
             var validation = new ValidationService(game);
             var setBlock = new CellSetBlockService();
-            var random = TestServicesFactory.CreateRandomBlockTypeService();
+            var blockTypeFactory = Substitute.For<IBlockTypeFactory>();
+            blockTypeFactory.Create(Arg.Any<int>()).ReturnsForAnyArgs(TestBlockFactory.CreateBlockType(TestBlockFactory.DEFAULT_BLOCK));
             var changeType = new BlockChangeTypeService(game, validation);
-            var factory = new BlockFactory();
-            var spawn = new BlockSpawnService(game, factory, validation, random, changeType, setBlock);
+            var blockFactory = Substitute.For<IBlockFactory>();
+            blockFactory.Create(default, default).ReturnsForAnyArgs(TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK));
+            var spawn = new BlockSpawnService(game, blockFactory, blockTypeFactory, validation, changeType, setBlock);
             var destroy = new BlockDestroyService(game, validation, setBlock);
 
             eventCount = 0;
@@ -36,12 +38,12 @@ namespace Infrastructure.Commands.UnitTests
         public void Execute_ValidBlock_BlockDestroyed()
         {
             var (gameBoard, destroy, spawn) = Setup();
-            var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0,0], gameBoard);
+            var block = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
             var command = new BlockDestroyCommand(gameBoard.Cells[0, 0], destroy, spawn);
 
             command.Execute();
 
-            Assert.AreEqual(null, gameBoard.Cells[0,0].Block);
+            Assert.AreEqual(null, gameBoard.Cells[0, 0].Block);
             Assert.AreEqual(1, eventCount);
         }
 

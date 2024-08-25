@@ -30,12 +30,13 @@ namespace Model.Services
 
         public async UniTask Execute(List<Cell> emptyCells, CancellationToken token = default)
         {
-            for (int i = 0; i < emptyCells.Count; i++)
+            for (int y = 0; y < GameBoard.Cells.GetLength(1); y++)
             {
-                for (int y = 0; y < GameBoard.Cells.GetLength(1); y++)
+                for (int i = 0; i < emptyCells.Count; i++)
                 {
-                    await TryMoveBlockDown(emptyCells[i].Position.x, y, token);
+                    TryMoveBlockDown(emptyCells[i].Position.x, y, token);
                 }
+                await UniTask.WaitForSeconds(configProvider.Delays.betweenBlockGravitation, cancellationToken: token);
             }
         }
 
@@ -45,12 +46,13 @@ namespace Model.Services
             {
                 for (int x = 0; x < GameBoard.Cells.GetLength(0); x++)
                 {
-                    await TryMoveBlockDown(x, y, token);
+                    TryMoveBlockDown(x, y, token);
                 }
+                await UniTask.WaitForSeconds(configProvider.Delays.betweenBlockGravitation, cancellationToken: token);
             }
         }
 
-        private async UniTask TryMoveBlockDown(int x, int y, CancellationToken token)
+        private void TryMoveBlockDown(int x, int y, CancellationToken token)
         {
             if (!validationService.BlockExistsAt(new Vector2Int(x, y)))
                 return;
@@ -60,7 +62,6 @@ namespace Model.Services
                 return;
 
             moveService.Move(new Vector2Int(x, y), new Vector2Int(x, lowestY));
-            await UniTask.WaitForSeconds(configProvider.Delays.betweenBlockGravitation, cancellationToken: token);
         }
 
         private int FindLowestEmptyCellUnderPos(int x, int y)

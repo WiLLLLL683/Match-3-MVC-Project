@@ -38,7 +38,7 @@ namespace Presenter
             view.OnSelectPrevious += SelectPrevious;
 
             SelectLastCompleted();
-            Debug.Log($"{this} enabled");
+            //Debug.Log($"{this} enabled");
         }
 
         public void Disable()
@@ -47,7 +47,7 @@ namespace Presenter
             view.OnSelectNext -= SelectNext;
             view.OnSelectPrevious -= SelectPrevious;
 
-            Debug.Log($"{this} disabled");
+            //Debug.Log($"{this} disabled");
         }
 
         public void StartSelected()

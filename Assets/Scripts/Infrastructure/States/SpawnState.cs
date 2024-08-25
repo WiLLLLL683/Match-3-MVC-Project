@@ -43,7 +43,7 @@ namespace Infrastructure
 
             for (int i = 0; i < MAX_ITERATIONS_COUNT; i++)
             {
-                var emptyCells = validationService.FindEmptyCells();
+                var emptyCells = validationService.FindEmptyCellsInPlayArea();
                 if (emptyCells.Count == 0)
                     break;
 

@@ -39,7 +39,7 @@ namespace CompositionRoot
             };
 
             IGameBoardInput input = new GameBoardInput(actionMap, inputModes);
-            Container.Bind<IGameBoardInput>().FromInstance(input).AsSingle();
+            Container.BindInterfacesTo<GameBoardInput>().FromInstance(input).AsSingle();
         }
 
         private void BindHud()

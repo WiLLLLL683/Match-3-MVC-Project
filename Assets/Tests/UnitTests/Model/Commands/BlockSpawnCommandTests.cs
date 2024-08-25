@@ -12,16 +12,18 @@ namespace Infrastructure.Commands.UnitTests
         private int spawnEventCount = 0;
         private int destroyEventCount = 0;
 
-        private (GameBoard gameBoard, BlockSpawnService spawn, BlockDestroyService destroy, BlockType type) Setup()
+        private (GameBoard gameBoard, BlockSpawnService spawn, BlockDestroyService destroy, IBlockType type) Setup()
         {
             var game = TestLevelFactory.CreateGame(1, 1);
             var validation = new ValidationService(game);
             var setBlock = new CellSetBlockService();
             var destroy = new BlockDestroyService(game, validation, setBlock);
-            var random = TestServicesFactory.CreateRandomBlockTypeService();
+            var blockTypeFactory = Substitute.For<IBlockTypeFactory>();
+            blockTypeFactory.Create(Arg.Any<int>()).ReturnsForAnyArgs(TestBlockFactory.CreateBlockType(TestBlockFactory.DEFAULT_BLOCK));
             var changeType = new BlockChangeTypeService(game, validation);
-            var factory = new BlockFactory();
-            var spawn = new BlockSpawnService(game, factory, validation, random, changeType, setBlock);
+            var blockFactory = Substitute.For<IBlockFactory>();
+            blockFactory.Create(default, default).ReturnsForAnyArgs(TestBlockFactory.CreateBlock(TestBlockFactory.DEFAULT_BLOCK));
+            var spawn = new BlockSpawnService(game, blockFactory, blockTypeFactory, validation, changeType, setBlock);
 
             spawnEventCount = 0;
             destroyEventCount = 0;

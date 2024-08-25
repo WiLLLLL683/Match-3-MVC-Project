@@ -24,7 +24,7 @@ namespace View.Factories
         {
             BlockTypeSO config = configProvider.GetBlockTypeSO(model.Type.Id);
             BlockView view = instantiator.InstantiatePrefabForComponent<BlockView>(configProvider.Prefabs.blockViewPrefab, gameBoardView.BlocksParent);
-            view.Init(config.icon, config.destroyEffect, model.Position);
+            view.Init(config.icon, config.typeConfig, model.Position);
             return view;
         }
     }

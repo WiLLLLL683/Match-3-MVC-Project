@@ -1,4 +1,5 @@
-﻿using Model.Services;
+﻿using Config;
+using Model.Services;
 using NSubstitute;
 using NUnit.Framework;
 using System;
@@ -12,7 +13,7 @@ namespace Model.Objects.UnitTests
     {
         private int blockMovedCount;
 
-        private (GameBoard gameBoard, IValidationService validationService, IBlockMoveService moveService, IBooster booster)
+        private (GameBoard gameBoard, IBlockDestroyService destroyService, IBlockMoveService moveService, IBooster booster)
             Setup(int xLength, int yLength)
         {
             blockMovedCount = 0;
@@ -21,21 +22,25 @@ namespace Model.Objects.UnitTests
             var gameBoard = game.CurrentLevel.gameBoard;
             var validationService = new ValidationService(game);
             var setBlockService = new CellSetBlockService();
-            var moveService = new BlockMoveService(game, validationService, setBlockService);
+            var destroyService = new BlockDestroyService(game, validationService, setBlockService);
+            var configProvider = Substitute.For<IConfigProvider>();
+            var delays = new DelayConfig();
+            configProvider.Delays.Returns(delays);
+            var moveService = new BlockMoveService(game, validationService, setBlockService, configProvider);
             moveService.OnPositionChange += (Block _) => blockMovedCount++;
             var booster = new ShuffleBlocksBooster();
 
-            return (gameBoard, validationService, moveService, booster);
+            return (gameBoard, destroyService, moveService, booster);
         }
 
         [Test]
         public void Execute_2Blocks_BlocksShuffled()
         {
-            var (gameBoard, validationService, moveService, booster) = Setup(2, 1);
+            var (gameBoard, destroyService, moveService, booster) = Setup(2, 1);
             var blockA = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[0, 0], gameBoard);
             var blockB = TestBlockFactory.CreateBlockInCell(TestBlockFactory.DEFAULT_BLOCK, gameBoard.Cells[1, 0], gameBoard);
 
-            booster.Execute(new(), gameBoard, validationService, moveService);
+            booster.Execute(new(), destroyService, moveService);
 
             Assert.AreEqual(new Vector2Int(0,0), blockB.Position);
             Assert.AreEqual(new Vector2Int(1,0), blockA.Position);
@@ -48,7 +53,7 @@ namespace Model.Objects.UnitTests
         [TestCase(10, 10)]
         public void Execute_ManyBlocks_AllBlocksShuffled(int xLength, int yLength)
         {
-            var (gameBoard, validationService, moveService, booster) = Setup(xLength, yLength);
+            var (gameBoard, destroyService, moveService, booster) = Setup(xLength, yLength);
             for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
             {
                 for (int y = 0; y < gameBoard.Cells.GetLength(1); y++)
@@ -58,7 +63,7 @@ namespace Model.Objects.UnitTests
                 }
             }
 
-            booster.Execute(new(), gameBoard, validationService, moveService);
+            booster.Execute(new(), destroyService, moveService);
 
             int blocksChangedPositionCount = 0;
             for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
@@ -81,7 +86,7 @@ namespace Model.Objects.UnitTests
         [TestCase(10, 10)]
         public void Execute_WithHiddenCells_HiddenBlocksNotShuffled(int xLength, int yLength)
         {
-            var (gameBoard, validationService, moveService, booster) = Setup(xLength, yLength);
+            var (gameBoard, destroyService, moveService, booster) = Setup(xLength, yLength);
             gameBoard.HiddenRowsStartIndex = yLength - 2;
             for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)
             {
@@ -92,7 +97,7 @@ namespace Model.Objects.UnitTests
                 }
             }
 
-            booster.Execute(new(), gameBoard, validationService, moveService);
+            booster.Execute(new(), destroyService, moveService);
 
             int blocksChangedPositionCount = 0;
             for (int x = 0; x < gameBoard.Cells.GetLength(0); x++)

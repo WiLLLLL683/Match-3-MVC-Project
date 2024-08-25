@@ -11,20 +11,9 @@ namespace Model.Objects
         [SerializeField] private int id;
         public int Id => id;
 
-        public HashSet<Cell> Execute(Vector2Int startPosition, GameBoard gameboard, IValidationService validationService, IBlockMoveService moveService)
+        public void Execute(Vector2Int startPosition, IBlockDestroyService destroyService, IBlockMoveService _)
         {
-            HashSet<Cell> blocksToDestroy = new();
-
-            for (int x = 0; x < gameboard.Cells.GetLength(0); x++)
-            {
-                Vector2Int position = new(x, startPosition.y);
-                if (!validationService.BlockExistsAt(position))
-                    continue;
-
-                blocksToDestroy.Add(gameboard.Cells[position.x, position.y]);
-            }
-
-            return blocksToDestroy;
+            destroyService.MarkToDestroyHorizontalLine(startPosition.y);
         }
 
         public IBooster Clone() => (IBooster)MemberwiseClone();

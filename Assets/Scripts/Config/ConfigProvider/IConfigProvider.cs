@@ -7,6 +7,7 @@ namespace Config
 {
     public interface IConfigProvider
     {
+        BlockConfig Block { get; }
         InputConfig Input { get; }
         DefaultsConfig Defaults { get; }
 
