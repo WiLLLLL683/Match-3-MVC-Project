@@ -9,7 +9,7 @@
 - **High Test Coverage**: Ensures stability and quality of the game mechanics;
 - **Configurable Levels**: Easily modifiable level designs and block configurations;
 - **Activatable Block Types**: Blocks with different behaviors and unique activations (e.g., explosive, targeted).
-- *Consumable Bonuses**: Special bonuses with distinct effects that enhance gameplay;
+- **Consumable Bonuses**: Special bonuses with distinct effects that enhance gameplay;
 
 
 
